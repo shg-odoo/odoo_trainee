@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>    
     
-    <template id="proposal_order_portal_template" name="Proposal Order Portal Template" inherit_id="portal.portal_sidebar" primary="True">
+     <template id="proposal_order_portal_template" name="Proposal Order Portal Template" inherit_id="portal.portal_sidebar" primary="True">
         <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <t t-set="o_portal_fullwidth_alert">    
                 <t t-call="portal.portal_back_in_edit_mode">
                     <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (proposal_order._name, proposal_order.id, proposal_order.env.ref('praposal_app.proposal_action_window').id)"/>
                     	
                     </t>
+                </t>
 
 			        <div class="row mt16 o_portal_sale_sidebar">
 			                <!-- Sidebar -->
@@ -28,26 +30,150 @@
 			                                </div>
 			                            </div>
 			                        </li>
+					                <li class="navspy list-group-item pl-0 flex-grow-1" t-ignore="true" role="complementary">
+							            <ul class="nav flex-column bs-sidenav">
+							            </ul>
+							        </li>
 			                    </ul>
 			                </t>
 			            </t>
+
+			            <!-- Calling template form here -->
+			            
+			            <div id="quote_content" class="col-12 col-lg justify-content-end">
+					            <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}">
+				                <div t-call="praposal_app.proposal_order_portal_content"/>
+				            </div>
+				        </div>
+
+				        <!-- Button call from here -->
+				        
 			        </div>
-			        <li class="navspy list-group-item pl-0 flex-grow-1" t-ignore="true" role="complementary">
-			            <ul class="nav flex-column bs-sidenav"></ul>
-			        </li>
+				        <div class="row justify-content-center text-center d-print-none pt-1 pb-4">
+	                        <t >
+	                        	<div class="col-sm-auto mt8">
+	                                <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#proposalaccept" href="#"> <i class="fa fa-check"/>Accept</a>
+	                            </div>
+	                            <div class="col-sm-auto mt8">
+	                                <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#proposaldecline" href="#"> <i class="fa fa-times"/> Reject</a>
+	                            </div>
+	                        </t>
+	                    </div>
+			       
+			    </xpath>
 
+			</template>
 
+			
 
-
-
-
-    </xpath>
- </template>
- <template id="proposal_order_portal_content" name="Proposal Order Portal Content">    
-			        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+			<template id="proposal_order_portal_content" name="Proposal Order Portal Content">
+				<div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
 			            <h2 class="my-0">
-			                <span t-field="proposal_order.name"></span>
+			            	<span t-field="proposal_order.types_name"></span>
+			                <em t-esc="proposal_order.name"/>
 			            </h2>
-			        </div>
-			    </template>
+		        </div>
+
+		        <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
+		            <!-- Informations -->
+		            <div id="informations">
+		                <div t-att-data-order-id="proposal_order.id">
+						</div>
+		                <div class="mb-3">
+		                    <strong>Proposal Date:</strong> <span t-field="proposal_order.date_order" t-options='{"widget": "date"}'/>
+		                </div>
+		                <div class="mb-3">
+		                    <strong> Customer </strong>
+		                    <div>
+		                    <span t-field="proposal_order.partner_id"/><br/>
+		                    <span t-field="proposal_order.partner_id.street"/><br/>
+		                    <span t-field="proposal_order.partner_id.street2"/>
+		                    <span t-field="proposal_order.partner_id.city"/> ,
+		                    <span t-field="proposal_order.partner_id.country_id"/>
+		                </div>
+		                </div>
+		            </div>
+		             <section id="details" style="page-break-inside: auto;" class="mt32">
+		                <h3 id="details">Details</h3>
+
+		                <table class="table table-sm" id="proposal_order_table">
+		                    <thead class="bg-100">
+		                        <tr>
+		                            <!-- TODO: remove in master -->
+		                            <t t-set="colspan" t-value="6"/>
+		                            <th class="text-left">Products</th>
+		                            <th class="text-left">Proposed Quantity</th>
+		                            <th class="text-left">Proposed Price</th>
+		                            <th class="text-left">Accepted Quantity</th>
+		                            <th class="text-left">Accepted Price</th>
+		                            <!-- <th class="text-right" >
+		                                <span>Subtotal</span>
+		                            </th> -->
+		                        </tr>
+		                    </thead>
+		                    <tbody class="sale_tbody">
+	                        <t t-set="current_subtotal" t-value="0.0"/>
+	                        <t t-foreach="proposal_order.proposal_line" t-as="line">
+	                        	<tr>
+	                        		<td><span t-field='line.product'/>		
+	                        		</td>
+	                        		<td><span t-field='line.qty_propos'/>		
+	                        		</td>
+	                        		<td><span t-field='line.price_propos'/>		
+	                        		</td>
+	                        		<td>
+	                        			<div class="input-group">
+										  <input type="button" value="-" class="button-minus" data-field="quantity"/>
+										  <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field"/>
+										  <input type="button" value="+" class="button-plus" data-field="quantity"/>
+										</div>
+									</td>
+									<td>
+	                        			<input id='accept_price' type="text" />
+									</td>
+									<!-- <td>
+	                        			<span t-field='line.price_subtotal'/>
+									</td> -->
+								</tr>
+				            </t>
+		                </tbody>
+	                </table>
+			                <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+		                    <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+		                    	 <table class="table table-sm">
+		                            <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+		                                <td><strong>Subtotal</strong></td>
+		                                <td class="text-left">
+		                                <span class="text-right"
+                                        data-id="total_untaxed"
+                                        t-field="proposal_order.amount_untaxed"
+                                        t-options='{"widget": "monetary","display_currency": proposal_order.currency_id}'
+                                    /></td>
+		                            </tr>
+		                            <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+		                                <td><strong>Total</strong></td>
+		                                <td class="text-left">
+		                                <span class="text-right"
+                                        data-id="total_untaxed"
+                                        t-field="proposal_order.amount_untaxed"
+                                        t-options='{"widget": "monetary","display_currency": proposal_order.currency_id}'
+                                    /></td>
+		                            </tr>
+		                        </table>
+		                    </div>
+		                </div>
+	            </section>
+	            <div role="dialog" class="modal fade" id="proposaldecline">
+                        <div class="modal-dialog">
+                            <form id="decline" method="POST" t-attf-action="/my/orders/#{proposal_order.id}/decline?access_token=#{proposal_order.access_token}" class="modal-content">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <footer class="modal-footer">
+                                    <button type="submit" t-att-id="proposal_order.id" class="btn btn-danger"><i class="fa fa-times"></i> Reject</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+		    </div>
+		</template>
 </odoo>

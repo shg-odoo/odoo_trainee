@@ -11,6 +11,7 @@
     'depends': ['base','contacts','hr','sale','payment','portal','sales_team'],
     'data': [
         'data/sequence.xml',
+        'views/proposal_css.xml',
         'views/portal_template.xml',
         'report/proposal_report.xml',
         'security/ir.model.access.csv',
