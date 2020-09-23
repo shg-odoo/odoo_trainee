@@ -10,11 +10,11 @@
     'version': '12.0.0.1',
     'depends': ['base','contacts','hr','sale','payment','portal','sales_team'],
     'data': [
+        'security/ir.model.access.csv',
         'data/sequence.xml',
         'views/proposal_css.xml',
         'views/portal_template.xml',
         'report/proposal_report.xml',
-        'security/ir.model.access.csv',
         'views/views.xml',
     ],
     'installable': True,
