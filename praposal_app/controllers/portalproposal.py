@@ -44,3 +44,21 @@ class CustomerProposal(CustomerPortal):
 
         return request.render('praposal_app.proposal_order_portal_template', values)                            
         
+
+    @http.route("/proposal/accepted", type='json', auth='none')
+    def proposal_order(self,data):
+        proposal_obj = request.env['proposal.order.line'].sudo().search([])
+        print("\n\n price ",proposal_obj)
+        print("\n\n price ",data)
+        
+        # for i in data:
+        #     print("\n\n ",i)
+        #     line_id = int(i['line_id'])
+        #     qty = float(i['qty_acept'])
+        #     price =float(i['price_acept'])
+        #     print("\n\n line_id",line_id)
+        #     print("\n\n line_id",type(line_id))
+        #     print('\n\n+++++++++',proposal_obj)
+        #     print("\n\n qty ",qty)
+        #     proposal_obj.write({'qty_acept': qty, 'price_acept': price})
+        # return True 
