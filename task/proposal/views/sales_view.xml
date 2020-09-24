@@ -1,0 +1,50 @@
+<odoo>
+    <record model="ir.ui.view" id="sale_tree">
+        <field name="name">sales</field>
+        <field name="model">proposal.order</field>
+        <field name="arch" type="xml">
+          <form>
+            <header>
+                <button string="Send By Email" type="object" class="btn-primary"/>
+                <button string="Confirm" type="object"/>
+                <button string="Discard" type="object"/>
+              </header>
+            <sheet>
+              <group>
+                  <field name="customer_name"/>
+                  <field name="proposal_date"/> 
+              </group>
+            </sheet>
+          </form>
+        </field> 
+    </record>
+
+    <record model="ir.ui.view" id="orderline_view">
+        <field name="name">sales</field>
+        <field name="model">proposal.orderline</field>
+        <field name="arch" type="xml">
+          <form>
+            <notebook>
+              <page>
+                <field name="product_id"/>
+              </page>
+            </notebook>
+          </form>
+        </field>
+    </record>
+
+  <record id="order_list_view" model="ir.actions.act_window">
+    <field name="name">proposal Quotations</field>
+    <field name="res_model">proposal.orderline</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <record id="prosal_first_view" model="ir.actions.act_window">
+    <field name="name">order line</field>
+    <field name="res_model">proposal.order</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <menuitem id="proposal_menu" name="Sales"/>
+  <menuitem id="proposal_Quotations" name="Order" action="prosal_first_view" parent="proposal_menu"/>
+</odoo>
