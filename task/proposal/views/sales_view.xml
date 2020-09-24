@@ -1,4 +1,5 @@
 <odoo>
+
     <record model="ir.ui.view" id="sale_tree">
         <field name="name">sales</field>
         <field name="model">proposal.order</field>
@@ -8,29 +9,36 @@
                 <button string="Send By Email" type="object" class="btn-primary"/>
                 <button string="Confirm" type="object"/>
                 <button string="Discard" type="object"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,cancel"/>
               </header>
             <sheet>
               <group>
                   <field name="customer_name"/>
                   <field name="proposal_date"/> 
               </group>
+              <notebook>
+                <page string="Order Lines">
+                  <field name="product_line">
+                    <control>
+                        <create name="add_product_control" string="Add a product"/>
+                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                    </control>
+                    <tree editable="bottom">
+                      <field name="product_name"/>
+                      <field name="lable"/>
+                      <field name="proposed_quantity"/>
+                      <field name="accepted_quantity"/>
+                      <field name="proposed_price"/>
+                      <field name="accepted_price"/>
+                      <field name="subtotal"/>
+                    </tree>
+                  </field>
+                </page>
+              </notebook>
             </sheet>
           </form>
         </field> 
-    </record>
-
-    <record model="ir.ui.view" id="orderline_view">
-        <field name="name">sales</field>
-        <field name="model">proposal.orderline</field>
-        <field name="arch" type="xml">
-          <form>
-            <notebook>
-              <page>
-                <field name="product_id"/>
-              </page>
-            </notebook>
-          </form>
-        </field>
     </record>
 
   <record id="order_list_view" model="ir.actions.act_window">
@@ -47,4 +55,5 @@
 
   <menuitem id="proposal_menu" name="Sales"/>
   <menuitem id="proposal_Quotations" name="Order" action="prosal_first_view" parent="proposal_menu"/>
+
 </odoo>
