@@ -7,10 +7,11 @@
     'website': "http://www.odoo.com",
     'category': 'Uncategorized',
     'version': '12.0.0.1',
-    'depends': ['base','contacts','hr','sale','payment','portal','sales_team'],
+    'depends': ['base','contacts','hr','sale','mail','portal'],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
+        'data/proposal_mail.xml',
         'views/proposal_css.xml',
         'views/portal_template.xml',
         'report/proposal_report.xml',

@@ -45,20 +45,17 @@ class CustomerProposal(CustomerPortal):
         return request.render('praposal_app.proposal_order_portal_template', values)                            
         
 
-    @http.route("/proposal/accepted", type='json', auth='none')
+    @http.route('/proposal/accepted/', type='json', auth='none')
     def proposal_order(self,data):
-        proposal_obj = request.env['proposal.order.line'].sudo().search([])
-        print("\n\n price ",proposal_obj)
-        print("\n\n price ",data)
-        
-        # for i in data:
-        #     print("\n\n ",i)
-        #     line_id = int(i['line_id'])
-        #     qty = float(i['qty_acept'])
-        #     price =float(i['price_acept'])
-        #     print("\n\n line_id",line_id)
-        #     print("\n\n line_id",type(line_id))
-        #     print('\n\n+++++++++',proposal_obj)
-        #     print("\n\n qty ",qty)
-        #     proposal_obj.write({'qty_acept': qty, 'price_acept': price})
-        # return True 
+
+        for i in data:
+            rec_id =int(i['rec_id'])
+            stateobj = request.env['proposal.order'].sudo().search([('id','=', rec_id)])
+            line_id = int(i['line_id'])
+            proposal_obj = request.env['proposal.order.line'].sudo().search([('id','=', line_id)])
+            stateobj.write({'state': i['state']})
+            qty = float(i['qty_acept'])
+            price =float(i['price_acept'])
+            proposal_obj.write({'qty_acept': qty, 'price_acept': price})
+
+        return True

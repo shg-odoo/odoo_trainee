@@ -20,8 +20,8 @@
       <field name="arch" type="xml">
         <form>
           <header>
-            <button name="preview_proposal_order" class ='oe_highlight' string="Preview" type="object"/>
-            <button name="action_proposal_send" string="Send by Email" type="object" states="draft,sent,confirm" class="btn-primary"/>
+            <button name="preview_proposal_order" class ='oe_highlight' string="Preview" type="object" states='sent,confirm'/>
+            <button name="action_proposal_send" string="Send Email" type="object" states="draft" class="btn-primary"/>
             <button name="action_sent" class ='oe_highlight' string="Sent" states='draft' type="object"/>
             <button name='action_confirm' string='Confirm' class ='oe_highlight' states='sent' type='object'/>
             <button name='action_cencle' string='Cancel' class = 'oe_highlight' states='draft,sent,confirm' type='object'/>
@@ -43,7 +43,7 @@
                 <field name="proposal_line" widget="section_and_note_one2many" >
                   <tree editable="bottom">
                     <field name="product"/>
-                    <field name="name"/>
+                    <field name="name" widget='section_and_note_text'/>
                     <field name="qty_propos"/>
                     <field name="price_propos" widget='monetary'/>
                     <field name="qty_acept"/>
