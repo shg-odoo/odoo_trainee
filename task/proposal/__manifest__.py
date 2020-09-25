@@ -5,4 +5,5 @@
     'sequence': 0,
     'category': "Practice",
     'application': 'yes',
+    'depends': ['base', 'product','contacts'],
 }
