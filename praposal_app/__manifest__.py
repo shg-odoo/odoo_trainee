@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 {
     'name': "Praposal Application",
     'sequence':'1',
@@ -21,4 +22,3 @@
     'application': True,
     'auto_install': False,
 }
-# -*- coding: utf-8 -*-

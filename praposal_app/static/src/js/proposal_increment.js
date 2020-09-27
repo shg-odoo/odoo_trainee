@@ -1,6 +1,4 @@
-odoo.define('proposal_order', function (require) {"use strict";
-
-
+odoo.define('proposal_order', function (require) {"use strict"
     var ajax = require('web.ajax');
     var rpc = require('web.rpc');
     var token = (location.search.split('token' + '=')[1] || '').split('&')[0];
@@ -20,9 +18,9 @@ odoo.define('proposal_order', function (require) {"use strict";
         return false;
       });
     });
-
     $(document).ready(function() { $("#accept_btn").click(
         function showtProposalData() {
+            $("#buttons_id").hide();
             var dataarray  =[];
             var qty,price,line_id,state;
             var acc_qty = document.getElementsByClassName('accept_qty');
@@ -38,7 +36,7 @@ odoo.define('proposal_order', function (require) {"use strict";
                             'rec_id' : rec_id,
                             'line_id' : line_id,
                             'qty_acept': qty,
-                            'state':'confirm',
+                            'state':'proposal_accepted',
                             'price_acept': price,
                         })
                 }

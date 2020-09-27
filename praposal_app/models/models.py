@@ -14,7 +14,7 @@ class Proposal(models.Model):
     date_order = fields.Datetime(string='Proposal Date', required=True, readonly=True, index=True, default = fields.Datetime.now)
     total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', track_visibility='always')   
     note =fields.Text('Note')
-    state = fields.Selection(string="Status", selection=[('draft', 'Draft'), ('sent', 'Sent'),('confirm', 'Confirmed'), ('cancel', 'Cancel')], default="draft")
+    state = fields.Selection(string="Status", selection=[('draft', 'Draft'), ('sent', 'Sent'),('proposal_accepted','Proposal Accepted'),('confirm', 'Confirmed'), ('cancel', 'Cancel')], default="draft")
     confirm_date = fields.Datetime(string='Confirm Date')
     types_name = fields.Char('Types Name', compute='_compute_types_name')
     partner_id = fields.Many2one('res.partner', string='Customer', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, required=True, change_default=True, index=True, track_visibility='always', track_sequence=1)
@@ -22,8 +22,8 @@ class Proposal(models.Model):
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env['res.company']._company_default_get('proposal.order'))
     pricelist_id = fields.Many2one('product.pricelist', string='Pricelist', readonly=True,)
     currency_id = fields.Many2one("res.currency", related='company_id.currency_id', string="Currency", readonly=True, )
-    amount_tax = fields.Float(string='Taxes', store=True, readonly=True, compute='_amount_all')
-    amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all', track_visibility='onchange', track_sequence=5)
+    amount_untaxed = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='_amount_all', track_visibility='onchange', track_sequence=5)
+    accepted_total = fields.Monetary(string='Accepted Total', readonly=True, store=True,compute='_amount_all', track_visibility='onchange', track_sequence=5)
     
     @api.model
     def create(self, vals):
@@ -31,17 +31,18 @@ class Proposal(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code('proposal.order') or _('New')
         return super(Proposal, self).create(vals)
 
-    @api.depends('proposal_line.price_subtotal')
+    @api.depends('proposal_line.price_subtotal','proposal_line.accepted_subtotal')
     def _amount_all(self):
         for order in self:
-            amount_untaxed = amount_tax = 0.0
+            amount_untaxed  = 0.0
+            accepted_total = 0.0
             for line in order.proposal_line:
                 amount_untaxed += line.price_subtotal
-                amount_tax += line.price_tax
+                accepted_total += line.accepted_subtotal
             order.update({
                 'amount_untaxed': amount_untaxed,
-                'amount_tax': amount_tax,
-                'total': amount_untaxed + amount_tax
+                'accepted_total': accepted_total,
+                'total': amount_untaxed + accepted_total
                 })
 
 
@@ -100,19 +101,23 @@ class Proposallines(models.Model):
     qty_acept = fields.Integer("Qty Accepted",)
     price_acept = fields.Float("Price Accepted",)
     price_subtotal = fields.Float(compute='_compute_amount', string='Subtotal', readonly=True, store=True)
-    price_tax = fields.Float(compute='_compute_amount', string='Total Tax', readonly=True, store=True)
+    accepted_subtotal = fields.Float(compute='_compute_amount', string='Accepted SubTotal', readonly=True, store=True)
   
     display_type = fields.Selection([
         ('line_section', "Section"),
         ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
 
-    @api.depends('qty_propos','price_propos')
+    @api.depends('qty_propos','price_propos','price_acept')
     def _compute_amount(self):
         price_sub = 0.0
+        accpt_price =0.0
         for line in self:
             price_sub =line.qty_propos * line.price_propos
+            accpt_price = line.qty_acept * line.price_acept
+            print("@@@"*20,accpt_price)
             line.update({
-                    'price_subtotal': price_sub
+                    'price_subtotal': price_sub,
+                    'accepted_subtotal': accpt_price,
             })
 
     @api.onchange('product')
