@@ -7,8 +7,8 @@
           <form>
             <header>
                 <button name="send_email" string="Send By Email" type="object" class="btn-primary"/>
-                <button string="Confirm" type="object"/>
-                <button string="Discard" type="object"/>
+                <button name="confirm_action" string="Confirm" type="object" id="confirm_btn"/>
+                <button name="cancel_action" string="Cancel" type="object" id="cancel_btn"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,cancel"/>
               </header>
             <sheet>
@@ -27,17 +27,16 @@
                       <field name="accepted_quantity"/>
                       <field name="proposed_price"/>
                       <field name="accepted_price"/>
-                      <field name="subtotal"/>
+                      <field name="product_tax"/>
+                      <field name="product_subtotal"/>
                     </tree>
                   </field>
                 </page>
               </notebook>
-              <group class="oe_subtotal_footer oe_right">
+              <group class="oe_subtotal_footer oe_right"> 
                   <field name="untaxed_amount" string="Untaxed Amount"/>
-                  <field name="taxes" string="Taxes"/>
-                  <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                    <field name="total_amount"/>
-                  </div> 
+                  <field name="total_amount_tax"/>
+                  <field name="total" class="oe_subtotal_footer_separator"/>                  
               </group>
             </sheet>
           </form>
@@ -47,7 +46,7 @@
   <record id="proposal_view" model="ir.actions.act_window">
     <field name="name">order line</field>
     <field name="res_model">proposal.order</field>
-    <field name="view_mode">form</field>
+    <field name="view_mode">tree,form</field>
   </record>
 
   <menuitem id="proposal_menu" name="Proposal"/>
