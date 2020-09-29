@@ -6,9 +6,9 @@ class Order(models.Model):
     _description = "Order"
     _inherit = ['mail.thread', 'mail.activity.mixin', ]
 
-    user_id = fields.Many2one('res.user')
-    customer_name = fields.Many2one('res.partner')
-    proposal_date = fields.Date()
+    user_id = fields.Many2one('res.user', string='Salesperson')
+    customer_name = fields.Many2one('res.partner', required=True)
+    proposal_date = fields.Date(required=True)
     product_line = fields.One2many('proposal.orderline', 'product', string="Product Id")
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -16,14 +16,42 @@ class Order(models.Model):
         ('confirm', 'Confirmed'),
         ('cancel', 'Cancelled')], default='draft')
     untaxed_amount = fields.Float()
-    total = fields.Float(string="Total", compute="compute_total")
+    total = fields.Float(string="Total", compute="compute_total_tax_amount")
     total_amount_tax = fields.Float(compute="compute_total_tax_amount")
+    name = fields.Char(string="Proposal No", required=True, copy=False, store=True, readonly=True, index=True, default=lambda self: ('New'))
+    note = fields.Text('Terms and conditions')
 
     def send_email(self):
-        template_id = self.env.ref('proposal.email_template').id
-        template = self.env['mail.template'].browse(template_id)
-        template.send_mail(self.id, force_send=True)
-        return self.write({'state': 'sent'})
+        self.ensure_one()
+        self.write({'state': 'sent'})
+
+        ir_model_data = self.env['ir.model.data']
+        try:
+
+            template_id = ir_model_data.get_object_reference('proposal', 'email_template')[1]
+            print("$$$"*20, template_id)
+        except ValueError:
+
+            template_id = False
+
+        ctx = {
+
+           'default_model': 'proposal.order',
+           'default_res_id': self.ids[0],
+           'default_use_template': bool(template_id),
+           'default_template_id': template_id,
+           'default_composition_mode': 'comment',
+        }
+
+        return {
+           'type': 'ir.actions.act_window',
+           'view_mode': 'form',
+           'res_model': 'mail.compose.message',
+           'views': [(False, 'form')],
+           'view_id': False,
+           'target': 'new',
+           'context': ctx,
+        }
 
     def confirm_action(self):
         return self.write({'state': 'confirm', 'proposal_date': fields.Date.today()})
@@ -43,7 +71,20 @@ class Order(models.Model):
                     'untaxed_amount': untaxed_amount,
                     'total_amount_tax': total_amount_tax,
                     'total': total_amount_tax+untaxed_amount
+
                 })
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('proposal.order') or 'New'
+        seq_number = super(Order, self).create(vals)
+        return seq_number
+        print("@@@"*12, seq_number)
+
+    @api.model
+    def _default_note(self):
+        return self.env['ir.config_parameter'].sudo().get_param('account.use_invoice_terms') and self.env.company.invoice_terms or ''
 
 
 class OrderLine(models.Model):

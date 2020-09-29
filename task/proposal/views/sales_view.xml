@@ -6,17 +6,34 @@
         <field name="arch" type="xml">
           <form>
             <header>
-                <button name="send_email" string="Send By Email" type="object" class="btn-primary"/>
+                <button name="send_email" string="Send By Email" type="object" class="btn-primary" states="draft"/>
                 <button name="confirm_action" string="Confirm" type="object" id="confirm_btn"/>
                 <button name="cancel_action" string="Cancel" type="object" id="cancel_btn"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,cancel"/>
               </header>
             <sheet>
+              <div class="oe_button_box" name="button_box">
+                        <button name="preview_sale_order"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-globe icon">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Customer</span>
+                                <span class="o_stat_text">Preview</span>
+                            </div>
+                        </button>
+                </div>
+
+              <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+               </div>
               <group>
                   <field name="customer_name"/>
                   <field name="proposal_date"/> 
               </group>
-
+               
               <notebook>
                 <page string="Order Lines">
                   <field name="product_line">
@@ -33,18 +50,23 @@
                   </field>
                 </page>
               </notebook>
-              <group class="oe_subtotal_footer oe_right"> 
+              <group name="note_group" col="6">
+                                <group colspan="4">
+                                    <field name="note" nolabel="1" placeholder="Terms and conditions..."/>
+                                  </group>
+              <group class="oe_subtotal_footer oe_right" colspan="2"> 
                   <field name="untaxed_amount" string="Untaxed Amount"/>
                   <field name="total_amount_tax"/>
                   <field name="total" class="oe_subtotal_footer_separator"/>                  
               </group>
+            </group>
             </sheet>
           </form>
         </field> 
     </record>
 
   <record id="proposal_view" model="ir.actions.act_window">
-    <field name="name">order line</field>
+    <field name="name">Order Line</field>
     <field name="res_model">proposal.order</field>
     <field name="view_mode">tree,form</field>
   </record>
@@ -52,4 +74,21 @@
   <menuitem id="proposal_menu" name="Proposal"/>
   <menuitem id="proposal_Quotations" name="Order" action="proposal_view" parent="proposal_menu"/>
 
+   <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">Sale Order Tree</field>
+            <field name="model">proposal.order</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Orders">
+                    <field name="name" string="Order Number"/>
+                    <field name="proposal_date" string="Order Date"/>
+                    <field name="customer_name" string="Customer Name"/>
+                    <field name="user_id" optional="show"/>
+                    <field name="untaxed_amount" sum="Total Tax Excluded" widget="monetary" optional="hide"/>
+                    <field name="total_amount_tax" sum="Tax Total" widget="monetary" optional="hide"/>
+                    <field name="total" sum="Total Tax Included" widget="monetary"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+   </record>
 </odoo>
