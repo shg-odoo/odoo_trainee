@@ -82,8 +82,8 @@
                 <tree string="Sales Orders">
                     <field name="name" string="Order Number"/>
                     <field name="proposal_date" string="Order Date"/>
+                    <field name="user_id" string="Sales Person"/>
                     <field name="customer_name" string="Customer Name"/>
-                    <field name="user_id" optional="show"/>
                     <field name="untaxed_amount" sum="Total Tax Excluded" widget="monetary" optional="hide"/>
                     <field name="total_amount_tax" sum="Tax Total" widget="monetary" optional="hide"/>
                     <field name="total" sum="Total Tax Included" widget="monetary"/>

@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 
 class Order(models.Model):
@@ -6,7 +6,7 @@ class Order(models.Model):
     _description = "Order"
     _inherit = ['mail.thread', 'mail.activity.mixin', ]
 
-    user_id = fields.Many2one('res.user', string='Salesperson')
+    user_id = fields.Many2one('res.users', string='Salesperson')
     customer_name = fields.Many2one('res.partner', required=True)
     proposal_date = fields.Date(required=True)
     product_line = fields.One2many('proposal.orderline', 'product', string="Product Id")
@@ -15,11 +15,14 @@ class Order(models.Model):
         ('sent', 'Sent'),
         ('confirm', 'Confirmed'),
         ('cancel', 'Cancelled')], default='draft')
+    product_state_type = fields.Char(compute="compute_state_type")
     untaxed_amount = fields.Float()
     total = fields.Float(string="Total", compute="compute_total_tax_amount")
     total_amount_tax = fields.Float(compute="compute_total_tax_amount")
     name = fields.Char(string="Proposal No", required=True, copy=False, store=True, readonly=True, index=True, default=lambda self: ('New'))
     note = fields.Text('Terms and conditions')
+    sales_person = fields.Char('user.company_name')
+    company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env['res.company']._company_default_get('proposal.order'))
 
     def send_email(self):
         self.ensure_one()
@@ -52,6 +55,12 @@ class Order(models.Model):
            'target': 'new',
            'context': ctx,
         }
+
+    @api.depends('state')
+    def compute_state_type(self):
+        for record in self:
+            record.product_state_type = _('Draft') if record.state in ('draft', 'sent', 'cancel') else _('Confirmed')
+            print("----"*12, record.product_state_type)
 
     def confirm_action(self):
         return self.write({'state': 'confirm', 'proposal_date': fields.Date.today()})
@@ -86,6 +95,14 @@ class Order(models.Model):
     def _default_note(self):
         return self.env['ir.config_parameter'].sudo().get_param('account.use_invoice_terms') and self.env.company.invoice_terms or ''
 
+    def preview_sale_order(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': '/my/proposal',
+        }
+
 
 class OrderLine(models.Model):
     _name = "proposal.orderline"
@@ -105,7 +122,8 @@ class OrderLine(models.Model):
         product_info = self.env['product.product'].browse(self.product_name.id)
         self.proposed_price = product_info.list_price
         self.accepted_price = self.proposed_price
-        self.lable = str(product_info.description)
+        self.lable = self.product_name
+        print("KKKKKKKKKKKKKKKKKKKKKKKKKKKK", self.lable)
 
     @api.onchange('accepted_price', 'accepted_quantity')
     def subtotal_compute(self):
