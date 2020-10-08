@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta
-from odoo.addons import decimal_precision as dp
 
 
 class Proposal(models.Model):
@@ -14,7 +13,7 @@ class Proposal(models.Model):
     date_order = fields.Datetime(string='Proposal Date', required=True, readonly=True, index=True, default = fields.Datetime.now)
     total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', track_visibility='always')   
     note =fields.Text('Note')
-    state = fields.Selection(string="Status", selection=[('draft', 'Draft'), ('sent', 'Sent'),('proposal_accepted','Proposal Accepted'),('confirm', 'Confirmed'), ('cancel', 'Cancel')], default="draft")
+    state = fields.Selection(string="Status", selection=[('draft', 'Draft'), ('sent', 'Sent'),('proposal_accepted','Proposal Accepted'),('confirm', 'Confirmed'),('proposal_rejected','Proposal Rejected'), ('cancel', 'Cancel')], default="draft")
     confirm_date = fields.Datetime(string='Confirm Date')
     types_name = fields.Char('Types Name', compute='_compute_types_name')
     partner_id = fields.Many2one('res.partner', string='Customer', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, required=True, change_default=True, index=True, track_visibility='always', track_sequence=1)
@@ -24,13 +23,12 @@ class Proposal(models.Model):
     currency_id = fields.Many2one("res.currency", related='company_id.currency_id', string="Currency", readonly=True, )
     amount_untaxed = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='_amount_all', track_visibility='onchange', track_sequence=5)
     accepted_total = fields.Monetary(string='Accepted Total', readonly=True, store=True,compute='_amount_all', track_visibility='onchange', track_sequence=5)
-    
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('proposal.order') or _('New')
-        return super(Proposal, self).create(vals)
 
+    @api.depends('state')
+    def _compute_types_name(self):
+        for record in self:
+            record.types_name = _('Proposal') if record.state in ('draft', 'sent', 'cancel') else _('Proposal Order')
+    
     @api.depends('proposal_line.price_subtotal','proposal_line.accepted_subtotal')
     def _amount_all(self):
         for order in self:
@@ -44,49 +42,49 @@ class Proposal(models.Model):
                 'accepted_total': accepted_total,
                 'total': amount_untaxed + accepted_total
                 })
+    
+    @api.model
+    def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('proposal.order') or _('New')
+        return super(Proposal, self).create(vals)
 
-
-    @api.multi
     def action_confirm(self):
         return self.write(
             {'state': 'confirm',
             'confirm_date': fields.Datetime.now(),
             }) 
 
-    @api.multi
+
     def action_cencle(self):
         return self.write({'state': 'cancel'})
+    
+ 
+    def action_proposal_send(self):
+        template_id = self.env.ref('praposal_app.proposal_email_template').id
+        template = self.env['mail.template'].browse(template_id)
+        template.send_mail(self.id, force_send=True)
+        return self.write({'state': 'sent'})   
 
+    def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
+        self.ensure_one()
+        if self.state not in ['confirm', 'cancel']:
+            auth_param = url_encode(self.partner_id.signup_get_auth_param()[self.partner_id.id])
+            return self.get_portal_url(query_string='&%s' % auth_param)
+        return super(Proposal, self)._get_share_url(redirect, signup_partner, pid)    
 
     def preview_proposal_order(self):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_url',
             'target': 'self',
-            'url': self.get_portal_url(),
+            'url': self.get_portal_url()
         }
 
     def _compute_access_url(self):
         super(Proposal, self)._compute_access_url()
         for order in self:
             order.access_url = '/my/proposal/%s' % (order.id)
-
-
-    @api.multi
-    @api.depends('state')
-    def _compute_types_name(self):
-        for record in self:
-            record.types_name = _('Proposal') if record.state in ('draft', 'sent', 'cancel') else _('Proposal Order')
-
-
-
-    @api.multi 
-    def action_proposal_send(self):
-        template_id = self.env.ref('praposal_app.proposal_email_template').id
-        print("#"*20,template_id)
-        template = self.env['mail.template'].browse(template_id)
-        template.send_mail(self.id, force_send=True)
-        return self.write({'state': 'sent'})   
 
 
 class Proposallines(models.Model):
@@ -102,10 +100,7 @@ class Proposallines(models.Model):
     price_acept = fields.Float("Price Accepted",)
     price_subtotal = fields.Float(compute='_compute_amount', string='Subtotal', readonly=True, store=True)
     accepted_subtotal = fields.Float(compute='_compute_amount', string='Accepted SubTotal', readonly=True, store=True)
-  
-    display_type = fields.Selection([
-        ('line_section', "Section"),
-        ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
+
 
     @api.depends('qty_propos','price_propos','price_acept')
     def _compute_amount(self):
@@ -114,7 +109,6 @@ class Proposallines(models.Model):
         for line in self:
             price_sub =line.qty_propos * line.price_propos
             accpt_price = line.qty_acept * line.price_acept
-            print("@@@"*20,accpt_price)
             line.update({
                     'price_subtotal': price_sub,
                     'accepted_subtotal': accpt_price,

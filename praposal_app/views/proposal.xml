@@ -1,10 +1,11 @@
 <odoo>
   <data>
-    <record model="ir.ui.view" id="proposal_order_list">
-      <field name="name">rrt.proposal.list</field>
+<!-- views  -->    
+    <record id="proposal_order_view_list" model="ir.ui.view">
+      <field name="name">proposal.order.list</field>
       <field name="model">proposal.order</field>
       <field name="arch" type="xml">
-          <tree>
+          <tree string='Proposal List'>
             <field name="name"/>
             <field name="partner_id"/>
             <field name="date_order"/>
@@ -16,30 +17,39 @@
       </field>
     </record>
 
-    <record model="ir.ui.view" id="proposal_order_form">
+    <record id="proposal_order_view_form" model="ir.ui.view">
       <field name="name">proposal.order.form</field>
       <field name="model">proposal.order</field>
       <field name="arch" type="xml">
-        <form>
+        <form string='Proposal Form'>
           <header>
-            <button name="preview_proposal_order" class ='oe_highlight' string="Preview" type="object" states='sent,confirm'/>
             <button name="action_proposal_send" string="Send Email" type="object" states="draft" class="btn-primary"/>
-           <!--  <button name="action_sent" class ='oe_highlight' string="Sent" states='draft' type="object"/> -->
             <button name='action_confirm' string='Confirm' class ='oe_highlight' states='sent,proposal_accepted' type='object'/>
             <button name='action_cencle' string='Cancel' class = 'oe_highlight' states='draft,sent,proposal_accepted,confirm' type='object'/>
-            <field name='state' widget='statusbar' statusbar_visible='draft,sent,proposal_accepted,confirm,cancel'/>
+            <field name='state' widget='statusbar' statusbar_visible='draft,sent,proposal_accepted,confirm,proposal_rejected,cancel'/>
            </header>
           <sheet>
-             <h1><strong><field name="name" /></strong></h1>
-             <group>
+            <div class="oe_button_box" name="button_box">
+                <button name="preview_proposal_order"
+                    type="object"
+                    states='sent,confirm,proposal_accepted,confirm'
+                    class="oe_stat_button"
+                    icon="fa-globe icon">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Customer</span>
+                        <span class="o_stat_text">Preview</span>
+                    </div>
+                </button>
+              </div>
+            <h1><strong><field name="name" /></strong></h1>
             <group>
-            <field name="partner_id"/>
-            <!-- <field name="currency_id"/> -->
+              <group>
+                <field name="partner_id"/>
+              </group>
+              <group>
+                <field name="date_order"/>
+              </group>
             </group>
-            <group>
-            <field name="date_order"/>
-          </group>
-        </group>
             <notebook>
               <page string="Proposal Line" name="proposal_lines">
                 <field name="proposal_line" widget="section_and_note_one2many" >
@@ -75,16 +85,23 @@
         </form>
       </field>
     </record>
-    <record model="ir.actions.act_window" id="proposal_action_window">
-      <field name="name">Proposal</field>
+
+<!-- actions -->
+
+    <record id="proposal_order_view_action" model="ir.actions.act_window">
+      <field name="name">Proposal Order</field>
       <field name="res_model">proposal.order</field>
       <field name="view_mode">tree,form</field>
     </record>
-   
-    <menuitem name="Proposal" id="rrt_prooposal_menu_root"/>
 
-    <menuitem name="Proposal" id="rrt_proposal_menu" parent="rrt_prooposal_menu_root"
-              action="proposal_action_window"/>
+<!-- menus and sub-menus -->
+
+    <menuitem id="proposal_order_menu_root" name="Proposal" />
+
+    <menuitem id="proposal_order_menu_action" 
+              name="Proposal" 
+              parent="proposal_order_menu_root"
+              action="proposal_order_view_action"/>
     
   </data>
 </odoo>

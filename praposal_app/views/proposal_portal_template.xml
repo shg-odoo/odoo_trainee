@@ -3,9 +3,11 @@
     
     <template id="proposal_order_portal_template" name="Proposal Order Portal Template" inherit_id="portal.portal_sidebar" primary="True">
     	<xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+    	<div class="accept_reject_content">
     		<t t-set="o_portal_fullwidth_alert">    
                 <t t-call="portal.portal_back_in_edit_mode">
-                    <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (proposal_order._name, proposal_order.id, proposal_order.env.ref('praposal_app.proposal_action_window').id)"/>
+
+                    <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (proposal_order._name, proposal_order.id, proposal_order.env.ref('praposal_app.proposal_order_view_action').id)"/>
                     	
                     </t>
                 </t>
@@ -50,21 +52,24 @@
 			    </div>
 				<div id="buttons_id" class="row justify-content-center text-center d-print-none pt-1 pb-4" style='
     margin-left: 183px;'>
-                    <t t-if="proposal_order.state != 'proposal_accepted' ">
+                    <t t-if="proposal_order.state != 'proposal_accepted' and proposal_order.state != 'proposal_rejected' ">
+                    	<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     	<div class="col-sm-auto mt8 ">
-                            <a role="button" class="btn btn-primary" id="accept_btn" data-toggle="modal"> <i class="fa fa-check"/>Accept</a>
+                            <a role="button" class="btn btn-primary accept_btn"  data-toggle="modal"> <i class="fa fa-check"/>Accept</a>
                         </div> 
                         <div class="col-sm-auto mt8">
-                            <a role="button" class="btn btn-danger" id="reject_btn" data-toggle="modal"> <i class="fa fa-times"/> Reject</a>
+                            <a role="button" class="btn btn-danger reject_btn" data-toggle="modal"> <i class="fa fa-times"/> Reject</a>
                         </div>
                     </t>
-					<t  t-else="">
-						<h1>Thank You For Your Time</h1>
+					<t t-else="" >
+						<h1>Thank You</h1>
 					</t>
                 </div>					       
+	</div>
 	    </xpath>
 	</template>
 	<template id="proposal_order_portal_content" name="Proposal Order Portal Content">
+		<div class='proposal_content'>
 		<div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
             <h2 class="my-0">
             	<span t-field="proposal_order.types_name"></span>
@@ -118,14 +123,15 @@
                     		<td><span t-field='line.price_propos'/>		
                     		</td>
                     		<td>
-								<div class="number">
+								<div class="number" >
 									<span class="minus">-</span>
-									<input t-att-line_id='line.id' class='accept_qty' t-att-value="line.qty_propos" type="text" />
+									<input t-att-line_id='line.id' id='inputid' class='accept_qty' t-att-value="line.qty_acept" type="text" />
+
 									<span class="plus">+</span>
 								</div>
 							</td>
 							<td>
-                    			<input class='accept_price' t-att-value="line.price_propos" type="text" style='width: 100px;'/>
+                    			<input class='accept_price' t-att-value="line.price_acept" type="text" style='width: 100px;'/>
 							</td>
 							<!-- <td>
                     			<span t-field='line.price_subtotal'/>
@@ -138,7 +144,7 @@
 	            <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
 	            	 <table class="table table-sm">
 	                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
-	                        <td><strong>Subtotal</strong></td>
+	                        <td><strong>Proposed Total</strong></td>
 	                        <td class="text-left">
 	                        <span class="text-right"
 	                        data-id="total_untaxed"
@@ -147,11 +153,19 @@
 	                    /></td>
 	                    </tr>
 	                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+	                        <td><strong>Accepted Total</strong></td>
+	                        <td class="text-left">
+	                        <span class="text-right"
+	                        t-field="proposal_order.accepted_total"
+	                        t-options='{"widget": "monetary","display_currency": proposal_order.currency_id}'
+	                    /></td>
+	                    </tr>
+	                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
 	                        <td><strong>Total</strong></td>
 	                        <td class="text-left">
 	                        <span class="text-right"
 	                        data-id="total_untaxed"
-	                        t-field="proposal_order.amount_untaxed"
+	                        t-field="proposal_order.total"
 	                        t-options='{"widget": "monetary","display_currency": proposal_order.currency_id}'
 	                    /></td>
 	                    </tr>
@@ -159,7 +173,7 @@
 	            </div>
 	        </div>
 	</section>
-
 	</div>
+</div>
 	</template>
 </odoo>

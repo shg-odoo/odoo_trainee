@@ -4,8 +4,8 @@
 
 	    <template id="assets_frontend" name="static_proposal_assets" inherit_id="web.assets_frontend">
 	        <xpath expr="." position="inside">
-	            <link rel="stylesheet" type="text/css"  href="/praposal_app/static/src/css/proposal_increment.css"/>
-	            <script type="text/javascript" src="/praposal_app/static/src/js/proposal_increment.js"></script>
+	            <link rel="stylesheet" type="text/css"  href="/praposal_app/static/src/css/proposal_widget.css"/>
+	            <script type="text/javascript" src="/praposal_app/static/src/js/proposal_widget.js"></script>
 	        </xpath>
 	    </template>
 	</data>

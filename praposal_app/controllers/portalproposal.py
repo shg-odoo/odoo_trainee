@@ -3,17 +3,18 @@ from datetime import date
 from odoo import fields, http, _
 from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
-from odoo.addons.payment.controllers.portal import PaymentProcessing
-from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
 from odoo.osv import expression
 
 class CustomerProposal(CustomerPortal):
     
-    @http.route(['/my/proposal/<int:proposal_id>'], type='http', auth="public", website=True)
-    def portal_order_page(self,proposal_id, report_type=None, access_token=None, message=False, download=False, **kw):
+    @http.route(['/my/proposal/<int:proposal_id>'], type='http', auth="user", website=True,csrf=True)
+    def portal_order_page(self,proposal_id, report_type=None, access_token=True, message=False, download=False, **kw):
+        """ This route for send the proposal order 
+        :param proposal_id : Has record id of current model"""
         try:
             order_sudo = self._document_check_access('proposal.order', proposal_id, access_token=access_token)
+            print('\n\n',order_sudo,'\n\n')
         except (AccessError, MissingError):
             return request.redirect('/my')
 
@@ -45,17 +46,32 @@ class CustomerProposal(CustomerPortal):
         return request.render('praposal_app.proposal_order_portal_template', values)                            
         
 
-    @http.route('/proposal/accepted/', type='json', auth='none')
-    def proposal_order(self,data):
-
-        for i in data:
-            rec_id =int(i['rec_id'])
-            stateobj = request.env['proposal.order'].sudo().search([('id','=', rec_id)])
-            line_id = int(i['line_id'])
-            proposal_obj = request.env['proposal.order.line'].sudo().search([('id','=', line_id)])
-            stateobj.write({'state': i['state']})
-            qty = float(i['qty_acept'])
-            price =float(i['price_acept'])
-            proposal_obj.write({'qty_acept': qty, 'price_acept': price})
-
+    @http.route('/proposal/accepted/', type='json',access_token=True, auth='user',website=True,csrf=True)
+    def proposal_order(self,data,access_token=None):
+        """ This route for accept proposal order 
+        :param data (list of dict): Has record id and each line ids of one2many field and Accepted Qty and Accepted Price
+        """
+        #Fatch record id
+        record_id = [rec_ids['rec_id'] for rec_ids in data]
+        try:
+            proposalorder_sudo = self._document_check_access('proposal.order',int(record_id[0]), access_token=access_token)
+            print('\n\n\n',proposalorder_sudo)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+                
+        #Update State and Proposal Order Line
+        if proposalorder_sudo :
+            vals = {'state': 'proposal_accepted','proposal_line':[(1,int(records['line_id']) ,{'qty_acept':int(records['qty_acept']) ,'price_acept':float(records['price_acept']) })for records in data]}
+            proposalorder_sudo.write(vals)
         return True
+
+    
+    @http.route('/proposal/rejected/', type='json',access_token=True, auth='user',website=True,csrf=True)
+    def proposal_order_rejected(self,record_id):
+        """ This route for Reject proposal order 
+        :param record_id: Has record id of current model"""
+        # Update state
+        proposalorder = request.env['proposal.order'].sudo().search([('id','=',record_id)]).write({'state': 'proposal_rejected'})
+        return True
+
+
