@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_car_rental,car_rental_access,model_car_rental,group_car_rental_user,1,1,1,0
+access_car_car,car_car_access,model_car_car,group_car_rental_user,1,1,1,0
