@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="car_rental_form_view" model="ir.ui.view">
         <field name="name">Car.Renatal.form.view</field>
         <field name="model">car.rental</field>
@@ -22,6 +21,23 @@
                             <field name="to_date"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Car Rental Line">
+                            <group>
+                                <field name="rental_lines">
+                                    <tree editable="bottom">
+                                        <field name="seat"/>
+                                        <field name="total_hour"/>
+                                        <field name="amount_per"/>
+                                        <field name="sub_total" widget="monetary"/>
+
+                                        <field name="carrental_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
