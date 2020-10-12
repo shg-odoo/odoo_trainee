@@ -1,5 +1,20 @@
 <odoo>
-    <data>
+  <data>
+          <record model="openacademy.course" id="course0">
+            <field name="name">course0</field>
+            <field name="discription">course 0's description Can have multiple lines
+            </field>
+          </record>
+
+          <record model="openacadmey.course" id="course1">
+            <field name="name">course1</field>
+            <field name="description">course 1's description</field>
+          </record>
+
+          <record model="openacadmey.course" id="course2">
+            <field name="name">course2</field>
+            <field name="description">course 2's description</field>
+          </record>
 <!--
           <record id="object0" model="openacademy.openacademy">
             <field name="name">Object 0</field>
