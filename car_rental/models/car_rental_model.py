@@ -6,10 +6,10 @@ class CarRental(models.Model):
     _name = "car.rental"
     _rec_name = "partner_id"
 
-    partner_id = fields.Many2one('res.partner', String="Customer", required=True)
-    car_id = fields.Many2one('car.car', string="Your Car", required=True)
-    from_date = fields.Datetime(string="Booking From", required=True)
-    to_date = fields.Datetime(string="Booking To", required=True)
+    partner_id = fields.Many2one('res.partner', String="Customer")
+    car_id = fields.Many2one('car.car', string="Your Car")
+    from_date = fields.Datetime(string="Booking From")
+    to_date = fields.Datetime(string="Booking To")
     rental_lines = fields.One2many('car.rental.lines', 'carrental_id')
     name_seq = fields.Char(string="Booking Referance", copy=False, required=True, index=True,
                            default=lambda self: _('New'))
@@ -22,7 +22,7 @@ class CarRental(models.Model):
             vals['name_seq'] = self.env['ir.sequence'].next_by_code('car.rental') or _('New')
 
         result = super(CarRental, self).create(vals)
-        print(result)
+
         return result
 
     @api.onchange('car_id', 'from_date', 'to_date')
