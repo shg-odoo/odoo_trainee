@@ -3,6 +3,7 @@ from odoo import models, fields, api, exceptions, _
 
 class Course(models.Model):
     _name = 'openacademy.course'
+    _inherit = 'mail.thread'
     _description = "OpenAcademy Courses"
 
     _sql_constraints = [
@@ -35,3 +36,4 @@ class Course(models.Model):
         ondelete='set null', string="Responsible", index=True)
     session_ids = fields.One2many(
         'openacademy.session', 'course_id', string="Sessions")
+
