@@ -21,6 +21,7 @@
   	        <form string="PROPOSAL">
                 <header>
                     <button name="action_sent_proposal" type="object" string="Sent Proposal" class="oe_highlight" attrs="{'invisible': [('state', '!=','draft')]}"/>
+                    <button name="action_confirmed_proposal" type="object" string="Confirm Proposal" class="oe_highlight" attrs="{'invisible': [('state', '!=','sent')]}"/>
                     <field name="state" widget='statusbar'/>
                 </header>
     		        <group>
@@ -35,6 +36,8 @@
                       <field name="sales_man_id"/>
                       <field name="customer_id"/>
                       <field name="price_list"/>
+                      <field name="date_time"/>
+                      <field name="company_id"/>
                     </group>
     	    	    </group>
                 <group>

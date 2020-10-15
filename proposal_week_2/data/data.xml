@@ -8,10 +8,9 @@
 	    <field name="email_to">${object.customer_id.email}</field>  
 	    <field name="subject">Proposal For ${object.proposal_name}</field>
 	    <field name="body_html">
-			<p>Dear ${object.customer_name.name},<br/><br/></p>
-			Please find your proposal in below link<br/>
-		    Regards,<br/>
-		    ${object.sales_man_id.name}</field>
+			Hello ${object.customer_name.name}
+			
+		</field>
 		</record>
 	</data>
 </odoo>
