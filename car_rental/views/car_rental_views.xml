@@ -29,9 +29,9 @@
                                         <field name="seat"/>
                                         <field name="total_hour"/>
                                         <field name="amount_per"/>
-                                        <field name="sub_total" widget="monetary"/>
-
-                                        <field name="carrental_id" invisible="1"/>
+                                        <field name="sub_total" widget="monetary"
+                                               options="{'currency_field':'currency_id'}"/>
+                                        <field name="currency_id" invisible="1"/>
                                     </tree>
                                 </field>
                             </group>
@@ -54,7 +54,8 @@
                             <field name="image" widget="image"/>
                             <field name="car_name"/>
                             <field name="number_of_seats"/>
-                            <field name="amount_per_hour"/>
+                            <field name="amount_per_hour" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
                         </group>
                     </group>
                 </sheet>
@@ -72,7 +73,6 @@
                 <field name="car_id"/>
                 <field name="from_date"/>
                 <field name="to_date"/>
-                <!--                <field name="car_id.image"/>-->
             </tree>
         </field>
     </record>
@@ -82,7 +82,6 @@
         <field name="model">car.car</field>
         <field name="arch" type="xml">
             <tree string="Add Car">
-                <!--                <field name="image" required="1"/>-->
                 <field name="car_name"/>
                 <field name="number_of_seats"/>
                 <field name="amount_per_hour"/>

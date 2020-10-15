@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="car_1" model="car.car">
+            <field name="car_name">Wrangler</field>
+            <field name="number_of_seats">5</field>
+            <field name="amount_per_hour">1000</field>
+            <field name="image" type="base64" file="car_rental/src/img/img_5.jpg"/>
+        </record>
+
+        <record id="car_2" model="car.car">
+            <field name="car_name">Audi</field>
+            <field name="number_of_seats">5</field>
+            <field name="amount_per_hour">1000</field>
+            <field name="image" type="base64" file="car_rental/src/img/img_1.jpg"/>
+        </record>
+
+        <record id="car_3" model="car.car">
+            <field name="car_name">BMW</field>
+            <field name="number_of_seats">5</field>
+            <field name="amount_per_hour">1000</field>
+            <field name="image" type="base64" file="car_rental/src/img/img_2.jpg"/>
+        </record>
+
+        <record id="car_4" model="car.car">
+            <field name="car_name">Datsun</field>
+            <field name="number_of_seats">5</field>
+            <field name="amount_per_hour">2000</field>
+            <field name="image" type="base64" file="car_rental/src/img/img_3.jpg"/>
+        </record>
+
+        <record id="car_5" model="car.car">
+            <field name="car_name">Mercedes</field>
+            <field name="number_of_seats">5</field>
+            <field name="amount_per_hour">2000</field>
+            <field name="image" type="base64" file="car_rental/src/img/img_4.jpg"/>
+        </record>
+
+        <record id="car_6" model="car.car">
+            <field name="car_name">Range Rover</field>
+            <field name="number_of_seats">5</field>
+            <field name="amount_per_hour">2000</field>
+            <field name="image" type="base64" file="car_rental/src/img/hero_1.jpg"/>
+        </record>
+    </data>
+</odoo>

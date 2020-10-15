@@ -6,9 +6,6 @@
             <link rel="stylesheet" href="/car_rental/src/css/bootstrap.min.css"/>
 
             <link rel="stylesheet" href="/car_rental/src/css/form.style.css"/>
-<!--            <link rel="stylesheet" href="/car_rental/src/css/form.bootstrap.min.css"/>-->
-
-
         </xpath>
     </template>
 </odoo>
