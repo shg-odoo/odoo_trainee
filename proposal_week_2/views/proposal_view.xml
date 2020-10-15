@@ -1,0 +1,88 @@
+<odoo>
+    <record model="ir.ui.view" id="proposal_list">
+        <field name="name">proposal.list</field>
+        <field name="model">proposals.proposals</field>
+        <field name="priority" eval='2'/>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="proposal_name"/>
+                <field name="sales_man_id"/>
+                <field name="customer_id"/>
+                <field name="proposal_line_ids" widget="many2many_tags"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>    
+
+    <record model="ir.ui.view" id="proposal_form">
+        <field name="name">proposal.form</field>
+        <field name="model">proposals.proposals</field>
+        <field name="arch" type="xml">
+  	        <form string="PROPOSAL">
+                <header>
+                    <button name="action_sent_proposal" type="object" string="Sent Proposal" class="oe_highlight" attrs="{'invisible': [('state', '!=','draft')]}"/>
+                    <field name="state" widget='statusbar'/>
+                </header>
+    		        <group>
+    		            <group colspan="2" col="2">
+        		            <div class="oe_title">
+                            <h1>
+                                <field name="proposal_name" readonly="0"/>
+                            </h1>
+                        </div>
+        		        </group>
+                    <group colspan="4" col="4">
+                      <field name="sales_man_id"/>
+                      <field name="customer_id"/>
+                      <field name="price_list"/>
+                    </group>
+    	    	    </group>
+                <group>
+                    <field name="proposal_line_ids">
+                        <tree editable ="bottom">
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="qty_proposed"/>
+                            <field name="price_proposed"/>
+                            <field name="qty_accepted"/>
+                            <field name="price_accepted"/>
+                        </tree>
+                    </field>
+                </group>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                
+    		    </form>
+  	    </field>
+	  </record>
+
+	  <!-- <record id="openacademy_search_view" model="ir.ui.view">
+        <field name="name">openacademy.search</field>
+        <field name="model">openacademy.course</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="description"/>
+                <field name="responsible_id"/>
+                <filter name="my_courses" string="My Courses"
+                            domain="[('responsible_id', '=', uid)]"/>
+                <group string="Group By">
+                    <filter name="by_responsible" string="Responsible" context="{'group_by': 'responsible_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record> -->
+
+  	<record model="ir.actions.act_window" id="action_proposal">
+        <field name="name">Proposal</field>
+        <field name="res_model">proposals.proposals</field>
+        <field name="view_mode">tree,form</field>
+  	</record>
+
+    <menuitem id="menu_proposal" name="Proposal" parent="sale.sale_menu_root" sequence="10"
+          />
+  	
+  	<menuitem id="menu_proposal_1" parent="menu_proposal" name="Proposal" sequence="10"
+            action="action_proposal"/>
+</odoo>
