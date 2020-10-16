@@ -1,16 +1,37 @@
 <odoo>
     <data>
-		<record id="proposal_email_template" model="mail.template">
+		<!-- <record id="proposal_email_template" model="mail.template">
 	    <field name="name">PROPOSAL EMAIL TEMPLATE</field>
 	    <field name="model_id" ref="proposal_week_2.model_proposals_proposals"/>
 	    <field name="auto_delete" eval="True"/>
 	    <field name="email_from">${object.sales_man_id.partner_id.email}</field>
 	    <field name="email_to">${object.customer_id.email}</field>  
 	    <field name="subject">Proposal For ${object.proposal_name}</field>
-	    <field name="body_html">
+	    <field name="body_html" type="html">
 			Hello ${object.customer_name.name}
 			
 		</field>
+		</record> -->
+
+		<record id="email_template_proposal_mail" model="mail.template">
+		<field name="name">Proposal: Send by email</field>
+		<field name="model_id" ref="proposal_week_2.model_proposals_proposals"/>
+		<field name="email_from">${(object.sales_man_id.partner_id.email or "") |safe}</field>
+		<field name="email_to">${(object.customer_id.email or "") |safe}</field>
+		<field name="subject">Proposal for ${object.proposal_name}</field>
+		<field name="body_html" type="html">
+		<div style="margin: 0px; padding: 0px;">
+		Hello ${object.customer_id.name},
+		</div>
+		</field>
 		</record>
+
+		<record id="seq_proposal" model="ir.sequence">
+            <field name="name">Proposal</field>
+            <field name="code">proposals.proposals</field>
+            <field name="prefix">PO</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
 	</data>
 </odoo>
