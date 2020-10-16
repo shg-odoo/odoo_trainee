@@ -1214,6 +1214,7 @@ h1, h2, h3, h4, h5,
 
 .ftco-cover-1 {
   background-size: cover;
+  background-image: url("/home/ijas/Downloads/carrent/images/hero_2.jpg");
   background-position: center center;
   background-repeat: no-repeat; }
   .ftco-cover-1, .ftco-cover-1 .container > .row {
