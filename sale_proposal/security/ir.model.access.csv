@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_proposal,sale_proposal_access,model_sale_proposal,,1,1,1,1
+access_proposal_lines,proposal_lines_access,model_proposal_lines,,1,1,1,1
+
