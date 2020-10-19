@@ -1,0 +1,93 @@
+<odoo>
+
+    <record id="action_report_proposal" model="ir.actions.report">
+        <field name="name">Proposal Report</field>
+        <field name="model">proposals.proposals</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">proposal_week_2.report_proposal_template_view</field>
+        <field name="report_file">proposal_week_2.report_proposal</field>
+        <field name="binding_model_id" ref="model_proposals_proposals"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_proposal_template_view">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <b><h1 t-field="doc.proposal_name"/></b>
+                        <div>
+                            <h2>Proposal Date: <span t-field="doc.proposal_date"/></h2>
+                        </div>
+                        <div>
+                            <h2>Customer: <span t-field="doc.customer_id"/></h2>
+                        </div>
+                        <div>
+                            <h2>Salesman: <span t-field="doc.sales_man_id"/></h2>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <h3>Product Details:</h3>
+                    <table class="table table-sm o_main_table">
+                        <tr allign="center">
+                            <th class="text-left">
+                                Product Name
+                            </th>
+                            <th class="text-left">
+                                Description
+                            </th>
+                            <th class="text-left">
+                                Proposed QTY
+                            </th>
+                            <th class="text-left">
+                                Proposed Price(per unit)
+                            </th>
+                            <th class="text-left">
+                                Accepted QTY
+                            </th>
+                            <th class="text-left">
+                                Accepted Price(per unit)
+                            </th>
+                        </tr>
+                        <tr t-foreach="doc.proposal_line_ids" t-as="p">
+                            <td class="text-left">
+                                <span t-field="p.product_id.name"/>
+                            </td>
+                            <td class="text-left">
+                                <span t-field="p.description"/>
+                            </td>
+                            <td>
+                                <span t-field="p.qty_proposed"/>
+                            </td>
+                            <td>
+                                <span t-field="p.price_proposed"/>
+                            </td>
+                            <td>
+                                <span t-field="p.qty_accepted"/>
+                            </td>
+                            <td>
+                                <span t-field="p.price_accepted"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-sm">
+                                <tr>
+                                    <td class="text-right"><strong>Proposed Total</strong></td>
+                                    <td class="text-left" width="20%"><strong>
+                                        <span data-id="total_amount_11" t-field="doc.proposed_total_price" t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right"><strong>Accepted Total</strong></td>
+                                    <td class="text-left" width="20%"><strong>
+                                        <span data-id="total_amount_12" t-field="doc.accepted_total_price" t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'/></strong>
+                                    </td>
+                                </tr>
+                            </table>
+                    
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

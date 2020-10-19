@@ -4,7 +4,7 @@ from odoo import models, fields, api, exceptions,_
 class Proposal(models.Model):
     _name = 'proposals.proposals'
     _description = "Sales Proposal"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread','portal.mixin']
 
 
     def action_proposal_mail_send(self):
@@ -91,6 +91,26 @@ class Proposal(models.Model):
             'url': self.get_portal_url(),
         }
 
+    def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
+        self.ensure_one()
+        return super(Proposal, self)._get_share_url(redirect, signup_partner, pid)
+
+    def _compute_access_url(self):
+        super(Proposal, self)._compute_access_url()
+        for proposal in self:
+            proposal.access_url = '/my/proposals/%s' % (proposal.id)
+
+
+    def _get_portal_return_action(self):
+        """ Return the action used to display orders when returning from customer portal. """
+        self.ensure_one()
+        return self.env.ref('proposal_week_2.action_proposal')
+
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return '%s' % (self.proposal_name)
+
+
     proposal_name = fields.Char(default=lambda self: _('New'), readonly = True)
     sales_man_id = fields.Many2one("res.users",string="Salesman", default =lambda self: self.env.user, readonly = True)
     customer_id = fields.Many2one("res.partner", required=True)
@@ -108,8 +128,11 @@ class Proposal(models.Model):
     partner_shipping_id = fields.Many2one(
         'res.partner')
     company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company)
+    proposal_status = fields.Selection([('accept','Accept'),
+        ('reject','Reject'),
+        ('no_response','No Response')],default="no_response")
     
-class ProposaLisList(models.Model):
+class ProposalLine(models.Model):
     _name = 'proposals.line'
 
     @api.onchange('product_id')
@@ -142,8 +165,6 @@ class ProposaLisList(models.Model):
 
         vals.update(description=self.get_proposal_line_multiline_description_sale(product))
 
-        self._compute_tax_id()
-
         if self.proposal_id.price_list_id and self.proposal_id.customer_id:
             vals['price_proposed'] = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
         self.update(vals)
@@ -164,11 +185,9 @@ class ProposaLisList(models.Model):
         return result
 
     def get_proposal_line_multiline_description_sale(self, product):
-        print("=1=1=1=1=1=1=1==1=1=1=1")
         return product.get_product_multiline_description_sale() + self._get_proposal_line_multiline_description_variants()
 
     def _get_proposal_line_multiline_description_variants(self):
-        print("2=2=2=2=2=2=2=2=2==2=2=")
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
             return ""
 
@@ -188,21 +207,9 @@ class ProposaLisList(models.Model):
 
         return description
     
-    def _compute_tax_id(self):
-        print("3=3=3=3=3==3=3=3=3==3")
-        for line in self:
-            fpos = line.proposal_id.fiscal_position_id or line.proposal_id.customer_id.property_account_position_id
-            # If company_id is set in the order, always filter taxes by the company
-            taxes = line.product_id.taxes_id.filtered(lambda r: r.company_id == line.proposal_id.company_id)
-            line.tax_id = fpos.map_tax(taxes, line.product_id, line.proposal_id.partner_shipping_id) if fpos else taxes
-
+    
     @api.onchange('product_uom', 'qty_proposed')
     def product_uom_change(self):
-        print("4=4=4=4==4=4==4=4=4=")
-        # if not self.product_uom or not self.product_id:
-        #     print("4=4=4=4==4=4==4=4=4=",self.product_uom)
-        #     self.price_proposed = 0.0
-        #     return
         if self.proposal_id.price_list_id and self.proposal_id.customer_id:
             product = self.product_id.with_context(
                 lang=self.proposal_id.customer_id.lang,
@@ -213,11 +220,9 @@ class ProposaLisList(models.Model):
                 uom=self.product_uom.id,
                 fiscal_position=self.env.context.get('fiscal_position')
             )
-            print("====11111111111111111111111================")
             self.price_proposed = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
 
     def _get_display_price(self, product):
-        print("====================")
         no_variant_attributes_price_extra = [
             ptav.price_extra for ptav in self.product_no_variant_attribute_value_ids.filtered(
                 lambda ptav:
@@ -245,8 +250,7 @@ class ProposaLisList(models.Model):
 
 
 
-    def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
-        print("5=5=5=5=5==5=5=5==5=5=")
+    def _get_real_price_currency(self, product, rule_id, qty, uom, price_list_id):
         PricelistItem = self.env['product.pricelist.item']
         field_name = 'lst_price'
         currency_id = None
@@ -290,6 +294,71 @@ class ProposaLisList(models.Model):
             'product_id', 'description', 'price_proposed', 'product_uom', 'qty_proposed',
             'tax_id', 'analytic_tag_ids'
         ]
+
+
+    # @api.depends_context('pricelist', 'partner', 'quantity', 'uom', 'date', 'no_variant_attributes_price_extra')
+    # def _compute_product_price(self):
+    #     prices = {}
+    #     pricelist_id_or_name = self._context.get('pricelist')
+    #     if pricelist_id_or_name:
+    #         pricelist = None
+    #         partner = self.env.context.get('partner', False)
+    #         quantity = self.env.context.get('quantity', 1.0)
+
+    #         # Support context pricelists specified as list, display_name or ID for compatibility
+    #         if isinstance(pricelist_id_or_name, list):
+    #             pricelist_id_or_name = pricelist_id_or_name[0]
+    #         if isinstance(pricelist_id_or_name, str):
+    #             pricelist_name_search = self.env['product.pricelist'].name_search(pricelist_id_or_name, operator='=', limit=1)
+    #             if pricelist_name_search:
+    #                 pricelist = self.env['product.pricelist'].browse([pricelist_name_search[0][0]])
+    #         elif isinstance(pricelist_id_or_name, int):
+    #             pricelist = self.env['product.pricelist'].browse(pricelist_id_or_name)
+
+    #         if pricelist:
+    #             quantities = [quantity] * len(self)
+    #             partners = [partner] * len(self)
+    #             prices = pricelist.get_products_price(self, quantities, partners)
+
+    #     for product in self:
+    #         product.price = prices.get(product.id, 0.0)
+
+    # def _set_product_price(self):
+    #     for product in self:
+    #         if self._context.get('uom'):
+    #             value = self.env['uom.uom'].browse(self._context['uom'])._compute_price(product.price, product.uom_id)
+    #         else:
+    #             value = product.price
+    #         value -= product.price_extra
+    #         product.write({'list_price': value})
+
+    # def _set_product_lst_price(self):
+    #     for product in self:
+    #         if self._context.get('uom'):
+    #             value = self.env['uom.uom'].browse(self._context['uom'])._compute_price(product.lst_price, product.uom_id)
+    #         else:
+    #             value = product.lst_price
+    #         value -= product.price_extra
+    #         product.write({'list_price': value})
+
+    # def _compute_product_price_extra(self):
+    #     for product in self:
+    #         product.price_extra = sum(product.product_template_attribute_value_ids.mapped('price_extra'))
+
+    # @api.depends('list_price', 'price_extra')
+    # @api.depends_context('uom')
+    # def _compute_product_lst_price(self):
+    #     to_uom = None
+    #     if 'uom' in self._context:
+    #         to_uom = self.env['uom.uom'].browse(self._context['uom'])
+
+    #     for product in self:
+    #         if to_uom:
+    #             list_price = product.uom_id._compute_price(product.list_price, to_uom)
+    #         else:
+    #             list_price = product.list_price
+    #         product.lst_price = list_price + product.price_extra
+
 
     @api.onchange('price_proposed', 'qty_proposed')
     def accepted_price_qty_change(self):

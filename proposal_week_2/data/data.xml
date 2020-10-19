@@ -1,17 +1,5 @@
 <odoo>
     <data>
-		<!-- <record id="proposal_email_template" model="mail.template">
-	    <field name="name">PROPOSAL EMAIL TEMPLATE</field>
-	    <field name="model_id" ref="proposal_week_2.model_proposals_proposals"/>
-	    <field name="auto_delete" eval="True"/>
-	    <field name="email_from">${object.sales_man_id.partner_id.email}</field>
-	    <field name="email_to">${object.customer_id.email}</field>  
-	    <field name="subject">Proposal For ${object.proposal_name}</field>
-	    <field name="body_html" type="html">
-			Hello ${object.customer_name.name}
-			
-		</field>
-		</record> -->
 
 		<record id="email_template_proposal_mail" model="mail.template">
 		<field name="name">Proposal: Send by email</field>
@@ -21,7 +9,15 @@
 		<field name="subject">Proposal for ${object.proposal_name}</field>
 		<field name="body_html" type="html">
 		<div style="margin: 0px; padding: 0px;">
-		Hello ${object.customer_id.name},
+		<h2>Hello ${object.customer_id.name},</h2>
+		<br/>
+		<br/>
+		<div style="margin: 16px 0px 16px 0px;">
+            <a href="${('%s?answer_token=%s' % (object.preview_proposal, object.token)) | safe}"
+                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                Your Proposal
+            </a>
+        </div>
 		</div>
 		</field>
 		</record>

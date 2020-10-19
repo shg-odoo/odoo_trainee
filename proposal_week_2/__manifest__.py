@@ -31,6 +31,7 @@
         'views/views.xml',
         'views/templates.xml',
         'data/data.xml',
+        'report/proposal_report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
