@@ -1,27 +1,5 @@
 <odoo>
     <data>
-
-		<record id="email_template_proposal_mail" model="mail.template">
-		<field name="name">Proposal: Send by email</field>
-		<field name="model_id" ref="proposal_week_2.model_proposals_proposals"/>
-		<field name="email_from">${(object.sales_man_id.partner_id.email or "") |safe}</field>
-		<field name="email_to">${(object.customer_id.email or "") |safe}</field>
-		<field name="subject">Proposal for ${object.proposal_name}</field>
-		<field name="body_html" type="html">
-		<div style="margin: 0px; padding: 0px;">
-		<h2>Hello ${object.customer_id.name},</h2>
-		<br/>
-		<br/>
-		<div style="margin: 16px 0px 16px 0px;">
-            <a href="${('%s?answer_token=%s' % (object.preview_proposal, object.token)) | safe}"
-                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
-                Your Proposal
-            </a>
-        </div>
-		</div>
-		</field>
-		</record>
-
 		<record id="seq_proposal" model="ir.sequence">
             <field name="name">Proposal</field>
             <field name="code">proposals.proposals</field>
@@ -29,5 +7,33 @@
             <field name="padding">6</field>
             <field name="company_id" eval="False"/>
         </record>
+
+        <record id="email_template_proposal_mail" model="mail.template">
+	        <field name="name">Proposal: Send by email</field>
+	        <field name="model_id" ref="proposal_week_2.model_proposals_proposals"/>
+	        <field name="email_from">${(object.sales_man_id.partner_id.email or "") |safe}</field>
+	        <field name="email_to">$${(object.customer_id.email or "") |safe}</field>
+	        <field name="subject">Proposal for ${object.proposal_name}</field>
+	        <field name="body_html" type="html">
+	            <div style="margin: 0px; padding: 0px;">
+					<h2>Hello ${object.customer_id.name},</h2>
+					<br/>
+					<br/>
+					Please find your proposal on below link
+					<div style="margin: 16px 0px 16px 0px;">
+			            <a href="${object.get_portal_url() | safe}"
+			                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+			                Your Proposal
+			            </a>
+			        </div>
+					<br/><br/><br/>
+
+	                Thanks!<br/><br/>
+
+	                Regards,<br/>
+	                <b>${object.sales_man_id.name}</b>
+	            </div>
+	        </field>    
+	    </record>
 	</data>
 </odoo>

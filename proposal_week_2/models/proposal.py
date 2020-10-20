@@ -4,43 +4,13 @@ from odoo import models, fields, api, exceptions,_
 class Proposal(models.Model):
     _name = 'proposals.proposals'
     _description = "Sales Proposal"
-    _inherit = ['mail.thread','portal.mixin']
+    _inherit = ['mail.thread','portal.mixin','mail.activity.mixin']
 
 
     def action_proposal_mail_send(self):
         self.state = "sent"
-        self.ensure_one()
-        
-        ir_model_data = self.env['ir.model.data']
-        try:
-            template_id = ir_model_data.get_object_reference('proposal_week_2', 'email_template_proposal_mail')[1]
-        except ValueError:
-            template_id = False
-        try:
-            compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
-        except ValueError:
-            compose_form_id = False
-        template = template_id and self.env['mail.template'].browse(template_id)
-        ctx={}
-        ctx.update({
-            'default_model': 'proposals.proposals',
-            'default_res_id': self.ids[0],
-            'default_use_template': bool(template_id),
-            'default_template_id': template_id,
-            'default_composition_mode': 'comment',
-            'mark_so_as_sent': True,
-            
-        })
-        return {
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'views': [(compose_form_id, 'form')],
-            'view_id': compose_form_id,
-            'target': 'new',
-            'context': ctx,
-        }
+        template_id = self.env.ref('proposal_week_2.email_template_proposal_mail').id
+        self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
     
     def action_cancel_proposal(self):
         self.state = "cancel"
@@ -100,7 +70,6 @@ class Proposal(models.Model):
         for proposal in self:
             proposal.access_url = '/my/proposals/%s' % (proposal.id)
 
-
     def _get_portal_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
@@ -110,9 +79,8 @@ class Proposal(models.Model):
         self.ensure_one()
         return '%s' % (self.proposal_name)
 
-
     proposal_name = fields.Char(default=lambda self: _('New'), readonly = True)
-    sales_man_id = fields.Many2one("res.users",string="Salesman", default =lambda self: self.env.user, readonly = True)
+    sales_man_id = fields.Many2one("res.users",string="Salesman", default =lambda self: self.env.user)
     customer_id = fields.Many2one("res.partner", required=True)
     price_list_id = fields.Many2one("product.pricelist", required=True)
     proposal_line_ids = fields.One2many("proposals.line", 'proposal_id')
@@ -128,12 +96,13 @@ class Proposal(models.Model):
     partner_shipping_id = fields.Many2one(
         'res.partner')
     company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company)
-    proposal_status = fields.Selection([('accept','Accept'),
-        ('reject','Reject'),
+    proposal_status = fields.Selection([('accept','Accepted'),
+        ('reject','Rejected'),
         ('no_response','No Response')],default="no_response")
     
 class ProposalLine(models.Model):
     _name = 'proposals.line'
+
 
     @api.onchange('product_id')
     def product_id_change(self):
@@ -206,8 +175,7 @@ class ProposalLine(models.Model):
             description += "\n" + pacv.with_context(lang=self.proposal_id.customer_id.lang).display_name
 
         return description
-    
-    
+        
     @api.onchange('product_uom', 'qty_proposed')
     def product_uom_change(self):
         if self.proposal_id.price_list_id and self.proposal_id.customer_id:
@@ -247,8 +215,6 @@ class ProposalLine(models.Model):
                 self.proposal_id.company_id or self.env.company, self.proposal_id.proposal_date or fields.Date.today())
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, final_price)
-
-
 
     def _get_real_price_currency(self, product, rule_id, qty, uom, price_list_id):
         PricelistItem = self.env['product.pricelist.item']
@@ -294,71 +260,6 @@ class ProposalLine(models.Model):
             'product_id', 'description', 'price_proposed', 'product_uom', 'qty_proposed',
             'tax_id', 'analytic_tag_ids'
         ]
-
-
-    # @api.depends_context('pricelist', 'partner', 'quantity', 'uom', 'date', 'no_variant_attributes_price_extra')
-    # def _compute_product_price(self):
-    #     prices = {}
-    #     pricelist_id_or_name = self._context.get('pricelist')
-    #     if pricelist_id_or_name:
-    #         pricelist = None
-    #         partner = self.env.context.get('partner', False)
-    #         quantity = self.env.context.get('quantity', 1.0)
-
-    #         # Support context pricelists specified as list, display_name or ID for compatibility
-    #         if isinstance(pricelist_id_or_name, list):
-    #             pricelist_id_or_name = pricelist_id_or_name[0]
-    #         if isinstance(pricelist_id_or_name, str):
-    #             pricelist_name_search = self.env['product.pricelist'].name_search(pricelist_id_or_name, operator='=', limit=1)
-    #             if pricelist_name_search:
-    #                 pricelist = self.env['product.pricelist'].browse([pricelist_name_search[0][0]])
-    #         elif isinstance(pricelist_id_or_name, int):
-    #             pricelist = self.env['product.pricelist'].browse(pricelist_id_or_name)
-
-    #         if pricelist:
-    #             quantities = [quantity] * len(self)
-    #             partners = [partner] * len(self)
-    #             prices = pricelist.get_products_price(self, quantities, partners)
-
-    #     for product in self:
-    #         product.price = prices.get(product.id, 0.0)
-
-    # def _set_product_price(self):
-    #     for product in self:
-    #         if self._context.get('uom'):
-    #             value = self.env['uom.uom'].browse(self._context['uom'])._compute_price(product.price, product.uom_id)
-    #         else:
-    #             value = product.price
-    #         value -= product.price_extra
-    #         product.write({'list_price': value})
-
-    # def _set_product_lst_price(self):
-    #     for product in self:
-    #         if self._context.get('uom'):
-    #             value = self.env['uom.uom'].browse(self._context['uom'])._compute_price(product.lst_price, product.uom_id)
-    #         else:
-    #             value = product.lst_price
-    #         value -= product.price_extra
-    #         product.write({'list_price': value})
-
-    # def _compute_product_price_extra(self):
-    #     for product in self:
-    #         product.price_extra = sum(product.product_template_attribute_value_ids.mapped('price_extra'))
-
-    # @api.depends('list_price', 'price_extra')
-    # @api.depends_context('uom')
-    # def _compute_product_lst_price(self):
-    #     to_uom = None
-    #     if 'uom' in self._context:
-    #         to_uom = self.env['uom.uom'].browse(self._context['uom'])
-
-    #     for product in self:
-    #         if to_uom:
-    #             list_price = product.uom_id._compute_price(product.list_price, to_uom)
-    #         else:
-    #             list_price = product.list_price
-    #         product.lst_price = list_price + product.price_extra
-
 
     @api.onchange('price_proposed', 'qty_proposed')
     def accepted_price_qty_change(self):

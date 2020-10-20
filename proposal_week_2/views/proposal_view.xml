@@ -52,40 +52,50 @@
                             <field name="customer_id" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}"/>
                             <field name="price_list_id" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}"/>
                             <field name="proposal_date" readonly="1"/>
-                            <field name="proposal_status" readonly="1"/>
-                          
                         </group>
     	    	    </group>
                     <notebook>
                         <page string="Proposal Line">
-                            <div class="oe_title">
-                                <field name="proposal_line_ids" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}">
-                                    <tree editable ="bottom">
-                                        <field name="product_id"/>
-                                        <field name="description"/>
-                                        <field name="qty_proposed"/>
-                                        <field name="price_proposed"/>
-                                        <field name="qty_accepted"/>
-                                        <field name="price_accepted"/>
-                                        <field name="proposed_sub_total" readonly="1"/>
-                                        <field name="accepted_sub_total" readonly ="1"/>
-                                    </tree>
-                                </field>
-                            </div>
+                            <field name="proposal_line_ids" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}">
+                                <tree editable ="bottom">
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="qty_proposed"/>
+                                    <field name="price_proposed"/>
+                                    <field name="qty_accepted"/>
+                                    <field name="price_accepted"/>
+                                    <field name="proposed_sub_total" readonly="1"/>
+                                    <field name="accepted_sub_total" readonly ="1"/>
+                                </tree>
+                            </field>
                             <div>
-                                <group class="oe_subtotal_footer" colspan="1">
-                                    <div>
+                                <table class="table table-sm" border="0px">
+                                    <tr>
+                                        <td class="text-right"><b><strong>Proposed Total:-</strong></b></td>
+                                        <td class="text-left" width="10%"><b><strong>
+                                            <span data-id="total_amount_11"  t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'><field name="proposed_total_price" readonly="1"/></span></strong></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><b><strong>Accepted Total:-</strong></b></td>
+                                        <td class="text-left" width="10%"><strong>
+                                            <b><span data-id="total_amount_11"  t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'><field name="accepted_total_price" readonly="1"/></span></b></strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!-- <group class="oe_subtotal_footer" colspan="1">
+                                    <div class="text-right">
                                         <b><label for="proposed_total_price"/>
                                         <field name="proposed_total_price" readonly="1"/></b>
                                     </div>
                                 </group>
                                 <group class="oe_subtotal_footer" colspan="1">
-                                    <div>
+                                    <div class="text-right">
                                         <b><label for="accepted_total_price"/>
                                             <field name="accepted_total_price" readonly="1"/></b>
                                     </div>
                                     
-                                </group>
+                                </group> -->
                             </div>
                         </page>
                     </notebook>

@@ -44,7 +44,7 @@ class CustomerPortal(CustomerPortal):
                     token=proposal_sudo.access_token,
                     message_type="notification",
                     subtype="mail.mt_note",
-                    partner_ids=proposal_sudo.user_id.sudo().partner_id.ids,
+                    partner_ids=proposal_sudo.sales_man_id.sudo().partner_id.ids,
                 )
 
         values = {
@@ -63,7 +63,54 @@ class CustomerPortal(CustomerPortal):
         history = request.session.get('my_proposals_history', [])
         
         values.update(get_records_pager(history, proposal_sudo))
-        print("---------------",values)
         return request.render('proposal_week_2.proposal_portal_template', values)
 
-    
+    @http.route(['/my/proposals/<int:proposal_id>/accept'], type='http', auth="public", website=True, methods=['POST'])
+    def portal_proposal_accept(self, proposal_id, access_token=None, name=None,**post):
+        # get from query string if not on json param
+        try:
+            proposal_sudo = self._document_check_access('proposals.proposals', proposal_id, access_token=access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+        
+        proposal_sudo.write({
+            'proposal_status': 'accept',
+        })
+        request.env.cr.commit()
+
+        message = post.get('accepting_message')
+
+        _message_post_helper(
+            'proposals.proposals', proposal_sudo.id, _('Proposal is Accepted.'),
+            **({'token': access_token} if access_token else {}))
+
+        query_string = False
+        if message: 
+            _message_post_helper('proposals.proposals', proposal_id, message, **{'token': access_token} if access_token else {})
+        else:
+            query_string = "&message=cant_accept"
+
+        return request.redirect(proposal_sudo.get_portal_url(query_string=query_string))
+
+    @http.route(['/my/proposals/<int:proposal_id>/decline'], type='http', auth="public", methods=['POST'], website=True)
+    def decline(self, proposal_id, access_token=None, **post):
+        try:
+            proposal_sudo = self._document_check_access('proposals.proposals', proposal_id, access_token=access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        proposal_sudo.write({
+            'proposal_status': 'reject',
+        })
+        request.env.cr.commit()
+
+        message = post.get('decline_message')
+        
+        query_string = False
+        if message: 
+            _message_post_helper('proposals.proposals', proposal_id, message, **{'token': access_token} if access_token else {})
+        else:
+            query_string = "&message=cant_reject"
+
+        return request.redirect(proposal_sudo.get_portal_url(query_string=query_string))
+

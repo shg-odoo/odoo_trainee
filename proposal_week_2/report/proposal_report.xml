@@ -71,23 +71,21 @@
                         </tr>
                     </table>
                     <table class="table table-sm">
-                                <tr>
-                                    <td class="text-right"><strong>Proposed Total</strong></td>
-                                    <td class="text-left" width="20%"><strong>
-                                        <span data-id="total_amount_11" t-field="doc.proposed_total_price" t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'/></strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-right"><strong>Accepted Total</strong></td>
-                                    <td class="text-left" width="20%"><strong>
-                                        <span data-id="total_amount_12" t-field="doc.accepted_total_price" t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'/></strong>
-                                    </td>
-                                </tr>
-                            </table>
-                    
+                        <tr>
+                            <td class="text-right"><strong>Proposed Total</strong></td>
+                            <td class="text-left" width="20%"><strong>
+                                <span data-id="total_amount_11" t-field="doc.proposed_total_price" t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'/></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><strong>Accepted Total</strong></td>
+                            <td class="text-left" width="20%"><strong>
+                                <span data-id="total_amount_12" t-field="doc.accepted_total_price" t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'/></strong>
+                            </td>
+                        </tr>
+                    </table>                   
                 </t>
             </t>
         </t>
     </template>
-
 </odoo>
