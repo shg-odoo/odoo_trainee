@@ -8,7 +8,7 @@ class SaleProposal(models.Model):
 
     user_id = fields.Many2one('res.users', string="Salesman", default=lambda self: self.env.user)
     partner_id = fields.Many2one('res.partner', string="Customer")
-    proposal_line_ids = fields.One2many('proposal.lines', 'proposal')
+    proposal_line_ids = fields.One2many('proposal.lines', 'proposal_id')
     state = fields.Selection([
         ('draft', 'Draft'),
         ('sent', 'Sent'),
@@ -25,33 +25,18 @@ class SaleProposal(models.Model):
     proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='_amount_total')
     accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True, compute='_amount_total')
     total=fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_total')
+    proposal_status = fields.Selection([('accept', 'Accepted'),
+                                        ('reject', 'Rejected'),
+                                        ('no_response', 'No Response')], default="no_response")
 
     def action_send_mail(self):
         print('ooooooooooooooo')
         template_id = self.env.ref('sale_proposal.mail_proposal_template').id
         template = self.env['mail.template'].browse(template_id)
         template.send_mail(self.id, force_send=True)
-        print(template)
+        print(self.get_portal_url())
         return self.write({'state': 'sent'})
-        # self.ensure_one()
-        # self.write({'state': 'sent'})
-        #
-        # ir_model_data = self.env['ir.model.data']
-        # try:
-        #
-        #     template_id = ir_model_data.get_object_reference('sale_proposal', 'mail_proposal_template')[1]
-        # except ValueError:
-        #
-        #     template_id = False
-        #
-        # ctx = {
-        #     'default_model': 'sale.proposal',
-        #     'default_res_id': self.ids[0],
-        #     'default_use_template': bool(template_id),
-        #     'default_template_id': template_id,
-        #     'default_composition_mode': 'comment',
-        # }
-        # print(ctx)
+
 
     @api.model
     def create(self, vals):
@@ -87,6 +72,28 @@ class SaleProposal(models.Model):
     def action_cancell(self):
         self.write({'state': 'cancel'})
 
+    def preview_proposal(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': self.get_portal_url(),
+        }
+
+    def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
+        self.ensure_one()
+        return super(SaleProposal, self)._get_share_url(redirect, signup_partner, pid)
+
+    def _compute_access_url(self):
+        super(SaleProposal, self)._compute_access_url()
+        for proposal in self:
+            proposal.access_url = '/my/proposals/%s' % (proposal.id)
+
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return '%s' % (self.name_seq)
+
+
 
 class ProposalLines(models.Model):
     _name = "proposal.lines"
@@ -99,7 +106,7 @@ class ProposalLines(models.Model):
     price_accepted = fields.Float(string="Price Accepted")
     amt_total_proposed = fields.Float(string="Amount total proposed")
     amt_total_accepted = fields.Float(string="Amount total accepted")
-    proposal = fields.Many2one('sale.proposal')
+    proposal_id = fields.Many2one('sale.proposal')
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id.id, index=1)
     currency_id = fields.Many2one('res.currency', 'Currency',
                                   default=lambda self: self.env.user.company_id.currency_id.id, required=True)
