@@ -83,19 +83,6 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <!-- <group class="oe_subtotal_footer" colspan="1">
-                                    <div class="text-right">
-                                        <b><label for="proposed_total_price"/>
-                                        <field name="proposed_total_price" readonly="1"/></b>
-                                    </div>
-                                </group>
-                                <group class="oe_subtotal_footer" colspan="1">
-                                    <div class="text-right">
-                                        <b><label for="accepted_total_price"/>
-                                            <field name="accepted_total_price" readonly="1"/></b>
-                                    </div>
-                                    
-                                </group> -->
                             </div>
                         </page>
                     </notebook>
@@ -109,6 +96,55 @@
   	    </field>
 	</record>
 
+    <record model="ir.ui.view" id="proposal_kanban_view">
+        <field name="name">proposals.kanban.view</field>
+        <field name="model">proposals.proposals</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content">
+                            <table width='100%'>
+                                <tr>
+                                    <th>
+                                        <field name="customer_id"/>
+                                    </th>
+                                    <th width='20%'>
+                                        <field name="accepted_total_price"/>
+                                    </th>
+                                </tr>
+                            </table>
+                            <table width='100%'>
+                                <tr>
+                                    <td>
+                                        <field name="proposal_name"/>
+                                    </td>
+                                    <td>
+                                        <field name="proposal_date"/>
+                                    </td>
+                                    <td>
+                                        <field name="state"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="proposal_graph_view">
+        <field name="name">proposals.graph.view</field>
+        <field name="model">proposals.proposals</field>
+        <field name="arch" type="xml">
+            <graph string="Total Amount">
+                <field name="accepted_total_price"/>
+                <field name="proposed_total_price"/>
+            </graph>
+        </field>
+    </record>
+
 	<record id="proposal_search_view" model="ir.ui.view">
         <field name="name">proposal.search</field>
         <field name="model">proposals.proposals</field>
@@ -116,8 +152,7 @@
             <search>
                 <field name="customer_id"/>
                 <field name="sales_man_id"/>
-                <filter string="Proposals" name="my_proposals" domain="[('state', 'not in', ['confirmed','cancel'])]"/>
-                
+                <filter string="Proposals" name="my_proposals" domain="[('state', 'not in', ['confirmed','cancel'])]"/>         
                 <group string="Group By">
                     <filter name="by_customers" string="Customers" context="{'group_by': 'customer_id'}"/>
                     <filter name="by_salesman" string="Salesman" context="{'group_by': 'sales_man_id'}"/>
@@ -129,7 +164,7 @@
   	<record model="ir.actions.act_window" id="action_proposal">
         <field name="name">Proposal</field>
         <field name="res_model">proposals.proposals</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban,graph</field>
         <field name="context">{'search_default_my_proposals': 1}</field>
   	</record>
 

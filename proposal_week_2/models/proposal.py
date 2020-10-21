@@ -53,6 +53,22 @@ class Proposal(models.Model):
                 total.append(line.accepted_sub_total)    
             self.accepted_total_price = sum(total)
 
+    
+    @api.onchange('price_list_id')
+    def _onchange_pricelist_id(self):
+        self.ensure_one()
+        lines_to_update = []
+        for line in self.proposal_line_ids:
+            product = line.product_id.with_context(
+                partner=self.customer_id,
+                quantity=line.qty_proposed,
+                date=self.proposal_date,
+                pricelist=self.price_list_id.id,
+                uom=line.product_uom.id
+            )
+            lines_to_update.append((1, line.id, {'price_proposed': product.price, 'price_accepted': product.price}))
+        self.update({'proposal_line_ids': lines_to_update})
+
     def preview_proposal(self):
         self.ensure_one()
         return {
