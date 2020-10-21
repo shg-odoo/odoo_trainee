@@ -1,0 +1,6 @@
+<odoo>
+    <record model="product.public.category" id="cateogry_courses">
+        <filed name="name">Courses</filed>
+        <filed name="parent_id" ref="website_sale.categ_others"/>
+    </record>
+</odoo>
