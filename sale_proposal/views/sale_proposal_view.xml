@@ -8,6 +8,7 @@
                 <header>
                      <button name="action_send_mail" id="action_send"
                         string="Send" class="btn-primary" type="object"
+                             states="draft"
                        />
                     <button name="action_confirm" id="action_confirm"
                         string="Confirm" class="btn-primary" type="object"

@@ -58,23 +58,46 @@
                         <div t-call="sale_proposal.proposal_portal_content"/>
                     </div>
                     <!--  bottom actions  -->
-                    <div t-attf-class="row justify-content-center text-center d-print-none pt-1 pb-4">
-                        <div t-if="sale_proposal.proposal_status != 'accept' and sale_proposal.proposal_status != 'reject'"
-                             class="col-sm-auto mt8">
-                            <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"
-                               t-att-href="sale_proposal.get_portal_url(suffix='/accept')">
-                                <i class="fa fa-check"/>
-                                <t>Accept</t>
-                            </a>
-                        </div>
-                        <div t-if="sale_proposal.proposal_status != 'accept' and sale_proposal.proposal_status != 'reject'"
-                             class="col-sm-auto mt8">
-                            <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#modaldecline"
-                               t-att-href="sale_proposal.get_portal_url(suffix='/reject')">
-                                <i class="fa fa-times"/>
-                                Reject
-                            </a>
-                        </div>
+                    <!--                    <div t-attf-class="row justify-content-center text-center d-print-none pt-1 pb-4">-->
+                    <!--                        <div t-if="sale_proposal.proposal_status != 'accept' and sale_proposal.proposal_status != 'reject'"-->
+                    <!--                             class="col-sm-auto mt8">-->
+                    <!--                            <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"-->
+                    <!--                               t-att-href="sale_proposal.get_portal_url(suffix='/accept')">-->
+                    <!--                                <i class="fa fa-check"/>-->
+                    <!--                                <t>Accept</t>-->
+                    <!--                            </a>-->
+                    <!--                        </div>-->
+                    <!--                        <div t-if="sale_proposal.proposal_status != 'accept' and sale_proposal.proposal_status != 'reject'"-->
+                    <!--                             class="col-sm-auto mt8">-->
+                    <!--                            <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#modaldecline"-->
+                    <!--                               t-att-href="sale_proposal.get_portal_url(suffix='/reject')">-->
+                    <!--                                <i class="fa fa-times"/>-->
+                    <!--                                Reject-->
+                    <!--                            </a>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+
+                    <div id="buttons_id" class="row justify-content-center text-center d-print-none pt-1 pb-4"
+                         style=" margin-left: 183px;">
+                        <t t-if="sale_proposal.proposal_status != 'accept' and sale_proposal.proposal_status != 'reject' ">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="col-sm-auto mt8 ">
+                                <a role="button" class="btn btn-primary accept_btn" data-toggle="modal">
+                                    <i class="fa fa-check"/>
+                                    Accept
+                                </a>
+                            </div>
+                            <div class="col-sm-auto mt8">
+                                <a role="button" class="btn btn-danger reject_btn" data-toggle="modal">
+                                    <i class="fa fa-times"/>
+                                    Reject
+                                </a>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <h1>Thank You</h1>
+                        </t>
                     </div>
                 </div>
 
