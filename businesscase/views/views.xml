@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="businesscase.list">
+      <field name="name">businesscase list</field>
+      <field name="model">businesscase.businesscase</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="businesscase.action_window">
+      <field name="name">businesscase window</field>
+      <field name="res_model">businesscase.businesscase</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="businesscase.action_server">
+      <field name="name">businesscase server</field>
+      <field name="model_id" ref="model_businesscase_businesscase"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="businesscase" id="businesscase.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="businesscase.menu_1" parent="businesscase.menu_root"/>
+    <menuitem name="Menu 2" id="businesscase.menu_2" parent="businesscase.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="businesscase.menu_1_list" parent="businesscase.menu_1"
+              action="businesscase.action_window"/>
+    <menuitem name="Server to list" id="businesscase" parent="businesscase.menu_2"
+              action="businesscase.action_server"/>
+-->
+  </data>
+</odoo>
