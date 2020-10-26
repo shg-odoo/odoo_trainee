@@ -47,39 +47,29 @@
                             </ul>
                         </t>
                     </t>
-                    <!--  Calling template form here  -->
                     <div id="quote_content" class="col-12 col-lg justify-content-end">
                         <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}">
                             <div t-call="sale_proposal.sale_proposal_portal_content"/>
                         </div>
                     </div>
-                    <!--  Button call from here  -->
                 </div>
                 <div id="buttons_id" class="row justify-content-center text-center d-print-none pt-1 pb-4"
                      style=" margin-left: 183px;">
                     <t t-if="sale_proposal.state != 'proposal_accepted' and sale_proposal.state != 'proposal_rejected' ">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="col-sm-auto mt8 ">
-                                                        <a role="button" class="btn btn-primary accept_btn" data-toggle="modal">
+                                                        <a role="button" class="accept_button btn btn-primary" data-toggle="modal">
                                                             <i class="fa fa-check"/>
                                                             Accept
                                                         </a>
 
-<!--                            <button type="submit" t-att-id="sale_proposal.id" class="btn btn-primary">-->
-<!--                                <i class="fa fa-check"-->
-<!--                                   t-att-href="sale_proposal.get_portal_url(suffix='/accept')"/>-->
-<!--                                Accept-->
-<!--                            </button>-->
                         </div>
                         <div class="col-sm-auto mt8">
-                            <a role="button" class="btn btn-danger reject_btn" data-toggle="modal">
+                            <a role="button" class="reject_button btn btn-danger" data-toggle="modal">
                                 <i class="fa fa-times"/>
                                 Reject
                             </a>
                         </div>
-                    </t>
-                    <t t-else="">
-                        <h1>Thank You</h1>
                     </t>
                 </div>
             </div>
@@ -90,11 +80,9 @@
             <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
                 <h2 class="my-0">
                     <span t-field="sale_proposal.name_seq"/>
-                    <!--                    <em t-esc="sale_proposal.name"/>-->
                 </h2>
             </div>
             <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
-                <!--  Informations  -->
                 <div id="informations">
                     <div t-att-data-order-id="sale_proposal.id"></div>
                     <div class="mb-3">
@@ -126,14 +114,11 @@
                                 <th class="text-left">Proposed Price</th>
                                 <th class="qty_accept text-left">Accepted Quantity</th>
                                 <th class="text-left">Accepted Price</th>
-                                <!--  <th class="text-right" >
-                                                                <span>Subtotal</span>
-                                                            </th>  -->
                             </tr>
                         </thead>
                         <tbody class="sale_tbody">
-                            <t t-set="current_subtotal" t-value="0.0"/>
-                            <input class="record_id" type="hidden" t-att-value="sale_proposal.id"/>
+<!--                            <t t-set="current_subtotal" t-value="0.0"/>-->
+                            <input class="proposal_id" type="hidden" t-att-value="sale_proposal.id"/>
                             <t t-foreach="sale_proposal.proposal_line_ids" t-as="line">
                                 <tr>
                                     <td>
@@ -157,9 +142,6 @@
                                         <input class="accept_price" t-att-value="line.price_accepted" type="text"
                                                style="width: 100px;"/>
                                     </td>
-                                    <!--  <td>
-                                                                    <span t-field='line.price_subtotal'/>
-                                                                </td>  -->
                                 </tr>
                             </t>
                         </tbody>

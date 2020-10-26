@@ -56,6 +56,10 @@ class SaleProposal(models.Model):
                     for line in order.proposal_line_ids:
                         proposed_total += line.amt_total_proposed
                         accepted_total += line.amt_total_accepted
+                        print(proposed_total)
+                        print(accepted_total,'accpt')
+
+
                     order.update({
                         'proposed_total': proposed_total,
                         'accepted_total': accepted_total,

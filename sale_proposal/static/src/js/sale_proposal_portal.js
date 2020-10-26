@@ -24,36 +24,60 @@ odoo.define('sale_proposal.sale_proposal_portal', function (require) {
 
 });
 
-odoo.define('sale_proposal.sale_proposal_accept', function (require) {
-    'use strict';
-    var publicWidget = require('web.public.widget');
-    var Portalaccept = require('portal.PortalSidebar');
-    var ajax = require('web.ajax');
-    var rpc = require('web.rpc');
 
-    publicWidget.registry.sale_proposal_accept = Portalaccept.extend({
+odoo.define('sale_proposal.SaleProposalAcceptReject', function (require) {
+    "use strict";
+
+    var SaleProposalAcceptReject = require('web.public.widget');
+    var ProposalPortal = require('portal.PortalSidebar');
+    var ajax = require('web.ajax');
+
+    SaleProposalAcceptReject.registry.SaleProposalAcceptReject = ProposalPortal.extend({
         selector: '.portal_accept_reject',
         events: {
-            'click .accept_btn': '_onClick_accept_btn',
-            'click .reject_btn': '_onClick_reject_btn',
+            'click .accept_button': 'clicking_accept_btn',
+            // 'click .reject_button': '_on_RejectBtn'
+
         },
-        _onClick_accept_btn: function () {
-            var qty_accept = document.getElementById('input')
-            console.log(qty_accept);
-            console.log('qty_accept');
-            var access_token = new URLSearchParams(window.location.search).get('access_token');
+        clicking_accept_btn: function () {
+            const qty_accpt = document.getElementsByClassName('accept_qty')
+            const price_accpt = document.getElementsByClassName('accept_price')
+            let quantity
+            let price
+            let record_id
+            let proposal_line_id
+            const proposal_id= document.getElementsByClassName('proposal_id')
+            const dict = [];
+            console.log('hellloooooo')
+            console.log(proposal_id)
 
-            var price_accept = document.getElementsByClassName('accept_price')
-            document.write(price_accept);
-            ajax.jsonRpc('/proposal/accepted/', 'call', {
-                'data': qty_accept,
-                'access_token': access_token
-            }).then(function (url) {
-            })
-        },
+            for (var i = 0; i < qty_accpt.length; i++) {
+                var qty_linebyline = qty_accpt[i];
+                var price_linebyline =  price_accpt[i]
+                quantity = qty_linebyline.value
+                price=price_linebyline.value
+                record_id=proposal_id[0].value
+                proposal_line_id = qty_linebyline.getAttribute('line_id')
+                console.log(record_id)
+                dict.push({
+                    'qty_accepted': quantity,
+                    'price_accepted': price,
+                    'proposal_id':record_id,
+                    'amount_total_accpt':quantity * price,
+                    'line_id':proposal_line_id
+                });
+
+               
+            }
+                      ajax.jsonRpc('/proposal/accepted/', 'call', {
+            'data':dict
+                      })
 
 
-    });
+        }
+    })
 
 
 });
+
+
