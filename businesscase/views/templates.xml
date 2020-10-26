@@ -1,5 +1,14 @@
 <odoo>
     <data>
+        <template id="index">
+            <t t-call="website.layout">
+              <t t-set="title">Businesscase Model</t>
+              <div class="oe_structure">
+                <div class="container"/>
+              </div>
+          </t>
+        </template>
+
 <!--
         <template id="listing">
           <ul>

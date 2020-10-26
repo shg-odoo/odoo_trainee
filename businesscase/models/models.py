@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 
-# from odoo import models, fields, api
+from odoo import models, fields, api
+from datetime import datetime,timedelta
 
+class businesscase(models.Model):
+    _name = 'businesscase.businesscase'
+    _description = 'businesscase.businesscase'
+    name = fields.Char()
+    value = fields.Integer()
+    value2 = fields.Float(compute="_value_pc", store=True)
+    description = fields.Text()
 
-# class businesscase(models.Model):
-#     _name = 'businesscase.businesscase'
-#     _description = 'businesscase.businesscase'
+    def _default_validity_date(self):
+        return self.datetime
+        
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
 #     @api.depends('value')
 #     def _value_pc(self):
 #         for record in self:

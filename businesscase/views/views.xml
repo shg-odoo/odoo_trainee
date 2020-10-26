@@ -1,5 +1,6 @@
 <odoo>
   <data>
+
     <!-- explicit list view definition -->
 <!--
     <record model="ir.ui.view" id="businesscase.list">
@@ -16,13 +17,12 @@
 -->
 
     <!-- actions opening views on models -->
-<!--
+
     <record model="ir.actions.act_window" id="businesscase.action_window">
       <field name="name">businesscase window</field>
       <field name="res_model">businesscase.businesscase</field>
       <field name="view_mode">tree,form</field>
     </record>
--->
 
     <!-- server action to the one above -->
 <!--

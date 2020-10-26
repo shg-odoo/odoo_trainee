@@ -1,5 +1,6 @@
 <odoo>
     <data>
+    
 <!--
           <record id="object0" model="businesscase.businesscase">
             <field name="name">Object 0</field>
