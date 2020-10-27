@@ -6,8 +6,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/sale_proposal_view.xml',
-        # 'views/sale_proposal_portal_template.xml',
-        'views/portal_temp.xml',
+        'views/portal_template.xml',
         'views/asset_frontend.xml',
 
         'data/sequence.xml',

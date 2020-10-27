@@ -1,0 +1,13 @@
+.img-fluid {
+    max-width: 30%;
+}
+
+#input {
+    overflow: visible;
+    max-width: 65%;
+}
+
+#minus, #plus {
+    color: forestgreen;
+    border-radius: 10px;
+}

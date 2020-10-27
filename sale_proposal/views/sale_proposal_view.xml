@@ -83,9 +83,12 @@
         <field name="model">sale.proposal</field>
         <field name="arch" type="xml">
             <tree string="Sale Proposal">
+                <field name="name_seq"/>
                 <field name="partner_id"/>
                 <field name="user_id"/>
+                <field name="date_proposal"/>
                 <field name="state"/>
+                <field name="proposal_status"/>
             </tree>
         </field>
     </record>

@@ -1,13 +1,9 @@
-import binascii
 from datetime import date
-
 from odoo import fields, http, _
 from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
-from odoo.addons.payment.controllers.portal import PaymentProcessing
 from odoo.addons.portal.controllers.mail import _message_post_helper
-from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
-from odoo.osv import expression
+from odoo.addons.portal.controllers.portal import CustomerPortal,get_records_pager
 
 
 class CustomerPortal(CustomerPortal):
@@ -59,14 +55,21 @@ class CustomerPortal(CustomerPortal):
 
         return request.render('sale_proposal.sale_proposal_portal_template', values)
 
-
-
     @http.route('/proposal/accepted/', type='json', auth='user', website=True, csrf=True)
-    def proposal_order(self, data):
-
+    def proposal_accepted(self, data):
         for rec in data:
             proposal_sudo = request.env['sale.proposal'].sudo().search([('id', '=', int(rec['proposal_id']))])
-            proposal_line=request.env['proposal.lines'].sudo().search([('id', '=', int(rec['line_id']))])
-            proposal_line.write({'qty_accepted': rec['qty_accepted'], 'price_accepted': rec['price_accepted'],'amt_total_accepted':rec['amount_total_accpt']})
+            if proposal_sudo:
+                vals = {'proposal_status': 'accept','proposal_line_ids': [(1, int(records['line_id']),
+                                               {'qty_accepted': int(records['qty_accepted']),
+                                                'price_accepted': float(records['price_accepted']),
+                                                'amt_total_accepted': records['amount_total_accpt']}) for
+                                              records in data]}
+                proposal_sudo.write(vals)
             return True
 
+    @http.route('/proposal/rejected/', type='json', auth='user', website=True, csrf=True)
+    def proposal_rejected(self, proposal_id):
+        proposal_sudo = request.env['sale.proposal'].sudo().search([('id', '=', proposal_id)])
+        vals={'proposal_status': 'reject'}
+        proposal_sudo.write(vals)
