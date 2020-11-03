@@ -9,6 +9,7 @@
     'version': '14.0.0.0',
     'depends': ['base','sale'],
     'data': [
-
+        'data/ir_sequence_data.xml',
+        'views/sale_proposal_view.xml',
     ],
 }

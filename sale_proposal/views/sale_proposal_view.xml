@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree view for proposal -->
+    <record id="view_proposal_order_tree" model="ir.ui.view">
+        <field name="name">proposal.order.tree</field>
+        <field name="model">proposal.order</field>
+        <field name="arch" type="xml">
+            <tree string="Proposal Orders" sample="1">
+                <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                <field name="partner_id" readonly="1"/>
+                <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+                <field name="amount_total_proposed"/>
+                <field name="amount_total_accepted"/>
+                <field name="state" decoration-success="state == 'confirmed'" decoration-info="state == 'draft' or state == 'sent'" widget="badge" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view for proposal -->
+    <record id="view_proposal_order_form" model="ir.ui.view">
+        <field name="name">proposal.order.form</field>
+        <field name="model">proposal.order</field>
+        <field name="arch" type="xml">
+            <form string="Proposal Orders">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="proposal_header">
+                        <group name="partner_details">
+                            <field name="partner_id" widget="res_partner_many2one" options="{&quot;always_reload&quot;: True}"/>
+                        </group>
+                        <group name="proposal_detail">
+                            <field name="date_order"/>
+                            <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user"/>
+                            <field name="company_id" invisible="1"/>
+                            <label for="pricelist_id" groups="product.group_product_pricelist"/>
+                            <div groups="product.group_product_pricelist" class="o_row">
+                                <field name="pricelist_id" options="{'no_open':True,'no_create': True}"/>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Proposal Lines" name="proposal_lines">
+                            <field name="proposal_line_ids" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="product_id" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" attrs="{
+                                                    'readonly': [('product_updatable', '=', False)],
+                                                    'required': 1
+                                                }" force_save="1" widget="many2one_barcode" />
+                                            <field name="name"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group col="2">
+                                            <label for="qty_proposed"/>
+                                            <div class="o_row" name="proposed_qty">
+                                            <field name="qty_proposed" attrs="{
+                                                    'readonly': [('product_updatable', '=', False)],
+                                                    'required': 1
+                                                }"/>
+                                            <field
+                                                name="product_uom"
+                                                force_save="1"
+                                                groups="uom.group_uom"
+                                                class="oe_no_button"
+                                            />
+                                            </div>
+                                            <field name="price_proposed"/>
+                                        </group>
+                                        <group col="2">
+                                            <label for="qty_accepted"/>
+                                            <div class="o_row" name="proposed_qty">
+                                            <field name="qty_accepted" attrs="{
+                                                    'readonly': [('product_updatable', '=', False)],
+                                                    'required': 1
+                                                }"/>
+                                            <field
+                                                name="product_uom"
+                                                force_save="1"
+                                                groups="uom.group_uom"
+                                                class="oe_no_button"
+                                            />
+                                            </div>
+                                            <field name="price_accepted"/>
+                                        </group>
+                                        <group>
+                                            <field name="price_subtotal"/>
+                                            <field name="product_updatable" invisible="1"/>
+                                            <field name="product_uom_category_id" invisible="1"/>
+                                        </group>
+                                    </group>
+                                </form>
+                                <tree string="proposal Lines" editable="bottom">
+                                    <field name="product_updatable" invisible="1"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="product_id" attrs="{
+                                            'readonly': [('product_updatable', '=', False)],
+                                            'required': 1,
+                                        }" options="{'no_open': True}" force_save="1" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" widget="product_configurator" />
+                                    <field name="product_template_id" string="Product" invisible="1" attrs="{
+                                          'readonly': [('product_updatable', '=', False)],
+                                          'required': 1,
+                                      }" options="{'no_open': True}" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" widget="product_configurator"/>
+                                    <field name="name" widget="section_and_note_text" optional="show"/>
+                                    <field name="qty_proposed"/>
+                                    <field name="qty_accepted"/>
+                                    <field name="product_uom"/>
+                                    <field name="price_proposed"/>
+                                    <field name="price_accepted"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for proposal -->
+    <record id="action_proposal_order" model="ir.actions.act_window">
+        <field name="name">Proposal</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">proposal.order</field>
+        <field name="view_id" ref="view_proposal_order_tree"/>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a new Proposal,
+            </p>
+            <p>
+            Once the Proposal is confirmed by the customer, it becomes a sales order.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu for proposal -->
+    <menuitem id="proposal_menu_root" name="Proposal" action="action_proposal_order" />
+</odoo>
