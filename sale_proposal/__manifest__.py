@@ -7,9 +7,11 @@
     'website': "https://www.odoo.com/page/billing",
     'category': 'Sales/Sales',
     'version': '14.0.0.0',
-    'depends': ['base','sale'],
+    'depends': ['base','sale','portal'],
     'data': [
+        'data/mail_data.xml',
         'data/ir_sequence_data.xml',
+        'report/proposal_report_template.xml',
         'views/sale_proposal_view.xml',
     ],
 }

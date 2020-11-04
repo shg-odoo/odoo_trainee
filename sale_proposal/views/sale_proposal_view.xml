@@ -24,6 +24,11 @@
         <field name="arch" type="xml">
             <form string="Proposal Orders">
                 <header>
+                    <button name="send_mail_customer" 
+                            type="object"   
+                            class="oe_highlight" 
+                            string="Send Proposal"
+                            attrs="{'invisible' : [('state' ,'!=', 'draft')]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed"/>
                 </header>
                 <sheet>
@@ -44,6 +49,7 @@
                             <div groups="product.group_product_pricelist" class="o_row">
                                 <field name="pricelist_id" options="{'no_open':True,'no_create': True}"/>
                             </div>
+                            <field name="currency_id" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -93,7 +99,8 @@
                                             <field name="price_accepted"/>
                                         </group>
                                         <group>
-                                            <field name="price_subtotal"/>
+                                            <field name="proposed_price_subtotal" string="Proposed Subtotal"/>
+                                            <field name="accepted_price_subtotal" string="Accepted Subtotal"/>
                                             <field name="product_updatable" invisible="1"/>
                                             <field name="product_uom_category_id" invisible="1"/>
                                         </group>
@@ -116,13 +123,25 @@
                                     <field name="product_uom"/>
                                     <field name="price_proposed"/>
                                     <field name="price_accepted"/>
-                                    <field name="price_subtotal"/>
+                                    <field name="proposed_price_subtotal" string="Proposed Subtotal" widget="monetary"/>
+                                    <field name="accepted_price_subtotal" string="Accepted Subtotal" widget="monetary"/>
                                     <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="currency_id" invisible="1"/>
                                 </tree>
                             </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="proposal_total">
+                                <field name="amount_total_proposed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total_accepted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <div class="oe_clear"/>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>

@@ -1,6 +1,8 @@
 from odoo import api, models, fields, _
 from odoo.tools.misc import formatLang, get_lang
 
+from werkzeug.urls import url_encode
+
 
 class SaleProposal(models.Model):
     _name = "proposal.order"
@@ -38,16 +40,29 @@ class SaleProposal(models.Model):
     amount_total_proposed = fields.Monetary(string='Amount Total Proposed', store=True, readonly=True, compute='_amount_total_proposed', tracking=4)
     amount_total_accepted = fields.Monetary(string='Amount Total Accepted', store=True, readonly=True, compute='_amount_total_accepted', tracking=4)
 
+    def _compute_access_url(self):
+        super(SaleProposal, self)._compute_access_url()
+        for proposal in self:
+            proposal.access_url = '/my/proposal/%s' % (proposal.id)
+
+    @api.depends('proposal_line_ids.proposed_price_subtotal')
     def _amount_total_proposed(self):
         for proposal in self:
+            amount_total = 0
+            for line in proposal.proposal_line_ids:
+                amount_total += line.proposed_price_subtotal
             proposal.update({
-                'amount_total_proposed' : 0
+                'amount_total_proposed' : amount_total
             })
 
+    @api.depends('proposal_line_ids.accepted_price_subtotal')
     def _amount_total_accepted(self):
         for proposal in self:
+            amount_total = 0
+            for line in proposal.proposal_line_ids:
+                amount_total += line.accepted_price_subtotal   
             proposal.update({
-                'amount_total_accepted' : 0
+                'amount_total_accepted' : amount_total
             })
     
     @api.model
@@ -63,6 +78,49 @@ class SaleProposal(models.Model):
         result = super(SaleProposal, self).create(vals)
         return result
 
+    def send_mail_customer(self):
+        self.ensure_one()
+        template_id = self.env['ir.model.data'].xmlid_to_res_id('sale_proposal.email_template_sale_proposal', raise_if_not_found=False)
+        template = self.env['mail.template'].browse(template_id)
+        ctx = {
+            'default_model' : 'proposal.order',
+            'default_res_id' : self.ids[0],
+            'default_use_template' : bool(template_id),
+            'default_template_id' : template_id,
+            'default_composition_mode' : 'comment',
+            'mark_so_as_sent' : True,
+            'custom_layout' : 'mail.mail_notification_paynow',
+            'force_email' : True,
+            'model_description' : 'Proposal Order'
+        }
+        return {
+            'type' : 'ir.actions.act_window',
+            'view_mode' : 'form',
+            'res_model' : 'mail.compose.message',
+            'views' : [(False, 'form')],
+            'view_id' : False,
+            'target' : 'new',
+            'context' : ctx,
+        }
+
+    def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
+        """Override for proposal order.
+
+        If the proposal is in a state where an action is required from the partner,
+        return the URL with a login token. Otherwise, return the URL with a
+        generic access token (no login).
+        """
+        self.ensure_one()
+        if self.state not in ['confirmed', 'cancel']:
+            auth_param = url_encode(self.partner_id.signup_get_auth_param()[self.partner_id.id])
+            return self.get_portal_url(query_string='&%s' % auth_param)
+        return super(SaleProposal, self)._get_share_url(redirect, signup_partner, pid)
+
+    def _get_portal_return_action(self):
+        """ Return the action used to display proposal when returning from customer portal. """
+        self.ensure_one()
+        return self.env.ref('sale_proposal.action_proposal_order')
+
 class SaleProposalLine(models.Model):
     _name = "proposal.order.line"
 
@@ -77,10 +135,11 @@ class SaleProposalLine(models.Model):
     product_uom = fields.Many2one('uom.uom', string='Unit of Measure', domain="[('category_id', '=', product_uom_category_id)]")
     product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id', readonly=True)
     qty_proposed = fields.Float(string='Qty Proposed')
-    qty_accepted = fields.Float(string='Qty Accepted',readonly=1)
+    qty_accepted = fields.Float(string='Qty Accepted')
     price_proposed = fields.Float('Price Proposed', required=True, digits='Product Price', default=0.0)
-    price_accepted = fields.Float('Price Accepted', required=True, digits='Product Price', default=0.0, readonly=1)
-    price_subtotal = fields.Monetary(compute='_compute_amount', string='Subtotal', readonly=True, store=True)
+    price_accepted = fields.Float('Price Accepted', required=True, digits='Product Price', default=0.0)
+    proposed_price_subtotal = fields.Monetary(compute='_compute_proposed_amount', string='Subtotal', readonly=True, store=True)
+    accepted_price_subtotal = fields.Monetary(compute='_compute_accepted_amount', string='Subtotal', readonly=True, store=True)
     currency_id = fields.Many2one(related='proposal_id.currency_id', depends=['proposal_id.currency_id'], store=True, string='Currency', readonly=True)
     company_id = fields.Many2one(related='proposal_id.company_id', string='Company', store=True, readonly=True, index=True)
     product_updatable = fields.Boolean(compute='_compute_product_updatable', string='Can Edit Product', readonly=True, default=True)
@@ -97,11 +156,19 @@ class SaleProposalLine(models.Model):
                 line.product_updatable = True
 
     @api.depends('qty_proposed','price_proposed')
-    def _compute_amount(self):
+    def _compute_proposed_amount(self):
         for line in self:
-            price_subtotal = self.qty_proposed * self.price_proposed
+            price_subtotal = line.qty_proposed * line.price_proposed
             line.update({
-                'price_subtotal' : price_subtotal
+                'proposed_price_subtotal' : price_subtotal
+            })
+    
+    @api.depends('qty_accepted','price_accepted')
+    def _compute_accepted_amount(self):
+        for line in self:
+            price_subtotal = line.qty_accepted * line.price_accepted
+            line.update({
+                'accepted_price_subtotal' : price_subtotal
             })
             
     @api.onchange("product_id","qty_proposed")
