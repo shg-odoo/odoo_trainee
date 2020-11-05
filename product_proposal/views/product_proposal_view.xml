@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="sale_proposal_form_view" model="ir.ui.view">
+        <field name="name">product.proposal.form.view</field>
+        <field name="model">product.proposal</field>
+        <field name="arch" type="xml">
+            <form string="product Proposal">
+                <header>
+                     <button name="action_send_mail" id="action_send_mail"
+                        string="Send By Email" class="btn-primary" type="object"
+                             states="draft"
+                       />
+                    <button name="action_accept" id="action_accept"
+                        string="Confirm" class="btn-primary" type="object"
+<!--                            confirm should appear only after the customer has accepted the proposal,if customer or sales person refuses state can can go to cancelled and again salesperson can create another proposal.
+-->
+                       />
+                      <button name="action_cancel" id="action_cancel"
+                        string="Cancel" class="btn-primary" type="object"
+                       />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,accept,cancel"/>
+                </header>
+
+                <sheet>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name_seq" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+
+                            <field name="partner_id"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="date_proposal"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Proposal Lines"
+                                >
+                            <group>
+                                <field name="proposal_line_ids" nolabel="1">
+                                    <tree editable="bottom" nolabel="1">
+
+                                        <field name="product_id"/>
+                                        <field name="label"/>
+                                        <field name="qty_proposed"/>
+                                        <field name="price_proposed" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                                        <field name="qty_accepted"/>
+                                        <field name="price_accepted" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="sub_total_proposed" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                                        <field name="sub_total_accepted" widget="monetary" options="{'currency_field':'currency_id'}"/>
+
+                                    </tree>
+                                </field>
+
+                                     <group class="oe_subtotal_footer oe_right" colspan="2" name="proposal_total">
+                                                                                 <field name="currency_id" invisible="1"/>
+
+                                    <field name="proposed_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="accepted_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="total" />
+                                    </div>
+                                    <field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+
+
+                            </group>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+        <record id="sale_proposal_tree_view" model="ir.ui.view">
+        <field name="name">product.proposal.tree.view</field>
+        <field name="model">product.proposal</field>
+        <field name="arch" type="xml">
+            <tree string="Product Proposal">
+                <field name="name_seq"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="date_proposal"/>
+                <field name="state"/>
+
+            </tree>
+        </field>
+    </record>
+
+     <record id="action_product_proposal" model="ir.actions.act_window">
+        <field name="name">Product Proposal</field>
+        <field name="res_model">product.proposal</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form,search</field>
+    </record>
+
+
+     <menuitem id="proposal_menu"
+              name="Proposal"
+              parent="sale.sale_menu_root"
+              sequence="2"
+              action="action_product_proposal"
+    />
+
+</odoo>
