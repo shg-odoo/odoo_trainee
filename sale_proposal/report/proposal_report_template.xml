@@ -47,7 +47,122 @@
                         </ul>
                     </t>
                 </t>
+                <!-- Page content -->
+                <div id="quote_content" class="col-12 col-lg justify-content-end">
+
+                    <!-- main content -->
+                    <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}" id="portal_proposal_content">
+                        <div t-call="sale_proposal.proposal_order_portal_content"/>
+                    </div>
+                </div>
             </div>
         </xpath>
+    </template>
+
+    <!--
+    proposal Order content : intro, informations, proposal lines, remarks, descriptions ....
+    This template should contains all the printable element of the proposal order. This is the
+    template rendered in PDF with the report engine.
+    -->
+
+    <template id="proposal_order_portal_content" name="proposal Order Portal Content">
+        <!-- Intro -->
+        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+          <h2 class="my-0">
+                <span>PROPOSAL</span>
+                <em t-esc="proposal_order.name"/>
+            </h2>
+        </div>
+
+        <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
+            <!-- Informations -->
+            <div id="informations">
+                <div class="row" id="so_date">
+                    <div class="mb-3 col-6">
+                        <strong>Proposal Date:</strong>
+                        <span t-field="proposal_order.date_order" t-options='{"widget": "date"}'/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <strong class="d-block mb-1">Customer</strong>
+                        <address t-field="proposal_order.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="details" style="page-break-inside: auto;" class="mt32">
+
+                <table t-att-data-order-id="proposal_order.id" t-att-data-token="proposal_order.access_token" class="table table-sm" id="proposal_order_table">
+                    <thead class="bg-100">
+                        <tr>
+                            <th style="text-align: center; vertical-align: middle;">Products</th>
+                            <th style="text-align: center; vertical-align: middle;">Proposed Quantity</th>
+                            <th style="text-align: center; vertical-align: middle;">Proposed Price</th>
+                            <th style="text-align: center; vertical-align: middle;">Accepted Quantity</th>
+                            <th style="text-align: center; vertical-align: middle;">Accepted Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody">
+                        <t t-foreach="proposal_order.proposal_line_ids" t-as="line">
+                        <tr>
+                            <td id="product_name" style="text-align: center; vertical-align: middle;">
+                                <img t-att-src="'data:image/png;base64,%s' % to_text(line.product_id.image_1920)" style="max-height: 50px;"/>
+                                <span t-field="line.name" style="color:#267372"/>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <div id="quote_qty">
+                                    <span t-field="line.qty_proposed"/>
+                                </div>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <div id="quote_qty">
+                                    <span t-field="line.price_proposed"/>
+                                </div>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <div id="quote_qty">
+                                    <button t-on-click="_on_test_click" id="portal_plus_btn" t-attf-value="#{line.id}" t-attf-class="btn bg-transparent plus_qunatity_class" style="width:20%;height:20%;font-size: 22px;color: green;"><b>+</b></button>
+                                    <input type="text" t-att-id="'accepted_quantity-' + str(line.id)" t-att-value="line.qty_accepted" class="accepted_quantity_by_cust" style="width:30%;height:50%"/>
+                                    <button id="portal_minus_btn" t-attf-value="#{line.id}" t-attf-class="btn bg-transparent minus_qunatity_class" style="width:20%;height:20%;font-size: 25px;color: red;"><b>-</b></button>
+                                </div>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <div id="quote_qty">
+                                    <input type="text" t-att-id="str(line.id)" t-att-value="line.price_accepted" class="accepted_price_by_cust" style="width:60%;height:50%"/>
+                                </div>  
+                            </td>
+                        </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+                    <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                        <t t-call="sale_proposal.sale_proposal_portal_content_totals_table"/>
+                    </div>
+                </div>
+            </section>
+    </template>
+
+    <template id="sale_proposal_portal_content_totals_table">
+        <table class="table table-sm">
+            <tr class="border-black">
+                <td><strong>Subtotal</strong></td>
+                <td style="text-align: center; vertical-align: middle;" >
+                    <span
+                        data-id="total_untaxed"
+                        t-field="proposal_order.amount_total_proposed"
+                        t-options='{"widget": "monetary","display_currency": proposal_order.pricelist_id.currency_id}'
+                    />
+                </td>
+            </tr>
+            <tr class="border-black">
+                <td><strong>Total</strong></td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <span data-id="total_amount" t-field="proposal_order.amount_total_proposed" t-options='{"widget": "monetary", "display_currency": proposal_order.pricelist_id.currency_id}'/>
+                </td>
+            </tr>
+        </table>
     </template>
 </odoo>

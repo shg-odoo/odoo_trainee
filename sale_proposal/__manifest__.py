@@ -13,5 +13,6 @@
         'data/ir_sequence_data.xml',
         'report/proposal_report_template.xml',
         'views/sale_proposal_view.xml',
+        'views/template.xml',
     ],
 }
