@@ -72,4 +72,51 @@ class CustomerPortal(CustomerPortal):
         })
         return request.render("sale_portal_proposal.portal_my_proposal", values)
 
+    @http.route(['/my/proposals/<int:proposal_id>'], type='http', auth="public", website=True)
+    def portal_proposal_page(self, proposal_id, report_type=None, access_token=None, message=False, download=False, **kw):
+        try:
+            order_sudo = self._document_check_access('sale.portal.proposal', proposal_id, access_token=access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
 
+        if report_type in ('html', 'pdf', 'text'):
+            return self._show_report(model=order_sudo, report_type=report_type,
+                                     report_ref='sale.action_report_saleorder', download=download)
+
+        # use sudo to allow accessing/viewing orders for public user
+        # only if he knows the private token
+        # Log only once a day
+        if order_sudo:
+            # store the date as a string in the session to allow serialization
+            now = fields.Date.today().isoformat()
+            session_obj_date = request.session.get('view_proposal_%s' % order_sudo.id)
+            if session_obj_date != now and request.env.user.share and access_token:
+                request.session['view_proposal_%s' % order_sudo.id] = now
+                body = _('Proposal viewed by customer %s', order_sudo.partner_id.name)
+                _message_post_helper(
+                    "sale.portal.proposal",
+                    order_sudo.id,
+                    body,
+                    token=order_sudo.access_token,
+                    message_type="notification",
+                    subtype_xmlid="mail.mt_note",
+                    partner_ids=order_sudo.user_id.sudo().partner_id.ids,
+                )
+
+        values = {
+            'sale_proposal': order_sudo,
+            'message': message,
+            'token': access_token,
+            'return_url': '/shop/payment/validate',
+            'bootstrap_formatting': True,
+            'partner_id': order_sudo.partner_id.id,
+            'report_type': 'html',
+            'action': order_sudo._get_portal_return_action(),
+        }
+        if order_sudo.company_id:
+            values['res_company'] = order_sudo.company_id
+
+        history = request.session.get('my_proposal_history', [])
+        values.update(get_records_pager(history, order_sudo))
+
+        return request.render('sale_portal_proposal.sale_portal_proposal_template', values)

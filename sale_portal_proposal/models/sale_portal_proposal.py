@@ -9,6 +9,8 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tools.misc import formatLang, get_lang
 from odoo.osv import expression
 from odoo.tools import float_is_zero, float_compare
+from odoo.tools.misc import formatLang, get_lang
+from werkzeug.urls import url_encode
 
 class SalePortalProposal(models.Model):
     _name = 'sale.portal.proposal'
@@ -30,6 +32,29 @@ class SalePortalProposal(models.Model):
                 'amount_tax': amount_tax,
                 'amount_total': amount_untaxed + amount_tax,
             })
+
+    def _amount_by_group(self):
+        for order in self:
+            currency = order.currency_id or order.company_id.currency_id
+            fmt = partial(formatLang, self.with_context(lang=order.partner_id.lang).env, currency_obj=currency)
+            res = {}
+            for line in order.line_ids:
+                price_reduce = line.price_unit
+                taxes = line.tax_id.compute_all(price_reduce, quantity=line.product_uom_qty, product=line.product_id,
+                                                partner=order.partner_id)['taxes']
+                for tax in line.tax_id:
+                    group = tax.tax_group_id
+                    res.setdefault(group, {'amount': 0.0, 'base': 0.0})
+                    for t in taxes:
+                        if t['id'] == tax.id or t['id'] in tax.children_tax_ids.ids:
+                            res[group]['amount'] += t['amount']
+                            res[group]['base'] += t['base']
+            res = sorted(res.items(), key=lambda l: l[0].sequence)
+            order.amount_by_group = [(
+                l[0].name, l[1]['amount'], l[1]['base'],
+                fmt(l[1]['amount']), fmt(l[1]['base']),
+                len(res),
+            ) for l in res]
 
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,
                        states={'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
@@ -64,6 +89,15 @@ class SalePortalProposal(models.Model):
                                      tracking=5)
     amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True, compute='_amount_all')
     amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', tracking=4)
+    amount_by_group = fields.Binary(string="Tax amount by group", compute='_amount_by_group', help="type: [(name, amount, base, formated amount, formated base)]")
+
+    proposal_status = fields.Selection(
+        string='Proposal Status',
+        selection=[('not_reviewed', 'Not Reviewed'),
+                   ('approved', 'Approved'),
+                   ('rejected', 'Rejected'),
+                   ],
+        required=False,default='not_reviewed')
 
     @api.model
     def create(self, vals):
@@ -110,6 +144,32 @@ class SalePortalProposal(models.Model):
 
     def action_confirm(self):
         self.write({'state': 'confirmed'})
+
+    def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
+        self.ensure_one()
+        if self.state not in ['confirmed', 'cancel']:
+            auth_param = url_encode(self.partner_id.signup_get_auth_param()[self.partner_id.id])
+            return self.get_portal_url(query_string='&%s' % auth_param)
+        return super(SalePortalProposal, self)._get_share_url(redirect, signup_partner, pid)
+
+    def _compute_access_url(self):
+        super(SalePortalProposal, self)._compute_access_url()
+        for order in self:
+            order.access_url = '/my/proposals/%s' % (order.id)
+
+    def _get_portal_return_action(self):
+        """ Return the action used to display orders when returning from customer portal. """
+        self.ensure_one()
+        return self.env.ref('sale_portal_proposal.sale_portal_proposal_action')
+
+    def preview_sale_portal_proposal(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': self.get_portal_url(),
+        }
+
 class SalePortalProposalLine(models.Model):
     _name = 'sale.portal.proposal.line'
     _description = 'Sale Portal Proposal Line'
