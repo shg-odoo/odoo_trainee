@@ -22,9 +22,10 @@ class ProductProposal(models.Model):
     date_proposal = fields.Datetime(string='Proposal Date', required=True, readonly=True, index=True,
                                     states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False,
                                     default=fields.Datetime.now)
-    proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='_amount_total')
-    accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True, compute='_amount_total')
-    total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_total')
+    proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='compute_total')
+    accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True, compute='compute_total')
+    total_amt = fields.Monetary(string='Total', store=True, readonly=True, compute='compute_total')
+
 
     @api.model
     def create(self, vals):
@@ -32,6 +33,7 @@ class ProductProposal(models.Model):
             vals['name_seq'] = self.env['ir.sequence'].next_by_code('product.proposal') or _('New')
         result = super(ProductProposal, self).create(vals)
         return result
+
     #
     # def action_send_mail(self):
     #     print("action email ...............")
@@ -40,14 +42,6 @@ class ProductProposal(models.Model):
     #     # # Send out the e-mail template to the user
     #     self.env['mail.template'].browse(template.id).send_mail(self.id)
     #     return self.write({'state': 'sent'})
-    @api.depends('sub_total_accepted','sub_total_proposed')
-    def _amount_total(self):
-        print(".....amountil keriiiii")
-        for lines in self.proposal_line_ids:
-            print("lines......................",lines)
-
-
-
 
     def action_send_mail(self):
         template_id = self.env.ref('product_proposal.email_template_product_proposal').id
@@ -56,8 +50,13 @@ class ProductProposal(models.Model):
         return self.write({'state': 'sent'})
 
     #
+    @api.depends('proposal_line_ids.sub_total_accepted', 'proposal_line_ids.sub_total_proposed')
+    def compute_total(self):
+        print(".....amountil keriiiii")
+        for lines in self.proposal_line_ids:
+            self.proposed_total += lines.sub_total_proposed
 
-
+            print("lsub total lines......................",self.proposed_total)
 
     def action_confirm(self):
         self.write({'state': 'confirm'})
@@ -84,6 +83,8 @@ class ProposalLines(models.Model):
                                   default=lambda self: self.env.user.company_id.currency_id.id, required=True)
     sub_total_proposed = fields.Monetary(string='SubTotal Proposed', store=True, readonly=True)
     sub_total_accepted = fields.Monetary(string='SubTotal Accepted', store=True, readonly=True)
+    #
+
 
     @api.onchange('product_id', 'qty_proposed', 'price_proposed')
     def _onchange_product_id(self):
@@ -93,3 +94,5 @@ class ProposalLines(models.Model):
         self.price_proposed = self.product_id.lst_price
         print("............................subtotl proporsed", self.qty_proposed * self.price_proposed)
         self.sub_total_proposed = self.qty_proposed * self.price_proposed
+
+
