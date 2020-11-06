@@ -8,6 +8,8 @@ from odoo.addons.payment.controllers.portal import PaymentProcessing
 from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
 from odoo.osv import expression
+from functools import partial
+from odoo.tools import formatLang
 
 class CustomerPortal(CustomerPortal):
 
@@ -22,6 +24,16 @@ class CustomerPortal(CustomerPortal):
                 ('state', 'in', ['sent','confirmed', 'done'])
             ]) if SalePortal.check_access_rights('read', raise_exception=False) else 0
         return values
+
+    def _get_portal_proposal_details(self, order_sudo, order_line=False):
+        currency = order_sudo.currency_id
+        format_price = partial(formatLang, request.env, digits=currency.decimal_places)
+        results = {
+            'order_amount_total': format_price(order_sudo.amount_total_accepted),
+            'order_amount_untaxed': format_price(order_sudo.amount_untaxed_accepted),
+            'order_amount_tax': format_price(order_sudo.amount_tax_accepted),
+        }
+        return results
 
     @http.route(['/my/proposals', '/my/proposals/page/<int:page>'], type='http', auth="user", website=True)
     def portal_my_proposal(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
@@ -120,3 +132,45 @@ class CustomerPortal(CustomerPortal):
         values.update(get_records_pager(history, order_sudo))
 
         return request.render('sale_portal_proposal.sale_portal_proposal_template', values)
+
+    @http.route(['/my/proposals/<int:proposal_id>/update_proposals_line_dict'], type='json', auth="public", website=True)
+    def update_proposals_line_dict(self, line_id, remove=False, proposal_id=None, access_token=None,price=False,**kwargs):
+        try:
+            order_sudo = self._document_check_access('sale.portal.proposal', proposal_id, access_token=access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        if order_sudo.state not in ('draft', 'sent'):
+            return False
+        order_line = request.env['sale.portal.proposal.line'].sudo().browse(int(line_id))
+        if order_line.proposal_id != order_sudo:
+            return False
+        if price:
+            order_line.write({'price_unit_accepted': price})
+        else:
+            number = -1 if remove else 1
+            quantity = order_line.product_uom_qty_accepted + number
+
+            order_line.write({'product_uom_qty_accepted': quantity})
+        results = self._get_portal_proposal_details(order_sudo, order_line)
+
+        return results
+
+    @http.route(['/my/proposals/<int:proposal_id>/accept_proposal'], type='json', auth="public",website=True)
+    def accept_proposal(self,proposal_id=None, access_token=None,accept=False,reject=False,**kwargs):
+        try:
+            order_sudo = self._document_check_access('sale.portal.proposal', proposal_id, access_token=access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        if order_sudo.state not in ('draft', 'sent'):
+            return False
+        proposal_status = 'approved' if accept else 'rejected'
+        order_sudo.write({'proposal_status': proposal_status})
+        _message_post_helper(
+            'sale.portal.proposal', order_sudo.id, _('Proposal Accepted'),
+            **({'token': access_token} if access_token else {}))
+
+        query_string = '&message=accepted_ok'
+        return request.redirect(order_sudo.get_portal_url(query_string=query_string))
+

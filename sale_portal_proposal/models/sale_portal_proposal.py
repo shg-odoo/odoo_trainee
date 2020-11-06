@@ -33,6 +33,22 @@ class SalePortalProposal(models.Model):
                 'amount_total': amount_untaxed + amount_tax,
             })
 
+    @api.depends('line_ids.price_total_accepted')
+    def _amount_all_accepted(self):
+        """
+        Compute the total amounts of the SO.
+        """
+        for order in self:
+            amount_untaxed = amount_tax = 0.0
+            for line in order.line_ids:
+                amount_untaxed += line.price_subtotal_accepted
+                amount_tax += line.price_tax_accepted
+            order.update({
+                'amount_untaxed_accepted': amount_untaxed,
+                'amount_tax_accepted': amount_tax,
+                'amount_total_accepted': amount_untaxed + amount_tax,
+            })
+
     def _amount_by_group(self):
         for order in self:
             currency = order.currency_id or order.company_id.currency_id
@@ -51,6 +67,29 @@ class SalePortalProposal(models.Model):
                             res[group]['base'] += t['base']
             res = sorted(res.items(), key=lambda l: l[0].sequence)
             order.amount_by_group = [(
+                l[0].name, l[1]['amount'], l[1]['base'],
+                fmt(l[1]['amount']), fmt(l[1]['base']),
+                len(res),
+            ) for l in res]
+
+    def _amount_by_group_accepted(self):
+        for order in self:
+            currency = order.currency_id or order.company_id.currency_id
+            fmt = partial(formatLang, self.with_context(lang=order.partner_id.lang).env, currency_obj=currency)
+            res = {}
+            for line in order.line_ids:
+                price_reduce = line.price_unit_accepted
+                taxes = line.tax_id.compute_all(price_reduce, quantity=line.product_uom_qty_accepted, product=line.product_id,
+                                                partner=order.partner_id)['taxes']
+                for tax in line.tax_id:
+                    group = tax.tax_group_id
+                    res.setdefault(group, {'amount': 0.0, 'base': 0.0})
+                    for t in taxes:
+                        if t['id'] == tax.id or t['id'] in tax.children_tax_ids.ids:
+                            res[group]['amount'] += t['amount']
+                            res[group]['base'] += t['base']
+            res = sorted(res.items(), key=lambda l: l[0].sequence)
+            order.amount_by_group_accepted = [(
                 l[0].name, l[1]['amount'], l[1]['base'],
                 fmt(l[1]['amount']), fmt(l[1]['base']),
                 len(res),
@@ -90,6 +129,13 @@ class SalePortalProposal(models.Model):
     amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True, compute='_amount_all')
     amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', tracking=4)
     amount_by_group = fields.Binary(string="Tax amount by group", compute='_amount_by_group', help="type: [(name, amount, base, formated amount, formated base)]")
+    #for accepted values
+    amount_untaxed_accepted = fields.Monetary(string='Accepted Untaxed Amount', store=True, readonly=True, compute='_amount_all_accepted',
+                                     tracking=5)
+    amount_tax_accepted = fields.Monetary(string='Accepted Taxes', store=True, readonly=True, compute='_amount_all_accepted')
+    amount_total_accepted = fields.Monetary(string='Accepted Total', store=True, readonly=True, compute='_amount_all_accepted', tracking=4)
+    amount_by_group_accepted = fields.Binary(string="Accepted Tax amount by group", compute='_amount_by_group_accepted',
+                                    help="type: [(name, amount, base, formated amount, formated base)]")
 
     proposal_status = fields.Selection(
         string='Proposal Status',
@@ -197,6 +243,24 @@ class SalePortalProposalLine(models.Model):
                     'account.group_account_manager'):
                 line.tax_id.invalidate_cache(['invoice_repartition_line_ids'], [line.tax_id.id])
 
+    @api.depends('product_uom_qty_accepted', 'price_unit_accepted', 'tax_id')
+    def _compute_amount_accepted(self):
+        """
+        Compute the amounts of the SO line.
+        """
+        for line in self:
+            price = line.price_unit_accepted
+            taxes = line.tax_id.compute_all(price, line.proposal_id.currency_id, line.product_uom_qty_accepted,
+                                            product=line.product_id, partner=line.proposal_id.partner_id)
+            line.update({
+                'price_tax_accepted': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                'price_total_accepted': taxes['total_included'],
+                'price_subtotal_accepted': taxes['total_excluded'],
+            })
+            if self.env.context.get('import_file', False) and not self.env.user.user_has_groups(
+                    'account.group_account_manager'):
+                line.tax_id.invalidate_cache(['invoice_repartition_line_ids'], [line.tax_id.id])
+
     name = fields.Text(string='Description', required=True)
     product_id = fields.Many2one(
         'product.product', string='Product',
@@ -226,6 +290,9 @@ class SalePortalProposalLine(models.Model):
     price_tax = fields.Float(compute='_compute_amount', string='Total Tax', readonly=True, store=True)
     price_subtotal = fields.Monetary(compute='_compute_amount', string='Subtotal', readonly=True, store=True)
     price_total = fields.Monetary(compute='_compute_amount', string='Total', readonly=True, store=True)
+    price_tax_accepted = fields.Float(compute='_compute_amount_accepted', string='Total Tax Accepted', readonly=True, store=True)
+    price_subtotal_accepted = fields.Monetary(compute='_compute_amount_accepted', string='Subtotal Accepted', readonly=True, store=True)
+    price_total_accepted = fields.Monetary(compute='_compute_amount_accepted', string='Total Accepted', readonly=True, store=True)
 
     @api.onchange('product_id')
     def product_id_change(self):

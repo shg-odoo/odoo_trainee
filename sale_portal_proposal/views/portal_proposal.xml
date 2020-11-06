@@ -120,8 +120,34 @@
                     </t>
                 </t>
 
-                <!--                Page content-->
+                <!--Page content-->
                 <div id="quote_content" class="col-12 col-lg justify-content-end">
+                    <div role="dialog" class="modal fade" id="modalaccept">
+                        <div class="modal-dialog">
+                            <form id="accept" method="POST" t-attf-action="/my/proposals/#{sale_proposal.id}?access_token=#{sale_proposal.access_token}"  t-att-data-order-id="sale_proposal.id" t-att-data-token="sale_proposal.access_token" class="js_accept_json modal-content js_website_submit_form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <header class="modal-header">
+                                    <h4 class="modal-title">Validate Order</h4>
+                                </header>
+                                <main class="modal-body">
+                                    <p>
+                                        Thank You for accepting The Proposal
+                                    </p>
+                                </main>
+                                <footer class="modal-footer">
+                                    <button type="submit" t-att-id="sale_proposal.id" class="btn btn-danger"><i class="fa fa-primary"></i> Close</button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div t-if="message == 'accepted_ok'" class="alert alert-success alert-dismissable d-print-none" role="status">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                        <strong>Thank You!</strong><br/>
+                        <t t-if="message == 'accepted_ok' and sale_proposal.state in ['sent']">Your order has been confirmed.</t>
+                        <t t-elif="message == 'sign_ok' and sale_proposal.has_to_be_paid()">Your order has been signed but still needs to be paid to be confirmed.</t>
+                        <t t-else="">Your order has been signed.</t>
+                    </div>
                     <!-- main content -->
                     <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}" id="portal_sale_content">
                         <div t-call="sale_portal_proposal.sale_portal_proposal_content"/>
@@ -131,13 +157,13 @@
                     <div t-if="sale_proposal.proposal_status not in ['approved','rejected']"
                          class="row justify-content-center text-center d-print-none pt-1 pb-4">
                         <div class="col-sm-auto mt8">
-                            <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"
-                               href="#"><i class="fa fa-check"/>
+                            <a role="button" class="btn btn-primary" id="accept_button" data-toggle="modal" data-target="#modalaccept"
+                               t-att-data-accept="True" href="#"><i class="fa fa-check"/>
                                 Accept</a>
                         </div>
                         <div class="col-sm-auto mt8">
-                            <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#modaldecline"
-                               href="#"><i class="fa fa-times"/> Reject</a>
+                            <a role="button" class="btn btn-danger" id="reject_button" data-toggle="modal" data-target="#modaldecline"
+                               t-att-data-reject="True" href="#"><i class="fa fa-times"/> Reject</a>
                         </div>
                     </div>
 
@@ -187,9 +213,12 @@
                     <thead class="bg-100">
                         <tr>
                             <th colspan="2" class="text-left">Products</th>
-                            <th class="text-right">Quantity</th>
+                            <th class="text-right">Proposed Quantity</th>
+                            <th class="text-right">Accepted Quantity</th>
                             <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
-                                Unit Price</th>
+                                Proposed Price</th>
+                            <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                Accepted Price</th>
                         </tr>
                     </thead>
                     <tbody class="sale_tbody">
@@ -202,8 +231,12 @@
                                 <td><span widget="image" t-field="line.product_id.image_128"
                                           t-options="{'widget': 'image'}"/></td>
                                 <td id="product_name"><span t-field="line.name"/></td>
+                                <td id="quote_qty">
+                                    <span t-field="line.product_uom_qty"/>
+                                    <span t-field="line.product_uom" groups="uom.group_uom"/>
+                                </td>
                                 <td class="text-right">
-                                    <div id="quote_qty">
+                                    <div id="accepted_qty">
                                         <t t-if="sale_proposal.state in ['draft', 'sent']">
                                             <div class="input-group js_quantity_container pull-right">
 
@@ -217,8 +250,9 @@
                                                     </span>
                                                 </div>
                                                 <!-- TODO add uom in this case too -->
-                                                <input type="text" class="js_quantity form-control"
-                                                       t-att-data-line-id="line.id" t-att-value="line.product_uom_qty"/>
+                                                <input type="text" class="js_quantity form-control" style="width: 48px;"
+                                                       t-att-data-line-id="line.id"
+                                                       t-att-value="line.product_uom_qty_accepted"/>
                                                 <div class="input-group-append d-print-none">
                                                     <span class="input-group-text d-none d-md-inline-block">
                                                         <a t-att-data-line-id="line.id" t-att-data-add="True" href="#"
@@ -231,13 +265,19 @@
                                             </div>
                                         </t>
                                         <t t-else="">
-                                            <span t-field="line.product_uom_qty"/>
+                                            <span t-field="line.product_uom_qty_accepted"/>
                                             <span t-field="line.product_uom" groups="uom.group_uom"/>
                                         </t>
                                     </div>
                                 </td>
                                 <td class="text-right">
                                     <span class="oe_order_line_price_subtotal" t-field="line.price_unit"/>
+                                </td>
+                                <td class="text-right">
+                                    <input type="number" placeholder="0.00" min="0" value="0" step="0.01"
+                                           title="Currency" pattern="^\d+(?:\.\d{1,2})?$" onblur="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'"
+                                           class="o_input o_product_qty form-control" style="width: 100px;"
+                                           t-att-data-line-id="line.id" t-att-value="line.price_unit_accepted"/>
                                 </td>
                             </tr>
                         </t>
@@ -261,14 +301,14 @@
                 <td class="text-right">
                     <span
                             data-id="total_untaxed"
-                            t-field="sale_proposal.amount_untaxed"
+                            t-field="sale_proposal.amount_untaxed_accepted"
                             t-options='{"widget": "monetary","display_currency": sale_proposal.pricelist_id.currency_id}'
                     />
                 </td>
             </tr>
-            <t t-foreach="sale_proposal.amount_by_group" t-as="amount_by_group">
+            <t t-foreach="sale_proposal.amount_by_group_accepted" t-as="amount_by_group">
                 <tr>
-                    <t t-if="amount_by_group[3] == 1 and sale_proposal.amount_untaxed == amount_by_group[2]">
+                    <t t-if="amount_by_group[3] == 1 and sale_proposal.amount_untaxed_accepted == amount_by_group[2]">
                         <td>
                             <span t-esc="amount_by_group[0]"/>
                             <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]"
@@ -293,7 +333,7 @@
             <tr class="border-black">
                 <td><strong>Total</strong></td>
                 <td class="text-right">
-                    <span data-id="total_amount" t-field="sale_proposal.amount_total"
+                    <span data-id="total_amount" t-field="sale_proposal.amount_total_accepted"
                           t-options='{"widget": "monetary", "display_currency": sale_proposal.pricelist_id.currency_id}'/>
                 </td>
             </tr>

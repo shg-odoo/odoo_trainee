@@ -6,7 +6,9 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
     selector: '.o_portal_sale_proposal_sidebar',
     events: {
         'click a.js_update_line_json': '_onClick',
-        'change .js_quantity': '_onChangeQuantity'
+        'change .o_input': '_onChangePrice',
+        'click #accept_button': '_onClickAcceptReject',
+        'click #reject_button': '_onClickAcceptReject',
     },
     /**
      * @override
@@ -17,26 +19,47 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
         this.elems = this._getUpdatableElements();
     },
     /**
-     * Process the change in line quantity
+     * Reacts to the Accept/Reject Proposal
      *
-     * @private
      * @param {Event} ev
      */
-    _onChangeQuantity(ev) {
+
+     _onClickAcceptReject(ev) {
+        ev.preventDefault();
+        let self = this,
+            $target = $(ev.currentTarget)
+        return this._rpc({
+            route: "/my/proposals/" + self.orderDetail.orderId + "/accept_proposal",
+            params: {
+                    'access_token': self.orderDetail.token,
+                    'accept' : $target.data('accept'),
+                    'reject' : $target.data('reject'),
+            }
+        });
+     },
+    /**
+     * Reacts to the change price
+     *
+     * @param {Event} ev
+     */
+
+    _onChangePrice(ev) {
         ev.preventDefault();
         let self = this,
             $target = $(ev.currentTarget),
-            quantity = parseInt($target.val());
-
-//        this._callUpdateLineRoute(self.orderDetail.orderId, {
-//            'line_id': $target.data('lineId'),
-//            'input_quantity': quantity >= 0 ? quantity : false,
-//            'access_token': self.orderDetail.token
-//        }).then((data) => {
+            $price = parseFloat($target.val())
+        this._callUpdateLineRoute(self.orderDetail.orderId, {
+            'line_id': $target.data('lineId'),
+            'price'  : $price,
+            'access_token': self.orderDetail.token
+        }).then((data) => {
+            var $saleTemplate = $(data['sale_template']);
 //            self._updateOrderLineValues($target.closest('tr'), data);
-//            self._updateOrderValues(data);
-//        });
+            self._updateOrderValues(data);
+        });
+
     },
+
     /**
      * Reacts to the click on the -/+ buttons
      *
@@ -46,7 +69,7 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
         ev.preventDefault();
         let self = this,
             $target = $(ev.currentTarget),
-            $targetinput = $target.parent().parent().parent().find('input'),
+            $targetinput = $target.closest('tr').find('.js_quantity'),
             $remove = $target.data('remove'),
             $add= $target.data('add'),
             $qty = parseFloat($targetinput.val());
@@ -56,63 +79,30 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
         if ($remove && $remove !== undefined) {
             $targetinput.val($qty - 1)
         }
-
-
-
-//        this._callUpdateLineRoute(self.orderDetail.orderId, {
-//            'line_id': $target.data('lineId'),
-//            'remove': $target.data('remove'),
-//            'unlink': $target.data('unlink'),
-//            'access_token': self.orderDetail.token
-//        }).then((data) => {
-//            var $saleTemplate = $(data['sale_template']);
-//            if ($saleTemplate.length && data['unlink']) {
-//                self.$('#portal_sale_content').html($saleTemplate);
-////                self.elems = self._getUpdatableElements();
-//            }
-////            self._updateOrderLineValues($target.closest('tr'), data);
-////            self._updateOrderValues(data);
-//        });
+        this._callUpdateLineRoute(self.orderDetail.orderId, {
+            'line_id': $target.data('lineId'),
+            'remove': $target.data('remove'),
+            'access_token': self.orderDetail.token
+        }).then((data) => {
+            var $saleTemplate = $(data['sale_template']);
+//            self._updateOrderLineValues($target.closest('tr'), data);
+            self._updateOrderValues(data);
+        });
     },
     /**
      * Calls the route to get updated values of the line and order
      * when the quantity of a product has changed
      *
      * @private
-     * @param {integer} order_id
+     * @param {integer} proposal_id
      * @param {Object} params
      * @return {Deferred}
      */
-    _callUpdateLineRoute(order_id, params) {
+    _callUpdateLineRoute(proposal_id, params) {
         return this._rpc({
-            route: "/my/proposals/" + order_id + "/update_line_dict",
+            route: "/my/proposals/" + proposal_id + "/update_proposals_line_dict",
             params: params,
         });
-    },
-    /**
-     * Processes data from the server to update the orderline UI
-     *
-     * @private
-     * @param {Element} $orderLine: orderline element to update
-     * @param {Object} data: contains order and line updated values
-     */
-    _updateOrderLineValues($orderLine, data) {
-        let linePriceTotal = data.order_line_price_total,
-            linePriceSubTotal = data.order_line_price_subtotal,
-            $linePriceTotal = $orderLine.find('.oe_order_line_price_total .oe_currency_value'),
-            $linePriceSubTotal = $orderLine.find('.oe_order_line_price_subtotal .oe_currency_value');
-
-        if (!$linePriceTotal.length && !$linePriceSubTotal.length) {
-            $linePriceTotal = $linePriceSubTotal = $orderLine.find('.oe_currency_value').last();
-        }
-
-        $orderLine.find('.js_quantity').val(data.order_line_product_uom_qty);
-        if ($linePriceTotal.length && linePriceTotal !== undefined) {
-            $linePriceTotal.text(linePriceTotal);
-        }
-        if ($linePriceSubTotal.length && linePriceSubTotal !== undefined) {
-            $linePriceSubTotal.text(linePriceSubTotal);
-        }
     },
     /**
      * Processes data from the server to update the UI
@@ -123,7 +113,6 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
     _updateOrderValues(data) {
         let orderAmountTotal = data.order_amount_total,
             orderAmountUntaxed = data.order_amount_untaxed,
-            orderAmountUndiscounted = data.order_amount_undiscounted,
             $orderTotalsTable = $(data.order_totals_table);
         if (orderAmountUntaxed !== undefined) {
             this.elems.$orderAmountUntaxed.text(orderAmountUntaxed);
@@ -131,10 +120,6 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
 
         if (orderAmountTotal !== undefined) {
             this.elems.$orderAmountTotal.text(orderAmountTotal);
-        }
-
-        if (orderAmountUndiscounted !== undefined) {
-            this.elems.$orderAmountUndiscounted.text(orderAmountUndiscounted);
         }
         if ($orderTotalsTable.length) {
             this.elems.$orderTotalsTable.find('table').replaceWith($orderTotalsTable);
@@ -150,8 +135,8 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
      */
     _getUpdatableElements() {
         let $orderAmountUntaxed = $('[data-id="total_untaxed"]').find('span, b'),
-            $orderAmountTotal = $('[data-id="total_amount"]').find('span, b'),
-            $orderAmountUndiscounted = $('[data-id="amount_undiscounted"]').find('span, b');
+            $orderAmountTotal = $('[data-id="total_amount"]').find('span, b')
+
 
         if (!$orderAmountUntaxed.length) {
             $orderAmountUntaxed = $orderAmountTotal.eq(1);
@@ -162,7 +147,6 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
             $orderAmountUntaxed: $orderAmountUntaxed,
             $orderAmountTotal: $orderAmountTotal,
             $orderTotalsTable: $('#total'),
-            $orderAmountUndiscounted: $orderAmountUndiscounted,
         };
     }
 });

@@ -94,7 +94,7 @@
                                             'uom': product_uom,
                                             'company_id': parent.company_id
                                         }"
-                                                invisible="1"
+                                                invisible="0"
                                         />
 
                                         <field name="product_uom_readonly" invisible="1"/>
@@ -114,7 +114,7 @@
                                                 name="price_unit"
                                         />
                                         <field
-                                                name="price_unit_accepted" invisible="1"
+                                                name="price_unit_accepted" invisible="0"
                                         />
                                         <field
                                                 name="tax_id"
@@ -127,6 +127,14 @@
                                                groups="account.group_show_line_subtotals_tax_excluded"/>
                                         <field name="price_total" widget="monetary"
                                                groups="account.group_show_line_subtotals_tax_included"/>
+                                        <field name="price_subtotal_accepted" widget="monetary" attrs="{
+                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
+                                        }"
+                                               groups="account.group_show_line_subtotals_tax_excluded"/>
+                                        <field name="price_total_accepted" widget="monetary" attrs="{
+                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
+                                        }"
+                                               groups="account.group_show_line_subtotals_tax_included"/>
                                         <field name="state" invisible="1"/>
                                         <field name="currency_id" invisible="1"/>
                                         <field name="company_id" invisible="1"/>
@@ -138,12 +146,21 @@
                                     <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
                                         <field name="amount_untaxed" widget='monetary'
                                                options="{'currency_field': 'currency_id'}"/>
+                                        <field name="amount_untaxed_accepted" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}"/>
                                         <field name="amount_tax" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="amount_tax_accepted" widget='monetary'
                                                options="{'currency_field': 'currency_id'}"/>
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                                             <label for="amount_total"/>
                                         </div>
                                         <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator"
+                                               widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label for="amount_total_accepted"/>
+                                        </div>
+                                        <field name="amount_total_accepted" nolabel="1" class="oe_subtotal_footer_separator"
                                                widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                     </group>
                                     <div class="oe_clear"/>
