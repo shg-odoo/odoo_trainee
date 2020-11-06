@@ -12,7 +12,7 @@ class ProductProposal(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('sent', 'Sent'),
-        ('accept', 'Accept'),
+        ('confirm', 'Confirm'),
         ('cancel', 'Cancelled')], default='draft')
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id.id, index=1)
     currency_id = fields.Many2one('res.currency', 'Currency',
@@ -32,18 +32,32 @@ class ProductProposal(models.Model):
             vals['name_seq'] = self.env['ir.sequence'].next_by_code('product.proposal') or _('New')
         result = super(ProductProposal, self).create(vals)
         return result
+    #
+    # def action_send_mail(self):
+    #     print("action email ...............")
+    #     template = self.env.ref('product_proposal.email_template_product_proposal')
+    #     print("......................template", template)
+    #     # # Send out the e-mail template to the user
+    #     self.env['mail.template'].browse(template.id).send_mail(self.id)
+    #     return self.write({'state': 'sent'})
+    @api.depends('sub_total_accepted','sub_total_proposed')
+    def _amount_total(self):
+        print(".....amountil keriiiii")
+        for lines in self.proposal_line_ids:
+            print("lines......................",lines)
+
+
+
 
     def action_send_mail(self):
-        print("action email ...............")
-        template = self.env.ref('product_proposal.email_template_product_proposal')
-        print("......................template", template)
-        # # Send out the e-mail template to the user
-        self.env['mail.template'].browse(template.id).send_mail(self.id)
+        template_id = self.env.ref('product_proposal.email_template_product_proposal').id
+        template = self.env['mail.template'].browse(template_id)
+        template.send_mail(self.id, force_send=True)
         return self.write({'state': 'sent'})
 
+    #
 
-    def _amount_total(self):
-        pass
+
 
     def action_confirm(self):
         self.write({'state': 'confirm'})
