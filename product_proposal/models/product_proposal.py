@@ -34,14 +34,19 @@ class ProductProposal(models.Model):
         return result
 
     def action_send_mail(self):
-        template_id = self.env.ref('product_proposal.mail_proposal_template').id
-        template = self.env['mail.template'].browse(template_id)
-        template.send_mail(self.id, force_send=True)
+        print("action email ...............")
+        template = self.env.ref('product_proposal.email_template_product_proposal')
+        print("......................template", template)
+        # # Send out the e-mail template to the user
+        self.env['mail.template'].browse(template.id).send_mail(self.id)
         return self.write({'state': 'sent'})
 
 
-    def action_accept(self):
-        self.write({'state': 'accept'})
+    def _amount_total(self):
+        pass
+
+    def action_confirm(self):
+        self.write({'state': 'confirm'})
 
     def action_send(self):
         self.write({'state': 'sent'})
@@ -66,7 +71,7 @@ class ProposalLines(models.Model):
     sub_total_proposed = fields.Monetary(string='SubTotal Proposed', store=True, readonly=True)
     sub_total_accepted = fields.Monetary(string='SubTotal Accepted', store=True, readonly=True)
 
-    @api.onchange('product_id','qty_proposed','price_proposed')
+    @api.onchange('product_id', 'qty_proposed', 'price_proposed')
     def _onchange_product_id(self):
         print("..............................prod name", self.product_id.name)
         self.label = self.product_id.name
@@ -74,4 +79,3 @@ class ProposalLines(models.Model):
         self.price_proposed = self.product_id.lst_price
         print("............................subtotl proporsed", self.qty_proposed * self.price_proposed)
         self.sub_total_proposed = self.qty_proposed * self.price_proposed
-

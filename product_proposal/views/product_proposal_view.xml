@@ -10,15 +10,15 @@
                         string="Send By Email" class="btn-primary" type="object"
                              states="draft"
                        />
-                    <button name="action_accept" id="action_accept"
-                        string="Confirm" class="btn-primary" type="object"
+                    <button name="action_confirm" id="action_confirm"
+                        string="Confirm" class="btn-primary" type="object"/>
 <!--                            confirm should appear only after the customer has accepted the proposal,if customer or sales person refuses state can can go to cancelled and again salesperson can create another proposal.
 -->
                        />
                       <button name="action_cancel" id="action_cancel"
                         string="Cancel" class="btn-primary" type="object"
                        />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,accept,cancel"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,cancel"/>
                 </header>
 
                 <sheet>
