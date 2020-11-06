@@ -39,6 +39,8 @@ class SaleProposal(models.Model):
     proposal_line_ids = fields.One2many('proposal.order.line', 'proposal_id', string='Proposal Lines', states={'cancel': [('readonly', True)], 'confirmed': [('readonly', True)]}, copy=True, auto_join=True)
     amount_total_proposed = fields.Monetary(string='Amount Total Proposed', store=True, readonly=True, compute='_amount_total_proposed', tracking=4)
     amount_total_accepted = fields.Monetary(string='Amount Total Accepted', store=True, readonly=True, compute='_amount_total_accepted', tracking=4)
+    has_cutomer_accepted_proposal = fields.Boolean("Has Customer Accetped Proposal")
+    has_cutomer_rejected_proposal = fields.Boolean("Has Customer Rejected Proposal")
 
     def _compute_access_url(self):
         super(SaleProposal, self)._compute_access_url()
@@ -120,6 +122,10 @@ class SaleProposal(models.Model):
         """ Return the action used to display proposal when returning from customer portal. """
         self.ensure_one()
         return self.env.ref('sale_proposal.action_proposal_order')
+
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return '%s %s' % ('Proposal', self.name)
 
 class SaleProposalLine(models.Model):
     _name = "proposal.order.line"

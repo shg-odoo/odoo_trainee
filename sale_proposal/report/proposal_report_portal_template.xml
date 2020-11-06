@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_proposal_portal_template" name="Sales Order Portal Template" inherit_id="portal.portal_sidebar" primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="row mt16 o_portal_sale_sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar">
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+
+                    <t t-set="title">
+                        <h2 class="mb-0"><b t-field="proposal_order.amount_total_proposed" data-id="amount_total_proposed"/> </h2>
+                    </t>
+                    <t t-set="entries">
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" t-att-href="proposal_order.get_portal_url(report_type='pdf', download=True)" title="Download"><i class="fa fa-download"/> Download</a>
+                                    </div>
+                                    <div class="btn-group flex-grow-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" t-att-href="proposal_order.get_portal_url(report_type='pdf')" id="print_invoice_report" title="Print" target="_blank"><i class="fa fa-print"/> Print</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="navspy list-group-item pl-0 flex-grow-1" t-ignore="true" role="complementary">
+                                <ul class="nav flex-column bs-sidenav"></ul>
+                            </li>
+
+                            <li t-if="proposal_order.user_id" class="list-group-item flex-grow-1">
+                                <div class="small mb-1"><strong class="text-muted">Salesperson</strong></div>
+                                <div class="row flex-nowrap">
+                                    <div class="col flex-grow-0 pr-2">
+                                        <img class="rounded-circle mr4 float-left o_portal_contact_img" t-if="proposal_order.user_id.image_1024" t-att-src="image_data_uri(proposal_order.user_id.image_1024)" alt="Contact"/>
+                                        <img class="rounded-circle mr4 float-left o_portal_contact_img" t-if="not proposal_order.user_id.image_1024" src="/web/static/src/img/placeholder.png" alt="Contact"/>
+                                    </div>
+                                    <div class="col pl-0" style="min-width: 150px">
+                                        <span t-field="proposal_order.user_id" t-options='{"widget": "contact", "fields": ["name", "phone"], "no_marker": True}'/>
+                                        <a href="#discussion" class="small"><i class="fa fa-comment"></i> Send message</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </t>
+                </t>
+                <!-- Page content -->
+                <div id="quote_content" class="col-12 col-lg justify-content-end">
+
+                    <!-- status messages -->
+                    <div t-if="proposal_order.has_cutomer_accepted_proposal" class="alert alert-success alert-dismissable d-print-none" role="status">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                        <strong>Thank You!</strong><br/>
+                        <t><span>Your Proposal Has been submitted</span></t>
+                    </div>
+
+                    <div t-if="proposal_order.has_cutomer_rejected_proposal" class="alert alert-success alert-dismissable d-print-none" role="status">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                        <strong>Thank You!</strong><br/>
+                        <t><span>Your Proposal Has been Rejected</span></t>
+                    </div>
+
+                    <!-- main content -->
+                    <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}" id="portal_proposal_content">
+                        <div t-call="sale_proposal.proposal_order_portal_content"/>
+                    </div>
+
+                    <!-- bottom actions -->
+                    <div class="row justify-content-center text-center d-print-none pt-1 pb-4">
+                        <t t-if="not proposal_order.has_cutomer_accepted_proposal and not proposal_order.has_cutomer_rejected_proposal">
+                            <div class="col-sm-auto mt8">
+                                <form t-attf-action="/my/proposal/{{proposal_order.id}}/accept" method="POST" t-att-data-proposal-id="proposal_order.id" class="js_accept_json modal-content js_website_submit_form">
+                                    <input type="hidden" name="customer_accetped_vals" id="customer_accepted_values" value=""/>
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="access_token" t-att-value="proposal_order.access_token"/>
+                                    <button class="btn btn-primary"><i class="fa fa-check"/>ACCEPT</button>
+                                </form>
+                            </div>
+                            <div class="col-sm-auto mt8">
+                                <form t-attf-action="/my/proposal/{{proposal_order.id}}/refuse" method="POST" t-att-data-proposal-id="proposal_order.id" class="js_accept_json modal-content js_website_submit_form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="access_token" t-att-value="proposal_order.access_token"/>
+                                    <button class="btn btn-danger"> <i class="fa fa-times"/>REFUSE</button>
+                                </form>
+                            </div>
+                        </t>
+                    </div>
+                     <!-- chatter -->
+                    <div id="proposal_order_communication" class="mt-4">
+                        <h2>History</h2>
+                        <t t-call="portal.message_thread">
+                            <t t-set="object" t-value="proposal_order"/>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!--
+    proposal Order content : intro, informations, proposal lines, remarks, descriptions ....
+    This template should contains all the printable element of the proposal order. This is the
+    template rendered in PDF with the report engine.
+    -->
+
+    <template id="proposal_order_portal_content" name="proposal Order Portal Content">
+        <!-- Intro -->
+        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+          <h2 class="my-0">
+                <span>PROPOSAL</span>
+                <em t-esc="proposal_order.name"/>
+            </h2>
+        </div>
+
+        <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
+            <!-- Informations -->
+            <div id="informations">
+                <div class="row" id="so_date">
+                    <div class="mb-3 col-6">
+                        <strong>Proposal Date:</strong>
+                        <span t-field="proposal_order.date_order" t-options='{"widget": "date"}'/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <strong class="d-block mb-1">Customer</strong>
+                        <address t-field="proposal_order.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="details" style="page-break-inside: auto;" class="mt32">
+
+                <table t-att-data-order-id="proposal_order.id" t-att-data-token="proposal_order.access_token" class="table table-sm" id="proposal_order_table">
+                    <thead class="bg-100">
+                        <tr>
+                            <th style="text-align: center; vertical-align: middle;">Products</th>
+                            <th style="text-align: center; vertical-align: middle;">Proposed Quantity</th>
+                            <th style="text-align: center; vertical-align: middle;">Proposed Price</th>
+                            <th style="text-align: center; vertical-align: middle;">Accepted Quantity</th>
+                            <th style="text-align: center; vertical-align: middle;">Accepted Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody">
+                        <t t-foreach="proposal_order.proposal_line_ids" t-as="line">
+                        <tr>
+                            <td id="product_name" style="text-align: center; vertical-align: middle;">
+                                <img t-att-src="'data:image/png;base64,%s' % to_text(line.product_id.image_1920)" style="max-height: 50px;"/>
+                                <span t-field="line.name" style="color:#267372"/>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <div id="quote_qty">
+                                    <span t-field="line.qty_proposed"/>
+                                </div>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <div id="quote_qty">
+                                    <span t-field="line.price_proposed"/>
+                                </div>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <div id="quote_qty">
+                                <t t-if="not proposal_order.has_cutomer_accepted_proposal and not proposal_order.has_cutomer_rejected_proposal">
+                                    <button t-on-click="_on_test_click" id="portal_plus_btn" t-attf-value="#{line.id}" t-attf-class="btn bg-transparent plus_qunatity_class" style="width:20%;height:20%;font-size: 22px;color: green;"><b>+</b></button>
+                                    <input type="text" t-att-id="'accepted_quantity-' + str(line.id)" t-att-value="line.qty_accepted" class="accepted_quantity_by_cust" style="width:30%;height:50%"/>
+                                    <button id="portal_minus_btn" t-attf-value="#{line.id}" t-attf-class="btn bg-transparent minus_qunatity_class" style="width:20%;height:20%;font-size: 25px;color: red;"><b>-</b></button>
+                                </t>
+                                <t t-else="">
+                                    <span t-field="line.qty_accepted"/>
+                                </t>
+                                </div>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <div id="quote_qty">
+                                    <t t-if="not proposal_order.has_cutomer_accepted_proposal and not proposal_order.has_cutomer_rejected_proposal">
+                                        <input type="text" t-att-id="str(line.id)" t-att-value="line.price_accepted" class="accepted_price_by_cust" style="width:60%;height:50%"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span t-field="line.price_accepted"/>
+                                    </t>
+                                </div>
+                            </td>
+                        </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+                    <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                        <t t-call="sale_proposal.sale_proposal_portal_content_totals_table"/>
+                    </div>
+                </div>
+            </section>
+    </template>
+
+    <template id="sale_proposal_portal_content_totals_table">
+        <table class="table table-sm">
+            <tr class="border-black">
+                <td><strong>Subtotal</strong></td>
+                <td style="text-align: center; vertical-align: middle;" >
+                    <span
+                        class="total_accepted_amount"
+                        data-id="total_untaxed"
+                        t-field="proposal_order.amount_total_proposed"
+                        t-options='{"widget": "monetary","display_currency": proposal_order.pricelist_id.currency_id}'
+                    />
+                </td>
+            </tr>
+            <tr class="border-black">
+                <td><strong>Total</strong></td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <span class="total_accepted_amount" data-id="total_amount" t-field="proposal_order.amount_total_proposed" t-options='{"widget": "monetary", "display_currency": proposal_order.pricelist_id.currency_id}'/>
+                </td>
+            </tr>
+        </table>
+    </template>
+</odoo>
