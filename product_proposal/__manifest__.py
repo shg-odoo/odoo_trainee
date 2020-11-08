@@ -4,10 +4,13 @@
     'description': """This module enables to negotiate on the product proposals send via email""",
     'depends': ['sale', 'mail', 'website', 'portal', 'sale_management'],
     'data': [
-        'data/proposal_mail_template.xml',
+
+        'data/mail_data.xml',
+        'data/ir_sequence.xml',
         'views/product_proposal_view.xml',
-        'data/sequence.xml',
+        'views/proposal_portal_view.xml'
 
     ],
     'installable': True,
+    'application': True
 }

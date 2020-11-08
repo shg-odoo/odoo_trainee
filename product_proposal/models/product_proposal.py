@@ -23,9 +23,9 @@ class ProductProposal(models.Model):
                                     states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False,
                                     default=fields.Datetime.now)
     proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='compute_total')
-    accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True, compute='compute_total')
-    total_amt = fields.Monetary(string='Total', store=True, readonly=True, compute='compute_total')
-
+    accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True)
+    total_amt = fields.Monetary(string='Total', store=True, readonly=True)
+    # has to pricelist,tax
 
     @api.model
     def create(self, vals):
@@ -34,29 +34,21 @@ class ProductProposal(models.Model):
         result = super(ProductProposal, self).create(vals)
         return result
 
-    #
-    # def action_send_mail(self):
-    #     print("action email ...............")
-    #     template = self.env.ref('product_proposal.email_template_product_proposal')
-    #     print("......................template", template)
-    #     # # Send out the e-mail template to the user
-    #     self.env['mail.template'].browse(template.id).send_mail(self.id)
-    #     return self.write({'state': 'sent'})
-
     def action_send_mail(self):
         template_id = self.env.ref('product_proposal.email_template_product_proposal').id
+        print("template/....................", template_id)
         template = self.env['mail.template'].browse(template_id)
+        print("template....................", template)
         template.send_mail(self.id, force_send=True)
+
         return self.write({'state': 'sent'})
 
     #
     @api.depends('proposal_line_ids.sub_total_accepted', 'proposal_line_ids.sub_total_proposed')
     def compute_total(self):
-        print(".....amountil keriiiii")
-        for lines in self.proposal_line_ids:
-            self.proposed_total += lines.sub_total_proposed
-
-            print("lsub total lines......................",self.proposed_total)
+        if self.proposal_line_ids:
+            for line in self.proposal_line_ids:
+                self.proposed_total += line.sub_total_proposed
 
     def action_confirm(self):
         self.write({'state': 'confirm'})
@@ -67,7 +59,33 @@ class ProductProposal(models.Model):
     def action_cancel(self):
         self.write({'state': 'cancel'})
 
+    def smt_btn_preview_proposal(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': self.get_portal_url(),
+        }
 
+    #
+
+    def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
+        self.ensure_one()
+        return super(ProductProposal, self)._get_share_url(redirect, signup_partner, pid)
+
+
+    def _compute_access_url(self):
+        super(ProductProposal, self)._compute_access_url()
+        for proposal in self:
+            proposal.access_url = '/my/proposals/%s' % (proposal.id)
+
+
+    def _get_portal_return_action(self):
+        """ Return the action used to display orders when returning from customer portal. """
+        self.ensure_one()
+        return self.env.ref('product_proposal.action_product_proposal')
+
+#
 class ProposalLines(models.Model):
     _name = "proposal.lines"
 
@@ -83,8 +101,8 @@ class ProposalLines(models.Model):
                                   default=lambda self: self.env.user.company_id.currency_id.id, required=True)
     sub_total_proposed = fields.Monetary(string='SubTotal Proposed', store=True, readonly=True)
     sub_total_accepted = fields.Monetary(string='SubTotal Accepted', store=True, readonly=True)
-    #
 
+    #
 
     @api.onchange('product_id', 'qty_proposed', 'price_proposed')
     def _onchange_product_id(self):
@@ -92,7 +110,5 @@ class ProposalLines(models.Model):
         self.label = self.product_id.name
         print("........................propsd price")
         self.price_proposed = self.product_id.lst_price
-        print("............................subtotl proporsed", self.qty_proposed * self.price_proposed)
+        print("............................subtotl proposed", self.qty_proposed * self.price_proposed)
         self.sub_total_proposed = self.qty_proposed * self.price_proposed
-
-

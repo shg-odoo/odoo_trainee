@@ -1,12 +1,22 @@
-import http
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from AptUrl.Helpers import _
+import binascii
 
-from community.addons.portal.controllers.mail import _message_post_helper
-from community.addons.portal.controllers.portal import get_records_pager, CustomerPortal
-from community.odoo import fields
-from community.odoo.exceptions import AccessError, MissingError
-from community.odoo.http import request
+from odoo import fields, http, _
+from odoo.exceptions import AccessError, MissingError
+from odoo.http import request
+from odoo.addons.payment.controllers.portal import PaymentProcessing
+from odoo.addons.portal.controllers.mail import _message_post_helper
+from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
+from odoo.osv import expression
+
+#
+# class SamplePortal(CustomerPortal):
+#     @http.route('/proposal', auth='public')
+#     def handler(self,**kwargs):
+#         print("kooi")
+#         return "kooi"
 
 
 class CustomerPortal(CustomerPortal):
@@ -64,4 +74,5 @@ class CustomerPortal(CustomerPortal):
             history = request.session.get('my_orders_history', [])
         values.update(get_records_pager(history, proposal_order_sudo))
 
-        return request.render('product.proposal.product_proposal_portal_template', values)
+        return request.render('product_proposal.product_proposal_portal_template', values)
+

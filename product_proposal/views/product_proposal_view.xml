@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <record id="sale_proposal_form_view" model="ir.ui.view">
+    <record id="product_proposal_form_view" model="ir.ui.view">
         <field name="name">product.proposal.form.view</field>
         <field name="model">product.proposal</field>
         <field name="arch" type="xml">
             <form string="product Proposal">
                 <header>
-                     <button name="action_send_mail" id="action_send_mail"
-                        string="Send By Email" class="btn-primary" type="object"
-                             states="draft"
-                       />
+                    <button name="action_send_mail" id="action_send_mail"
+                            string="Send By Email" class="btn-primary" type="object"
+                            states="draft"
+                    />
                     <button name="action_confirm" id="action_confirm"
-                        string="Confirm" class="btn-primary" type="object"/>
-<!--                            confirm should appear only after the customer has accepted the proposal,if customer or sales person refuses state can can go to cancelled and again salesperson can create another proposal.
--->
-                       />
-                      <button name="action_cancel" id="action_cancel"
-                        string="Cancel" class="btn-primary" type="object"
-                       />
+                            string="Confirm" class="btn-primary" type="object"/>
+                    <button name="action_cancel" id="action_cancel"
+                            string="Cancel" class="btn-primary" type="object"
+                    />
                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,cancel"/>
                 </header>
 
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="smt_btn_preview_proposal"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-globe icon">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Customer</span>
+                                <span class="o_stat_text">Preview</span>
+                            </div>
+                        </button>
+                    </div>
 
                     <div class="oe_title">
                         <h1>
@@ -40,7 +48,8 @@
 
                     </group>
                     <notebook>
-                        <page string="Proposal Lines">
+                        <page string="Proposal Lines"
+                        >
                             <group>
                                 <field name="proposal_line_ids" nolabel="1">
                                     <tree editable="bottom" nolabel="1">
@@ -48,25 +57,32 @@
                                         <field name="product_id"/>
                                         <field name="label"/>
                                         <field name="qty_proposed"/>
-                                        <field name="price_proposed" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                                        <field name="price_proposed" widget="monetary"
+                                               options="{'currency_field':'currency_id'}"/>
                                         <field name="qty_accepted"/>
-                                        <field name="price_accepted" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                                        <field name="price_accepted" widget="monetary"
+                                               options="{'currency_field':'currency_id'}"/>
                                         <field name="currency_id" invisible="1"/>
-                                        <field name="sub_total_proposed" widget="monetary" options="{'currency_field':'currency_id'}"/>
-                                        <field name="sub_total_accepted" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                                        <field name="sub_total_proposed" widget="monetary"
+                                               options="{'currency_field':'currency_id'}"/>
+                                        <field name="sub_total_accepted" widget="monetary"
+                                               options="{'currency_field':'currency_id'}"/>
 
                                     </tree>
                                 </field>
 
-                                     <group class="oe_subtotal_footer oe_right" colspan="2" name="proposal_total">
-                                                                                 <field name="currency_id" invisible="1"/>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="proposal_total">
+                                    <field name="currency_id" invisible="1"/>
 
-                                    <field name="proposed_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                    <field name="accepted_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="proposed_total" widget='monetary'
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="accepted_total" widget='monetary'
+                                           options="{'currency_field': 'currency_id'}"/>
                                     <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                        <label for="total_amt" />
+                                        <label for="total_amt"/>
                                     </div>
-                                    <field name="total_amt" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_amt" nolabel="1" class="oe_subtotal_footer_separator"
+                                           widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                 </group>
                                 <div class="oe_clear"/>
 
@@ -76,17 +92,11 @@
                         </page>
                     </notebook>
                 </sheet>
-<!--                chatter      -->
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
             </form>
         </field>
     </record>
 
-        <record id="sale_proposal_tree_view" model="ir.ui.view">
+    <record id="product_proposal_tree_view" model="ir.ui.view">
         <field name="name">product.proposal.tree.view</field>
         <field name="model">product.proposal</field>
         <field name="arch" type="xml">
@@ -101,7 +111,7 @@
         </field>
     </record>
 
-     <record id="action_product_proposal" model="ir.actions.act_window">
+    <record id="action_product_proposal" model="ir.actions.act_window">
         <field name="name">Product Proposal</field>
         <field name="res_model">product.proposal</field>
         <field name="type">ir.actions.act_window</field>
@@ -109,7 +119,7 @@
     </record>
 
 
-     <menuitem id="proposal_menu"
+    <menuitem id="proposal_menu"
               name="Proposal"
               parent="sale.sale_menu_root"
               sequence="2"
