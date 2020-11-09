@@ -14,7 +14,7 @@ class SaleProposal(models.Model):
                        'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
     user_id = fields.Many2one(
         'res.users', string='Salesperson', index=True, tracking=2, default=lambda self: self.env.user,
-        domain=lambda self: [('groups_id', 'in', self.env.ref('sales_team.group_sale_salesman').id)])
+        domain=lambda self: [('groups_id', 'in', self.env.ref('sales_team.group_sale_salesman').id)],states={'confirmed': [('readonly', True)],'cancel' : [('readonly', True)]},)
     partner_id = fields.Many2one(
         'res.partner', string='Customer', readonly=True,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
@@ -39,8 +39,14 @@ class SaleProposal(models.Model):
     proposal_line_ids = fields.One2many('proposal.order.line', 'proposal_id', string='Proposal Lines', states={'cancel': [('readonly', True)], 'confirmed': [('readonly', True)]}, copy=True, auto_join=True)
     amount_total_proposed = fields.Monetary(string='Amount Total Proposed', store=True, readonly=True, compute='_amount_total_proposed', tracking=4)
     amount_total_accepted = fields.Monetary(string='Amount Total Accepted', store=True, readonly=True, compute='_amount_total_accepted', tracking=4)
-    has_cutomer_accepted_proposal = fields.Boolean("Has Customer Accetped Proposal")
-    has_cutomer_rejected_proposal = fields.Boolean("Has Customer Rejected Proposal")
+    has_cutomer_accepted_proposal = fields.Boolean("Has Customer Accetped Proposal",copy=False)
+    has_cutomer_rejected_proposal = fields.Boolean("Has Customer Rejected Proposal",copy=False)
+    so_count = fields.Integer("Sale Order Count",compute="_compute_sale_order_count")
+
+    @api.onchange('partner_id')
+    def onchnage_partner_id(self):
+        if self.partner_id.property_product_pricelist:
+            self.pricelist_id = self.partner_id.property_product_pricelist.id
 
     def _compute_access_url(self):
         super(SaleProposal, self)._compute_access_url()
@@ -66,6 +72,22 @@ class SaleProposal(models.Model):
             proposal.update({
                 'amount_total_accepted' : amount_total
             })
+    
+    def _compute_sale_order_count(self):
+        for proposal in self:
+            proposal.so_count = self.env['sale.order'].search_count([('proposal_id', '=', proposal.id)])
+    
+    def action_view_sale_order(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("sale.action_quotations_with_onboarding")
+
+        sale_id = self.env['sale.order'].search([('proposal_id', '=', self.id)])
+        form_view = [(self.env.ref('sale.view_order_form').id, 'form')]
+        if 'views' in action:
+            action['views'] = form_view + [(state,view) for state,view in action['views'] if view != 'form']
+        else:
+            action['views'] = form_view
+        action['res_id'] = sale_id.id
+        return action
     
     @api.model
     def create(self, vals):
@@ -104,6 +126,12 @@ class SaleProposal(models.Model):
             'target' : 'new',
             'context' : ctx,
         }
+    
+    @api.returns('mail.message', lambda value: value.id)
+    def message_post(self, **kwargs):
+        if self.env.context.get('mark_so_as_sent'):
+            self.filtered(lambda o: o.state == 'draft').with_context(tracking_disable=True).write({'state': 'sent'})
+        return super(SaleProposal, self.with_context(mail_post_autofollow=True)).message_post(**kwargs)
 
     def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
         """Override for proposal order.
@@ -115,6 +143,7 @@ class SaleProposal(models.Model):
         self.ensure_one()
         if self.state not in ['confirmed', 'cancel']:
             auth_param = url_encode(self.partner_id.signup_get_auth_param()[self.partner_id.id])
+            self.state = 'sent'
             return self.get_portal_url(query_string='&%s' % auth_param)
         return super(SaleProposal, self)._get_share_url(redirect, signup_partner, pid)
 
@@ -126,6 +155,39 @@ class SaleProposal(models.Model):
     def _get_report_base_filename(self):
         self.ensure_one()
         return '%s %s' % ('Proposal', self.name)
+    
+    def action_confirm(self):
+        if self.state in 'sent':
+            values = self.prepare_sale_order_vals()
+            sale_order = self.env['sale.order'].create(values)
+            status = self.create_sale_order_line_vals(sale_order)
+            if status:
+                self.state = 'confirmed'
+    
+    def prepare_sale_order_vals(self):
+            vals = {
+                'partner_id' : self.partner_id.id,
+                'date_order' : self.date_order,
+                'pricelist_id' : self.pricelist_id.id,
+                'user_id' : self.user_id.id,
+                'proposal_id' : self.id,
+            }
+            return vals
+    def create_sale_order_line_vals(self, sale_order):
+        if sale_order:
+            for line in self.proposal_line_ids:
+                new_line = {
+                    'product_id' : line.product_id.id,
+                    'name' : line.name,
+                    'product_uom_qty' : line.qty_accepted,
+                    'product_uom' : line.product_uom.id,
+                    'price_unit' : line.price_accepted,
+                    'order_id' : sale_order.id,
+                }
+                self.env['sale.order.line'].create(new_line)
+            return True
+        return False
+
 
 class SaleProposalLine(models.Model):
     _name = "proposal.order.line"
@@ -240,3 +302,9 @@ class SaleProposalLine(models.Model):
                 self.proposal_id.company_id or self.env.company, self.proposal_id.date_order or fields.Date.today())
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, final_price)
+    
+
+class SaleOrderExtended(models.Model):
+    _inherit = "sale.order"
+
+    proposal_id = fields.Many2one("Proposal.order",string="Proposal Reference")

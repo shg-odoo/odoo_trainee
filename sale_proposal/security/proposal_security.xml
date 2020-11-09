@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="proposal_administrator_rights">
+            <field name="name">Proposal Order</field>
+            <field name="description">Proposal Order</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <record id="portal_proposal" model="res.groups">
+            <field name="name">Portal Administrator</field>
+            <field name="category_id" ref="sale_proposal.proposal_administrator_rights"/>
+        </record>
+    </data>
+</odoo>

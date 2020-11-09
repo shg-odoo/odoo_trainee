@@ -9,6 +9,8 @@
     'version': '14.0.0.0',
     'depends': ['base','sale','portal'],
     'data': [
+        'security/proposal_security.xml',
+        'security/ir.model.access.csv',
         'data/mail_data.xml',
         'data/ir_sequence_data.xml',
         'report/proposal_report_portal_template.xml',

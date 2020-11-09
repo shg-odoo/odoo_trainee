@@ -83,7 +83,7 @@ class CustomerProposalPortal(CustomerPortal):
             for line in customer_accetped_vals:
                 proposal_line = request.env['proposal.order.line'].browse(
                     int(line['line_id']))
-                proposal_line.write({
+                proposal_line.sudo().write({
                     'qty_accepted': float(line['qty_accepted']),
                     'price_accepted': float(line['price_accepted'])
                 })

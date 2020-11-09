@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="sale_proposal_portal_template" name="Sales Order Portal Template" inherit_id="portal.portal_sidebar" primary="True">
+    <template id="sale_proposal_portal_template" name="Proposal Order Portal Template" inherit_id="portal.portal_sidebar" primary="True">
         <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
             <div class="row mt16 o_portal_sale_sidebar">
                 <!-- Sidebar -->
@@ -8,7 +8,7 @@
                     <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
 
                     <t t-set="title">
-                        <h2 class="mb-0"><b t-field="proposal_order.amount_total_proposed" data-id="amount_total_proposed"/> </h2>
+                        <h2 class="mb-0"><b t-field="proposal_order.amount_total_accepted" data-id="amount_total_proposed"/> </h2>
                     </t>
                     <t t-set="entries">
                         <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
@@ -199,7 +199,7 @@
                     <span
                         class="total_accepted_amount"
                         data-id="total_untaxed"
-                        t-field="proposal_order.amount_total_proposed"
+                        t-field="proposal_order.amount_total_accepted"
                         t-options='{"widget": "monetary","display_currency": proposal_order.pricelist_id.currency_id}'
                     />
                 </td>
@@ -207,7 +207,7 @@
             <tr class="border-black">
                 <td><strong>Total</strong></td>
                 <td style="text-align: center; vertical-align: middle;">
-                    <span class="total_accepted_amount" data-id="total_amount" t-field="proposal_order.amount_total_proposed" t-options='{"widget": "monetary", "display_currency": proposal_order.pricelist_id.currency_id}'/>
+                    <span class="total_accepted_amount" data-id="total_amount" t-field="proposal_order.amount_total_accepted" t-options='{"widget": "monetary", "display_currency": proposal_order.pricelist_id.currency_id}'/>
                 </td>
             </tr>
         </table>

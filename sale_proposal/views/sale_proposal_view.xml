@@ -29,9 +29,23 @@
                             class="oe_highlight" 
                             string="Send Proposal"
                             attrs="{'invisible' : [('state' ,'!=', 'draft')]}"/>
+                    <button name="action_confirm" 
+                            type="object"   
+                            class="oe_highlight" 
+                            string="Confirm"
+                            attrs="{'invisible' : [('state' ,'!=', 'sent')]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                            name="action_view_sale_order"
+                            class="oe_stat_button"
+                            icon="fa-list"
+                            attrs="{'invisible': [('so_count', '=', 0)]}">
+                            <field name="so_count" widget="statinfo" string="Sale Order"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
@@ -86,9 +100,9 @@
                                             <label for="qty_accepted"/>
                                             <div class="o_row" name="proposed_qty">
                                             <field name="qty_accepted" attrs="{
-                                                    'readonly': [('product_updatable', '=', False)],
+                                                    'readonly': 1,
                                                     'required': 1
-                                                }"/>
+                                                }" force_save="1"/>
                                             <field
                                                 name="product_uom"
                                                 force_save="1"
@@ -96,7 +110,7 @@
                                                 class="oe_no_button"
                                             />
                                             </div>
-                                            <field name="price_accepted"/>
+                                            <field name="price_accepted" readonly="1" force_save="1"/>
                                         </group>
                                         <group>
                                             <field name="proposed_price_subtotal" string="Proposed Subtotal"/>
@@ -119,10 +133,10 @@
                                       }" options="{'no_open': True}" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" widget="product_configurator"/>
                                     <field name="name" widget="section_and_note_text" optional="show"/>
                                     <field name="qty_proposed"/>
-                                    <field name="qty_accepted"/>
+                                    <field name="qty_accepted" readonly="1" force_save="1"/>
                                     <field name="product_uom"/>
                                     <field name="price_proposed"/>
-                                    <field name="price_accepted"/>
+                                    <field name="price_accepted" readonly="1" force_save="1"/>
                                     <field name="proposed_price_subtotal" string="Proposed Subtotal" widget="monetary"/>
                                     <field name="accepted_price_subtotal" string="Accepted Subtotal" widget="monetary"/>
                                     <field name="product_uom_category_id" invisible="1"/>
@@ -164,5 +178,5 @@
     </record>
 
     <!-- Menu for proposal -->
-    <menuitem id="proposal_menu_root" name="Proposal" action="action_proposal_order" />
+    <menuitem id="proposal_menu_root" name="Proposal" action="action_proposal_order" groups="sale_proposal.portal_proposal"/>
 </odoo>

@@ -77,7 +77,7 @@
                                     <span
                                         class="total_accepted_amount"
                                         data-id="total_untaxed"
-                                        t-field="doc.amount_total_proposed"
+                                        t-field="doc.amount_total_accepted"
                                         t-options='{"widget": "monetary","display_currency": doc.pricelist_id.currency_id}'
                                     />
                                 </td>
@@ -85,7 +85,7 @@
                             <tr class="border-black">
                                 <td><strong>Total</strong></td>
                                 <td style="text-align: center; vertical-align: middle;">
-                                    <span class="total_accepted_amount" data-id="total_amount" t-field="doc.amount_total_proposed" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                    <span class="total_accepted_amount" data-id="total_amount" t-field="doc.amount_total_accepted" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
                                 </td>
                             </tr>
                         </table>
