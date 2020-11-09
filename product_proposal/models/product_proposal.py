@@ -1,4 +1,5 @@
 from odoo import models, fields, api, _
+import uuid
 
 
 class ProductProposal(models.Model):
@@ -22,7 +23,7 @@ class ProductProposal(models.Model):
     date_proposal = fields.Datetime(string='Proposal Date', required=True, readonly=True, index=True,
                                     states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False,
                                     default=fields.Datetime.now)
-    proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='compute_total')
+    proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='_compute_total')
     accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True)
     total_amt = fields.Monetary(string='Total', store=True, readonly=True)
     # has to pricelist,tax
@@ -45,7 +46,7 @@ class ProductProposal(models.Model):
 
     #
     @api.depends('proposal_line_ids.sub_total_accepted', 'proposal_line_ids.sub_total_proposed')
-    def compute_total(self):
+    def _compute_total(self):
         if self.proposal_line_ids:
             for line in self.proposal_line_ids:
                 self.proposed_total += line.sub_total_proposed
@@ -80,7 +81,12 @@ class ProductProposal(models.Model):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
         return self.env.ref('product_proposal.action_product_proposal')
-
+    @api.onchange('partner_id')
+    def _get_access_token(self):
+        print("id...................",self.partner_id.id)
+        # temp = self.partner_id.str(uuid.uuid4())
+        # print("mmmmmmmmmmmmmmmmmmmmmmmmm temp",temp
+        #       )
 #
 class ProposalLines(models.Model):
     _name = "proposal.lines"
