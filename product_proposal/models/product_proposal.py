@@ -66,19 +66,15 @@ class ProductProposal(models.Model):
             'target': 'self',
             'url': self.get_portal_url(),
         }
-
     #
-
     def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
         self.ensure_one()
         return super(ProductProposal, self)._get_share_url(redirect, signup_partner, pid)
-
 
     def _compute_access_url(self):
         super(ProductProposal, self)._compute_access_url()
         for proposal in self:
             proposal.access_url = '/my/proposals/%s' % (proposal.id)
-
 
     def _get_portal_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """

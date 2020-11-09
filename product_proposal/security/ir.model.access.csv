@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_proposal,product.proposal,model_product_proposal,,1,1,1,1
+access_proposal_lines,proposal.lines,model_proposal_lines,,1,1,1,1

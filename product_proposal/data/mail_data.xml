@@ -6,8 +6,7 @@
         <record id="email_template_product_proposal" model="mail.template">
             <field name="name">Proposal Order: Send by email</field>
             <field name="model_id" ref="product_proposal.model_product_proposal"/>
-            <field name="subject">${object.company_id.name}
-                (Ref ${object.name or 'n/a' })
+            <field name="subject">${object.company_id.name} Product Proposal
             </field>
             <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
             <field name="partner_to">${object.partner_id.id}</field>
@@ -16,7 +15,7 @@
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
 
                         Hello,
-                        <br/>
+                        Here is your product proposals for this time,Ref $(object.name_seq).
                         <br/>
 
                         <br/>

@@ -4,7 +4,7 @@
     'description': """This module enables to negotiate on the product proposals send via email""",
     'depends': ['sale', 'mail', 'website', 'portal', 'sale_management'],
     'data': [
-
+        'security/ir.model.access.csv',
         'data/mail_data.xml',
         'data/ir_sequence.xml',
         'views/product_proposal_view.xml',
