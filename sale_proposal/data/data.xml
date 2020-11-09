@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+		<record id="seq_proposal" model="ir.sequence">
+            <field name="name">Proposal</field>
+            <field name="code">sale.proposal</field>
+            <field name="prefix">PO</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="email_template_proposal_mail" model="mail.template">
+	        <field name="name">Proposal: Send by email</field>
+	        <field name="model_id" ref="sale_proposal.model_sale_proposal"/>
+	        <field name="email_from">${(object.salesman_id.partner_id.email or "") |safe}</field>
+	        <field name="email_to">$${(object.customer_id.email or "") |safe}</field>
+	        <field name="subject">Proposal for ${object.proposal_name}</field>
+	        <field name="body_html" type="html">
+	            <div style="margin: 0px; padding: 0px;">
+					<h2>Hello ${object.customer_id.name},</h2>
+					<br/>
+					<br/>
+					Please find your proposal on below link
+					<div style="margin: 16px 0px 16px 0px;">
+			            <!-- <a href="${object.get_portal_url() | safe}" -->
+						<a href="/my/proposals/${object.id}"
+			                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+			                Your Proposal
+			            </a>
+			        </div>
+					<br/><br/><br/>
+
+	                Thanks!<br/><br/>
+
+	                Regards,<br/>
+	                <b>${object.salesman_id.name}</b>
+	            </div>
+	        </field>    
+	    </record>
+	</data>
+</odoo>

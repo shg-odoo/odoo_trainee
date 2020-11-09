@@ -1,0 +1,162 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="proposal_list">
+        <field name="name">proposal.list</field>
+        <field name="model">sale.proposal</field>
+        <field name="priority" eval='2'/>
+        <field name="arch" type="xml">
+            <tree decoration-muted="proposal_status == 'reject'" 
+            decoration-success="proposal_status == 'accept'">
+                <field name="id"/>
+                <field name="proposal_name"/>
+                <field name="salesman_id"/>
+                <field name="customer_id"/>
+                <field name="proposal_date" readonly="1"/>
+                <field name="proposed_total_price"/>
+                <field name="accepted_total_price"/>
+                <field name="proposal_status"/>
+                <field name="state" />
+            </tree>
+        </field>
+    </record>   
+     
+    <record id="sale_proposal_form" model="ir.ui.view">
+      <field name="name">sale_proposal.form</field>
+      <field name="model">sale.proposal</field>
+      <field name="arch" type="xml">
+        <form string="Sale Proposal">
+          <header>
+            <button name="action_proposal_mail_send" type="object" string="Sent Proposal" class="oe_highlight" attrs="{'invisible': [('state', 'in',['confirmed','cancel'])]}"/>
+            <button name="action_confirmed_proposal" type="object" string="Confirm Proposal" class="oe_highlight" attrs="{'invisible': [('state', '!=','sent')]}"/>
+            <button name="action_cancel_proposal" type="object" string="Cancel Proposal" attrs="{'invisible': [('state', '!=','sent')]}"/>
+            <field name="state" widget='statusbar'/>
+          </header>
+          <sheet>
+            <div class="oe_button_box" name="button_box">
+              <button name="preview_proposal"
+                type="object"
+                class="oe_stat_button"
+                icon="fa-globe icon">
+                <div class="o_field_widget o_stat_info">
+                  <span class="o_stat_text">Customer</span>
+                  <span class="o_stat_text">Preview</span>
+                </div>
+              </button>
+            </div>
+            <group>
+              <group colspan="2" col="2">
+                <div class="oe_title">
+                  <h1>
+                    <field name="proposal_name" readonly="1"/>
+                  </h1>
+                </div>
+              </group>
+              <group colspan="4" col="4" >
+                <field name="salesman_id" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}"/>
+                <field name="customer_id" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}"/>
+                <field name="price_list_id" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}"/>
+                <field name="proposal_date" readonly="1"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Proposal Line">
+                <field name="proposal_line_ids" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}">
+                  <tree editable ="bottom">
+                    <field name="product_id"/>
+                    <field name="description"/>
+                    <field name="qty_proposed"/>
+                    <field name="price_proposed"/>
+                    <field name="qty_accepted"/>
+                    <field name="price_accepted"/>
+                    <field name="proposed_sub_total" readonly="1"/>
+                    <field name="accepted_sub_total" readonly ="1"/>
+                  </tree>
+                </field>
+                  <div>
+                    <table class="table table-sm" border="0px">
+                      <tr>
+                        <td class="text-right"><b><strong>Proposed Total:-</strong></b></td>
+                        <td class="text-left" width="10%"><b><strong>
+                          <span data-id="total_amount_11"  t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'><field name="proposed_total_price" readonly="1"/></span></strong></b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-right"><b><strong>Accepted Total:-</strong></b></td>
+                        <td class="text-left" width="10%"><strong>
+                          <b><span data-id="total_amount_11"  t-options='{"widget": "monetary", "display_currency": doc.price_list_id.currency_id}'><field name="accepted_total_price" readonly="1"/></span></b></strong>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </page>
+            </notebook>
+          </sheet>
+          <div class="oe_chatter">
+              <field name="message_follower_ids" widget="mail_followers"/>
+              <field name="message_ids" widget="mail_thread"/>
+          </div>
+        </form>
+      </field>
+    </record>
+    
+    <record id="proposal_sale_search" model="ir.ui.view">
+      <field name="name">proposal.sale.search</field>
+      <field name="model">sale.proposal</field>
+      <field name="arch" type="xml">
+        <search string="Search Customers">
+          <filter string="Accepted" name="accept" domain="[('proposal_status','=','accept')]"/>
+          <filter string="Rejected" name="reject" domain="[('proposal_status','=','reject')]"/>
+          <filter string="No Response" name="no_response" domain="[('proposal_status','=','no_response')]"/>
+
+          <group expand="0" string="Group By">
+            <filter string="Proposal Status" name="proposal_status" context="{'group_by':'proposal_status'}"/>
+            <filter string="State" name="state" context="{'group_by':'state'}"/>
+            <filter string="salesman" name="salesman_id" context="{'group_by':'salesman_id'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="proposal_kanban_view">
+      <field name="name">proposals.kanban.view</field>
+      <field name="model">sale.proposal</field>
+      <field name="arch" type="xml">
+        <kanban>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class="oe_kanban_content">
+                <table width='100%'>
+                  <tr>
+                    <td>
+                      <field name="proposal_name"/>
+                    </td>
+                    <td>
+                      <field name="proposal_status"/>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sale_proposal.action_window">
+      <field name="name">saleProposal window</field>
+      <field name="res_model">sale.proposal</field>
+      <field name="view_mode">tree,form,kanban,graph</field>
+      <field name="context">{'search_default_my_proposals': 1}</field>
+    </record>
+
+    <menuitem name="saleProposal" id="sale_proposal.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Menu 1" id="sale_proposal.menu_1" parent="sale_proposal.menu_root"/>
+    <menuitem name="Menu 2" id="sale_proposal.menu_2" parent="sale_proposal.menu_root"/>
+
+    <menuitem name="List" id="sale_proposal.menu_1_list" parent="sale_proposal.menu_1"
+              action="sale_proposal.action_window"/>
+  </data>
+</odoo>
