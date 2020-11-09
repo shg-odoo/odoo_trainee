@@ -127,11 +127,29 @@
                             <form id="accept" method="POST" t-attf-action="/my/proposals/#{sale_proposal.id}?access_token=#{sale_proposal.access_token}"  t-att-data-order-id="sale_proposal.id" t-att-data-token="sale_proposal.access_token" class="js_accept_json modal-content js_website_submit_form">
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <header class="modal-header">
-                                    <h4 class="modal-title">Validate Order</h4>
+                                    <h4 class="modal-title">Proposal</h4>
                                 </header>
                                 <main class="modal-body">
                                     <p>
                                         Thank You for accepting The Proposal
+                                    </p>
+                                </main>
+                                <footer class="modal-footer">
+                                    <button type="submit" t-att-id="sale_proposal.id" class="btn btn-danger"><i class="fa fa-primary"></i> Close</button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                    <div role="dialog" class="modal fade" id="modaldecline">
+                        <div class="modal-dialog">
+                            <form id="accept" method="POST" t-attf-action="/my/proposals/#{sale_proposal.id}?access_token=#{sale_proposal.access_token}"  t-att-data-order-id="sale_proposal.id" t-att-data-token="sale_proposal.access_token" class="js_accept_json modal-content js_website_submit_form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <header class="modal-header">
+                                    <h4 class="modal-title">Proposal</h4>
+                                </header>
+                                <main class="modal-body">
+                                    <p>
+                                        You have rejected The Proposal Proposed
                                     </p>
                                 </main>
                                 <footer class="modal-footer">
@@ -213,9 +231,9 @@
                     <thead class="bg-100">
                         <tr>
                             <th colspan="2" class="text-left">Products</th>
-                            <th class="text-right">Proposed Quantity</th>
+                            <th class="text-right" t-if="sale_proposal.state in ['sent'] and sale_proposal.proposal_status in ['not_reviewed']">Proposed Quantity</th>
                             <th class="text-right">Accepted Quantity</th>
-                            <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                            <th t-attf-class="textg-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}" t-if="sale_proposal.state in ['sent'] and sale_proposal.proposal_status in ['not_reviewed']">
                                 Proposed Price</th>
                             <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
                                 Accepted Price</th>
@@ -228,18 +246,18 @@
                         <t t-foreach="sale_proposal.line_ids" t-as="line">
                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
                             <tr>
-                                <td><span widget="image" t-field="line.product_id.image_128"
-                                          t-options="{'widget': 'image'}"/></td>
+                                <td>
+                                    <img t-att-src="'data:image/png;base64,%s' % to_text(line.product_id.image_1920)" style="max-height: 50px;"/>
+                                </td>
                                 <td id="product_name"><span t-field="line.name"/></td>
-                                <td id="quote_qty">
+                                <td id="quote_qty" t-if="sale_proposal.state in ['sent'] and sale_proposal.proposal_status in ['not_reviewed']">
                                     <span t-field="line.product_uom_qty"/>
                                     <span t-field="line.product_uom" groups="uom.group_uom"/>
                                 </td>
                                 <td class="text-right">
                                     <div id="accepted_qty">
-                                        <t t-if="sale_proposal.state in ['draft', 'sent']">
+                                        <t t-if="sale_proposal.state in ['sent'] and sale_proposal.proposal_status in ['not_reviewed']">
                                             <div class="input-group js_quantity_container pull-right">
-
                                                 <div class="input-group-prepend d-print-none">
                                                     <span class="input-group-text d-none d-md-inline-block">
                                                         <a t-att-data-line-id="line.id" t-att-data-remove="True"
@@ -270,14 +288,19 @@
                                         </t>
                                     </div>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right" t-if="sale_proposal.state in ['sent'] and sale_proposal.proposal_status in ['not_reviewed']">
                                     <span class="oe_order_line_price_subtotal" t-field="line.price_unit"/>
                                 </td>
                                 <td class="text-right">
-                                    <input type="number" placeholder="0.00" min="0" value="0" step="0.01"
-                                           title="Currency" pattern="^\d+(?:\.\d{1,2})?$" onblur="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'"
-                                           class="o_input o_product_qty form-control" style="width: 100px;"
-                                           t-att-data-line-id="line.id" t-att-value="line.price_unit_accepted"/>
+                                    <t t-if="sale_proposal.state in ['sent'] and sale_proposal.proposal_status in ['not_reviewed']">
+                                        <input type="number" placeholder="0.00" min="0" value="0" step="0.01"
+                                               title="Currency" pattern="^\d+(?:\.\d{1,2})?$" onblur="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'"
+                                               class="o_input o_product_qty form-control" style="width: 100px;"
+                                               t-att-data-line-id="line.id" t-att-value="line.price_unit_accepted"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="oe_order_line_price_subtotal" t-field="line.price_unit_accepted"/>
+                                    </t>
                                 </td>
                             </tr>
                         </t>

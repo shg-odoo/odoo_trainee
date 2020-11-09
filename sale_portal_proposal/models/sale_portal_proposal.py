@@ -144,6 +144,10 @@ class SalePortalProposal(models.Model):
                    ('rejected', 'Rejected'),
                    ],
         required=False,default='not_reviewed')
+    sale_order_id = fields.Many2one(
+        comodel_name='sale.order',
+        string='Sale Order',
+        required=False)
 
     @api.model
     def create(self, vals):
@@ -186,9 +190,16 @@ class SalePortalProposal(models.Model):
             raise UserError(_('Only draft orders can be marked as sent directly.'))
         for order in self:
             order.message_subscribe(partner_ids=order.partner_id.ids)
+        mail_template = self.env.ref('sale_portal_proposal.email_template_sale_portal_proposal')
+        mail_template.send_mail(self.id, force_send=True)
         self.write({'state': 'sent'})
 
     def action_confirm(self):
+        sale_obj = self.env['sale.order']
+        sale_lines = []
+        # for line in self.line_ids:
+        #     line.
+
         self.write({'state': 'confirmed'})
 
     def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
@@ -215,6 +226,10 @@ class SalePortalProposal(models.Model):
             'target': 'self',
             'url': self.get_portal_url(),
         }
+
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return '%s %s' % ('Proposal', self.name)
 
 class SalePortalProposalLine(models.Model):
     _name = 'sale.portal.proposal.line'

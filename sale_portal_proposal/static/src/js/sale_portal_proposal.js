@@ -29,7 +29,7 @@ publicWidget.registry.SaleProposalUpdateLineButton = publicWidget.Widget.extend(
         let self = this,
             $target = $(ev.currentTarget)
         return this._rpc({
-            route: "/my/proposals/" + self.orderDetail.orderId + "/accept_proposal",
+            route: "/my/proposals/" + self.orderDetail.orderId + "/accept_reject_proposal",
             params: {
                     'access_token': self.orderDetail.token,
                     'accept' : $target.data('accept'),

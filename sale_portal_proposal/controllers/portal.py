@@ -93,7 +93,7 @@ class CustomerPortal(CustomerPortal):
 
         if report_type in ('html', 'pdf', 'text'):
             return self._show_report(model=order_sudo, report_type=report_type,
-                                     report_ref='sale.action_report_saleorder', download=download)
+                                     report_ref='sale_portal_proposal.action_report_sale_portal_proposal', download=download)
 
         # use sudo to allow accessing/viewing orders for public user
         # only if he knows the private token
@@ -156,8 +156,8 @@ class CustomerPortal(CustomerPortal):
 
         return results
 
-    @http.route(['/my/proposals/<int:proposal_id>/accept_proposal'], type='json', auth="public",website=True)
-    def accept_proposal(self,proposal_id=None, access_token=None,accept=False,reject=False,**kwargs):
+    @http.route(['/my/proposals/<int:proposal_id>/accept_reject_proposal'], type='json', auth="public",website=True)
+    def accept_reject_proposal(self,proposal_id=None, access_token=None,accept=False,reject=False,**kwargs):
         try:
             order_sudo = self._document_check_access('sale.portal.proposal', proposal_id, access_token=access_token)
         except (AccessError, MissingError):
@@ -166,11 +166,12 @@ class CustomerPortal(CustomerPortal):
         if order_sudo.state not in ('draft', 'sent'):
             return False
         proposal_status = 'approved' if accept else 'rejected'
+        message = _('Proposal Accepted') if accept else _('Proposal Rejected')
         order_sudo.write({'proposal_status': proposal_status})
         _message_post_helper(
-            'sale.portal.proposal', order_sudo.id, _('Proposal Accepted'),
+            'sale.portal.proposal', order_sudo.id, message,
             **({'token': access_token} if access_token else {}))
 
-        query_string = '&message=accepted_ok'
-        return request.redirect(order_sudo.get_portal_url(query_string=query_string))
+        # query_string = '&message=accepted_ok'
+        return request.redirect(order_sudo.get_portal_url())
 

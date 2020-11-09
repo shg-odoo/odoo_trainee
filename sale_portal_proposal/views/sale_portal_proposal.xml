@@ -10,6 +10,14 @@
                          <button name="action_confirm" string="Confirm" type="object" states="sent"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed"/>
                     </header>
+                    <div class="alert alert-info" role="alert" style="margin-bottom:0px;"
+                         attrs="{'invisible':  [('proposal_status','not in', ['approved'])]}">
+                         Proposal Have Been <bold>Approved</bold> By Customer
+                    </div>
+                    <div class="alert alert-warning" role="alert" style="margin-bottom:0px;"
+                         attrs="{'invisible':  [('proposal_status','not in', ['rejected'])]}">
+                         Proposal Have Been <bold>Rejected</bold> By Customer
+                    </div>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="preview_sale_portal_proposal"
@@ -40,9 +48,6 @@
                                 <field name="date_order" invisible="0"/>
                                 <field name="user_id" invisible="0"/>
                                 <field name="currency_id" invisible="1"/>
-                                <field name="proposal_status" invisible="0"/>
-                                <field name="company_id" options="{'no_create': True}"
-                                       groups="base.group_multi_company"/>
                             </group>
                         </group>
                         <notebook>
@@ -94,7 +99,9 @@
                                             'uom': product_uom,
                                             'company_id': parent.company_id
                                         }"
-                                                invisible="0"
+                                               attrs="{
+                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
+                                        }"
                                         />
 
                                         <field name="product_uom_readonly" invisible="1"/>
@@ -114,7 +121,9 @@
                                                 name="price_unit"
                                         />
                                         <field
-                                                name="price_unit_accepted" invisible="0"
+                                                name="price_unit_accepted" attrs="{
+                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
+                                        }"
                                         />
                                         <field
                                                 name="tax_id"
@@ -146,17 +155,26 @@
                                     <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
                                         <field name="amount_untaxed" widget='monetary'
                                                options="{'currency_field': 'currency_id'}"/>
-                                        <field name="amount_untaxed_accepted" widget='monetary'
-                                               options="{'currency_field': 'currency_id'}"/>
                                         <field name="amount_tax" widget='monetary'
-                                               options="{'currency_field': 'currency_id'}"/>
-                                        <field name="amount_tax_accepted" widget='monetary'
                                                options="{'currency_field': 'currency_id'}"/>
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                                             <label for="amount_total"/>
                                         </div>
                                         <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator"
                                                widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <div class="oe_clear"/>
+                                </group>
+                                <group name="note_group" col="6" class="mt-2 mt-md-0"  attrs="{
+                                            'invisible': [('proposal_status','not in', ['approved'])],
+                                        }">
+                                    <group colspan="4">
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="amount_untaxed_accepted" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="amount_tax_accepted" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}"/>
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                                             <label for="amount_total_accepted"/>
                                         </div>
@@ -164,6 +182,17 @@
                                                widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                     </group>
                                     <div class="oe_clear"/>
+                                </group>
+                            </page>
+                            <page string="Other Informations" name="other">
+                                <group>
+                                    <group>
+                                        <field name="proposal_status" invisible="0"/>
+                                    </group>
+                                    <group>
+                                        <field name="company_id" options="{'no_create': True}"
+                                       groups="base.group_multi_company"/>
+                                    </group>
                                 </group>
                             </page>
                         </notebook>
