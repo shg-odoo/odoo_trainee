@@ -26,7 +26,14 @@ class ProductProposal(models.Model):
     proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='_compute_total')
     accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True)
     total_amt = fields.Monetary(string='Total', store=True, readonly=True)
-    # has to pricelist,tax
+    pricelist_id = fields.Many2one(
+        'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
+        required=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1,
+        help="If you change the pricelist, only newly added lines will be affected.")
+    currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
+
+    # add pricelist,tax
 
     @api.model
     def create(self, vals):
