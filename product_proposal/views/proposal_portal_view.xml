@@ -28,8 +28,8 @@
                     <tr>
                         <td><a t-att-href="order.get_portal_url()"><t t-esc="order.name"/></a></td>
                         <td class="text-right">
-                            <span t-field="order.date_order" t-options="{'widget': 'date'}"/>&amp;nbsp;
-                            <span class='d-none d-md-inline' t-field="order.date_order" t-options="{'time_only': True}"/>
+                            <span t-field="order.date_proposal" t-options="{'widget': 'date'}"/>&amp;nbsp;
+                            <span class='d-none d-md-inline' t-field="order.date_proposal" t-options="{'time_only': True}"/>
                         </td>
                         <td class="text-center">
                             <span t-if="order.state == 'done'"  class="badge badge-pill badge-success">
@@ -64,7 +64,7 @@
                         <h2 class="mb-0">
                             <b t-field="proposal_order.proposed_total" data-id="total_amount"/>
                         </h2>
-                        <!--                        WHAT IS data-id="total_amount"?? -->
+
                     </t>
                     <!--                    side buttons here..............-->
                     <t t-set="entries">

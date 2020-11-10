@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="report_proposal_order"
+            string="Proposal Order"
+            model="product.proposal"
+            report_type="qweb-pdf"
+            file="product.proposal.report_proposal_order"
+            name="product.proposal.report_proposal_order"
+            print_report_name="(object.state in ('draft', 'sent') and 'Proposal - %s' % (object.product_name)) or 'Order - %s' % (object.product_name)"
+        />
+
+    </data>
+</odoo>

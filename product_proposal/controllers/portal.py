@@ -96,6 +96,7 @@ class CustomerPortal(CustomerPortal):
                                    **kw):
         try:
             proposal_order_sudo = self._document_check_access('product.proposal', order_id, access_token=access_token)
+            print("proposal_order_sudo.........",proposal_order_sudo)
         except (AccessError, MissingError):
             return request.redirect('/my')
 
@@ -173,7 +174,7 @@ class CustomerPortal(CustomerPortal):
             proposal_order_sudo.action_confirm()
             proposal_order_sudo._send_order_confirmation_mail()
 
-        # pdf = request.env.ref('sale.action_report_saleorder').sudo()._render_qweb_pdf([proposal_order_sudo.id])[0]
+        pdf = request.env.ref('product_proposal.report_proposal_order').sudo()._render_qweb_pdf([proposal_order_sudo.id])[0]
 
         _message_post_helper(
             'product.proposal', proposal_order_sudo.id, _('Order signed by %s') % (name,),

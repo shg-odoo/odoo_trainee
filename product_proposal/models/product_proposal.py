@@ -88,8 +88,9 @@ class ProductProposal(models.Model):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
         return self.env.ref('product_proposal.action_product_proposal')
-    @api.onchange('partner_id')
-    def _get_access_token(self):
+
+    # @api.onchange('partner_id')
+    # def _get_access_token(self):
         print("id...................",self.partner_id.id)
         # temp = self.partner_id.str(uuid.uuid4())
         # print("mmmmmmmmmmmmmmmmmmmmmmmmm temp",temp

@@ -5,6 +5,7 @@
     'depends': ['sale', 'mail', 'website', 'portal', 'sale_management'],
     'data': [
         'security/ir.model.access.csv',
+        'report/report_portal.xml',
         'data/mail_data.xml',
         'data/ir_sequence.xml',
         'views/product_proposal_view.xml',
