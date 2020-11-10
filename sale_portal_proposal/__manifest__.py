@@ -17,8 +17,8 @@
     'data': [
         'data/data.xml',
         'data/mail_template.xml',
-        'security/ir.model.access.csv',
         'security/proposal_security.xml',
+        'security/ir.model.access.csv',
         'report/report.xml',
         'report/report_sale_portal_proposal.xml',
         'views/sale_portal_proposal.xml',

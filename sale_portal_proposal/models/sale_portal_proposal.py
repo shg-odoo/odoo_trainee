@@ -12,6 +12,7 @@ from odoo.tools import float_is_zero, float_compare
 from odoo.tools.misc import formatLang, get_lang
 from werkzeug.urls import url_encode
 
+
 class SalePortalProposal(models.Model):
     _name = 'sale.portal.proposal'
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'utm.mixin']
@@ -79,8 +80,10 @@ class SalePortalProposal(models.Model):
             res = {}
             for line in order.line_ids:
                 price_reduce = line.price_unit_accepted
-                taxes = line.tax_id.compute_all(price_reduce, quantity=line.product_uom_qty_accepted, product=line.product_id,
-                                                partner=order.partner_id)['taxes']
+                taxes = \
+                    line.tax_id.compute_all(price_reduce, quantity=line.product_uom_qty_accepted,
+                                            product=line.product_id,
+                                            partner=order.partner_id)['taxes']
                 for tax in line.tax_id:
                     group = tax.tax_group_id
                     res.setdefault(group, {'amount': 0.0, 'base': 0.0})
@@ -97,7 +100,10 @@ class SalePortalProposal(models.Model):
 
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,
                        states={'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
-    date_order = fields.Datetime(string='Proposal Date', required=True, readonly=True, index=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False, default=fields.Datetime.now, help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.")
+    date_order = fields.Datetime(string='Proposal Date', required=True, readonly=True, index=True,
+                                 states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False,
+                                 default=fields.Datetime.now,
+                                 help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.")
     partner_id = fields.Many2one(
         'res.partner', string='Customer', readonly=True,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
@@ -112,7 +118,8 @@ class SalePortalProposal(models.Model):
     user_id = fields.Many2one(
         'res.users', string='Salesperson', index=True, tracking=2, default=lambda self: self.env.user,
         domain=lambda self: [('groups_id', 'in', self.env.ref('sales_team.group_sale_salesman').id)])
-    company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company)
+    company_id = fields.Many2one('res.company', 'Company', required=True, index=True,
+                                 default=lambda self: self.env.company)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('sent', 'Sent'),
@@ -123,19 +130,24 @@ class SalePortalProposal(models.Model):
         'sale.portal.proposal.line',
         'proposal_id',
         string='Lines',
-        required=False,states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True, auto_join=True)
+        required=False, states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True,
+        auto_join=True)
     amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all',
                                      tracking=5)
     amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True, compute='_amount_all')
     amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', tracking=4)
-    amount_by_group = fields.Binary(string="Tax amount by group", compute='_amount_by_group', help="type: [(name, amount, base, formated amount, formated base)]")
-    #for accepted values
-    amount_untaxed_accepted = fields.Monetary(string='Accepted Untaxed Amount', store=True, readonly=True, compute='_amount_all_accepted',
-                                     tracking=5)
-    amount_tax_accepted = fields.Monetary(string='Accepted Taxes', store=True, readonly=True, compute='_amount_all_accepted')
-    amount_total_accepted = fields.Monetary(string='Accepted Total', store=True, readonly=True, compute='_amount_all_accepted', tracking=4)
-    amount_by_group_accepted = fields.Binary(string="Accepted Tax amount by group", compute='_amount_by_group_accepted',
+    amount_by_group = fields.Binary(string="Tax amount by group", compute='_amount_by_group',
                                     help="type: [(name, amount, base, formated amount, formated base)]")
+    # for accepted values
+    amount_untaxed_accepted = fields.Monetary(string='Accepted Untaxed Amount', store=True, readonly=True,
+                                              compute='_amount_all_accepted',
+                                              tracking=5)
+    amount_tax_accepted = fields.Monetary(string='Accepted Taxes', store=True, readonly=True,
+                                          compute='_amount_all_accepted')
+    amount_total_accepted = fields.Monetary(string='Accepted Total', store=True, readonly=True,
+                                            compute='_amount_all_accepted', tracking=4)
+    amount_by_group_accepted = fields.Binary(string="Accepted Tax amount by group", compute='_amount_by_group_accepted',
+                                             help="type: [(name, amount, base, formated amount, formated base)]")
 
     proposal_status = fields.Selection(
         string='Proposal Status',
@@ -143,7 +155,7 @@ class SalePortalProposal(models.Model):
                    ('approved', 'Approved'),
                    ('rejected', 'Rejected'),
                    ],
-        required=False,default='not_reviewed')
+        required=False, default='not_reviewed')
     sale_order_id = fields.Many2one(
         comodel_name='sale.order',
         string='Sale Order',
@@ -157,7 +169,8 @@ class SalePortalProposal(models.Model):
             seq_date = None
             if 'date_order' in vals:
                 seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
-            vals['name'] = self.env['ir.sequence'].next_by_code('sale.portal.proposal', sequence_date=seq_date) or _('New')
+            vals['name'] = self.env['ir.sequence'].next_by_code('sale.portal.proposal', sequence_date=seq_date) or _(
+                'New')
 
         # Makes sure partner_invoice_id', 'partner_shipping_id' and 'pricelist_id' are defined
         if any(f not in vals for f in ['pricelist_id']):
@@ -165,6 +178,7 @@ class SalePortalProposal(models.Model):
             vals['pricelist_id'] = vals.setdefault('pricelist_id', partner.property_product_pricelist.id)
         result = super(SalePortalProposal, self).create(vals)
         return result
+
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         """
@@ -196,10 +210,25 @@ class SalePortalProposal(models.Model):
 
     def action_confirm(self):
         sale_obj = self.env['sale.order']
-        sale_lines = []
-        # for line in self.line_ids:
-        #     line.
 
+        sale_order_id = sale_obj.create({
+            'date_order': fields.Datetime.now(),
+            'partner_id': self.partner_id.id,
+            'user_id': self.user_id.id,
+            'pricelist_id': self.pricelist_id.id,
+        })
+        for line in self.line_ids:
+            values = {
+                'product_id': line.product_id.id,
+                'name': line.name,
+                'product_uom:': line.product_uom.id,
+                'product_uom_qty:': line.product_uom_qty_accepted,
+                'price_unit': line.price_unit_accepted,
+                'tax_id': [(6, 0, line.tax_id.ids)],
+                'order_id': sale_order_id.id,
+            }
+            self.env['sale.order.line'].create(values)
+        self.sale_order_id = sale_order_id.id
         self.write({'state': 'confirmed'})
 
     def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
@@ -230,6 +259,12 @@ class SalePortalProposal(models.Model):
     def _get_report_base_filename(self):
         self.ensure_one()
         return '%s %s' % ('Proposal', self.name)
+
+    def action_view_sale_order(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("sale.action_orders")
+        action['views'] = [(self.env.ref('sale.view_order_form').id, 'form')]
+        action['res_id'] = self.sale_order_id.id
+        return action
 
 class SalePortalProposalLine(models.Model):
     _name = 'sale.portal.proposal.line'
@@ -287,34 +322,39 @@ class SalePortalProposalLine(models.Model):
     salesman_id = fields.Many2one(related='proposal_id.user_id', store=True, string='Salesperson', readonly=True)
     currency_id = fields.Many2one(related='proposal_id.currency_id', depends=['proposal_id.currency_id'], store=True,
                                   string='Currency', readonly=True)
-    company_id = fields.Many2one(related='proposal_id.company_id', string='Company', store=True, readonly=True, index=True)
+    company_id = fields.Many2one(related='proposal_id.company_id', string='Company', store=True, readonly=True,
+                                 index=True)
     user_id = fields.Many2one(
         'res.users', string='Salesperson', index=True, tracking=2, default=lambda self: self.env.user,
         domain=lambda self: [('groups_id', 'in', self.env.ref('sales_team.group_sale_salesman').id)])
     product_uom_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', required=True, default=1.0)
-    product_uom_qty_accepted = fields.Float(string='Quantity Accepted', digits='Product Unit of Measure', required=True, default=1.0)
+    product_uom_qty_accepted = fields.Float(string='Quantity Accepted', digits='Product Unit of Measure', required=True,
+                                            default=1.0)
     product_uom = fields.Many2one('uom.uom', string='Unit of Measure',
                                   domain="[('category_id', '=', product_uom_category_id)]")
     product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id', readonly=True)
     product_uom_readonly = fields.Boolean(compute='_compute_product_uom_readonly')
     state = fields.Selection(
         related='proposal_id.state', string='Order Status', readonly=True, copy=False, store=True, default='draft')
-    tax_id = fields.Many2many('account.tax', string='Taxes', domain=['|', ('active', '=', False), ('active', '=', True)])
+    tax_id = fields.Many2many('account.tax', string='Taxes',
+                              domain=['|', ('active', '=', False), ('active', '=', True)])
     price_unit = fields.Float('Unit Price', required=True, digits='Product Price', default=0.0)
     price_unit_accepted = fields.Float('Price Accepted', required=True, digits='Product Price', default=0.0)
     price_tax = fields.Float(compute='_compute_amount', string='Total Tax', readonly=True, store=True)
     price_subtotal = fields.Monetary(compute='_compute_amount', string='Subtotal', readonly=True, store=True)
     price_total = fields.Monetary(compute='_compute_amount', string='Total', readonly=True, store=True)
-    price_tax_accepted = fields.Float(compute='_compute_amount_accepted', string='Total Tax Accepted', readonly=True, store=True)
-    price_subtotal_accepted = fields.Monetary(compute='_compute_amount_accepted', string='Subtotal Accepted', readonly=True, store=True)
-    price_total_accepted = fields.Monetary(compute='_compute_amount_accepted', string='Total Accepted', readonly=True, store=True)
+    price_tax_accepted = fields.Float(compute='_compute_amount_accepted', string='Total Tax Accepted', readonly=True,
+                                      store=True)
+    price_subtotal_accepted = fields.Monetary(compute='_compute_amount_accepted', string='Subtotal Accepted',
+                                              readonly=True, store=True)
+    price_total_accepted = fields.Monetary(compute='_compute_amount_accepted', string='Total Accepted', readonly=True,
+                                           store=True)
 
     @api.onchange('product_id')
     def product_id_change(self):
         if not self.product_id:
             return
         valid_values = self.product_id.product_tmpl_id.valid_product_template_attribute_line_ids.product_template_value_ids
-
 
         vals = {}
         if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
@@ -351,16 +391,10 @@ class SalePortalProposalLine(models.Model):
         return result
 
     def _get_display_price(self, product):
-        # TO DO: move me in master/saas-16 on sale.order
-        # awa: don't know if it's still the case since we need the "product_no_variant_attribute_value_ids" field now
-        # to be able to compute the full price
-
-        # it is possible that a no_variant attribute is still in a variant if
-        # the type of the attribute has been changed after creation.
-
         if self.proposal_id.pricelist_id.discount_policy == 'with_discount':
             return product.with_context(pricelist=self.proposal_id.pricelist_id.id).price
-        product_context = dict(self.env.context, partner_id=self.proposal_id.partner_id.id, date=self.proposal_id.date_order,
+        product_context = dict(self.env.context, partner_id=self.proposal_id.partner_id.id,
+                               date=self.proposal_id.date_order,
                                uom=self.product_uom.id)
 
         final_price, rule_id = self.proposal_id.pricelist_id.with_context(product_context).get_product_price_rule(
@@ -375,12 +409,3 @@ class SalePortalProposalLine(models.Model):
                 self.proposal_id.company_id or self.env.company, self.proposal_id.date_order or fields.Date.today())
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, final_price)
-
-
-
-
-
-
-
-
-

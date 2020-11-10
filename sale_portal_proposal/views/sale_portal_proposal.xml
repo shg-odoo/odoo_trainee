@@ -6,30 +6,42 @@
             <field name="arch" type="xml">
                 <form string="sale_portal_proposal_form">
                     <header>
-                         <button name="action_send_mail" string="Send by Email" type="object" states="draft"/>
-                         <button name="action_confirm" string="Confirm" type="object" states="sent"/>
+                        <button name="action_send_mail" string="Send by Email" type="object" states="draft"/>
+                        <button name="action_confirm" string="Confirm" type="object"
+                                attrs="{'invisible':  [('proposal_status','not in', ['approved'])]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed"/>
                     </header>
                     <div class="alert alert-info" role="alert" style="margin-bottom:0px;"
                          attrs="{'invisible':  [('proposal_status','not in', ['approved'])]}">
-                         Proposal Have Been <bold>Approved</bold> By Customer
+                        Proposal Have Been <bold>Approved</bold> By Customer
                     </div>
                     <div class="alert alert-warning" role="alert" style="margin-bottom:0px;"
                          attrs="{'invisible':  [('proposal_status','not in', ['rejected'])]}">
-                         Proposal Have Been <bold>Rejected</bold> By Customer
+                        Proposal Have Been <bold>Rejected</bold> By Customer
                     </div>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="preview_sale_portal_proposal"
-                                type="object"
-                                class="oe_stat_button"
-                                icon="fa-globe icon">
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-globe icon">
                                 <div class="o_field_widget o_stat_info">
                                     <span class="o_stat_text">Customer</span>
                                     <span class="o_stat_text">Preview</span>
                                 </div>
                             </button>
+                            <button name="action_view_sale_order"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-book"
+                                    string="Sale Order"
+                                    attrs="{'invisible': [('sale_order_id','=', False)]}">
+                            </button>
                         </div>
+                        <widget name="web_ribbon" title="Approved" bg_color="bg-success"
+                                attrs="{'invisible': [('proposal_status','not in', ['approved'])]}"/>
+                        <widget name="web_ribbon" title="Rejected" bg_color="bg-danger"
+                                attrs="{'invisible': [('proposal_status','not in', ['rejected'])]}"/>
                         <div class="oe_title">
                             <h1>
                                 <field name="name" readonly="1"/>
@@ -99,7 +111,7 @@
                                             'uom': product_uom,
                                             'company_id': parent.company_id
                                         }"
-                                               attrs="{
+                                                attrs="{
                                             'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
                                         }"
                                         />
@@ -165,7 +177,7 @@
                                     </group>
                                     <div class="oe_clear"/>
                                 </group>
-                                <group name="note_group" col="6" class="mt-2 mt-md-0"  attrs="{
+                                <group name="note_group" col="6" class="mt-2 mt-md-0" attrs="{
                                             'invisible': [('proposal_status','not in', ['approved'])],
                                         }">
                                     <group colspan="4">
@@ -178,7 +190,8 @@
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                                             <label for="amount_total_accepted"/>
                                         </div>
-                                        <field name="amount_total_accepted" nolabel="1" class="oe_subtotal_footer_separator"
+                                        <field name="amount_total_accepted" nolabel="1"
+                                               class="oe_subtotal_footer_separator"
                                                widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                     </group>
                                     <div class="oe_clear"/>
@@ -188,10 +201,11 @@
                                 <group>
                                     <group>
                                         <field name="proposal_status" invisible="0"/>
+                                        <field name="sale_order_id" invisible="0"/>
                                     </group>
                                     <group>
                                         <field name="company_id" options="{'no_create': True}"
-                                       groups="base.group_multi_company"/>
+                                               groups="base.group_multi_company"/>
                                     </group>
                                 </group>
                             </page>
@@ -226,6 +240,6 @@
 
         <!-- This Menu Item must have a parent and an action -->
         <menuitem id="menu_proposal_categ" name="Sale Proposal" parent="sale.sale_order_menu"
-                  action="sale_portal_proposal.sale_portal_proposal_action" sequence="10"/>
+                  action="sale_portal_proposal.sale_portal_proposal_action" sequence="10" groups="sale_portal_proposal.group_sale_portal_proposal_manager"/>
     </data>
 </odoo>
