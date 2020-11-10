@@ -2,12 +2,12 @@
 <odoo>
 
 
-      <template id="product_proposal_portal_my_orders" name="My Sales Orders">
+      <template id="product_proposal_portal_my_orders" name="My Proposal Orders">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Sales Orders</t>
+                <t t-set="title">Proposal Orders</t>
             </t>
             <t t-if="not orders">
                 <p>There are currently no orders for your account.</p>
@@ -16,7 +16,7 @@
                 <thead>
                     <tr class="active">
                         <th>
-                            <span class='d-none d-md-inline'>Sales Order #</span>
+                            <span class='d-none d-md-inline'>Proposal Order #</span>
                             <span class='d-block d-md-none'>Ref.</span>
                         </th>
                         <th class="text-right">Order Date</th>
@@ -36,7 +36,7 @@
                                 <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done
                             </span>
                         </td>
-                        <td class="text-right"><span t-field="order.amount_total"/></td>
+                        <td class="text-right"><span t-field="order.total_amt"/></td>
                     </tr>
                 </t>
             </t>
@@ -309,8 +309,10 @@
                         <tr>
                             <t t-set="colspan" t-value="6"/>
                             <th class="text-left">Prodottto</th>
-                            <th class='accepted_quantity text-left'>Quantity</th>
-                            <th class="text-left">Price</th>
+                            <th class='accepted_quantity text-left'>Proposed Quantity</th>
+                            <th class="text-left">Proposed Price</th>
+                            <th class="text-left">Accepted Price</th>
+                            <th class="text-left">Accepted Price</th>
                         </tr>
                     </thead>
                     <tbody class="sale_tbody">
