@@ -7,7 +7,7 @@
                 <form string="sale_portal_proposal_form">
                     <header>
                         <button name="action_send_mail" string="Send by Email" type="object" states="draft"/>
-                        <button name="action_confirm" string="Confirm" type="object" states="sent"/>
+                        <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible': ['|',('proposal_status', '!=', 'approved'), ('state', '!=', 'sent')]}"/>/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed"/>
                     </header>
                     <div class="alert alert-info" role="alert" style="margin-bottom:0px;"

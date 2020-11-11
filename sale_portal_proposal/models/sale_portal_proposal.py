@@ -155,7 +155,7 @@ class SalePortalProposal(models.Model):
                    ('approved', 'Approved'),
                    ('rejected', 'Rejected'),
                    ],
-        required=False, default='not_reviewed')
+        required=False, default='not_reviewed',store=True, readonly=True)
     sale_order_id = fields.Many2one(
         comodel_name='sale.order',
         string='Sale Order',
@@ -210,6 +210,8 @@ class SalePortalProposal(models.Model):
         self.write({'state': 'sent'})
 
     def action_confirm(self):
+        if self.filtered(lambda sp: sp.proposal_status != 'approved'):
+            raise UserError(_('Only Approved Proposal Can be Confirmed.'))
         sale_obj = self.env['sale.order']
 
         sale_order_id = sale_obj.create({
