@@ -206,6 +206,7 @@ class SalePortalProposal(models.Model):
             order.message_subscribe(partner_ids=order.partner_id.ids)
         mail_template = self.env.ref('sale_portal_proposal.email_template_sale_portal_proposal')
         mail_template.send_mail(self.id, force_send=True)
+        self._set_accepted_qty()
         self.write({'state': 'sent'})
 
     def action_confirm(self):
@@ -221,8 +222,8 @@ class SalePortalProposal(models.Model):
             values = {
                 'product_id': line.product_id.id,
                 'name': line.name,
-                'product_uom:': line.product_uom.id,
-                'product_uom_qty:': line.product_uom_qty_accepted,
+                'product_uom': line.product_uom.id,
+                'product_uom_qty': line.product_uom_qty_accepted,
                 'price_unit': line.price_unit_accepted,
                 'tax_id': [(6, 0, line.tax_id.ids)],
                 'order_id': sale_order_id.id,
@@ -265,6 +266,12 @@ class SalePortalProposal(models.Model):
         action['views'] = [(self.env.ref('sale.view_order_form').id, 'form')]
         action['res_id'] = self.sale_order_id.id
         return action
+
+    def _set_accepted_qty(self):
+        for proposal in self:
+            for line in proposal.line_ids:
+                line.price_unit_accepted = line.product_uom_qty
+                line.price_unit_accepted = line.price_unit
 
 class SalePortalProposalLine(models.Model):
     _name = 'sale.portal.proposal.line'
