@@ -29,11 +29,6 @@ class CustomerPortal(CustomerPortal):
         partner = request.env.user.partner_id
         ProductProposal = request.env['product.proposal']
 
-        if 'quotation_count' in counters:
-            values['quotation_count'] = ProductProposal.search_count([
-                ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
-                ('state', 'in', ['sent', 'cancel'])
-            ]) if ProductProposal.check_access_rights('read', raise_exception=False) else 0
         if 'order_count' in counters:
             values['order_count'] = ProductProposal.search_count([
                 ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
@@ -42,8 +37,8 @@ class CustomerPortal(CustomerPortal):
 
         return values
 
-    @http.route(['/my/orders', '/my/orders/page/<int:page>'], type='http', auth="user", website=True)
-    def portal_my_orders(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
+    @http.route(['/my/proposals', '/my/proposals/page/<int:page>'], type='http', auth="user", website=True)
+    def product_proposal_portal_my_orders(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
         values = self._prepare_portal_layout_values()
         partner = request.env.user.partner_id
         ProductProposal = request.env['product.proposal']
@@ -70,7 +65,7 @@ class CustomerPortal(CustomerPortal):
         order_count = ProductProposal.search_count(domain)
         # pager
         pager = portal_pager(
-            url="/my/orders",
+            url="/my/proposals",
             url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},
             total=order_count,
             page=page,
@@ -85,13 +80,13 @@ class CustomerPortal(CustomerPortal):
             'orders': orders.sudo(),
             'page_name': 'order',
             'pager': pager,
-            'default_url': '/my/orders',
+            'default_url': '/my/proposals',
             'searchbar_sortings': searchbar_sortings,
             'sortby': sortby,
         })
         return request.render("product_proposal.product_proposal_portal_my_orders", values)
 
-    @http.route(['/my/orders/<int:order_id>'], type='http', auth="public", website=True)
+    @http.route(['/my/proposals/<int:order_id>'], type='http', auth="public", website=True)
     def proposal_portal_order_page(self, order_id, report_type=None, access_token=None, message=False, download=False,
                                    **kw):
         try:
@@ -100,10 +95,10 @@ class CustomerPortal(CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect('/my')
 
-        # if report_type in ('html', 'pdf', 'text'):
-        #     return self._show_report(model=proposal_order_sudo, report_type=report_type,
-        #                              report_ref='sale.action_report_saleorder',
-        #                              download=download)
+        if report_type in ('html', 'pdf', 'text'):
+            return self._show_report(model=proposal_order_sudo, report_type=report_type,
+                                     report_ref='product_proposal.report_proposal_order',
+                                     download=download)
 
         # use sudo to allow accessing/viewing orders for public user
         # only if he knows the private token
@@ -114,7 +109,7 @@ class CustomerPortal(CustomerPortal):
             session_obj_date = request.session.get('view_quote_%s' % proposal_order_sudo.id)
             if session_obj_date != now and request.env.user.share and access_token:
                 request.session['view_quote_%s' % proposal_order_sudo.id] = now
-                body = _('Proposal viewed by customer %s', proposal_order_sudo.parner_id.name)
+                body = _('Proposal viewed by customer %s', proposal_order_sudo.partner_id.name)
                 _message_post_helper(
                     "product.proposal",
                     proposal_order_sudo.id,
@@ -135,6 +130,8 @@ class CustomerPortal(CustomerPortal):
             'report_type': 'html',
             'action': proposal_order_sudo._get_portal_return_action(),
         }
+        print("valuess : proposal_order....................",values['proposal_order'])
+        print("valuess : token....................",values['token'])
         if proposal_order_sudo.company_id:
             values['res_company'] = proposal_order_sudo.company_id
 
@@ -144,65 +141,65 @@ class CustomerPortal(CustomerPortal):
             history = request.session.get('my_orders_history', [])
         values.update(get_records_pager(history, proposal_order_sudo))
 
-        return request.render('product_proposal.product_proposal_portal_template', values)
+        return request.render('product_proposal.product_proposal_portal_content', values)
 
-    @http.route(['/my/orders/<int:order_id>/accept'], type='json', auth="public", website=True)
-    def portal_quote_accept(self, order_id, access_token=None, name=None, signature=None):
-        # get from query string if not on json param
-        access_token = access_token or request.httprequest.args.get('access_token')
-        try:
-            proposal_order_sudo = self._document_check_access('product.proposal', order_id, access_token=access_token)
-        except (AccessError, MissingError):
-            return {'error': _('Invalid order.')}
-
-        if not proposal_order_sudo.has_to_be_signed():
-            return {'error': _('The order is not in a state requiring customer signature.')}
-        if not signature:
-            return {'error': _('Signature is missing.')}
-
-        try:
-            proposal_order_sudo.write({
-                'signed_by': name,
-                'signed_on': fields.Datetime.now(),
-                'signature': signature,
-            })
-            request.env.cr.commit()
-        except (TypeError, binascii.Error) as e:
-            return {'error': _('Invalid signature data.')}
-
-        if not proposal_order_sudo.has_to_be_paid():
-            proposal_order_sudo.action_confirm()
-            proposal_order_sudo._send_order_confirmation_mail()
-
-        pdf = request.env.ref('product_proposal.report_proposal_order').sudo()._render_qweb_pdf([proposal_order_sudo.id])[0]
-
-        _message_post_helper(
-            'product.proposal', proposal_order_sudo.id, _('Order signed by %s') % (name,),
-            attachments=[('%s.pdf' % proposal_order_sudo.name, pdf)],
-            **({'token': access_token} if access_token else {}))
-
-        query_string = '&message=sign_ok'
-        if proposal_order_sudo.has_to_be_paid(True):
-            query_string += '#allow_payment=yes'
-        return {
-            'force_refresh': True,
-            'redirect_url': proposal_order_sudo.get_portal_url(query_string=query_string),
-        }
-
-    @http.route(['/my/orders/<int:order_id>/decline'], type='http', auth="public", methods=['POST'], website=True)
-    def decline(self, order_id, access_token=None, **post):
-        try:
-            proposal_order_sudo = self._document_check_access('product.proposal', order_id, access_token=access_token)
-        except (AccessError, MissingError):
-            return request.redirect('/my')
-
-        message = post.get('decline_message')
-
-        query_string = False
-        if proposal_order_sudo.has_to_be_signed() and message:
-            proposal_order_sudo.action_cancel()
-            _message_post_helper('product.proposal', order_id, message, **{'token': access_token} if access_token else {})
-        else:
-            query_string = "&message=cant_reject"
-
-        return request.redirect(proposal_order_sudo.get_portal_url(query_string=query_string))
+    # @http.route(['/my/proposals/<int:order_id>/accept'], type='json', auth="public", website=True)
+    # def portal_quote_accept(self, order_id, access_token=None, name=None, signature=None):
+    #     # get from query string if not on json param
+    #     access_token = access_token or request.httprequest.args.get('access_token')
+    #     try:
+    #         proposal_order_sudo = self._document_check_access('product.proposal', order_id, access_token=access_token)
+    #     except (AccessError, MissingError):
+    #         return {'error': _('Invalid order.')}
+    #
+    #     if not proposal_order_sudo.has_to_be_signed():
+    #         return {'error': _('The order is not in a state requiring customer signature.')}
+    #     if not signature:
+    #         return {'error': _('Signature is missing.')}
+    #
+    #     try:
+    #         proposal_order_sudo.write({
+    #             'signed_by': name,
+    #             'signed_on': fields.Datetime.now(),
+    #             'signature': signature,
+    #         })
+    #         request.env.cr.commit()
+    #     except (TypeError, binascii.Error) as e:
+    #         return {'error': _('Invalid signature data.')}
+    #
+    #     if not proposal_order_sudo.has_to_be_paid():
+    #         proposal_order_sudo.action_confirm()
+    #         proposal_order_sudo._send_order_confirmation_mail()
+    #
+    #     pdf = request.env.ref('product_proposal.report_proposal_order').sudo()._render_qweb_pdf([proposal_order_sudo.id])[0]
+    #
+    #     _message_post_helper(
+    #         'product.proposal', proposal_order_sudo.id, _('Order signed by %s') % (name,),
+    #         attachments=[('%s.pdf' % proposal_order_sudo.name, pdf)],
+    #         **({'token': access_token} if access_token else {}))
+    #
+    #     query_string = '&message=sign_ok'
+    #     if proposal_order_sudo.has_to_be_paid(True):
+    #         query_string += '#allow_payment=yes'
+    #     return {
+    #         'force_refresh': True,
+    #         'redirect_url': proposal_order_sudo.get_portal_url(query_string=query_string),
+    #     }
+    #
+    # @http.route(['/my/proposals/<int:order_id>/decline'], type='http', auth="public", methods=['POST'], website=True)
+    # def decline(self, order_id, access_token=None, **post):
+    #     try:
+    #         proposal_order_sudo = self._document_check_access('product.proposal', order_id, access_token=access_token)
+    #     except (AccessError, MissingError):
+    #         return request.redirect('/my')
+    #
+    #     message = post.get('decline_message')
+    #
+    #     query_string = False
+    #     if proposal_order_sudo.has_to_be_signed() and message:
+    #         proposal_order_sudo.action_cancel()
+    #         _message_post_helper('product.proposal', order_id, message, **{'token': access_token} if access_token else {})
+    #     else:
+    #         query_string = "&message=cant_reject"
+    #
+    #     return request.redirect(proposal_order_sudo.get_portal_url(query_string=query_string))

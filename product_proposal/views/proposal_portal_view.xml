@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="portal_my_home_menu_proposal" name=
+            "Portal layout : sales menu entries" inherit_id="portal.portal_breadcrumbs" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'proposal_order' and proposal_order.state not in ('sent', 'cancel')"
+                t-attf-class="breadcrumb-item #{'active ' if not proposal_order else ''}">
+                <a t-if="sale_order" t-attf-href="/my/proposals?{{ keep_query() }}">Proposal Orders</a>
+                <t t-else="">Proposal Orders</t>
+            </li>
+            <li t-if="proposal_order" class="breadcrumb-item active">
+                <span t-field="proposal_order.name"/>
+            </li>
+        </xpath>
+    </template>
 
-
-      <template id="product_proposal_portal_my_orders" name="My Proposal Orders">
+    <template id="portal_my_home_proposal" name="Show Proposal Orders" customize_show="True"
+              inherit_id="portal.portal_my_home" priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Proposal Orders</t>
+                <t t-set="url" t-value="'/my/proposals'"/>
+                <t t-set="placeholder_count" t-value="'order_count'"/>
+            </t>
+        </xpath>
+    </template>
+    <template id="product_proposal_portal_my_orders" name="My Proposal Orders">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
@@ -26,17 +48,24 @@
                 </thead>
                 <t t-foreach="orders" t-as="order">
                     <tr>
-                        <td><a t-att-href="order.get_portal_url()"><t t-esc="order.name"/></a></td>
+                        <td>
+                            <a t-att-href="order.get_portal_url()">
+                                <t t-esc="order.name"/>
+                            </a>
+                        </td>
                         <td class="text-right">
                             <span t-field="order.date_proposal" t-options="{'widget': 'date'}"/>&amp;nbsp;
-                            <span class='d-none d-md-inline' t-field="order.date_proposal" t-options="{'time_only': True}"/>
+                            <span class='d-none d-md-inline' t-field="order.date_proposal"
+                                  t-options="{'time_only': True}"/>
                         </td>
                         <td class="text-center">
-                            <span t-if="order.state == 'done'"  class="badge badge-pill badge-success">
+                            <span t-if="order.state == 'done'" class="badge badge-pill badge-success">
                                 <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done
                             </span>
                         </td>
-                        <td class="text-right"><span t-field="order.total_amt"/></td>
+                        <td class="text-right">
+                            <span t-field="order.total_amt"/>
+                        </td>
                     </tr>
                 </t>
             </t>
@@ -127,132 +156,132 @@
                 <div id="quote_content" class="col-12 col-lg justify-content-end">
                     <!--add button act and botton buttons-->
                     <!-- modal relative to the actions sign and pay -->
-                    <div role="dialog" class="modal fade" id="modalaccept">
-                        <div class="modal-dialog" t-if="sale_order.has_to_be_signed(True)">
-                            <form id="accept" method="POST" t-att-data-order-id="sale_order.id"
-                                  t-att-data-token="proposal_order.access_token"
-                                  class="js_accept_json modal-content js_website_submit_form">
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                <header class="modal-header">
-                                    <h4 class="modal-title">Validate Order</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
-                                </header>
-                                <main class="modal-body" id="sign-dialog">
-                                    <p>
-                                        <span>By Accepting this proposal, I agree to the following terms:</span>
-                                        <ul>
-                                            <li>
-                                                <span>Accepted on the behalf of:</span>
-                                                <b t-field="proposal_order.partner_id.commercial_partner_id"/>
-                                            </li>
-                                            <li>
-                                                <span>For an amount of:</span>
-                                                <b data-id="total_amount" t-field="proposal_order.total_amt"/>
-                                            </li>
-                                        </ul>
-                                    </p>
-                                    <t t-call="portal.signature_form">
-                                        <t t-set="call_url" t-value="sale_order.get_portal_url(suffix='/accept')"/>
-                                        <t t-set="default_name" t-value="proposal_order.partner_id.name"/>
-                                    </t>
-                                </main>
-                            </form>
-                        </div>
-                    </div>
+                    <!--                    <div role="dialog" class="modal fade" id="modalaccept">-->
+                    <!--                        <div class="modal-dialog" t-if="product_proposal.has_to_be_accepted(True)">-->
+                    <!--                            <form id="accept" method="POST" t-att-data-order-id="sale_order.id"-->
+                    <!--                                  t-att-data-token="proposal_order.access_token"-->
+                    <!--                                  class="js_accept_json modal-content js_website_submit_form">-->
+                    <!--                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
+                    <!--                                <header class="modal-header">-->
+                    <!--                                    <h4 class="modal-title">Validate Order</h4>-->
+                    <!--                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>-->
+                    <!--                                </header>-->
+                    <!--                                <main class="modal-body" id="sign-dialog">-->
+                    <!--                                    <p>-->
+                    <!--                                        <span>By Accepting this proposal, I agree to the following terms:</span>-->
+                    <!--                                        <ul>-->
+                    <!--                                            <li>-->
+                    <!--                                                <span>Accepted on the behalf of:</span>-->
+                    <!--                                                <b t-field="proposal_order.partner_id.commercial_partner_id"/>-->
+                    <!--                                            </li>-->
+                    <!--                                            <li>-->
+                    <!--                                                <span>For an amount of:</span>-->
+                    <!--                                                <b data-id="total_amount" t-field="proposal_order.total_amt"/>-->
+                    <!--                                            </li>-->
+                    <!--                                        </ul>-->
+                    <!--                                    </p>-->
+                    <!--                                    <t t-call="portal.signature_form">-->
+                    <!--                                        <t t-set="call_url" t-value="sale_order.get_portal_url(suffix='/accept')"/>-->
+                    <!--                                        <t t-set="default_name" t-value="proposal_order.partner_id.name"/>-->
+                    <!--                                    </t>-->
+                    <!--                                </main>-->
+                    <!--                            </form>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
                     <!-- modal relative to the action reject -->
-                    <div role="dialog" class="modal fade" id="modaldecline">
-                        <div class="modal-dialog">
-                            <form id="decline" method="POST"
-                                  t-attf-action="/my/orders/#{proposal_order.id}/decline?access_token=#{proposal_order.access_token}"
-                                  class="modal-content">
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                <header class="modal-header">
-                                    <h4 class="modal-title">Reject This Proposal</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
-                                </header>
-                                <main class="modal-body">
-                                    <p>
-                                        Tell us why you are refusing this Proposal, this will help us improve our
-                                        services.
-                                    </p>
-                                    <textarea rows="4" name="decline_message" required="" placeholder="Your feedback..."
-                                              class="form-control"/>
-                                </main>
-                                <footer class="modal-footer">
-                                    <button type="submit" t-att-id="sale_order.id" class="btn btn-danger">
-                                        <i class="fa fa-times"></i>
-                                        Reject
-                                    </button>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                </footer>
-                            </form>
-                        </div>
-                    </div>
+                    <!--                    <div role="dialog" class="modal fade" id="modaldecline">-->
+                    <!--                        <div class="modal-dialog">-->
+                    <!--                            <form id="decline" method="POST"-->
+                    <!--                                  t-attf-action="/my/proposals/#{proposal_order.id}/decline?access_token=#{proposal_order.access_token}"-->
+                    <!--                                  class="modal-content">-->
+                    <!--                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
+                    <!--                                <header class="modal-header">-->
+                    <!--                                    <h4 class="modal-title">Reject This Proposal</h4>-->
+                    <!--                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>-->
+                    <!--                                </header>-->
+                    <!--                                <main class="modal-body">-->
+                    <!--                                    <p>-->
+                    <!--                                        Tell us why you are refusing this Proposal, this will help us improve our-->
+                    <!--                                        services.-->
+                    <!--                                    </p>-->
+                    <!--                                    <textarea rows="4" name="decline_message" required="" placeholder="Your feedback..."-->
+                    <!--                                              class="form-control"/>-->
+                    <!--                                </main>-->
+                    <!--                                <footer class="modal-footer">-->
+                    <!--                                    <button type="submit" t-att-id="sale_order.id" class="btn btn-danger">-->
+                    <!--                                        <i class="fa fa-times"></i>-->
+                    <!--                                        Reject-->
+                    <!--                                    </button>-->
+                    <!--                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>-->
+                    <!--                                </footer>-->
+                    <!--                            </form>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
                     <!-- status messages -->
-                    <div t-if="message == 'sign_ok'" class="alert alert-success alert-dismissable d-print-none"
-                         role="status">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
-                        <strong>Thank You!</strong>
-                        <br/>
-                        <t t-if="message == 'sign_ok' and sale_order.state in ['sale', 'done']">Your order has been
-                            confirmed.
-                        </t>
-                        <t t-elif="message == 'sign_ok' and sale_order.has_to_be_paid()">Your order has been signed but
-                            still needs to be paid to be confirmed.
-                        </t>
-                        <t t-else="">Your order has been signed.</t>
-                    </div>
-<!--    if proposal is accepted  cant reject ? or still cancel?-->
-<!--                    <div t-if="message == 'is_accepted' and sale_order.has_to_be_signed()"-->
-<!--                         class="alert alert-danger alert-dismissable d-print-none" role="alert">-->
-<!--                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>-->
-<!--                        Your order is not in a state to be rejected.-->
-<!--                    </div>-->
+                    <!--                    <div t-if="message == 'sign_ok'" class="alert alert-success alert-dismissable d-print-none"-->
+                    <!--                         role="status">-->
+                    <!--                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>-->
+                    <!--                        <strong>Thank You!</strong>-->
+                    <!--                        <br/>-->
+                    <!--                        <t t-if="message == 'sign_ok' and sale_order.state in ['sale', 'done']">Your order has been-->
+                    <!--                            confirmed.-->
+                    <!--                        </t>-->
+                    <!--                        <t t-elif="message == 'sign_ok' and sale_order.has_to_be_paid()">Your order has been signed but-->
+                    <!--                            still needs to be paid to be confirmed.-->
+                    <!--                        </t>-->
+                    <!--                        <t t-else="">Your order has been signed.</t>-->
+                    <!--                    </div>-->
+                    <!--    if proposal is accepted  cant reject ? or still cancel?-->
+                    <!--                    <div t-if="message == 'is_accepted' and sale_order.has_to_be_signed()"-->
+                    <!--                         class="alert alert-danger alert-dismissable d-print-none" role="alert">-->
+                    <!--                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>-->
+                    <!--                        Your order is not in a state to be rejected.-->
+                    <!--                    </div>-->
 
 
-                    <div t-if="product_proposal.state == 'cancel'" class="alert alert-danger alert-dismissable d-print-none"
-                         role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="close">&amp;times;</button>
-                        <strong>This proposal has been canceled.</strong>
-                        <a role="button" href="#discussion">
-                            <i class="fa fa-comment"/>
-                            Contact us to get a new proposal.
-                        </a>
-                    </div>
+                    <!--                     <div t-if="product_proposal.state == 'cancel'" class="alert alert-danger alert-dismissable d-print-none"-->
+                    <!--                         role="alert">-->
+                    <!--                        <button type="button" class="close" data-dismiss="alert" aria-label="close">&amp;times;</button>-->
+                    <!--                        <strong>This proposal has been canceled.</strong>-->
+                    <!--                        <a role="button" href="#discussion">-->
+                    <!--                            <i class="fa fa-comment"/>-->
+                    <!--                            Contact us to get a new proposal.-->
+                    <!--                        </a>-->
+                    <!--                    </div>-->
 
 
-                    <!-- main content -->
+                    main content
                     <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}" id="portal_sale_content">
                         <div t-call="product_proposal.product_proposal_portal_content"/>
                     </div>
 
                     <!-- bottom actions -->
-                    <div
-                            class="row justify-content-center text-center d-print-none pt-1 pb-4">
+                    <!--                    <div-->
+                    <!--                            class="row justify-content-center text-center d-print-none pt-1 pb-4">-->
 
-                        <t t-if="sale_order.has_to_be_accepted(True)">
-                            <div class="col-sm-auto mt8">
-                                <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"
-                                   href="#">
-                                    <i class="fa fa-check"/>
-                                    <!--                                    if proposal is accepted hide accepted button else create a SO in backend which leads to sign and pay optin. Sign and pay optin is currntly opting out -->
-                                    <!--                                    <t t-if="sale_order.has_to_be_paid(True)">Sign &amp; PAY</t>-->
-                                    <!--                                    <t t-if="">ACCEPT</t>-->
-                                    ACCEPT
-                                </a>
-                            </div>
+                    <!--                        <t t-if="sale_order.has_to_be_accepted(True)">-->
+                    <!--                            <div class="col-sm-auto mt8">-->
+                    <!--                                <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"-->
+                    <!--                                   href="#">-->
+                    <!--                                    <i class="fa fa-check"/>-->
+                    <!--                                    &lt;!&ndash;                                    if proposal is accepted hide accepted button else create a SO in backend which leads to sign and pay optin. Sign and pay optin is currntly opting out &ndash;&gt;-->
+                    <!--                                    &lt;!&ndash;                                    <t t-if="sale_order.has_to_be_paid(True)">Sign &amp; PAY</t>&ndash;&gt;-->
+                    <!--                                    &lt;!&ndash;                                    <t t-if="">ACCEPT</t>&ndash;&gt;-->
+                    <!--                                    ACCEPT-->
+                    <!--                                </a>-->
+                    <!--                            </div>-->
 
-                            <div class="col-sm-auto mt8">
-                                <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#modaldecline"
-                                   href="#">
-                                    <i class="fa fa-times"/>
-                                    REFUSE
-                                </a>
-                            </div>
-                        </t>
-                    </div>
+                    <!--                            <div class="col-sm-auto mt8">-->
+                    <!--                                <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#modaldecline"-->
+                    <!--                                   href="#">-->
+                    <!--                                    <i class="fa fa-times"/>-->
+                    <!--                                    REFUSE-->
+                    <!--                                </a>-->
+                    <!--                            </div>-->
+                    <!--                        </t>-->
+                    <!--                    </div>-->
 
                     <!-- chatter -->
                     <div id="proposal_order_communication" class="mt-4">
@@ -271,7 +300,7 @@
         <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
             <h2 class="my-0">
                 PROPOSAL
-                <em t-esc="product_proposal.name_seq"/>
+                <em t-esc="proposal_order.name_seq"/>
             </h2>
         </div>
 
@@ -280,24 +309,17 @@
             <div id="informations">
                 <div class="row" id="so_date">
                     <div class="mb-3 col-6">
-                        <t t-if="product_proposal.date_proposal">
+                        <t t-if="proposal_order.date_proposal">
                             <strong>Proposal Date:</strong>
                         </t>
-                        <span t-field="product_proposal.date_proposal" t-options='{"widget": "date"}'/>
+                        <span t-field="proposal_order.date_proposal" t-options='{"widget": "date"}'/>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
-                        <strong t-if="product_proposal.partner_invoice_id"
-                                class="d-block mb-1">CUSTOMER:
-                        </strong>
-                        <address t-field="product_proposal.partner_invoice_id"
-                                 t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
-                    </div>
-                    <t t-if="product_proposal.partner_shipping_id">
+                    <t t-if="proposal_order.partner_id">
                         <div id="shipping_address" class="col-lg-6">
                             <strong class="d-block mb-1">CUSTOMER:</strong>
-                            <address t-field="product_proposal.partner_shipping_id"
+                            <address t-field="proposal_order.partner_id"
                                      t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
                         </div>
                     </t>
@@ -318,31 +340,31 @@
                     <tbody class="sale_tbody">
                         <t t-set="current_subtotal" t-value="0.0"/>
                         <input class="record_id" type="hidden" t-att-value='proposal_order.id'/>
-                        <t t-foreach="product_proposal.proposal_line_ids" t-as="product_line">
-                            <tr>
-                                <td>
-                                    <span t-field='product_line.product'/>
-                                </td>
-                                <td>
-                                    <span t-field='product_line.proposed_quantity'/>
-                                </td>
-                                <td>
-                                    <span t-field='product_line.proposed_price'/>
-                                </td>
-                                <td>
-                                    <div class="number">
-                                        <span class="minus">-</span>
-                                        <input t-att-line_id='product_line.id' class='accepted_quantity'
-                                               t-att-value="product_line.proposed_quantity" type="text"/>
-                                        <span class="plus">+</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class='accept_price' t-att-value="product_line.accepted_price" type="text"
-                                           style='width: 100px;'/>
-                                </td>
-                            </tr>
-                        </t>
+                                                <t t-foreach="proposal_order.proposal_line_ids" t-as="product_line">
+                                                    <tr>
+                                                        <td>
+                                                            <span t-field='product_line.product_id.name'/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-field='product_line.qty_proposed'/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-field='product_line.price_proposed'/>
+                                                        </td>
+<!--                                                        <td>-->
+<!--                                                            <div class="number">-->
+<!--                                                                <span class="minus">-</span>-->
+<!--                                                                <input t-att-line_id='product_line.id' class='accepted_quantity'-->
+<!--                                                                       t-att-value="product_line.proposed_quantity" type="text"/>-->
+<!--                                                                <span class="plus">+</span>-->
+<!--                                                            </div>-->
+<!--                                                        </td>-->
+<!--                                                        <td>-->
+<!--                                                            <input class='accept_price' t-att-value="product_line.accepted_price" type="text"-->
+<!--                                                                   style='width: 100px;'/>-->
+<!--                                                        </td>-->
+                                                    </tr>
+                                                </t>
                     </tbody>
 
                     <div id="total" class="row" name="total" style="page-break-inside: avoid;">
@@ -355,7 +377,7 @@
                                     <td class="text-left">
                                         <span class="text-right"
                                               data-id="accepted_total"
-                                              t-field="product_proposal.accepted_total"
+                                              t-field="proposal_order.accepted_total"
                                         />
                                     </td>
                                 </tr>
@@ -366,7 +388,7 @@
                                     <td class="text-left">
                                         <span class="text-right"
                                               data-id="total"
-                                              t-field="product_proposal.total_amt"
+                                              t-field="proposal_order.total_amt"
 
                                         />
                                     </td>
@@ -378,11 +400,11 @@
             </section>
 
 
-            <section id="terms" class="mt-5" t-if="product_proposal.note">
-                <h3 class="">Terms &amp; Conditions</h3>
-                <hr class="mt-0 mb-1"/>
-                <em t-field="product_proposal.note"/>
-            </section>
+            <!--            <section id="terms" class="mt-5" t-if="product_proposal.note">-->
+            <!--                <h3 class="">Terms &amp; Conditions</h3>-->
+            <!--                <hr class="mt-0 mb-1"/>-->
+            <!--                <em t-field="product_proposal.note"/>-->
+            <!--            </section>-->
         </div>
     </template>
 

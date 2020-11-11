@@ -17,7 +17,7 @@
                         Hello,
                         Here is your product proposals for this time,Ref $(object.name_seq).
                         <br/>
-
+                        <a href="${object.get_portal_url() | safe}">Click Here To View Your Proposal</a>
                         <br/>
                         Do not hesitate to contact us if you have any questions.
                         <br/>

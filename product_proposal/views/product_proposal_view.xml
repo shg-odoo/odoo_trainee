@@ -44,6 +44,7 @@
                         </group>
                         <group>
                             <field name="date_proposal"/>
+<!--                            <field name="pricelist_id"/>-->
                         </group>
 
                     </group>
@@ -105,6 +106,7 @@
                 <field name="partner_id"/>
                 <field name="user_id"/>
                 <field name="date_proposal"/>
+<!--                <field name="pricelist_id"/>-->
                 <field name="state"/>
 
             </tree>

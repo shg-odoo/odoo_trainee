@@ -26,12 +26,14 @@ class ProductProposal(models.Model):
     proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='_compute_total')
     accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True)
     total_amt = fields.Monetary(string='Total', store=True, readonly=True)
-    pricelist_id = fields.Many2one(
-        'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
-        required=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
-        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1,
-        help="If you change the pricelist, only newly added lines will be affected.")
-    currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
+    # pricelist_id = fields.Many2one(
+    #     'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
+    #     required=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+    #     domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1,
+    #     help="If you change the pricelist, only newly added lines will be affected.")
+    # currency_id = fields.Many2one(related='pricelist_id.currency_id',store=True)
+    currency_id = fields.Many2one('res.currency', 'Currency',
+                                  default=lambda self: self.env.user.company_id.currency_id.id, required=True)
 
     # add pricelist,tax
 
@@ -74,6 +76,7 @@ class ProductProposal(models.Model):
             'target': 'self',
             'url': self.get_portal_url(),
         }
+
     #
     def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
         self.ensure_one()
@@ -81,20 +84,22 @@ class ProductProposal(models.Model):
 
     def _compute_access_url(self):
         super(ProductProposal, self)._compute_access_url()
-        for proposal in self:
-            proposal.access_url = '/my/proposals/%s' % (proposal.id)
+        for order in self:
+            order.access_url = '/my/proposals/%s' % (order.id)
 
     def _get_portal_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
         return self.env.ref('product_proposal.action_product_proposal')
 
-    # @api.onchange('partner_id')
-    # def _get_access_token(self):
-        print("id...................",self.partner_id.id)
+        # @api.onchange('partner_id')
+        # def _get_access_token(self):
+        # print("id...................", self.partner_id.id)
         # temp = self.partner_id.str(uuid.uuid4())
         # print("mmmmmmmmmmmmmmmmmmmmmmmmm temp",temp
         #       )
+
+
 #
 class ProposalLines(models.Model):
     _name = "proposal.lines"
