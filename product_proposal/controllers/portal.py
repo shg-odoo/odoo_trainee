@@ -141,7 +141,7 @@ class CustomerPortal(CustomerPortal):
             history = request.session.get('my_orders_history', [])
         values.update(get_records_pager(history, proposal_order_sudo))
 
-        return request.render('product_proposal.product_proposal_portal_content', values)
+        return request.render('product_proposal.product_proposal_portal_template', values)
 
     # @http.route(['/my/proposals/<int:order_id>/accept'], type='json', auth="public", website=True)
     # def portal_quote_accept(self, order_id, access_token=None, name=None, signature=None):

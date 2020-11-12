@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="portal_my_home_menu_proposal" name=
-            "Portal layout : sales menu entries" inherit_id="portal.portal_breadcrumbs" priority="20">
-        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
-            <li t-if="page_name == 'proposal_order' and proposal_order.state not in ('sent', 'cancel')"
-                t-attf-class="breadcrumb-item #{'active ' if not proposal_order else ''}">
-                <a t-if="sale_order" t-attf-href="/my/proposals?{{ keep_query() }}">Proposal Orders</a>
-                <t t-else="">Proposal Orders</t>
-            </li>
-            <li t-if="proposal_order" class="breadcrumb-item active">
-                <span t-field="proposal_order.name"/>
-            </li>
-        </xpath>
-    </template>
+<!--    <template id="portal_my_home_menu_proposal" name=-->
+<!--            "Portal layout : sales menu entries" inherit_id="portal.portal_breadcrumbs" priority="20">-->
+<!--        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">-->
+<!--            <li t-if="page_name == 'proposal_order' and proposal_order.state not in ('sent', 'cancel')"-->
+<!--                t-attf-class="breadcrumb-item #{'active ' if not proposal_order else ''}">-->
+<!--                <a t-if="sale_order" t-attf-href="/my/proposals?{{ keep_query() }}">Proposal Orders</a>-->
+<!--                <t t-else="">Proposal Orders</t>-->
+<!--            </li>-->
+<!--            <li t-if="proposal_order" class="breadcrumb-item active">-->
+<!--                <span t-field="proposal_order.name"/>-->
+<!--            </li>-->
+<!--        </xpath>-->
+<!--    </template>-->
 
-    <template id="portal_my_home_proposal" name="Show Proposal Orders" customize_show="True"
-              inherit_id="portal.portal_my_home" priority="20">
-        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
-            <t t-call="portal.portal_docs_entry">
-                <t t-set="title">Proposal Orders</t>
-                <t t-set="url" t-value="'/my/proposals'"/>
-                <t t-set="placeholder_count" t-value="'order_count'"/>
-            </t>
-        </xpath>
-    </template>
-    <template id="product_proposal_portal_my_orders" name="My Proposal Orders">
-        <t t-call="portal.portal_layout">
-            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+<!--    <template id="portal_my_home_proposal" name="Show Proposal Orders" customize_show="True"-->
+<!--              inherit_id="portal.portal_my_home" priority="20">-->
+<!--        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">-->
+<!--            <t t-call="portal.portal_docs_entry">-->
+<!--                <t t-set="title">Proposal Orders</t>-->
+<!--                <t t-set="url" t-value="'/my/proposals'"/>-->
+<!--                <t t-set="placeholder_count" t-value="'order_count'"/>-->
+<!--            </t>-->
+<!--        </xpath>-->
+<!--    </template>-->
+<!--    <template id="product_proposal_portal_my_orders" name="My Proposal Orders">-->
+<!--        <t t-call="portal.portal_layout">-->
+<!--            <t t-set="breadcrumbs_searchbar" t-value="True"/>-->
 
-            <t t-call="portal.portal_searchbar">
-                <t t-set="title">Proposal Orders</t>
-            </t>
-            <t t-if="not orders">
-                <p>There are currently no orders for your account.</p>
-            </t>
-            <t t-if="orders" t-call="portal.portal_table">
-                <thead>
-                    <tr class="active">
-                        <th>
-                            <span class='d-none d-md-inline'>Proposal Order #</span>
-                            <span class='d-block d-md-none'>Ref.</span>
-                        </th>
-                        <th class="text-right">Order Date</th>
-                        <th class="text-center"/>
-                        <th class="text-right">Total</th>
-                    </tr>
-                </thead>
-                <t t-foreach="orders" t-as="order">
-                    <tr>
-                        <td>
-                            <a t-att-href="order.get_portal_url()">
-                                <t t-esc="order.name"/>
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <span t-field="order.date_proposal" t-options="{'widget': 'date'}"/>&amp;nbsp;
-                            <span class='d-none d-md-inline' t-field="order.date_proposal"
-                                  t-options="{'time_only': True}"/>
-                        </td>
-                        <td class="text-center">
-                            <span t-if="order.state == 'done'" class="badge badge-pill badge-success">
-                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <span t-field="order.total_amt"/>
-                        </td>
-                    </tr>
-                </t>
-            </t>
-        </t>
-    </template>
+<!--            <t t-call="portal.portal_searchbar">-->
+<!--                <t t-set="title">Proposal Orders</t>-->
+<!--            </t>-->
+<!--            <t t-if="not orders">-->
+<!--                <p>There are currently no orders for your account.</p>-->
+<!--            </t>-->
+<!--            <t t-if="orders" t-call="portal.portal_table">-->
+<!--                <thead>-->
+<!--                    <tr class="active">-->
+<!--                        <th>-->
+<!--                            <span class='d-none d-md-inline'>Proposal Order #</span>-->
+<!--                            <span class='d-block d-md-none'>Ref.</span>-->
+<!--                        </th>-->
+<!--                        <th class="text-right">Order Date</th>-->
+<!--                        <th class="text-center"/>-->
+<!--                        <th class="text-right">Total</th>-->
+<!--                    </tr>-->
+<!--                </thead>-->
+<!--                <t t-foreach="orders" t-as="order">-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            <a t-att-href="order.get_portal_url()">-->
+<!--                                <t t-esc="order.name"/>-->
+<!--                            </a>-->
+<!--                        </td>-->
+<!--                        <td class="text-right">-->
+<!--                            <span t-field="order.date_proposal" t-options="{'widget': 'date'}"/>&amp;nbsp;-->
+<!--                            <span class='d-none d-md-inline' t-field="order.date_proposal"-->
+<!--                                  t-options="{'time_only': True}"/>-->
+<!--                        </td>-->
+<!--                        <td class="text-center">-->
+<!--                            <span t-if="order.state == 'done'" class="badge badge-pill badge-success">-->
+<!--                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done-->
+<!--                            </span>-->
+<!--                        </td>-->
+<!--                        <td class="text-right">-->
+<!--                            <span t-field="order.total_amt"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </t>-->
+<!--    </template>-->
 
     <!-- Complete page of the proposal_order -->
 
@@ -252,36 +252,43 @@
                     <!--                    </div>-->
 
 
-                    main content
+<!--                    main content-->
                     <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}" id="portal_sale_content">
                         <div t-call="product_proposal.product_proposal_portal_content"/>
                     </div>
 
-                    <!-- bottom actions -->
-                    <!--                    <div-->
-                    <!--                            class="row justify-content-center text-center d-print-none pt-1 pb-4">-->
+                     bottom actions
+                                        <div
+                                                class="row justify-content-center text-center d-print-none pt-1 pb-4">
 
-                    <!--                        <t t-if="sale_order.has_to_be_accepted(True)">-->
-                    <!--                            <div class="col-sm-auto mt8">-->
-                    <!--                                <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"-->
-                    <!--                                   href="#">-->
-                    <!--                                    <i class="fa fa-check"/>-->
-                    <!--                                    &lt;!&ndash;                                    if proposal is accepted hide accepted button else create a SO in backend which leads to sign and pay optin. Sign and pay optin is currntly opting out &ndash;&gt;-->
-                    <!--                                    &lt;!&ndash;                                    <t t-if="sale_order.has_to_be_paid(True)">Sign &amp; PAY</t>&ndash;&gt;-->
-                    <!--                                    &lt;!&ndash;                                    <t t-if="">ACCEPT</t>&ndash;&gt;-->
-                    <!--                                    ACCEPT-->
-                    <!--                                </a>-->
-                    <!--                            </div>-->
+<!--                                            <t t-if="sale_order.has_to_be_accepted(True)">-->
+<!--                                                <div class="col-sm-auto mt8">-->
+<!--                                                    <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"-->
+<!--                                                       href="#">-->
+<!--                                                        <i class="fa fa-check"/>-->
+<!--                                                        &lt;!&ndash;                                    if proposal is accepted hide accepted button else create a SO in backend which leads to sign and pay optin. Sign and pay optin is currntly opting out &ndash;&gt;-->
+<!--                                                        &lt;!&ndash;                                    <t t-if="sale_order.has_to_be_paid(True)">Sign &amp; PAY</t>&ndash;&gt;-->
+<!--                                                        &lt;!&ndash;                                    <t t-if="">ACCEPT</t>&ndash;&gt;-->
+<!--                                                        ACCEPT-->
+<!--                                                    </a>-->
+<!--                                                </div>-->
 
-                    <!--                            <div class="col-sm-auto mt8">-->
-                    <!--                                <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#modaldecline"-->
-                    <!--                                   href="#">-->
-                    <!--                                    <i class="fa fa-times"/>-->
-                    <!--                                    REFUSE-->
-                    <!--                                </a>-->
-                    <!--                            </div>-->
-                    <!--                        </t>-->
-                    <!--                    </div>-->
+                                                <div class="col-sm-auto mt8">
+                                                    <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"
+                                                       href="#">
+                                                        <i class="fa fa-check"/>
+                                                        ACCEPT
+                                                    </a>
+                                                </div>
+                                            <div class="col-sm-auto mt8">
+                                                    <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#modaldecline"
+                                                       href="#">
+                                                        <i class="fa fa-times"/>
+                                                        REFUSE
+                                                    </a>
+                                                </div>
+<!--                                            </t>-->
+                                        </div>
 
                     <!-- chatter -->
                     <div id="proposal_order_communication" class="mt-4">
@@ -351,18 +358,18 @@
                                                         <td>
                                                             <span t-field='product_line.price_proposed'/>
                                                         </td>
-<!--                                                        <td>-->
-<!--                                                            <div class="number">-->
-<!--                                                                <span class="minus">-</span>-->
-<!--                                                                <input t-att-line_id='product_line.id' class='accepted_quantity'-->
-<!--                                                                       t-att-value="product_line.proposed_quantity" type="text"/>-->
-<!--                                                                <span class="plus">+</span>-->
-<!--                                                            </div>-->
-<!--                                                        </td>-->
-<!--                                                        <td>-->
-<!--                                                            <input class='accept_price' t-att-value="product_line.accepted_price" type="text"-->
-<!--                                                                   style='width: 100px;'/>-->
-<!--                                                        </td>-->
+                                                        <td>
+                                                            <div class="number">
+                                                                <span class="minus">-</span>
+                                                                <input t-att-line_id='product_line.id' class='accepted_quantity'
+                                                                       t-att-value="product_line.qty_proposed" type="text"/>
+                                                                <span class="plus">+</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input class='accept_price' t-att-value="product_line.price_accepted" type="text"
+                                                                   style='width: 70px;'/>
+                                                        </td>
                                                     </tr>
                                                 </t>
                     </tbody>
