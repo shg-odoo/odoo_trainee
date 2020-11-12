@@ -1,5 +1,5 @@
 from odoo import models, fields, api, _
-import uuid
+
 
 
 class ProductProposal(models.Model):
@@ -23,8 +23,8 @@ class ProductProposal(models.Model):
     date_proposal = fields.Datetime(string='Proposal Date', required=True, readonly=True, index=True,
                                     states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False,
                                     default=fields.Datetime.now)
-    proposed_total = fields.Monetary(string='Proposed Total', store=True, readonly=True, compute='_compute_total')
-    accepted_total = fields.Monetary(string='Accepted Total', store=True, readonly=True)
+    proposed_total = fields.Monetary(string='Proposed Total', store=True, compute='_compute_proposed_total')
+    accepted_total = fields.Monetary(string='Accepted Total', store=True)
     total_amt = fields.Monetary(string='Total', store=True, readonly=True)
     # pricelist_id = fields.Many2one(
     #     'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
@@ -53,12 +53,19 @@ class ProductProposal(models.Model):
 
         return self.write({'state': 'sent'})
 
-    #
-    @api.depends('proposal_line_ids.sub_total_accepted', 'proposal_line_ids.sub_total_proposed')
-    def _compute_total(self):
+
+
+
+    @api.depends('proposal_line_ids.sub_total_proposed')
+    def _compute_proposed_total(self):
+        self.proposed_total = 0.0
         if self.proposal_line_ids:
             for line in self.proposal_line_ids:
+                print("in line.subtotal.........................",line.sub_total_proposed)
                 self.proposed_total += line.sub_total_proposed
+        self.total_amt = self.proposed_total
+        print("jjjjjjjjjjjjjjjjjjjjjj totsl proposd",self.total_amt)
+
 
     def action_confirm(self):
         self.write({'state': 'confirm'})
@@ -92,12 +99,7 @@ class ProductProposal(models.Model):
         self.ensure_one()
         return self.env.ref('product_proposal.action_product_proposal')
 
-        # @api.onchange('partner_id')
-        # def _get_access_token(self):
-        # print("id...................", self.partner_id.id)
-        # temp = self.partner_id.str(uuid.uuid4())
-        # print("mmmmmmmmmmmmmmmmmmmmmmmmm temp",temp
-        #       )
+
 
 
 #
@@ -114,8 +116,8 @@ class ProposalLines(models.Model):
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id.id, index=1)
     currency_id = fields.Many2one('res.currency', 'Currency',
                                   default=lambda self: self.env.user.company_id.currency_id.id, required=True)
-    sub_total_proposed = fields.Monetary(string='SubTotal Proposed', store=True, readonly=True)
-    sub_total_accepted = fields.Monetary(string='SubTotal Accepted', store=True, readonly=True)
+    sub_total_proposed = fields.Monetary(string='SubTotal Proposed', store=True)
+    sub_total_accepted = fields.Monetary(string='SubTotal Accepted', store=True)
 
     #
 

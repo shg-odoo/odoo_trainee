@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<!--    <template id="portal_my_home_menu_proposal" name=-->
-<!--            "Portal layout : sales menu entries" inherit_id="portal.portal_breadcrumbs" priority="20">-->
-<!--        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">-->
-<!--            <li t-if="page_name == 'proposal_order' and proposal_order.state not in ('sent', 'cancel')"-->
-<!--                t-attf-class="breadcrumb-item #{'active ' if not proposal_order else ''}">-->
-<!--                <a t-if="sale_order" t-attf-href="/my/proposals?{{ keep_query() }}">Proposal Orders</a>-->
-<!--                <t t-else="">Proposal Orders</t>-->
-<!--            </li>-->
-<!--            <li t-if="proposal_order" class="breadcrumb-item active">-->
-<!--                <span t-field="proposal_order.name"/>-->
-<!--            </li>-->
-<!--        </xpath>-->
-<!--    </template>-->
+    <!--    <template id="portal_my_home_menu_proposal" name=-->
+    <!--            "Portal layout : sales menu entries" inherit_id="portal.portal_breadcrumbs" priority="20">-->
+    <!--        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">-->
+    <!--            <li t-if="page_name == 'proposal_order' and proposal_order.state not in ('sent', 'cancel')"-->
+    <!--                t-attf-class="breadcrumb-item #{'active ' if not proposal_order else ''}">-->
+    <!--                <a t-if="proposal_order" t-attf-href="/my/proposals?{{ keep_query() }}">Proposal Orders</a>-->
+    <!--                <t t-else="">Proposal Orders</t>-->
+    <!--            </li>-->
+    <!--            <li t-if="proposal_order" class="breadcrumb-item active">-->
+    <!--                <span t-field="proposal_order.name"/>-->
+    <!--            </li>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
 
-<!--    <template id="portal_my_home_proposal" name="Show Proposal Orders" customize_show="True"-->
-<!--              inherit_id="portal.portal_my_home" priority="20">-->
-<!--        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">-->
-<!--            <t t-call="portal.portal_docs_entry">-->
-<!--                <t t-set="title">Proposal Orders</t>-->
-<!--                <t t-set="url" t-value="'/my/proposals'"/>-->
-<!--                <t t-set="placeholder_count" t-value="'order_count'"/>-->
-<!--            </t>-->
-<!--        </xpath>-->
-<!--    </template>-->
-<!--    <template id="product_proposal_portal_my_orders" name="My Proposal Orders">-->
-<!--        <t t-call="portal.portal_layout">-->
-<!--            <t t-set="breadcrumbs_searchbar" t-value="True"/>-->
+    <!--    <template id="portal_my_home_proposal" name="Show Proposal Orders" customize_show="True"-->
+    <!--              inherit_id="portal.portal_my_home" priority="20">-->
+    <!--        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">-->
+    <!--            <t t-call="portal.portal_docs_entry">-->
+    <!--                <t t-set="title">Proposal Orders</t>-->
+    <!--                <t t-set="url" t-value="'/my/proposals'"/>-->
+    <!--                <t t-set="placeholder_count" t-value="'order_count'"/>-->
+    <!--            </t>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+    <!--    <template id="product_proposal_portal_my_orders" name="My Proposal Orders">-->
+    <!--        <t t-call="portal.portal_layout">-->
+    <!--            <t t-set="breadcrumbs_searchbar" t-value="True"/>-->
 
-<!--            <t t-call="portal.portal_searchbar">-->
-<!--                <t t-set="title">Proposal Orders</t>-->
-<!--            </t>-->
-<!--            <t t-if="not orders">-->
-<!--                <p>There are currently no orders for your account.</p>-->
-<!--            </t>-->
-<!--            <t t-if="orders" t-call="portal.portal_table">-->
-<!--                <thead>-->
-<!--                    <tr class="active">-->
-<!--                        <th>-->
-<!--                            <span class='d-none d-md-inline'>Proposal Order #</span>-->
-<!--                            <span class='d-block d-md-none'>Ref.</span>-->
-<!--                        </th>-->
-<!--                        <th class="text-right">Order Date</th>-->
-<!--                        <th class="text-center"/>-->
-<!--                        <th class="text-right">Total</th>-->
-<!--                    </tr>-->
-<!--                </thead>-->
-<!--                <t t-foreach="orders" t-as="order">-->
-<!--                    <tr>-->
-<!--                        <td>-->
-<!--                            <a t-att-href="order.get_portal_url()">-->
-<!--                                <t t-esc="order.name"/>-->
-<!--                            </a>-->
-<!--                        </td>-->
-<!--                        <td class="text-right">-->
-<!--                            <span t-field="order.date_proposal" t-options="{'widget': 'date'}"/>&amp;nbsp;-->
-<!--                            <span class='d-none d-md-inline' t-field="order.date_proposal"-->
-<!--                                  t-options="{'time_only': True}"/>-->
-<!--                        </td>-->
-<!--                        <td class="text-center">-->
-<!--                            <span t-if="order.state == 'done'" class="badge badge-pill badge-success">-->
-<!--                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done-->
-<!--                            </span>-->
-<!--                        </td>-->
-<!--                        <td class="text-right">-->
-<!--                            <span t-field="order.total_amt"/>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                </t>-->
-<!--            </t>-->
-<!--        </t>-->
-<!--    </template>-->
+    <!--            <t t-call="portal.portal_searchbar">-->
+    <!--                <t t-set="title">Proposal Orders</t>-->
+    <!--            </t>-->
+    <!--            <t t-if="not orders">-->
+    <!--                <p>There are currently no orders for your account.</p>-->
+    <!--            </t>-->
+    <!--            <t t-if="orders" t-call="portal.portal_table">-->
+    <!--                <thead>-->
+    <!--                    <tr class="active">-->
+    <!--                        <th>-->
+    <!--                            <span class='d-none d-md-inline'>Proposal Order #</span>-->
+    <!--                            <span class='d-block d-md-none'>Ref.</span>-->
+    <!--                        </th>-->
+    <!--                        <th class="text-right">Order Date</th>-->
+    <!--                        <th class="text-center"/>-->
+    <!--                        <th class="text-right">Total</th>-->
+    <!--                    </tr>-->
+    <!--                </thead>-->
+    <!--                <t t-foreach="orders" t-as="order">-->
+    <!--                    <tr>-->
+    <!--                        <td>-->
+    <!--                            <a t-att-href="order.get_portal_url()">-->
+    <!--                                <t t-esc="order.name"/>-->
+    <!--                            </a>-->
+    <!--                        </td>-->
+    <!--                        <td class="text-right">-->
+    <!--                            <span t-field="order.date_proposal" t-options="{'widget': 'date'}"/>&amp;nbsp;-->
+    <!--                            <span class='d-none d-md-inline' t-field="order.date_proposal"-->
+    <!--                                  t-options="{'time_only': True}"/>-->
+    <!--                        </td>-->
+    <!--                        <td class="text-center">-->
+    <!--                            <span t-if="order.state == 'done'" class="badge badge-pill badge-success">-->
+    <!--                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done-->
+    <!--                            </span>-->
+    <!--                        </td>-->
+    <!--                        <td class="text-right">-->
+    <!--                            <span t-field="order.total_amt"/>-->
+    <!--                        </td>-->
+    <!--                    </tr>-->
+    <!--                </t>-->
+    <!--            </t>-->
+    <!--        </t>-->
+    <!--    </template>-->
 
     <!-- Complete page of the proposal_order -->
 
@@ -101,7 +101,7 @@
                             <li class="list-group-item flex-grow-1">
                                 <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
                                     <div class="btn-group flex-grow-1 mr-1 mb-1">
-                                        <a class="btn btn-secondary btn-block o_download_btn"
+                                        <a class="btn btn-secondary btn-block o_download_btn" style="color:white;background-color:black;"
                                            t-att-href="proposal_order.get_portal_url(report_type='pdf', download=True)"
                                            title="Download">
                                             <i class="fa fa-download"/>
@@ -110,8 +110,8 @@
                                     </div>
                                     <div class="btn-group flex-grow-1 mb-1">
                                         <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print"
-                                           t-att-href="proposal_order.get_portal_url(report_type='pdf')"
-                                           id="print_invoice_report" title="Print" target="_blank">
+                                           t-att-href="proposal_order.get_portal_url(report_type='pdf')" style="color:white;background-color:black;"
+                                           id="print_proposal_report" title="Print" target="_blank">
                                             <i class="fa fa-print"/>
                                             STAMPA
                                         </a>
@@ -189,35 +189,35 @@
                     <!--                        </div>-->
                     <!--                    </div>-->
 
-                    <!-- modal relative to the action reject -->
-                    <!--                    <div role="dialog" class="modal fade" id="modaldecline">-->
-                    <!--                        <div class="modal-dialog">-->
-                    <!--                            <form id="decline" method="POST"-->
-                    <!--                                  t-attf-action="/my/proposals/#{proposal_order.id}/decline?access_token=#{proposal_order.access_token}"-->
-                    <!--                                  class="modal-content">-->
-                    <!--                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
-                    <!--                                <header class="modal-header">-->
-                    <!--                                    <h4 class="modal-title">Reject This Proposal</h4>-->
-                    <!--                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>-->
-                    <!--                                </header>-->
-                    <!--                                <main class="modal-body">-->
-                    <!--                                    <p>-->
-                    <!--                                        Tell us why you are refusing this Proposal, this will help us improve our-->
-                    <!--                                        services.-->
-                    <!--                                    </p>-->
-                    <!--                                    <textarea rows="4" name="decline_message" required="" placeholder="Your feedback..."-->
-                    <!--                                              class="form-control"/>-->
-                    <!--                                </main>-->
-                    <!--                                <footer class="modal-footer">-->
-                    <!--                                    <button type="submit" t-att-id="sale_order.id" class="btn btn-danger">-->
-                    <!--                                        <i class="fa fa-times"></i>-->
-                    <!--                                        Reject-->
-                    <!--                                    </button>-->
-                    <!--                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>-->
-                    <!--                                </footer>-->
-                    <!--                            </form>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
+                    <!--                     modal relative to the action reject -->
+                    <div role="dialog" class="modal fade" id="modaldecline">
+                        <div class="modal-dialog">
+                            <form id="decline" method="POST"
+                                  t-attf-action="/my/proposals/#{proposal_order.id}/decline?access_token=#{proposal_order.access_token}"
+                                  class="modal-content">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <header class="modal-header">
+                                    <h4 class="modal-title">Reject This Proposal</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
+                                </header>
+                                <main class="modal-body">
+                                    <p>
+                                        Tell us why you are refusing this Proposal, this will help us improve our
+                                        services.
+                                    </p>
+                                    <textarea rows="4" name="decline_message" required="" placeholder="Your feedback..."
+                                              class="form-control"/>
+                                </main>
+                                <footer class="modal-footer">
+                                    <button type="submit" t-att-id="proposal_order.id" class="btn btn-danger">
+                                        <i class="fa fa-times"></i>
+                                        Reject
+                                    </button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
 
                     <!-- status messages -->
                     <!--                    <div t-if="message == 'sign_ok'" class="alert alert-success alert-dismissable d-print-none"-->
@@ -252,167 +252,163 @@
                     <!--                    </div>-->
 
 
-<!--                    main content-->
+                    <!--                    main content-->
                     <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}" id="portal_sale_content">
                         <div t-call="product_proposal.product_proposal_portal_content"/>
                     </div>
 
-                     bottom actions
-                                        <div
-                                                class="row justify-content-center text-center d-print-none pt-1 pb-4">
+                    bottom actions
+                    <div
+                            class="row justify-content-center text-center d-print-none pt-1 pb-4">
 
-<!--                                            <t t-if="sale_order.has_to_be_accepted(True)">-->
-<!--                                                <div class="col-sm-auto mt8">-->
-<!--                                                    <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"-->
-<!--                                                       href="#">-->
-<!--                                                        <i class="fa fa-check"/>-->
-<!--                                                        &lt;!&ndash;                                    if proposal is accepted hide accepted button else create a SO in backend which leads to sign and pay optin. Sign and pay optin is currntly opting out &ndash;&gt;-->
-<!--                                                        &lt;!&ndash;                                    <t t-if="sale_order.has_to_be_paid(True)">Sign &amp; PAY</t>&ndash;&gt;-->
-<!--                                                        &lt;!&ndash;                                    <t t-if="">ACCEPT</t>&ndash;&gt;-->
-<!--                                                        ACCEPT-->
-<!--                                                    </a>-->
-<!--                                                </div>-->
+                        <!--                                            <t t-if="sale_order.has_to_be_accepted(True)">-->
+                        <!--                                                <div class="col-sm-auto mt8">-->
+                        <!--                                                    <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"-->
+                        <!--                                                       href="#">-->
+                        <!--                                                        <i class="fa fa-check"/>-->
+                        <!--                                                        &lt;!&ndash;                                    if proposal is accepted hide accepted button else create a SO in backend which leads to sign and pay optin. Sign and pay optin is currntly opting out &ndash;&gt;-->
+                        <!--                                                        &lt;!&ndash;                                    <t t-if="sale_order.has_to_be_paid(True)">Sign &amp; PAY</t>&ndash;&gt;-->
+                        <!--                                                        &lt;!&ndash;                                    <t t-if="">ACCEPT</t>&ndash;&gt;-->
+                        <!--                                                        ACCEPT-->
+                        <!--                                                    </a>-->
+                        <!--                                                </div>-->
 
-                                                <div class="col-sm-auto mt8">
-                                                    <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"
-                                                       href="#">
-                                                        <i class="fa fa-check"/>
-                                                        ACCEPT
-                                                    </a>
-                                                </div>
-                                            <div class="col-sm-auto mt8">
-                                                    <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#modaldecline"
-                                                       href="#">
-                                                        <i class="fa fa-times"/>
-                                                        REFUSE
-                                                    </a>
-                                                </div>
-<!--                                            </t>-->
-                                        </div>
-
-                    <!-- chatter -->
-                    <div id="proposal_order_communication" class="mt-4">
-                        <h2>History</h2>
-                        <t t-call="portal.message_thread">
-                            <t t-set="object" t-value="proposal_order"/>
-                        </t>
-                    </div>
-                </div><!-- // #quote_content -->
-            </div>
-        </xpath>
-    </template>
-    <!--content template................-->
-    <template id="product_proposal_portal_content" name="Product Proposal Portal Content">
-        <!-- Intro -->
-        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
-            <h2 class="my-0">
-                PROPOSAL
-                <em t-esc="proposal_order.name_seq"/>
-            </h2>
-        </div>
-
-        <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
-            <!-- Informations -->
-            <div id="informations">
-                <div class="row" id="so_date">
-                    <div class="mb-3 col-6">
-                        <t t-if="proposal_order.date_proposal">
-                            <strong>Proposal Date:</strong>
-                        </t>
-                        <span t-field="proposal_order.date_proposal" t-options='{"widget": "date"}'/>
-                    </div>
-                </div>
-                <div class="row">
-                    <t t-if="proposal_order.partner_id">
-                        <div id="shipping_address" class="col-lg-6">
-                            <strong class="d-block mb-1">CUSTOMER:</strong>
-                            <address t-field="proposal_order.partner_id"
-                                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                       <div class="row" style="background-color:white;padding:10px !important;">
+                            <div class="col-sm-auto mt8" >
+                            <a role="button" class="btn btn-primary" style="color:white;background-color:black;"
+                               data-toggle="modal" data-target="#modalaccept"
+                               href="#">
+                                <i class="fa fa-check"/>
+                                ACCEPT
+                            </a>
                         </div>
+                        <div class="col-sm-auto mt8">
+                            <a href="#" role="button" class="btn btn-primary"
+                               style="color:white;background-color:black;" data-toggle="modal" data-target="
+                            #modaldecline" >
+                            <i class="fa fa-times"/>
+                            REFUSE
+                        </a>
+                    </div>
+                       </div>
+                    <!--                                            </t>-->
+                </div>
+
+                <!-- chatter -->
+                <div id="proposal_order_communication" class="mt-4">
+                    <h2>History</h2>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="proposal_order"/>
                     </t>
                 </div>
-            </div>
-            <section>
-                <table class="table table-sm" id="proposal_order_table">
-                    <thead class="bg-100">
-                        <tr>
-                            <t t-set="colspan" t-value="6"/>
-                            <th class="text-left">Prodottto</th>
-                            <th class='accepted_quantity text-left'>Proposed Quantity</th>
-                            <th class="text-left">Proposed Price</th>
-                            <th class="text-left">Accepted Price</th>
-                            <th class="text-left">Accepted Price</th>
-                        </tr>
-                    </thead>
-                    <tbody class="sale_tbody">
-                        <t t-set="current_subtotal" t-value="0.0"/>
-                        <input class="record_id" type="hidden" t-att-value='proposal_order.id'/>
-                                                <t t-foreach="proposal_order.proposal_line_ids" t-as="product_line">
-                                                    <tr>
-                                                        <td>
-                                                            <span t-field='product_line.product_id.name'/>
-                                                        </td>
-                                                        <td>
-                                                            <span t-field='product_line.qty_proposed'/>
-                                                        </td>
-                                                        <td>
-                                                            <span t-field='product_line.price_proposed'/>
-                                                        </td>
-                                                        <td>
-                                                            <div class="number">
-                                                                <span class="minus">-</span>
-                                                                <input t-att-line_id='product_line.id' class='accepted_quantity'
-                                                                       t-att-value="product_line.qty_proposed" type="text"/>
-                                                                <span class="plus">+</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input class='accept_price' t-att-value="product_line.price_accepted" type="text"
-                                                                   style='width: 70px;'/>
-                                                        </td>
-                                                    </tr>
-                                                </t>
-                    </tbody>
-
-                    <div id="total" class="row" name="total" style="page-break-inside: avoid;">
-                        <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-                            <table class="table table-sm">
-                                <tr class="border-black" style="border-bottom:1px solid #dddddd;">
-                                    <td>
-                                        <strong>Subtotal</strong>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="text-right"
-                                              data-id="accepted_total"
-                                              t-field="proposal_order.accepted_total"
-                                        />
-                                    </td>
-                                </tr>
-                                <tr class="border-black" style="border-bottom:1px solid #dddddd;">
-                                    <td>
-                                        <strong>Total</strong>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="text-right"
-                                              data-id="total"
-                                              t-field="proposal_order.total_amt"
-
-                                        />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </table>
-            </section>
-
-
-            <!--            <section id="terms" class="mt-5" t-if="product_proposal.note">-->
-            <!--                <h3 class="">Terms &amp; Conditions</h3>-->
-            <!--                <hr class="mt-0 mb-1"/>-->
-            <!--                <em t-field="product_proposal.note"/>-->
-            <!--            </section>-->
+            </div><!-- // #quote_content -->
         </div>
-    </template>
+    </xpath>
+</template>
+        <!--content template................-->
+<template id="product_proposal_portal_content" name="Product Proposal Portal Content">
+<!-- Intro -->
+<div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+    <h2 class="my-0">
+        PROPOSAL
+        <em t-esc="proposal_order.name_seq"/>
+    </h2>
+</div>
 
-</odoo>
+<div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
+    <!-- Informations -->
+    <div id="informations">
+        <div class="row" id="so_date">
+            <div class="mb-3 col-6">
+                <t t-if="proposal_order.date_proposal">
+                    <strong>Proposal Date:</strong>
+                </t>
+                <span t-field="proposal_order.date_proposal" t-options='{"widget": "date"}'/>
+            </div>
+        </div>
+        <div class="row">
+            <t t-if="proposal_order.partner_id">
+                <div id="shipping_address" class="col-lg-6">
+                    <strong class="d-block mb-1">CUSTOMER:</strong>
+                    <address t-field="proposal_order.partner_id"
+                             t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                </div>
+            </t>
+        </div>
+    </div>
+    <section>
+        <table class="table table-sm" id="proposal_order_table">
+            <thead class="bg-100">
+                <tr>
+                    <t t-set="colspan" t-value="6"/>
+                    <th class="text-left">Prodottto</th>
+                    <th class='accepted_quantity text-left'>Proposed Quantity</th>
+                    <th class="text-left">Proposed Price</th>
+                    <th class="text-left">Accepted Quantity</th>
+                    <th class="text-left">Accepted Price</th>
+                </tr>
+            </thead>
+            <tbody class="sale_tbody">
+                <t t-set="current_subtotal" t-value="0.0"/>
+                <input class="record_id" type="hidden" t-att-value='proposal_order.id'/>
+                <t t-foreach="proposal_order.proposal_line_ids" t-as="product_line">
+                    <tr>
+                        <td>
+                            <span t-field='product_line.product_id.name'/>
+                        </td>
+                        <td>
+                            <span t-field='product_line.qty_proposed'/>
+                        </td>
+                        <td>
+                            <span t-field='product_line.price_proposed'/>
+                        </td>
+                        <td>
+                            <div class="number">
+                                <span class="minus">-</span>
+                                <input t-att-line_id='product_line.id' class='accepted_quantity'
+                                       t-att-value="product_line.qty_proposed" style='width: 50px;' type="text"/>
+                                <span class="plus">+</span>
+                            </div>
+                        </td>
+                        <td>
+                            <input class='accept_price' t-att-value="product_line.price_accepted" type="text"
+                                   style='width: 90px;'/>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+
+            <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                    <table class="table table-sm">
+                        <tr class="border-black" style="border-bottom:1px solid primary;">
+                            <td>
+                                <strong>Subtotal</strong>
+                            </td>
+                            <td class="text-left">
+                                <span class="text-right"
+                                      data-id="accepted_total"
+                                      t-field="proposal_order.accepted_total"
+                                />
+                            </td>
+                        </tr>
+                        <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                            <td>
+                                <strong>Total</strong>
+                            </td>
+                            <td class="text-left">
+                                <span class="text-right"
+                                      data-id="total"
+                                      t-field="proposal_order.total_amt"
+                                />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </table>
+    </section>
+</div>
+</template>
+
+        </odoo>
