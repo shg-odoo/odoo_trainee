@@ -7,12 +7,17 @@ class ProductProposal(models.Model):
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _rec_name = "partner_id"
 
+    def _get_default_require_signature(self):
+        return self.env.company.portal_confirmation_sign
+
+
     user_id = fields.Many2one('res.users', string="Salesman", default=lambda self: self.env.user)
     partner_id = fields.Many2one('res.partner', string="Customer", required=True)
     proposal_line_ids = fields.One2many('proposal.lines', 'proposal_id')
     state = fields.Selection([
         ('draft', 'Draft'),
         ('sent', 'Sent'),
+        ('accept', 'Accept'),
         ('confirm', 'Confirm'),
         ('cancel', 'Cancelled')], default='draft')
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id.id, index=1)
@@ -35,6 +40,19 @@ class ProductProposal(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency',
                                   default=lambda self: self.env.user.company_id.currency_id.id, required=True)
 
+    signature = fields.Image('Signature', help='Signature received through the portal.', copy=False, attachment=True, max_width=1024, max_height=1024)
+    signed_by = fields.Char('Signed By', help='Name of the person that signed the SO.', copy=False)
+    signed_on = fields.Datetime('Signed On', help='Date of the signature.', copy=False)
+    require_signature = fields.Boolean('Online Signature', default=_get_default_require_signature, readonly=True,
+                                       states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+                                       help='Request a online signature to the customer in order to confirm orders automatically.')
+
+
+
+    def has_to_be_signed(self, include_draft=False):
+
+        return (self.state == 'sent' or (self.state == 'draft' and include_draft))  and self.require_signature and not self.signature
+
     # add pricelist,tax
 
     @api.model
@@ -53,9 +71,6 @@ class ProductProposal(models.Model):
 
         return self.write({'state': 'sent'})
 
-
-
-
     @api.depends('proposal_line_ids.sub_total_proposed')
     def _compute_proposed_total(self):
         self.proposed_total = 0.0
@@ -66,6 +81,14 @@ class ProductProposal(models.Model):
         self.total_amt = self.proposed_total
         print("jjjjjjjjjjjjjjjjjjjjjj totsl proposd",self.total_amt)
 
+    def _get_report_base_filename(self):
+        print("self..............",self)
+        self.ensure_one()
+        return '%s' % self.name
+
+
+    def action_accept(self):
+        self.write({'state': 'accept'})
 
     def action_confirm(self):
         self.write({'state': 'confirm'})
@@ -85,6 +108,9 @@ class ProductProposal(models.Model):
         }
 
     #
+    def has_to_be_accepted(self):
+        return (self.state == 'sent' or self.state == 'draft') and not (self.state =='cancel')
+
     def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
         self.ensure_one()
         return super(ProductProposal, self)._get_share_url(redirect, signup_partner, pid)

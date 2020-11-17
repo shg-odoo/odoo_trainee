@@ -11,15 +11,23 @@ from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
 from odoo.osv import expression
 
+from datetime import datetime, timedelta
+from functools import partial
+from itertools import groupby
+
+from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo.exceptions import AccessError, UserError, ValidationError
+from odoo.tools.misc import formatLang, get_lang
+from odoo.osv import expression
+from odoo.tools import float_is_zero, float_compare
+
+
 #
 # class SamplePortal(CustomerPortal):
 #     @http.route('/proposal', auth='public')
 #     def handler(self,**kwargs):
 #         print("kooi")
 #         return "kooi"
-
-
-
 
 
 class CustomerPortal(CustomerPortal):
@@ -91,13 +99,13 @@ class CustomerPortal(CustomerPortal):
                                    **kw):
         try:
             proposal_order_sudo = self._document_check_access('product.proposal', order_id, access_token=access_token)
-            print("proposal_order_sudo.........",proposal_order_sudo)
+            print("proposal_order_sudo.........", proposal_order_sudo)
         except (AccessError, MissingError):
             return request.redirect('/my')
 
         if report_type in ('html', 'pdf', 'text'):
             return self._show_report(model=proposal_order_sudo, report_type=report_type,
-                                     report_ref='product_proposal.report_proposal_order',
+                                     report_ref='product_proposal.product_proposal_report',
                                      download=download)
 
         # use sudo to allow accessing/viewing orders for public user
@@ -130,8 +138,8 @@ class CustomerPortal(CustomerPortal):
             'report_type': 'html',
             'action': proposal_order_sudo._get_portal_return_action(),
         }
-        print("valuess : proposal_order....................",values['proposal_order'])
-        print("valuess : token....................",values['token'])
+        print("valuess : proposal_order. state...................", values['proposal_order'].state)
+        print("valuess : token....................", values['token'])
         if proposal_order_sudo.company_id:
             values['res_company'] = proposal_order_sudo.company_id
 
@@ -147,37 +155,44 @@ class CustomerPortal(CustomerPortal):
     def portal_quote_accept(self, order_id, access_token=None, name=None, signature=None):
         # get from query string if not on json param
         access_token = access_token or request.httprequest.args.get('access_token')
+
         try:
             proposal_order_sudo = self._document_check_access('product.proposal', order_id, access_token=access_token)
         except (AccessError, MissingError):
             return {'error': _('Invalid order.')}
 
+        if not proposal_order_sudo.has_to_be_signed(True):
+            return {'error': _('The order is not in a state requiring customer signature.')}
+        if not signature:
+            return {'error': _('Signature is missing.')}
+
         try:
             proposal_order_sudo.write({
                 'signed_by': name,
                 'signed_on': fields.Datetime.now(),
+                'signature': signature,
             })
             request.env.cr.commit()
         except (TypeError, binascii.Error) as e:
             return {'error': _('Invalid signature data.')}
 
-        if proposal_order_sudo.action_confirm():
-            proposal_order_sudo.action_send_mail()
 
-        pdf = request.env.ref('product_proposal.report_proposal_order').sudo()._render_qweb_pdf([proposal_order_sudo.id])[0]
+        proposal_order_sudo.action_accept()
+
+
+        # pdf = request.env.ref('product_proposal.action_report_saleorder').sudo()._render_qweb_pdf([proposal_order_sudo.id])[0]
 
         _message_post_helper(
             'product.proposal', proposal_order_sudo.id, _('Order signed by %s') % (name,),
-            attachments=[('%s.pdf' % proposal_order_sudo.name, pdf)],
+            # attachments=[('%s.pdf' % proposal_order_sudo.name, pdf)],
             **({'token': access_token} if access_token else {}))
 
         query_string = '&message=sign_ok'
-        if proposal_order_sudo.has_to_be_paid(True):
-            query_string += '#allow_payment=yes'
         return {
             'force_refresh': True,
             'redirect_url': proposal_order_sudo.get_portal_url(query_string=query_string),
         }
+
 
     @http.route(['/my/proposals/<int:order_id>/decline'], type='http', auth="public", methods=['POST'], website=True)
     def decline(self, order_id, access_token=None, **post):
@@ -191,7 +206,8 @@ class CustomerPortal(CustomerPortal):
         query_string = False
         if message:
             proposal_order_sudo.action_cancel()
-            _message_post_helper('product.proposal', order_id, message, **{'token': access_token} if access_token else {})
+            _message_post_helper('product.proposal', order_id, message,
+                                 **{'token': access_token} if access_token else {})
         else:
             query_string = "&message=cant_reject"
 

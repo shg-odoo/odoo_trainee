@@ -15,7 +15,7 @@
                     <button name="action_cancel" id="action_cancel"
                             string="Cancel" class="btn-primary" type="object"
                     />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,cancel"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,accept,confirm,cancel"/>
                 </header>
 
                 <sheet>

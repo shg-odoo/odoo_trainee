@@ -5,11 +5,15 @@
     'depends': ['sale', 'mail', 'website', 'portal', 'sale_management'],
     'data': [
         'security/ir.model.access.csv',
-        'report/report_portal.xml',
+
+        'report/report.xml',
+        'report/report_template.xml',
+
         'data/mail_data.xml',
         'data/ir_sequence.xml',
         'views/product_proposal_view.xml',
-        'views/proposal_portal_view.xml'
+        'views/proposal_portal_view.xml',
+        'views/asset_frontend.xml'
 
     ],
     'installable': True,
