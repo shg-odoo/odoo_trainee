@@ -92,7 +92,7 @@
                         <div class="modal-dialog" t-if="proposal_order.has_to_be_signed(True)">
                             <form id="accept" method="POST" t-att-data-order-id="proposal_order.id"
                                   t-att-data-token="proposal_order.access_token"
-                                  class="js_accept_json modal-content js_website_submit_form">
+                                  class="accept_form js_accept_json modal-content js_website_submit_form">
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <header class="modal-header">
                                     <h4 class="modal-title">Validate Order</h4>
@@ -198,43 +198,6 @@
                         </t>
                     </div>
 
-
-                    <!--&lt;!&ndash;                    bottom actions&ndash;&gt;-->
-                    <!--                    <div-->
-                    <!--                            class="row justify-content-center text-center d-print-none pt-1 pb-4">-->
-
-                    <!--                        &lt;!&ndash;                                            <t t-if="proposal_order.has_to_be_accepted(True)">&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                <div class="col-sm-auto mt8">&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                    <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#modalaccept"&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                       href="#">&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                        <i class="fa fa-check"/>&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                        &lt;!&ndash;                                    if proposal is accepted hide accepted button else create a SO in backend which leads to sign and pay optin. Sign and pay optin is currntly opting out &ndash;&gt;&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                        &lt;!&ndash;                                    <t t-if="proposal_order.has_to_be_paid(True)">Sign &amp; PAY</t>&ndash;&gt;&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                        &lt;!&ndash;                                    <t t-if="">ACCEPT</t>&ndash;&gt;&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                        ACCEPT&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                    </a>&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                                                </div>&ndash;&gt;-->
-
-                    <!--                        <div class="row" style="background-color:white;padding:10px !important;">-->
-                    <!--                            <div class="col-sm-auto mt8">-->
-                    <!--                                <a role="button" class="btn btn-primary" style="color:white;background-color:black;"-->
-                    <!--                                   data-toggle="modal" data-target="#modalaccept"-->
-                    <!--                                   href="#">-->
-                    <!--                                    <i class="fa fa-check"/>-->
-                    <!--                                    ACCEPT-->
-                    <!--                                </a>-->
-                    <!--                            </div>-->
-                    <!--                            <div class="col-sm-auto mt8">-->
-                    <!--                                <a href="#" role="button" class="btn btn-primary"-->
-                    <!--                                   style="color:white;background-color:black;" data-toggle="modal" data-target="-->
-                    <!--                            #modaldecline">-->
-                    <!--                                    <i class="fa fa-times"/>-->
-                    <!--                                    REFUSE-->
-                    <!--                                </a>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                        &lt;!&ndash;                                            </t>&ndash;&gt;-->
-                    <!--                    </div>-->
 
                     <!-- chatter -->
                     <div id="proposal_order_communication" class="mt-4">
