@@ -65,7 +65,7 @@ window.addEventListener('load',function(e){
                 var price_linebyline = price_accept[i]
                 quantity = qty_linebyline.value
                 price = price_linebyline.value
-                record_id = proposal_id[0].value
+                record_id = order_id[0].value
                 proposal_line_id = qty_linebyline.getAttribute('line_id')
 
                 dict.push({
@@ -79,8 +79,6 @@ window.addEventListener('load',function(e){
                 'data': dict, 'access_token': access_token
             },
             location.reload())
-            alert("Your Proposal Have Been Accepted!");
-            location.reload();
         }
     }
 });
