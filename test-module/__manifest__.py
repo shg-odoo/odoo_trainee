@@ -2,12 +2,14 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Test Module',
-    'category': 'Sales',
-    'summary': 'Manage accounting with fleets',
+    'category': 'Sales'
+                '',
+    'summary': 'test',
     'description': "",
     'version': '1.0',
-    'depends': ['sale'],
+    'depends': ['website','contacts'],
     'data': [
+        'views/website_form.xml'
 
     ],
     'installable': True,
