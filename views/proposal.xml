@@ -124,10 +124,32 @@
                                     <strong>products   :</strong>
                                     <field name="proposal_line_ids"/>
                                 </div>
-                                <div>
-                                    <strong>State :</strong>
-                                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state in ('cancel')" decoration-success="state in ('sent','confirmed')"/>
-                                </div>
+
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            dsjbh
+                                        </tr>
+
+                                        <tr>
+                                            <td>Customer</td>
+                                            <td><field name="customer_id"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Salesman</td>
+                                            <td><field name="salesman_id"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Product</td>
+                                            <td><field name="proposal_line_ids"/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>State</td>
+                                            <td><field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state in ('cancel')" decoration-success="state in ('sent','confirmed')"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                                 <div class="float-right">
                                     <field name="salesman_id" widget="many2one_avatar_user"/>
                                 </div>
