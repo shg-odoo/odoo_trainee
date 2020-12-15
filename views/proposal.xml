@@ -107,28 +107,19 @@
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_card oe_kanban_global_click">
-                                <div>
-                                    <strong>
-                                        <field name="proposal_name"/>
-                                    </strong>
-                                </div>
-                                <div>
-                                    <strong>Customer :</strong>
-                                    <field name="customer_id"/>
-                                </div>
-                                <div>
-                                    <strong>Salesmen :</strong>
-                                    <field name="salesman_id"/>
-                                </div>
-                                <div>
-                                    <strong>products   :</strong>
-                                    <field name="proposal_line_ids"/>
-                                </div>
-
-                                <table class="table table-bordered">
+                                <table class="table">
                                     <tbody>
                                         <tr>
-                                            dsjbh
+                                            <td>
+                                                <strong>
+                                                    <h4>Proposal</h4>
+                                                </strong>
+                                            </td>
+                                            <td>
+                                                <strong>
+                                                    <h4><field name="proposal_name"/></h4>
+                                                </strong>
+                                            </td>
                                         </tr>
 
                                         <tr>
