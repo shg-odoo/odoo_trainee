@@ -112,12 +112,12 @@
                                         <tr>
                                             <td>
                                                 <strong>
-                                                    <h4>Proposal</h4>
+                                                    <h3>Proposal</h3>
                                                 </strong>
                                             </td>
                                             <td>
                                                 <strong>
-                                                    <h4><field name="proposal_name"/></h4>
+                                                    <h3><field name="proposal_name"/></h3>
                                                 </strong>
                                             </td>
                                         </tr>
