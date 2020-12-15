@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>		
+    <data>
         <record id="seq_proposal" model="ir.sequence">
             <field name="name">Proposal</field>
             <field name="code">sale.proposal</field>
@@ -22,7 +22,6 @@
                     <br/>
                     Please find your proposal on below link
                     <div style="margin: 16px 0px 16px 0px;">
-                        <!-- <a href="${object.get_portal_url() | safe}" -->
                         <a href="/my/proposals/${object.id}"
                             style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
                             Your Proposal
@@ -35,7 +34,7 @@
                     Regards,<br/>
                     <b>${object.salesman_id.name}</b>
                 </div>
-            </field>    
+            </field>
         </record>
     </data>
 </odoo>

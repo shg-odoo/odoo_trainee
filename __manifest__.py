@@ -8,7 +8,7 @@
     'description': """
         This module contains all Proposal.
     """,
-    'depends': ['sale','website_sale','sale_management'],
+    'depends': ['sale','sale_management'],
     'data': [
         'security/ir.model.access.csv',
         'views/proposal.xml',

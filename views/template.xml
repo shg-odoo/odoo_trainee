@@ -126,120 +126,117 @@
         </xpath>
     </template>
 
-    <template id="proposal_portal_content_totals_table">
-      <table class="table table-sm">
-        <tr class="border-black">
-          <td><strong>Proposaed Total</strong></td>
-          <td class="text-right">
-            <span
-              data-id="total_untaxed"
-              t-field="sale_proposal.proposed_total_price"
-              t-options='{"widget": "monetary","display_currency": sale_proposal.price_list_id.currency_id}'
-            />
-          </td>
-        </tr>
-        <tr class="border-black">
-          <td><strong>Accepted Total</strong></td>
-          <td class="text-right">
-            <span data-id="total_amount" t-field="sale_proposal.accepted_total_price" t-options='{"widget": "monetary", "display_currency": sale_proposal.price_list_id.currency_id}'/>
-          </td>
-        </tr>
-      </table>
-    </template>
-    <template id="proposal_portal_content" name="Proposal Portal Content">
-        <!-- Intro -->
-      <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
-        <h2 class="my-0">
-          Sale Proposal <em t-esc="sale_proposal.proposal_name"/>
-        </h2>
-      </div>
-
-      <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
-        <!-- Informations -->
-        <div id="informations">
-          <div class="row" id="so_date">
-            <div class="mb-3 col-6">
-              <strong>Proposal Date:</strong>
-              <span t-field="sale_proposal.proposal_date" t-options='{"widget": "date"}'/>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <strong class="d-block mb-1">Customer:</strong>
-              <address t-field="sale_proposal.customer_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
-            </div>
-          </div>
-        </div>
-
-        <section id="details" style="page-break-inside: auto;" class="mt32">
-          <h3 id="details">Pricing</h3>
-
-          <t t-foreach="sale_proposal.proposal_line_ids" t-as="line"/>
-
-            <table class="table table-sm" id="proposal_table">
-                <thead class="bg-100">
-                    <tr>
-                        <th class="text-left">Products Image</th>
-                        <th class="text-left">Products</th>
-                        <th class="text-right">Proposed Quantity</th>
-                        <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Proposed Unit Price</th>
-                        <th class="text-right">Accepted Quantity</th>
-                        <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Accepted Unit Price</th>
-                    </tr>
-                </thead>
-                <tbody class="sale_tbody">
-                    <t t-foreach="sale_proposal.proposal_line_ids" t-as="line">
-                        <tr t-att-class="'bg-200 font-weight-bold o_line_section prdct_line'">
-                            <td>
-                                <img t-att-src="image_data_uri(line.product_id.image_1024)" style="max-height: 40px; max-width: 80px;"/>
-                            </td>
-
-                            <td id="product_name"><span t-field="line.product_id"/></td>
-                            <td class="text-right">
-                                <div id="proposed_qty">
-                                    <span t-field="line.qty_proposed"/>
-                                </div>
-                            </td>
-                            <td t-attf-class="text-right">
-                                <div id="proposed_price">
-                                    <span name="price_proposed_span" t-field="line.price_proposed"/>
-                                </div>
-                            </td>
-                            <td class="text-right">
-                                <div id="qty_accepted">
-                                    <input type="text" t-att-id='"qty".join(str(line.id))' class="form-control qty_accepted1" t-att-value="line.qty_proposed" name="qty_accepted1"  t-att-readonly="'readonly' if sale_proposal.proposal_status == 'accept' else None"/>
-                                </div>
-                            </td>
-                            <td t-attf-class="text-right">
-                                <div id="accepted_price">
-                                    <input type="text" class="form-control price_accepted1" t-att-value="line.unit_price" name="price_accepted1" t-att-readonly="'readonly' if sale_proposal.proposal_status == 'accept' else None" />
-                                </div>
-                            </td>
-                        </tr>
-                    </t>
-                </tbody>
+        <template id="proposal_portal_content_totals_table">
+            <table class="table table-sm">
+                <tr class="border-black">
+                    <td><strong>Proposaed Total</strong></td>
+                    <td class="text-right">
+                        <span data-id="total_untaxed" t-field="sale_proposal.proposed_total_price" t-options='{"widget": "monetary","display_currency": sale_proposal.price_list_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+                <tr class="border-black">
+                    <td><strong>Accepted Total</strong></td>
+                    <td class="text-right">
+                        <span data-id="total_amount" t-field="sale_proposal.accepted_total_price" t-options='{"widget": "monetary", "display_currency": sale_proposal.price_list_id.currency_id}'/>
+                    </td>
+                </tr>
             </table>
+        </template>
 
-            <div id="total" class="row" name="total" style="page-break-inside: avoid;">
-                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-                    <table class="table table-sm">
-                        <tr class="border-black ">
-                            <td class="text-right"><strong>Proposed Total</strong></td>
-                            <td class="text-right">
-                                <span data-id="total_amount_1" t-field="sale_proposal.accepted_total_price" t-options='{"widget": "monetary", "display_currency": sale_proposal.price_list_id.currency_id}'/>
-                            </td>
-                        </tr>
-                        <tr class="border-black">
-                            <td class="text-right"><strong>Accepted Total</strong></td>
-                            <td class="text-right">
-                                <span data-id="total_amount_2" t-field="sale_proposal.accepted_total_price" t-options='{"widget": "monetary", "display_currency": sale_proposal.price_list_id.currency_id}'/>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+        <template id="proposal_portal_content" name="Proposal Portal Content">
+            <!-- Intro -->
+            <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+                <h2 class="my-0">
+                    Sale Proposal <em t-esc="sale_proposal.proposal_name"/>
+                </h2>
             </div>
-        </section>
-      </div>
-    </template>
-  </data>
+
+            <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
+                <div id="informations">
+                    <div class="row" id="so_date">
+                        <div class="mb-3 col-6">
+                        <strong>Proposal Date:</strong>
+                        <span t-field="sale_proposal.proposal_date" t-options='{"widget": "date"}'/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                        <strong class="d-block mb-1">Customer:</strong>
+                        <address t-field="sale_proposal.customer_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                        </div>
+                    </div>
+                </div>
+
+                <section id="details" style="page-break-inside: auto;" class="mt32">
+                  <h3 id="details">Pricing</h3>
+
+                    <t t-foreach="sale_proposal.proposal_line_ids" t-as="line"/>
+
+                    <table class="table table-sm" id="proposal_table">
+                        <thead class="bg-100">
+                            <tr>
+                                <th class="text-left">Products Image</th>
+                                <th class="text-left">Products</th>
+                                <th class="text-right">Proposed Quantity</th>
+                                <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Proposed Unit Price</th>
+                                <th class="text-right">Accepted Quantity</th>
+                                <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Accepted Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-foreach="sale_proposal.proposal_line_ids" t-as="line">
+                                <tr t-att-class="'bg-200 font-weight-bold o_line_section prdct_line'">
+                                    <td>
+                                        <img t-att-src="image_data_uri(line.product_id.image_1024)" style="max-height: 40px; max-width: 80px;"/>
+                                    </td>
+
+                                    <td id="product_name"><span t-field="line.product_id"/></td>
+                                    <td class="text-right">
+                                        <div id="proposed_qty">
+                                            <span t-field="line.qty_proposed"/>
+                                        </div>
+                                    </td>
+                                    <td t-attf-class="text-right">
+                                        <div id="proposed_price">
+                                            <span name="price_proposed_span" t-field="line.price_proposed"/>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        <div id="qty_accepted">
+                                            <input type="text" t-att-id='"qty".join(str(line.id))' class="form-control qty_accepted1" t-att-value="line.qty_proposed" name="qty_accepted1"  t-att-readonly="'readonly' if sale_proposal.proposal_status == 'accept' else None"/>
+                                        </div>
+                                    </td>
+                                    <td t-attf-class="text-right">
+                                        <div id="accepted_price">
+                                            <input type="text" class="form-control price_accepted1" t-att-value="line.unit_price" name="price_accepted1" t-att-readonly="'readonly' if sale_proposal.proposal_status == 'accept' else None" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+                        <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                            <table class="table table-sm">
+                                <tr class="border-black ">
+                                    <td class="text-right"><strong>Proposed Total</strong></td>
+                                    <td class="text-right">
+                                        <span data-id="total_amount_1" t-field="sale_proposal.accepted_total_price" t-options='{"widget": "monetary", "display_currency": sale_proposal.price_list_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td class="text-right"><strong>Accepted Total</strong></td>
+                                    <td class="text-right">
+                                        <span data-id="total_amount_2" t-field="sale_proposal.accepted_total_price" t-options='{"widget": "monetary", "display_currency": sale_proposal.price_list_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </template>
+    </data>
 </odoo>
