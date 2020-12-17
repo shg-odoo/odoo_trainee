@@ -8,10 +8,11 @@
       <field name="context"></field>
     </record>
 
-	<menuitem name="Sale Proposal" id="odoo_trainee.menu_root"/>
+	<menuitem name="Sale Proposal" id="odoo_trainee.menu_root" action="odoo_trainee.act_open_views"/>
     <!-- menu categories -->
-    <menuitem name="Menu 1" id="odoo_trainee.menu_1" parent="odoo_trainee.menu_root"/>
+    <!-- <menuitem name="Menu 1" id="odoo_trainee.menu_1" parent="odoo_trainee.menu_root"/>
+
     <menuitem name="Menu 2" id="odoo_trainee.menu_2" parent="odoo_trainee.menu_root"/>
-    <menuitem name="List" id="odoo_trainee.menu_1_list" parent="odoo_trainee.menu_1" action="odoo_trainee.act_open_views"/>
+    <menuitem name="List" id="odoo_trainee.menu_1_list" parent="odoo_trainee.menu_1" action="odoo_trainee.act_open_views"/> -->
 
 </odoo>
