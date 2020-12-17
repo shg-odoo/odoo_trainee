@@ -1,5 +1,4 @@
 <odoo>
-
     <record id="action_report_proposal" model="ir.actions.report">
         <field name="name">Proposal Report</field>
         <field name="model">sale.proposal</field>

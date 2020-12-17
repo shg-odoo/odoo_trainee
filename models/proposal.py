@@ -41,7 +41,7 @@ class Proposal(models.Model):
     def _get_portal_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
-        return self.env.ref('odoo_trainee.menu_1_list')
+        return self.env.ref('odoo_trainee.menu_root')
 
     @api.model
     def create(self, vals):
