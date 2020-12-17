@@ -34,6 +34,10 @@ class Proposal(models.Model):
     taxes = fields.Float('Taxes', readonly=True, store=True, compute='calculate_total_amount')
     total = fields.Float('Total', readonly=True, store=True, compute='calculate_total_amount')
 
+    def tree_button(self):
+        print(">>>>> tree_button - self",self)
+        return self.env.ref('odoo_trainee.action_report_proposal').report_action(self)
+
     def _get_portal_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
