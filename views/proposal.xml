@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- action for wizard -->
+        <record id="action_summary_report_proposal" model="ir.actions.act_window">
+            <field name="name">Sale Proposal Summary</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">summary.report.proposal</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="odoo_trainee.model_sale_proposal" />
+            <field name="binding_type">report</field>
+        </record>
         <record id="sale_proposal_view_tree" model="ir.ui.view">
             <field name="name">Proposal</field>
             <field name="model">sale.proposal</field>
