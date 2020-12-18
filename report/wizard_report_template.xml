@@ -1,0 +1,75 @@
+<odoo>
+    <template id="report_sale_proposal_template">
+        <t t-call="web.html_container">
+            <!-- <h1 style="color:red;"><t t-esc="request.env.context"/></h1> -->
+            <!-- <h1 style="color:red;">docs = <t t-esc="docs"/></h1> -->
+            <!-- <h1 style="color:red;">data = <t t-esc="data"/></h1> -->
+            <!-- <h1 style="color:red;">docids = <t t-esc="docids"/></h1> -->
+
+            <div class="header" style="border-bottom: 1px solid black;">
+                <h3 class="text-center">Sales Summary Report
+                    <span style="font-size: 14px;"><strong>From</strong>: 01/12/2018 <strong>To</strong>: 01/12/2020 </span>
+                </h3>
+            </div>
+
+            <div class="article mt0 o_report_layout_standard">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <th>Proposal Name</th>
+                        <th class="text-center">SalesMan</th>
+                        <th class="report_sale_proposal_templatetext-center">Customer</th>
+                        <th class="text-center">Proposal Date</th>
+                        <th class="text-center">Proposal State</th>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="doc">
+                            <tr>
+                                <td><span t-esc="doc['proposal_name']"/></td>
+                                <td class="text-center"><span t-esc="doc['salesman_id'].name"/></td>
+                                <td class="text-center">
+                                    <span t-esc="doc['customer_id'].name"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-esc="doc['proposal_date']"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-esc="doc['state']"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="footer o_standard_footer" style="border-top: 1px solid black;">
+                <div class="row text-center">
+                    <div class="col col-12 text-center">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">Page:</li>
+                            <li class="list-inline-item">
+                                <span class="page"/>
+                            </li>
+                            <li class="list-inline-item">/</li>
+                            <li class="list-inline-item">
+                                <span class="topage"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <record id="report_sale_proposal" model="ir.actions.report">
+        <field name="name">Proposal List</field>
+        <field name="model">sale.proposal</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odoo_trainee.report_sale_proposal_template</field>
+        <field name="report_file">odoo_trainee.report_proposal</field>
+        <field name="binding_model_id" ref="model_sale_proposal"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

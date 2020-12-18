@@ -8,7 +8,7 @@
                 <tree decoration-muted="proposal_status == 'reject'"
                 decoration-success="proposal_status == 'accept'">
                     <header>
-                        <button name="tree_button" type="object" string="Generate Reports"/>
+                        <button name="%(action_summary_report_proposal)d" type="action" string="Generate Reports"/>
                     </header>
                     <field name="proposal_name"/>
                     <field name="salesman_id" widget="many2one_avatar_user" optional="show"/>

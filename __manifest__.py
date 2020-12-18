@@ -17,6 +17,8 @@
         'views/template.xml',
         'views/assets.xml',
         'report/report.xml',
+        'wizard/summary_report.xml',
+        'report/wizard_report_template.xml',
     ],
     'demo': []
 }
