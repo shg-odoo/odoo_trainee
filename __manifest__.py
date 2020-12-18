@@ -11,13 +11,13 @@
     'depends': ['sale','sale_management'],
     'data': [
         'security/ir.model.access.csv',
+        'wizard/summary_report.xml',
         'views/proposal.xml',
         'views/menu.xml',
         'views/seq_and_mail.xml',
         'views/template.xml',
         'views/assets.xml',
         'report/report.xml',
-        'wizard/summary_report.xml',
         'report/wizard_report_template.xml',
     ],
     'demo': []
