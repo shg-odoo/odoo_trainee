@@ -9,7 +9,7 @@
             </t>
 
             <div class="row mt16 o_portal_proposal_sidebar">
-              <!-- Sidebar -->
+                <!-- Sidebar -->
                 <t t-call="portal.portal_record_sidebar">
                     <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
 

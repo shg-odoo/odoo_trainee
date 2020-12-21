@@ -42,7 +42,7 @@ class CustomerPortal(CustomerPortal):
                     subtype="mail.mt_note",
                     partner_ids=proposal_sudo.salesman_id.sudo().partner_id.ids,
                 )
-                
+
         values = {
             'sale_proposal': proposal_sudo,
             'message': message,
@@ -57,7 +57,7 @@ class CustomerPortal(CustomerPortal):
             values['res_company'] = proposal_sudo.company_id
 
         history = request.session.get('my_proposals_history', [])
-        
+
         values.update(get_records_pager(history, proposal_sudo))
         return request.render('odoo_trainee.proposal_portal_template', values)
 
@@ -66,20 +66,18 @@ class CustomerPortal(CustomerPortal):
         # get from query string if not on json param
         try:
             proposal_sudo = self._document_check_access('sale.proposal', proposal_id, access_token=access_token)
-            
+
         except (AccessError, MissingError):
             return request.redirect('/my')
         proposal_sudo.write({
             'proposal_status': 'accept',
             'accepted_total_price':float(post["final_price_accepted"])
         })
-        
+
         request.env.cr.commit()
         line_key = 0
         lines_data = json.loads(post["lines_data"])
-        print(type(lines_data))
         for line in proposal_sudo.proposal_line_ids:
-            print(f"\nthis is the proposal.line id number : {line.id}")
             proposal_line_sudo = request.env['proposal.line'].browse(line.id)
             proposal_line_sudo.write({
                 'qty_accepted': int(lines_data["value_"+str(line_key)][0]),
@@ -88,7 +86,7 @@ class CustomerPortal(CustomerPortal):
             })
             request.env.cr.commit()
             line_key+=1
-    
+
         message = post.get('accepting_message')
 
         _message_post_helper(
@@ -96,7 +94,7 @@ class CustomerPortal(CustomerPortal):
             **({'token': access_token} if access_token else {}))
 
         query_string = False
-        if message: 
+        if message:
             _message_post_helper('sale.proposal', proposal_id, message, **{'token': access_token} if access_token else {})
         else:
             query_string = "&message=cant_accept"
@@ -116,9 +114,9 @@ class CustomerPortal(CustomerPortal):
         request.env.cr.commit()
 
         message = post.get('decline_message')
-        
+
         query_string = False
-        if message: 
+        if message:
             _message_post_helper('sale.proposal', proposal_id, message, **{'token': access_token} if access_token else {})
         else:
             query_string = "&message=cant_reject"

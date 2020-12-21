@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 from odoo import models, fields, api, _
 
 class Proposal(models.Model):
@@ -33,10 +31,6 @@ class Proposal(models.Model):
     untaxed_amount = fields.Float('Amount Untaxed', readonly=True, store=True, compute='calculate_total_amount')
     taxes = fields.Float('Taxes', readonly=True, store=True, compute='calculate_total_amount')
     total = fields.Float('Total', readonly=True, store=True, compute='calculate_total_amount')
-
-    # def tree_button(self):
-    #     print(">>>>> tree_button - self",self)
-    #     return self.env.ref('odoo_trainee.report_sale_proposall').report_action(self)
 
     def _get_portal_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """

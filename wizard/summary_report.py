@@ -23,6 +23,4 @@ class SummaryReports(models.TransientModel):
             ('proposal_date','>=',self.date_from),
             ('proposal_date','<',self.date_to),
             ('state','=',self.state)])
-        # datas = {'date_from':self.date_from, 'date_to':self.date_to}
-        # data = {'date_from':self.date_from, 'date_to':self.date_to, 'context':}
         return self.env.ref('odoo_trainee.report_sale_proposal').report_action(obj_sp)
