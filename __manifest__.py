@@ -20,5 +20,8 @@
         'report/report.xml',
         'report/wizard_report_template.xml',
     ],
+    'qweb': [
+        "static/src/xml/dashboard.xml",
+    ],
     'demo': []
 }

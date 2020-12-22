@@ -6,7 +6,7 @@
             <field name="model">sale.proposal</field>
             <field name="arch" type="xml">
                 <tree decoration-muted="proposal_status == 'reject'"
-                decoration-success="proposal_status == 'accept'">
+                decoration-success="proposal_status == 'accept'" class="proposal_list_dashboard">
                     <header>
                         <button name="%(action_summary_report_proposal)d" type="action" string="Generate Reports"/>
                     </header>

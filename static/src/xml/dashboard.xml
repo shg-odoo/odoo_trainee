@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+	<t t-name="odoo_trainee.ProposalDashboard">
+		<div class="proposal_dashboard container">
+			<div class="row">
+				<div class="col-md-3" style="border:1px solid black;">
+					Draft
+				</div>
+				<div class="col-md-3" style="border:1px solid black;">
+					sent
+				</div>
+				<div class="col-md-3" style="border:1px solid black;">
+					Confirm
+				</div>
+				<div class="col-md-3" style="border:1px solid black;">
+					Cancel
+				</div>
+			</div>
+		</div>
+	</t>
+</template>

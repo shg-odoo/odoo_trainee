@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import date
-
 from odoo import fields, http, _
 from odoo.exceptions import AccessError, MissingError
 from odoo.http import request

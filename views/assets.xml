@@ -1,6 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <data>
+
+        <template id="assets_backend" name="my_custom_module assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script src="/odoo_trainee/static/src/js/tree_dashbord.js" type="text/javascript" />
+            </xpath>
+        </template>
+
+    	<!-- <template id="assets_backend" name="account assets" inherit_id="web.assets_backend">
+    		<xpath expr="." position="inside">
+    			<script type="text/javascript" src="/odoo_trainee/static/src/js/tree_dashbord.js"></script>
+    		</xpath>
+    	</template> -->
         <!-- add all assets in odoo  -->
         <template id="assets_frontend" name="sale_proposal assets" inherit_id="web_editor.assets_frontend">
             <xpath expr="//script[last()]" position="after">
