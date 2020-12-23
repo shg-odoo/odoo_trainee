@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="student_tree_view" model="ir.ui.view">
+          <field name="name">school.student.tree</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+            <tree string="students">
+              <field name="name"/>
+              <field name="age"/>
+              <field name="description"/>
+            </tree>
+          </field>
+        </record>
+        
+        <record id="student_form_view" model="ir.ui.view">
+          <field name="name">school.student.form</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+            <form string="students">
+              <sheet>
+                <field name="image" widget="image" class="oe_avatar"/>
+                <widget name="web_ribbon" text="Male" attrs="{'invisible': [('gender', '=' , 'female')]}" width="5px" height="9px"/>
+                <widget name="web_ribbon" text="Female" attrs="{'invisible': [('gender', '=' , 'male')]}" width="5px" height="200px"/>
+                <div class="oe_title">
+                  <h1>
+                    <field name="name"/>
+                  </h1>
+                </div>
+                <group>
+                  <group>
+                    <field name="gender"/>
+                  </group>
+                  <group>
+                    <field name="age"/>
+                    <field name="description"/>
+                  </group>
+                </group>
+              </sheet>
+              <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail.followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+              </div>
+            </form>
+           </field>
+          </record>   
+
+        <record id="action_student" model="ir.actions.act_window">
+          <field name="name">Students</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">school.student</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Create Your Students here!!!
+            </p>
+          </field>
+        </record>
+        
+        <menuitem id="school_root_menu" name="School"
+          web_icon="schol,static/description/icon.png"
+          sequence="7"/>
+        
+        <menuitem id="school_student_menu" name="students"
+          action="action_student"
+          parent="school_root_menu"
+          sequence="10"/>
+        
+       
+</odoo>
