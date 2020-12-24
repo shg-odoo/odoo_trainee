@@ -4,19 +4,112 @@
           <field name="name">school.student.tree</field>
           <field name="model">school.student</field>
           <field name="arch" type="xml">
-            <tree string="students">
+            <tree string="Students">
               <field name="name"/>
               <field name="age"/>
               <field name="description"/>
+              <field name="gender" optional="hide"/>
             </tree>
           </field>
         </record>
+
+        <record id="student_calendar_view" model="ir.ui.view">
+          <field name="name">school.student.calendar</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+            <calendar string="Students" date_start="date_from" date_stop="date_to" color="gender" quick_add="False" mode="month">
+              <field name="name"/>
+              <field name="company_id"/>
+            </calendar>
+          </field>
+        </record>
+
+         <record id="student_gantt_view" model="ir.ui.view">
+          <field name="name">school.student.gantt</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+            <gantt string="Students" date_start="date_from" date_stop="date_to" default_group_by='gender'>
+              <field name="name"/>
+              <field name="age"/>
+            </gantt>
+          </field>
+        </record>
+
+        <record id="student_kanban_view" model="ir.ui.view">
+            <field name="name">school.student.kanban</field>
+            <field name="model">school.student</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="gender">
+                    <field name="name"/>
+                    <field name="image"/>
+                    <field name="age"/>
+                    <field name="gender"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div
+                                    t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                                <div class="oe_dropdown_kanban">
+                                    <!-- dropdown menu -->
+                                    <div class="oe_dropdown_toggle">
+                                        <i class="fa fa-bars fa-lg" title="Manage" aria-label="Manage"/>
+                                        <ul class="oe_dropdown_menu">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                            <li>
+                                                <ul class="oe_kanban_colorpicker"
+                                                    data-field="color"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                                <div t-attf-class="oe_kanban_content">
+                                    <!-- title -->
+                                    Session name:
+                                    <field name="name"/>
+                                    <br/>
+                                    Start date:
+                                    <field name="date_from"/>
+                                    <br/>
+                                    duration:
+                                    <field name="date_to"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
         
+        <record id="student_pivot_view" model="ir.ui.view">
+          <field name="name">school.student.pivot</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+            <pivot string="Students">
+            </pivot>
+          </field>
+        </record>
+
+        <record id="student_graph_view" model="ir.ui.view">
+          <field name="name">school.student.pivot</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+            <graph string="Students">
+              <field name="name"/>
+              <field name="gender"/>
+            </graph>
+          </field>
+        </record>
+
         <record id="student_form_view" model="ir.ui.view">
           <field name="name">school.student.form</field>
           <field name="model">school.student</field>
           <field name="arch" type="xml">
-            <form string="students">
+            <form string="Students">
               <sheet>
                 <field name="image" widget="image" class="oe_avatar"/>
                 <widget name="web_ribbon" text="Male" attrs="{'invisible': [('gender', '=' , 'female')]}" width="5px" height="9px"/>
@@ -31,10 +124,32 @@
                     <field name="gender"/>
                   </group>
                   <group>
+                    <field name="date_from" widget="daterange" options="{'related_end_date': 'date_to'}"/>
+                    <field name="date_to" widget="daterange" options="{'related_end_date': 'date_from'}"/>
                     <field name="age"/>
                     <field name="description"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
                   </group>
                 </group>
+                <notebook position="inside">
+                <page string="Student" name="student">
+                  <group>
+                  <field name="age"/>
+                </group>
+                <group>
+                  <field name="description"/>
+                </group>
+                </page>
+                </notebook>
+<!--               <notebook>
+                  <page>
+                    <group> 
+                    <field name="video"/>
+                    <field name="video_url"/>
+                    <field name="embed_code" class="mt-2" widget="video_preview"/>
+                  <</group> 
+                  </page>
+                </notebook>  -->
               </sheet>
               <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail.followers"/>
@@ -45,11 +160,30 @@
            </field>
           </record>   
 
+          
+
+        <record id="student_search_view" model="ir.ui.view">
+          <field name="name">school.student.search</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+            <search string="Students">
+              <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+              <field name="description" filter_domain="[('description','ilike',self)]" string="Description"/>
+              <!-- seprator/>
+              <filter string="Male" name="male" domain="[('gender', '=' , 'male')]"/>
+              <filter string="Female" name="female" domain="[('gender', '=', 'female')]"/> -->
+              <searchpanel class="">
+                <field name="gender" icon="fa-users"/>
+              </searchpanel>
+              </search>
+            </field>
+        </record>
+
         <record id="action_student" model="ir.actions.act_window">
           <field name="name">Students</field>
           <field name="type">ir.actions.act_window</field>
           <field name="res_model">school.student</field>
-          <field name="view_mode">tree,form</field>
+          <field name="view_mode">tree,calendar,gantt,kanban,pivot,graph,form,search</field>
           <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
               Create Your Students here!!!
