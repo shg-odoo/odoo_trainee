@@ -32,6 +32,12 @@ class Proposal(models.Model):
     taxes = fields.Float('Taxes', readonly=True, store=True, compute='calculate_total_amount')
     total = fields.Float('Total', readonly=True, store=True, compute='calculate_total_amount')
 
+    @api.model
+    def get_record_counter(self):
+        data = {stat:self.env['sale.proposal'].sudo().search_count([('state','=', stat)]) for stat in ['draft','sent','confirmed','cancel']}
+        print(">>>>>>>> method data",data)
+        return data
+
     def _get_portal_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()

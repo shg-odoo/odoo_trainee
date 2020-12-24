@@ -3,22 +3,24 @@ odoo.define('odoo_trainee.tree_view_dashbord', function(require) {
 
     var core = require('web.core');
     var QWeb = core.qweb;
-    var KanbanController = require("web.KanbanController");
-    var ListController = require("web.ListController");
+    var ListRenderer = require("web.ListRenderer");
 
-    var includeDict_proposal = {
-        renderButtons: function () {
+    const includeDict_proposal = {
+        _render: async function () {
             this._super.apply(this, arguments);
-            if (this.modelName === "sale.proposal") {
-            	var proposal_dashboard = QWeb.render('odoo_trainee.ProposalDashboard');
-            	console.log("proposal_dashboard :",proposal_dashboard)
-                console.log(">>>>>>.yeahhh",this.modelName)
-                console.log(this.$el)
-                this.$el.prepend(proposal_dashboard);
+            if (this.state.model === "sale.proposal") {
+            	await this._super(...arguments);
+	            const result = await this._rpc({
+	                model: 'sale.proposal',
+	                method: 'get_record_counter',
+	                context: self.context,
+	            });
+	            const elem = QWeb.render('odoo_trainee.ProposalDashboard', {
+	                value: result,
+	            });
+	            this.$el.find('.table-responsive').prepend(elem);
             }
         }
     };
-
-    KanbanController.include(includeDict_proposal);
-    ListController.include(includeDict_proposal);
+    ListRenderer.include(includeDict_proposal);
 });

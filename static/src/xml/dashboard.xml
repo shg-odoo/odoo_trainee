@@ -1,21 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
-	<t t-name="odoo_trainee.ProposalDashboard">
-		<div class="proposal_dashboard container">
-			<div class="row">
-				<div class="col-md-3" style="border:1px solid black;">
-					Draft
-				</div>
-				<div class="col-md-3" style="border:1px solid black;">
-					sent
-				</div>
-				<div class="col-md-3" style="border:1px solid black;">
-					Confirm
-				</div>
-				<div class="col-md-3" style="border:1px solid black;">
-					Cancel
-				</div>
-			</div>
-		</div>
-	</t>
+    <t t-name="odoo_trainee.ProposalDashboard">
+        <div class="proposal_dashboard container">
+            <style>
+                .track {
+                    stroke: #ccc;
+                }
+                .marker {
+                    motion-path: path('M 5 5 m -4, 0 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0');
+                    offset-path: path('M 5 5 m -4, 0 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0');
+                    animation: move 5s linear 3; <!-- infinite on place 3-->
+                }
+                @keyframes move {
+                    100% {
+                        motion-offset: 100%;
+                        offset-distance: 100%;
+                    }
+                }
+            </style>
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <svg viewbox="0,0 10,10" width="130px" height="120px">
+                        <text x="4.5" y="4" style="font-size:1.5px;"><t t-esc="value.draft"/></text>
+                        <text x="3.3" y="6" style="font-size:1.5px;">Draft</text>
+                        <path
+                            class="track"
+                            fill="none"
+                            stroke-width="0.25"
+                            d="M 5 5 m -4, 0 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0"
+                        />
+                        <circle class="marker" r="1" fill="#82ceda"></circle>
+                    </svg>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <svg viewbox="0,0 10,10" width="130px" height="120px">
+                        <text x="4.5" y="4" style="font-size:1.5px;"><t t-esc="value.sent"/></text>
+                        <text x="3.3" y="6" style="font-size:1.5px;">Sent</text>
+                        <path
+                            class="track"
+                            fill="none"
+                            stroke-width="0.25"
+                            d="M 5 5 m -4, 0 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0"
+                        />
+                        <circle class="marker" r="1" fill="#8ccfa0"></circle>
+                    </svg>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <svg viewbox="0,0 10,10" width="130px" height="120px">
+                        <text x="4.5" y="4" style="font-size:1.5px;"><t t-esc="value.confirmed"/></text>
+                        <text x="2.5" y="6" style="font-size:1.5px;">Confirm</text>
+                        <path
+                            class="track"
+                            fill="none"
+                            stroke-width="0.25"
+                            d="M 5 5 m -4, 0 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0"
+                        />
+                        <circle class="marker" r="1" fill="#8ccfa0"></circle>
+                    </svg>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <svg viewbox="0,0 10,10" width="130px" height="120px">
+                        <text x="4.5" y="4" style="font-size:1.5px;"><t t-esc="value.cancel"/></text>
+                        <text x="2.6" y="6" style="font-size:1.5px;">Cancel</text>
+                        <path
+                            class="track"
+                            fill="none"
+                            stroke-width="0.25"
+                            d="M 5 5 m -4, 0 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0"
+                        />
+                        <circle class="marker" r="1" fill="#ffdb87"></circle>
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+    </t>
 </template>

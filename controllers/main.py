@@ -100,6 +100,7 @@ class CustomerPortal(CustomerPortal):
 
         return request.redirect(proposal_sudo.get_portal_url(query_string=query_string))
 
+
     @http.route(['/my/proposals/<int:proposal_id>/decline'], type='http', auth="public", methods=['POST'], website=True)
     def decline(self, proposal_id, access_token=None, **post):
         try: proposal_sudo = self._document_check_access('sale.proposal', proposal_id, access_token=access_token)
