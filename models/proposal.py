@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# python3 odoo-bin --addons addons/,/home/mub/Munaf --xmlrpc-port=9999 -d self_proposal -u odoo_trainee
+
 from odoo import models, fields, api, _
 
 class Proposal(models.Model):
@@ -35,7 +37,6 @@ class Proposal(models.Model):
     @api.model
     def get_record_counter(self):
         data = {stat:self.env['sale.proposal'].sudo().search_count([('state','=', stat)]) for stat in ['draft','sent','confirmed','cancel']}
-        print(">>>>>>>> method data",data)
         return data
 
     def _get_portal_return_action(self):
