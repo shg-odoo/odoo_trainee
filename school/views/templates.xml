@@ -45,44 +45,36 @@
                     <field name="age"/>
                     <field name="gender"/>
                     <templates>
-                        <t t-name="kanban-box">
-                            <div
-                                    t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
-                                                  oe_kanban_global_click_edit oe_semantic_html_override
-                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
-                                <div class="oe_dropdown_kanban">
-                                    <!-- dropdown menu -->
-                                    <div class="oe_dropdown_toggle">
-                                        <i class="fa fa-bars fa-lg" title="Manage" aria-label="Manage"/>
-                                        <ul class="oe_dropdown_menu">
-                                            <li>
-                                                <a type="delete">Delete</a>
-                                            </li>
-                                            <li>
-                                                <ul class="oe_kanban_colorpicker"
-                                                    data-field="color"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="oe_clear"></div>
+                      
+                      <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img alt="Avatar" t-att-src="kanban_image('school.student', 'image',record.image.raw_value)"/>
                                 </div>
-                                <div t-attf-class="oe_kanban_content">
-                                    <!-- title -->
-                                    Session name:
-                                    <field name="name"/>
-                                    <br/>
-                                    Start date:
-                                    <field name="date_from"/>
-                                    <br/>
-                                    duration:
-                                    <field name="date_to"/>
-                                </div>
+                        <!-- <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click_o_kanban_record_has_image_fill_o_school_student_kanban">
+                              <t t-if="record.image.raw_value">
+                                <div class="o_kanban_image_fill_left d-none d-md-block"/>
+                                  <img t-att-src="kanban_image('test.test','image_medium',record.assigned_user.raw_value)"/> -->
+                                  <!-- t-attf-style='background-image:url('kanban_image('hospital.patient', 'image', record.id.raw_value)}')'/>
+                              </t>
+                              <t t-else="">
+                                <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "school/static/description/avatar.png"'/>
+                              </t> -->
+                              <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="display_name"/></strong>
+                                <div class="o_kanban_tag_section"/>
+                                <ul>
+                                  <li>Age : <field name="age"/></li>
+                                  <li>Gender : <field name="gender"/></li>
+                                </ul>
+                              </div>
                             </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
+                          </t>
+                        </templates>
+                      </kanban>
+                    </field>
+                  </record>
 
         
         <record id="student_pivot_view" model="ir.ui.view">
@@ -110,6 +102,9 @@
           <field name="model">school.student</field>
           <field name="arch" type="xml">
             <form string="Students">
+              <!-- <header>
+                <button name="test_name" string="Createw" type="object" class="oe_highlight"/>
+              </header> -->
               <sheet>
                 <field name="image" widget="image" class="oe_avatar"/>
                 <widget name="web_ribbon" text="Male" attrs="{'invisible': [('gender', '=' , 'female')]}" width="5px" height="9px"/>
@@ -169,9 +164,6 @@
             <search string="Students">
               <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
               <field name="description" filter_domain="[('description','ilike',self)]" string="Description"/>
-              <!-- seprator/>
-              <filter string="Male" name="male" domain="[('gender', '=' , 'male')]"/>
-              <filter string="Female" name="female" domain="[('gender', '=', 'female')]"/> -->
               <searchpanel class="">
                 <field name="gender" icon="fa-users"/>
               </searchpanel>

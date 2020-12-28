@@ -1,0 +1,61 @@
+<odoo>
+
+	<record id="act_details" model="ir.actions.act_window">
+		<field name="name">Student</field>
+		<field name="res_model">school.student</field>
+		<field name="view_mode">graph</field>
+		<field name="view_id" ref="school.student_graph_view"/>
+	</record>
+
+	<record id="act_details_ca" model="ir.actions.act_window">
+		<field name="name">Student</field>
+		<field name="res_model">school.student</field>
+		<field name="view_mode">calendar</field>
+		<field name="view_id" ref="school.student_calendar_view"/>
+	</record>
+
+	<record id="act_details_list" model="ir.actions.act_window">
+		<field name="name">Student</field>
+		<field name="res_model">school.student</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="dashboard_from_view" model="ir.ui.view">
+		<field name="name">Dashboard Form</field>
+		<field name="model">board.board</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Dashboard">
+				<board style="1-2">
+					<column>
+						<graph 
+							string="Students"
+							name="%(act_details)d"/>
+						<action
+							string="students Details"
+							name="%(act_details_list)d"/>
+					</column>
+					<column>
+						<action
+							string="Records"
+							name="%(act_details_ca)d"/>
+					</column>
+				</board>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="open_board_session">
+		<field name="name">Dashboard</field>
+		<field name="res_model">board.board</field>
+		<field name="view_mode">form</field>
+		<field name="usage">menu</field>
+		<field name="view_id" ref="student_form_view"/>
+	</record>
+
+	<menuitem
+		name="Dashboard"
+		action="open_board_session"
+		sequence="1"
+		id="menu_dashboard"/>
+</odoo>

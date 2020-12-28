@@ -20,6 +20,9 @@ class Course(models.Model):
     image  = fields.Binary(string="Image")
     active = fields.Boolean('Active',default=True)
     company_id = fields.Many2one('res.company', required=True, default=lambda self : self.env.user.company_id)
+   
+
+
 #     video_url = fields.Char('Video URL',
 #                             help='URL of a video for showcasing your student.')
 #     embed_code = fields.Char(compute="compute_embed_code")
