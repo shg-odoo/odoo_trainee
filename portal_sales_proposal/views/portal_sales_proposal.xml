@@ -1,0 +1,226 @@
+<odoo>
+    <data>
+        <record id="portal_sales_proposal_view_form" model="ir.ui.view">
+            <field name="name">portal_sales_proposal_view_form</field>
+            <field name="model">portal.sales.proposal</field>
+            <field name="arch" type="xml">
+                <form string="sale_portal_proposal_form">
+                    <header>
+                        <button name="action_send_mail" string="Send by Email" type="object" states="draft"/>
+                        <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible': ['|',('proposal_status', '!=', 'approved'), ('state', '!=', 'sent')]}"/>/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="preview_sale_portal_proposal"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-globe icon">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Customer</span>
+                                    <span class="o_stat_text">Preview</span>
+                                </div>
+                            </button>
+                            <button name="action_view_sale_order"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-book"
+                                    string="Sale Order"
+                                    attrs="{'invisible': [('sale_order_id','=', False)]}">
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group name="sale_header">
+                            <group name="partner_details">
+                                <field name="partner_id" widget="res_partner_many2one"
+                                       context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}"
+                                       options='{"always_reload": True}'/>
+                            </group>
+                            <group name="order_details">
+                                <field name="pricelist_id" options="{'no_open':True,'no_create': True}"
+                                       groups="product.group_product_pricelist"/>
+
+                                <field name="user_id" invisible="0"/>
+                                <field name="date_order" invisible="0"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Order Lines" name="order_lines">
+                                <field
+                                        name="line_ids"
+                                        widget="section_and_note_one2many"
+                                        mode="tree"
+                                        attrs="{'readonly': [('state', 'in', ('done','cancel'))]}">
+                                    <tree string="Proposal Lines"
+                                            editable="bottom">
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field
+                                                name="product_id"
+                                                options="{'no_open': True}"
+                                                force_save="1"
+                                                context="{
+                                            'partner_id': parent.partner_id,
+                                            'quantity': product_uom_qty,
+                                            'pricelist': parent.pricelist_id,
+                                            'uom':product_uom,
+                                            'company_id': parent.company_id,
+                                            'default_lst_price': price_unit,
+                                            'default_description_sale': name
+                                        }"
+                                                domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                                                widget="product_configurator"
+                                        />
+                                        <field name="name" widget="section_and_note_text" optional="show"/>
+                                        <field
+                                                name="product_uom_qty"
+                                                context="{
+                                            'partner_id': parent.partner_id,
+                                            'quantity': product_uom_qty,
+                                            'pricelist': parent.pricelist_id,
+                                            'uom': product_uom,
+                                            'company_id': parent.company_id
+                                        }"
+                                        />
+                                        <field
+                                                name="product_uom_qty_accepted"
+                                                context="{
+                                            'partner_id': parent.partner_id,
+                                            'quantity': product_uom_qty,
+                                            'pricelist': parent.pricelist_id,
+                                            'uom': product_uom,
+                                            'company_id': parent.company_id
+                                        }"
+                                                attrs="{
+                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
+                                        }"
+                                        />
+
+                                        <field name="product_uom_readonly" invisible="1"/>
+                                        <field
+                                                name="product_uom"
+                                                force_save="1"
+                                                string="UoM"
+                                                attrs="{
+                                            'readonly': [('product_uom_readonly', '=', True)],
+                                        }"
+                                                context="{'company_id': parent.company_id}"
+                                                groups="uom.group_uom"
+                                                options='{"no_open": True}'
+                                                optional="show"
+                                        />
+                                        <field name="price_unit"/>
+                                        <field
+                                                name="price_unit_accepted" attrs="{
+                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
+                                        }"
+                                        />
+                                        <field
+                                                name="tax_id"
+                                                widget="many2many_tags"
+                                                options="{'no_create': True}"
+                                                domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                                                optional="show"
+                                        />
+                                        <field name="price_subtotal" widget="monetary"
+                                               groups="account.group_show_line_subtotals_tax_excluded"/>
+                                        <field name="price_total" widget="monetary"
+                                               groups="account.group_show_line_subtotals_tax_included"/>
+                                        <field name="price_subtotal_accepted" widget="monetary" attrs="{
+                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
+                                        }"
+                                               groups="account.group_show_line_subtotals_tax_excluded"/>
+                                        <field name="price_total_accepted" widget="monetary" attrs="{
+                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
+                                        }"
+                                               groups="account.group_show_line_subtotals_tax_included"/>
+                                        <field name="state" invisible="1"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="company_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                    <group colspan="4">
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="amount_untaxed" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="amount_tax" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label for="amount_total"/>
+                                        </div>
+                                        <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator"
+                                               widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <div class="oe_clear"/>
+                                </group>
+                                <group name="note_group" col="6" class="mt-2 mt-md-0" attrs="{
+                                            'invisible': [('proposal_status','not in', ['approved'])],
+                                        }">
+                                    <group colspan="4">
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="amount_untaxed_accepted" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="amount_tax_accepted" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label for="amount_total_accepted"/>
+                                        </div>
+                                        <field name="amount_total_accepted" nolabel="1"
+                                               class="oe_subtotal_footer_separator"
+                                               widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <div class="oe_clear"/>
+                                </group>
+                            </page>
+                            <page string="Other Info" name="other">
+                                <group>
+                                    <group>
+                                        <field name="proposal_status" invisible="0"/>
+                                        <field name="sale_order_id" invisible="0"/>
+                                    </group>
+                                    <group>
+                                        <field name="company_id" options="{'no_create': True}"
+                                               groups="base.group_multi_company"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="portal_sales_proposal_view_tree" model="ir.ui.view">
+            <field name="name">portal_sales_proposal_view_tree</field>
+            <field name="model">portal.sales.proposal</field>
+            <field name="arch" type="xml">
+                <tree string="portal_sales_proposal_tree">
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="portal_sales_proposal_action" model="ir.actions.act_window">
+            <field name="name">Sale Proposal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">portal.sales.proposal</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_sales_proposal" name="Sale Proposal" parent="sale.sale_order_menu"
+                  action="portal_sales_proposal.portal_sales_proposal_action" sequence="10" groups="portal_sales_proposal.group_portal_sales_proposal_manager"/>
+    </data>
+</odoo>

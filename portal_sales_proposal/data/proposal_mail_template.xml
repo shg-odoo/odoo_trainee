@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_portal_sales_proposal" model="mail.template">
+            <field name="name">Sales Proposal: Send by email</field>
+            <field name="model_id" ref="portal_sales_proposal.model_portal_sales_proposal"/>
+            <field name="subject">${object.company_id.name} ${'Proposal'} (Ref ${object.name or 'n/a' })
+            </field>
+            <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set doc_name = 'proposal'
+                        % set access_url = object.get_portal_url()
+                        Hello,
+                        <br/>
+                        <br/>
+                        Your
+                        ${doc_name}
+                        <strong>${object.name}</strong>
+                        with amount <strong>${format_amount(object.amount_total, object.pricelist_id.currency_id)}
+                    </strong> is here.
+                        <br/>
+                        <br/>
+                        <center>
+                            <a href="${access_url}" style="background-color: #1abc9c; padding: 20px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;" class="o_default_snippet_text">View Proposal</a>
+                        </center>
+                        <br/>
+                        <br/>
+
+                        Please contact us for any queries.
+                        <br/>
+                    </p>
+                </div>
+            </field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_portal_sales_proposal,portal.sales.proposal,model_portal_sales_proposal,portal_sales_proposal.group_portal_sales_proposal_manager,1,1,1,1
+access_portal_sales_proposal_line,portal.sales.proposal.line,model_portal_sales_proposal_line,portal_sales_proposal.group_portal_sales_proposal_manager,1,1,1,1
+access_portal_sales_proposal_portal,sale.order.portal,model_portal_sales_proposal,base.group_portal,1,0,0,0
+access_portal_sales_proposal_line_portal,sale.order.line.portal,model_portal_sales_proposal_line,base.group_portal,1,0,0,0
