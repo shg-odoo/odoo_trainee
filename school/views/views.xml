@@ -1,0 +1,58 @@
+
+<odoo>
+
+    <template id="students_id" name="School Students">
+        <t t-call="website.layout">
+            <div class="container">
+                Hello
+                <table class="table table-bordered" border="1">
+                    <thead>
+                        <tr>
+                            <td><h4> Name </h4></td>
+                            <td><h4> Age </h4></td>
+                            <td><h4> Gender </h4></td>
+                            <td><h4> Company </h4></td>
+                            <td><h4> Delete </h4></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="students" t-as="student">
+                            <tr>
+                                <td><t t-esc="student.name"/></td>
+                                <td> <t t-esc="student.age"/> </td>
+                                <td> <t t-esc="student.gender"/></td>
+                                <td> <t t-esc="student.company_id"/></td>
+                                <td><button class="deleteBtn"></button></td>
+                            </tr>
+                </t>
+            </tbody>
+        </table>
+        <script>
+
+            const tableEl = document.getElementById('tbody');
+            tableEl.addEventListener('click', onDeletRow);
+
+            function onDeletRow(e){
+                if (e.target.classList.contains('deleteBtn')){
+                    return;
+                }
+
+                alert("clicked on the btn");
+            }
+
+            <!-- var table = document.getElementById('table');
+            for(var i = 0;i < table.rows.length ; i++)
+            {
+                table.rows[i].cells[4].onclick = function()
+                {
+                    index = this.rowIndex;
+                    console.log(index);
+                };
+
+            } -->
+        </script>
+            </div>
+        </t>
+    </template>
+
+</odoo>
