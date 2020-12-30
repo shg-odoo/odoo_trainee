@@ -4,7 +4,7 @@
             <field name="name">portal_sales_proposal_view_form</field>
             <field name="model">portal.sales.proposal</field>
             <field name="arch" type="xml">
-                <form string="sale_portal_proposal_form">
+                <form string="sale_portal_proposal_form" class="o_portal_sales_proposal">
                     <header>
                         <button name="action_send_mail" string="Send by Email" type="object" states="draft"/>
                         <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible': ['|',('proposal_status', '!=', 'approved'), ('state', '!=', 'sent')]}"/>/>
@@ -50,7 +50,7 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Order Lines" name="order_lines">
+                            <page string="Order Lines" name="order_lines" class="proposal_lines">
                                 <field
                                         name="line_ids"
                                         widget="section_and_note_one2many"
@@ -206,7 +206,7 @@
             <field name="name">portal_sales_proposal_view_tree</field>
             <field name="model">portal.sales.proposal</field>
             <field name="arch" type="xml">
-                <tree string="portal_sales_proposal_tree">
+                <tree string="portal_sales_proposal_tree" class="o_portal_sales_proposal">
                     <field name="name"/>
                     <field name="state"/>
                 </tree>

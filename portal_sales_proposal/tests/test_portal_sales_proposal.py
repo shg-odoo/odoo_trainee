@@ -49,7 +49,6 @@ class TestPortalSalesProposal(common.TransactionCase):
             })
         for line in sale_proposal.line_ids:
             line.product_id_change()
-        print("testfunc")
         sale_proposal.onchange_partner_id()
         self.assertEqual(sale_proposal.amount_total, 400.0, 'Sale: Wrong total amount')
         sale_proposal.action_send_mail()

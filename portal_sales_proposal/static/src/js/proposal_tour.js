@@ -10,19 +10,22 @@ var _t = core._t;
         url: "/web#action=portal_sales_proposal.portal_sales_proposal_action",
     }, [{
         trigger: '.o_list_button_add',
+        extra_trigger: '.o_portal_sales_proposal',
         content: _t("<p>Create your first<b> Sales Proposal</b>.</p>"),
         position: "bottom",
     },{
         trigger: ".o_form_editable .o_field_many2one[name='partner_id']",
+        extra_trigger: '.o_portal_sales_proposal',
         content: _t("Write a customer name to create one, or see suggestions."),
         position: "bottom",
     }, {
         trigger: ".o_field_x2many_list_row_add > a",
-        extra_trigger: ".o_field_many2one[name='partner_id'] .o_external_button",
+        extra_trigger: '.o_portal_sales_proposal',
         content: _t("Click here to add some products or services to your quotation."),
         position: "bottom",
     }, {
         trigger: ".o_field_widget[name='product_id'], .o_field_widget[name='product_template_id']",
+        extra_trigger: '.o_portal_sales_proposal',
         content: _t("Select a product, or create a new one on the fly."),
         position: "right",
         run: function (actions) {
@@ -41,10 +44,12 @@ var _t = core._t;
         id: "product_selection_step"
         },{
         trigger: '.o_form_button_save',
+        extra_trigger: '.o_portal_sales_proposal',
         content: _t("<p>Once your proposal is ready, you can <b>save</b> it.</p>"),
         position: 'bottom',
         },{
         trigger: "button[name='action_send_mail']",
+        extra_trigger: '.o_portal_sales_proposal',
         content: _t("<p>Now you can click here to<b> Send Proposal </b>Mail</p>"),
         position: 'bottom',
     }]);
