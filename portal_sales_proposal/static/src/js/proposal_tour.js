@@ -41,7 +41,7 @@ var _t = core._t;
         id: "product_selection_step"
         },{
         trigger: '.o_form_button_save',
-        content: _t("<p>Once your <b> Proposal </b> is ready, you can save it.</p>"),
+        content: _t("<p>Once your proposal is ready, you can <b>save</b> it.</p>"),
         position: 'bottom',
         },{
         trigger: "button[name='action_send_mail']",
