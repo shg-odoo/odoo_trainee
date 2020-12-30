@@ -232,7 +232,6 @@ class PortalSalesProposal(models.Model):
 
     def _get_share_url(self, redirect=False, signup_partner=False, pid=None):
         self.ensure_one()
-        print("_get_share_url",redirect,signup_partner,pid)
         if self.state not in ['confirmed', 'cancel']:
             auth_param = url_encode(self.partner_id.signup_get_auth_param()[self.partner_id.id])
             return self.get_portal_url(query_string='&%s' % auth_param)
@@ -242,17 +241,14 @@ class PortalSalesProposal(models.Model):
         super(PortalSalesProposal, self)._compute_access_url()
         for order in self:
             order.access_url = '/my/proposals/%s' % (order.id)
-            print("_compute_access_url",order.access_url)
 
     def _get_portal_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
-        print("_get_portal_return_action")
         return self.env.ref('portal_sales_proposal.portal_sales_proposal_action')
 
     def preview_sale_portal_proposal(self):
         self.ensure_one()
-        print("self.get_portal_url()",self.get_portal_url())
         return {
             'type': 'ir.actions.act_url',
             'target': 'self',
