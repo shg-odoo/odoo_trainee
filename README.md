@@ -1,1 +1,1 @@
-# odoo_trainee
+This module helps to create sales proposals and its management.
