@@ -182,7 +182,35 @@
             </p>
           </field>
         </record>
-        
+
+       <!--  <record model="ir.ui.view" id="student_wizard_view">
+            <field name="name">wizard.form</field>
+            <field name="model">school.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Wizard">
+                    <group>
+                        <field name="age"/>
+                        <field name="company_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="launch_the_wizard" >
+              <field name="name">Launch the Wizard</field>
+              <field name="res_model">school.wizard</field>
+              <field name="view_mode">form</field>
+              <field name="target">new</field>
+              <field name="binding_model_id" ref="student_wizard_view"/>
+        </record> -->
+        <!-- 
+        <act_window id="launch_session_wizard"
+          name="Wizard"
+          binding_model="school.wizard"
+          res_model = "school.student"
+          view_mode ="form"
+          target="new"/> -->
+
         <menuitem id="school_root_menu" name="School"
           web_icon="schol,static/description/icon.png"
           sequence="7"/>

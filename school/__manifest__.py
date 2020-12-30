@@ -19,14 +19,14 @@
 
     # any module necessary for this one to work correctly
     'depends': [
-        'base', 'mail', 'board'],
+        'base', 'mail', 'board', 'website'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         #'views/views.xml',
         'views/templates.xml',
-        
+        'views/views.xml',
         'views/dashboard.xml',
         #'wizard/wizard_view.xml',
     ],
