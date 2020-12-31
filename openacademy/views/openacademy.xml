@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+        <!--For the Instructor View-->
+
+        <record model="ir.ui.view" id="instructor_form_view">
+            <field name="name">instructor.form</field>
+            <field name="model">openacademy.instructor</field>
+            <field name="arch" type="xml">
+                <form string="Instructor Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="instructor_name"/>
+                            <field name="instructor_course"/>
+                            <field name="instructor_field"/> 
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="instructor_tree_view">
+            <field name="name">instructor.tree</field>
+            <field name="model">openacademy.instructor</field>
+            <field name="arch" type="xml">
+                <tree string="Instructor Tree">
+                    <field name="instructor_name"/>
+                    <field name="instructor_field"/>
+                    <field name="instructor_course"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="instructor_list_action">
+            <field name="name">Instructors</field>
+            <field name="res_model">openacademy.instructor</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!--For the Course Sessions View -->
+
+        <record model="ir.ui.view" id="session_form_view">
+            <field name="name">session.form</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <form string="Session Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="instructor_name"/>
+                            <field name="basic_knowledge"/>
+                            <field name="category"/>
+                        </group>
+                        <group string="Schedule and Seats">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="duration"/>
+                            <field name="seats"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="session_tree_view">
+            <field name="name">session.tree</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <tree string="Course Tree">
+                    <field name="name"/>
+                <!--<field name="instructor_name"/> -->
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="session_list_action">
+            <field name="name">Sessions</field>
+            <field name="res_model">openacademy.session</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        
+
+
+        <!--For the Student View-->
+
+        <record model="ir.ui.view" id="student_form_view">
+            <field name="name">student.form</field>
+            <field name="model">openacademy.student</field>
+            <field name="arch" type="xml">
+                <form string="Student Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="student_name"/>
+                            <field name="student_course"/>
+                            <field name="student_email"/> 
+                            <!-- <field name="student_course"/> -->
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="student_tree_view">
+            <field name="name">student.tree</field>
+            <field name="model">openacademy.student</field>
+            <field name="arch" type="xml">
+                <tree string="Student Tree">
+                    <field name="student_name"/>
+                    <field name="student_email"/>
+                </tree>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="student_list_action">
+            <field name="name">Students</field>
+            <field name="res_model">openacademy.student</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        <!--Menu Items-->
+        <menuitem id="openacademy_menu" name="Open Academy"/>
+
+          <!--Menu Item for instructor Menu-->
+        <menuitem id="instructor_menu" name="Instructor"
+                  parent="openacademy_menu"
+                  action="instructor_list_action"/>
+
+
+        <!--Menu Item for Session Menu-->
+        <menuitem id="session_menu" name="Sessions"
+                  parent="openacademy_menu"
+                  action="session_list_action"/>
+
+      
+        <!--Menu Item for Student Menu-->
+        <menuitem id="student_menu" name="Student"
+                  parent="openacademy_menu"
+                  action="student_list_action"/>
+ 
+
+
+
+
+
+
+
+</odoo>
