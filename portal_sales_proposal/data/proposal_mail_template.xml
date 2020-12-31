@@ -19,7 +19,7 @@
                         Your
                         ${doc_name}
                         <strong>${object.name}</strong>
-                        with amount <strong>${format_amount(object.amount_total, object.pricelist_id.currency_id)}
+                        amounting in <strong>${format_amount(object.amount_total, object.pricelist_id.currency_id)}
                     </strong> is here.
                         <br/>
                         <br/>
