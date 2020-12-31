@@ -8,7 +8,7 @@ class Session(models.Model):
 	_description = "OpenAcademy Sessions"
 
 	name = fields.Char(required=True)
-	instructor_name = fields.Many2many('openacademy.instrustor', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")
+	# instructor_name = fields.Many2many('openacademy.instrustor', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")
 	basic_knowledge = fields.Char()
 	category = fields.Selection([('programming_lang','Programming Language'), ('designing','Designing')])
 	start_date = fields.Date(required = True)
@@ -26,12 +26,12 @@ class Session(models.Model):
 	
 	   
 
-	def name_get(self):
-		result = []
-		for record in self:
-			name = record.name + ' ' + str(id)
-			result.append((record.id, name))
-		return result
+	# def name_get(self):
+	# 	result = []
+	# 	for record in self:
+	# 		name = record.name + ' ' + str(id)
+	# 		result.append((record.id, name))
+	# 	return result
 
 
 	# def name_get(self):
@@ -46,18 +46,18 @@ class Instructor(models.Model):
 	_name = 'openacademy.instructor'
 	_description = "OpenAcademy Instructor"
 
-	instructor_name = fields.Char()
+	instructor_name = fields.Char(required= True)
 	# instructor_id = fields.Integer(required=True)
 	instructor_field = fields.Char()
-	instructor_course = fields.Many2many('openacademy.session', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")
+	instructor_course = fields.Char()
 
 
-	def name_get(self):
-		result = []
-		for record in self:
-			name = record.instructor_name + ' ' + str(id)
-			result.append((record.instructor_id, name))
-		return result
+	# def name_get(self):
+	# 	result = []
+	# 	for record in self:
+	# 		name = record.instructor_name + ' ' + str(id)
+	# 		result.append((record.instructor_id, name))
+	# 	return result
 
 	# def name_get(self):
 	#     result = []
@@ -73,7 +73,9 @@ class Students(models.Model):
 
 	student_name = fields.Char(required=True)
 	student_email = fields.Char()
-	student_course = fields.Many2many('openacademy.session', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")
-	student_instructor = fields.Many2many('openacademy.instructor', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")
+	student_course = fields.Char()
+	student_instructor = fields.Char()
 
-	student_attandance = fields.Integer()
+	# student_course = fields.Many2many('openacademy.session', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")
+	# student_instructor = fields.Many2many('openacademy.instructor', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")
+

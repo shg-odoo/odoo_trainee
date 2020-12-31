@@ -2,7 +2,6 @@
 <odoo>
 
         <!--For the Instructor View-->
-
         <record model="ir.ui.view" id="instructor_form_view">
             <field name="name">instructor.form</field>
             <field name="model">openacademy.instructor</field>
@@ -26,7 +25,6 @@
                 <tree string="Instructor Tree">
                     <field name="instructor_name"/>
                     <field name="instructor_field"/>
-                    <field name="instructor_course"/>
                 </tree>
             </field>
         </record>
@@ -48,7 +46,7 @@
                     <sheet>
                         <group string="General">
                             <field name="name"/>
-                            <field name="instructor_name"/>
+                           <!--  <field name="instructor_name"/> -->
                             <field name="basic_knowledge"/>
                             <field name="category"/>
                         </group>
@@ -99,7 +97,7 @@
                             <field name="student_name"/>
                             <field name="student_course"/>
                             <field name="student_email"/> 
-                            <!-- <field name="student_course"/> -->
+                            <field name="student_instructor"/>
                         </group>
                     </sheet>
                 </form>
@@ -144,12 +142,5 @@
         <menuitem id="student_menu" name="Student"
                   parent="openacademy_menu"
                   action="student_list_action"/>
- 
-
-
-
-
-
-
 
 </odoo>
