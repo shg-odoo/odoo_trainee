@@ -18,8 +18,8 @@ class PortalSalesProposal(models.Model):
     _description = 'Portal Sales Proposal'
 
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,
-                       states={'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
-    date_order = fields.Datetime(string='Proposal Date', required=True, readonly=True, index=True,
+                       states={'draft': [('readonly', False)]}, default=lambda self: _('New'))
+    date_order = fields.Datetime(string='Proposal Date', required=True, readonly=True,
                                  states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False,
                                  default=fields.Datetime.now,
                                  help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.")
@@ -35,16 +35,16 @@ class PortalSalesProposal(models.Model):
         help="If you change the pricelist, only newly added lines will be affected.")
     currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
     user_id = fields.Many2one(
-        'res.users', string='Salesperson', index=True, tracking=2, default=lambda self: self.env.user,
+        'res.users', string='Salesperson', tracking=2, default=lambda self: self.env.user,
         domain=lambda self: [('groups_id', 'in', self.env.ref('sales_team.group_sale_salesman').id)])
-    company_id = fields.Many2one('res.company', 'Company', required=True, index=True,
+    company_id = fields.Many2one('res.company', 'Company', required=True,
                                  default=lambda self: self.env.company)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('sent', 'Sent'),
         ('confirmed', 'Confirmed'),
         ('cancel', 'Cancelled'),
-    ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
+    ], string='Status', readonly=True, copy=False, tracking=3, default='draft')
     line_ids = fields.One2many(
         'portal.sales.proposal.line',
         'proposal_id',
@@ -286,10 +286,9 @@ class PortalSalesProposalLine(models.Model):
     salesman_id = fields.Many2one(related='proposal_id.user_id', store=True, string='Salesperson', readonly=True)
     currency_id = fields.Many2one(related='proposal_id.currency_id', depends=['proposal_id.currency_id'], store=True,
                                   string='Currency', readonly=True)
-    company_id = fields.Many2one(related='proposal_id.company_id', string='Company', store=True, readonly=True,
-                                 index=True)
+    company_id = fields.Many2one(related='proposal_id.company_id', string='Company', store=True, readonly=True)
     user_id = fields.Many2one(
-        'res.users', string='Salesperson', index=True, tracking=2, default=lambda self: self.env.user,
+        'res.users', string='Salesperson', tracking=2, default=lambda self: self.env.user,
         domain=lambda self: [('groups_id', 'in', self.env.ref('sales_team.group_sale_salesman').id)])
     product_uom_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', required=True, default=1.0)
     product_uom_qty_accepted = fields.Float(string='Quantity Accepted', digits='Product Unit of Measure', required=True,
