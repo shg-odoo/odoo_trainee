@@ -5,7 +5,7 @@
         <t t-call="website.layout">
             <div class="container">
                 Hello
-                <table class="table table-bordered" border="1">
+                <table id="table" class="table table-bordered" border="1">
                     <thead>
                         <tr>
                             <td><h4> Name </h4></td>
@@ -22,36 +22,21 @@
                                 <td> <t t-esc="student.age"/> </td>
                                 <td> <t t-esc="student.gender"/></td>
                                 <td> <t t-esc="student.company_id"/></td>
-                                <td><button class="deleteBtn"></button></td>
+                                <td><button onclick="removeSelectedRow();">Remove</button></td>
                             </tr>
                 </t>
             </tbody>
         </table>
         <script>
+            var rIndex,
+                table = document.getElementById("table");
 
-            const tableEl = document.getElementById('tbody');
-            tableEl.addEventListener('click', onDeletRow);
-
-            function onDeletRow(e){
-                if (e.target.classList.contains('deleteBtn')){
-                    return;
-                }
-
-                alert("clicked on the btn");
-            }
-
-            <!-- var table = document.getElementById('table');
-            for(var i = 0;i < table.rows.length ; i++)
+            function removeSelectedRow()
             {
-                table.rows[i].cells[4].onclick = function()
-                {
-                    index = this.rowIndex;
-                    console.log(index);
-                };
-
-            } -->
+                table.deleteRow(rIndex);
+            }
         </script>
-            </div>
+        </div>
         </t>
     </template>
 
