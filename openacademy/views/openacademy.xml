@@ -11,8 +11,8 @@
                     <sheet>
                         <group string="General">
                             <field name="instructor_name"/>
-                            <field name="instructor_course"/>
-                            <field name="instructor_field"/> 
+                            <field name="instructor_field"/>
+                            <field name="instructor_course"/> 
                         </group>
                     </sheet>
                 </form>
