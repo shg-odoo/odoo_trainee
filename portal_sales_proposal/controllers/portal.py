@@ -168,7 +168,6 @@ class CustomerPortal(CustomerPortal):
         else:
             number = -1 if remove else 1
             quantity = order_line.product_uom_qty_accepted + number
-
             order_line.write({'product_uom_qty_accepted': quantity})
         results = self._get_portal_proposal_details(order_sudo, order_line)
 

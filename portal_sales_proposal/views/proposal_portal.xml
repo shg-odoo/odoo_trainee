@@ -192,7 +192,7 @@
                             <t t-set="object" t-value="sale_proposal"/>
                         </t>
                     </div>
-                </div><!-- // #quote_content -->
+                </div>
             </div>
         </xpath>
     </template>
@@ -267,7 +267,6 @@
                                                         </a>
                                                     </span>
                                                 </div>
-                                                <!-- TODO add uom in this case too -->
                                                 <input type="text" class="js_quantity form-control" style="width: 48px;"
                                                        t-att-data-line-id="line.id"
                                                        t-att-value="line.product_uom_qty_accepted"/>

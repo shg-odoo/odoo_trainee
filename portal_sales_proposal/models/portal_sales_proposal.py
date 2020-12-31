@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime, timedelta
 from functools import partial
-from itertools import groupby
-
-from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo import api, fields, models, _
 from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.osv import expression
-from odoo.tools import float_is_zero, float_compare
 from odoo.tools.misc import formatLang, get_lang
 from werkzeug.urls import url_encode
 
 
 class PortalSalesProposal(models.Model):
     _name = 'portal.sales.proposal'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'utm.mixin']
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = 'Portal Sales Proposal'
 
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,
@@ -49,7 +44,7 @@ class PortalSalesProposal(models.Model):
         'portal.sales.proposal.line',
         'proposal_id',
         string='Lines',
-        required=False, states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True,
+        states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True,
         auto_join=True)
     amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all',
                                      tracking=5)
@@ -82,6 +77,8 @@ class PortalSalesProposal(models.Model):
 
     @api.model
     def create(self, vals):
+        if 'line_ids' not in vals:
+            raise ValidationError(_("Please enter product details"))
         if 'company_id' in vals:
             self = self.with_company(vals['company_id'])
         if vals.get('name', _('New')) == _('New'):
@@ -268,9 +265,9 @@ class PortalSalesProposal(models.Model):
     def _set_accepted_qty(self):
         for proposal in self:
             for line in proposal.line_ids:
-                # line.price_unit_accepted = line.product_uom_qty
+                line.product_uom_qty_accepted = line.product_uom_qty
                 line.price_unit_accepted = line.price_unit
-#
+
 class PortalSalesProposalLine(models.Model):
     _name = 'portal.sales.proposal.line'
     _description = 'Portal Sales Proposal Line'
