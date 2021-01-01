@@ -2,6 +2,12 @@ from odoo import api,models, fields, _
 from odoo.exceptions import ValidationError
 from datetime import datetime
 
+class Course(models.Model):
+    _name = 'openacademy.course'
+    _description = "OpenAcademy Courses"
+
+    name = fields.Char(string="Title", required=True)
+    description = fields.Text()
 
 class Session(models.Model):
 	_name = 'openacademy.session'
@@ -12,7 +18,8 @@ class Session(models.Model):
 	basic_knowledge = fields.Char()
 	category = fields.Selection([('programming_lang','Programming Language'), ('designing','Designing')])
 	start_date = fields.Date(required = True)
-	end_date = fields.Date(constrains="Check_Date_Diff")
+	#end_date = fields.Date(constrains="Check_Date_Diff")
+
 
 	@api.constrains('end_date','start_date')
 	def Check_Date_Diff(self):
