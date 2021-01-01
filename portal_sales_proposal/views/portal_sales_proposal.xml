@@ -99,9 +99,6 @@
                                             'uom': product_uom,
                                             'company_id': parent.company_id
                                         }"
-                                                attrs="{
-                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
-                                        }"
                                         />
 
                                         <field name="product_uom_readonly" invisible="1"/>
@@ -119,9 +116,7 @@
                                         />
                                         <field name="price_unit"/>
                                         <field
-                                                name="price_unit_accepted" attrs="{
-                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
-                                        }"
+                                                name="price_unit_accepted"
                                         />
                                         <field
                                                 name="tax_id"
@@ -134,13 +129,9 @@
                                                groups="account.group_show_line_subtotals_tax_excluded"/>
                                         <field name="price_total" widget="monetary"
                                                groups="account.group_show_line_subtotals_tax_included"/>
-                                        <field name="price_subtotal_accepted" widget="monetary" attrs="{
-                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
-                                        }"
+                                        <field name="price_subtotal_accepted" widget="monetary"
                                                groups="account.group_show_line_subtotals_tax_excluded"/>
-                                        <field name="price_total_accepted" widget="monetary" attrs="{
-                                            'column_invisible': [('parent.proposal_status', 'not in', ['approved'])],
-                                        }"
+                                        <field name="price_total_accepted" widget="monetary"
                                                groups="account.group_show_line_subtotals_tax_included"/>
                                         <field name="state" invisible="1"/>
                                         <field name="currency_id" invisible="1"/>
