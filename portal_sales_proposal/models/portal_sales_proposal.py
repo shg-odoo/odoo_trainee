@@ -37,7 +37,9 @@ class PortalSalesProposal(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('sent', 'Sent'),
+        ('approved', 'Approved'),
         ('confirmed', 'Confirmed'),
+        ('rejected', 'Rejected'),
         ('cancel', 'Cancelled'),
     ], string='Status', readonly=True, copy=False, tracking=3, default='draft')
     line_ids = fields.One2many(

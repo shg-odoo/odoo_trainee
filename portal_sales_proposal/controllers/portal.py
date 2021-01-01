@@ -143,7 +143,7 @@ class CustomerPortal(CustomerPortal):
             return False
         proposal_status = 'approved' if accept else 'rejected'
         message = _('Proposal Accepted') if accept else _('Proposal Rejected')
-        order_sudo.write({'proposal_status': proposal_status})
+        order_sudo.write({'proposal_status': proposal_status, 'state': proposal_status})
         _message_post_helper(
             'portal.sales.proposal', order_sudo.id, message,
             **({'token': access_token} if access_token else {}))
