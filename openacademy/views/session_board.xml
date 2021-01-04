@@ -5,8 +5,7 @@
             <field name="name">Attendees by course</field>
             <field name="res_model">openacademy.session</field>
             <field name="view_mode">graph</field>
-            <field name="view_id"
-                   ref="openacademy.openacademy_session_graph_view"/>
+            <field name="view_id" ref="openacademy.openacademy_session_graph_view"/>
         </record>
         <record model="ir.actions.act_window" id="act_session_calendar">
             <field name="name">Sessions</field>
@@ -32,31 +31,27 @@
                                 name="%(act_session_graph)d"
                                 height="150"
                                 width="510"/>
-                            <action
-                                string="Sessions"
-                                name="%(act_session_calendar)d"/>
+                            <action string="Sessions" name="%(act_session_calendar)d"/>
                         </column>
                         <column>
-                            <action
-                                string="Courses"
-                                name="%(act_course_list)d"/>
+                            <action string="Courses" name="%(act_course_list)d"/>
                         </column>
                     </board>
                 </form>
             </field>
         </record>
         <record model="ir.actions.act_window" id="open_board_session">
-          <field name="name">Session Dashboard</field>
-          <field name="res_model">board.board</field>
-          <field name="view_mode">form</field>
-          <field name="usage">menu</field>
-          <field name="view_id" ref="board_session_form"/>
+            <field name="name">Session Dashboard</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_session_form"/>
         </record>
 
-        <menuitem
-            name="Session Dashboard" parent="base.menu_reporting_dashboard"
-            action="open_board_session"
-            sequence="1"
-            id="menu_board_session"/>
+        <menuitem name="Session Dashboard"
+                  parent="base.menu_reporting_dashboard"
+                  action="open_board_session"
+                  sequence="1"
+                  id="menu_board_session"/>
 
 </odoo>
