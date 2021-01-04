@@ -67,6 +67,9 @@ class Session(models.Model):
 				r.taken_seats = 0.0
 			else:
 				r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
+				if r.taken_seats >= 100: 
+					raise exceptions.ValidationError(_("Taken seats Should Less or equal to Available seats."))
+
 
 
 	@api.onchange('seats', 'attendee_ids')
