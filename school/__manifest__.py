@@ -28,6 +28,7 @@
         'views/templates.xml',
         'views/views.xml',
         'views/dashboard.xml',
+        'views/form.xml',
         #'wizard/wizard_view.xml',
     ],
         # only loaded in demonstration mode

@@ -13,8 +13,12 @@
                             <td><h4> Gender </h4></td>
                             <td><h4> Company </h4></td>
                             <td><h4> Delete </h4></td>
+                            <td><h4> Update </h4></td>
                         </tr>
                     </thead>
+                    <form action="/add_student" class="inline">
+                        <button class="float-left submit-button" >Add</button>
+                        </form>
                     <tbody>
                         <t t-foreach="students" t-as="student">
                             <tr>
@@ -22,19 +26,13 @@
                                 <td> <t t-esc="student.age"/> </td>
                                 <td> <t t-esc="student.gender"/></td>
                                 <td> <t t-esc="student.company_id"/></td>
-                                <td><button onclick="removeSelectedRow();">Remove</button></td>
+                                <td><button onclick="removeSelectedRow(); alert('You are going to delete the row!!!')">Remove</button></td>
+                                <td><button onclick="updateSelectedRow();">Edit</button></td>
                             </tr>
                 </t>
             </tbody>
         </table>
         <script>
-            var rIndex,
-                table = document.getElementById("table");
-
-            function removeSelectedRow()
-            {
-                table.deleteRow(rIndex);
-            }
         </script>
         </div>
         </t>
