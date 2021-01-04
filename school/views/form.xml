@@ -1,0 +1,62 @@
+<odoo>
+
+	<record id="meny_student_form12" model="website.menu">
+		<field name="name">Create Student</field>
+		<field name="url">/add_student</field>
+		<field name="parent_id" ref="website.main_menu"/>
+		<field name="sequence">55</field>
+	</record>
+
+	<template id="create_student" name="Create Student">
+		<t t-call="website.layout">
+			<div id="wrap">
+				<div class="oe_structure">
+					<div class="container">
+						<form role="form" action="/create/webstudent" method="POST">
+							<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+							<div class="form-group">
+								<lable for="name" class="control-label"> Name</lable>
+								<input type="text" name="name" t-att-value="name" id="student_name" class="form-cntrol" required="required"/>
+							</div>
+							<div class="form-group">
+								<lable for="description" class="control-label"> Despriction</lable>
+								<input type="text" name="description" t-att-value="description" id="student_description" class="form-cntrol" required="required"/>
+							</div>
+							<div class="clearfix oe_login_buttons">
+								<button type="submit" class="btn btn-primary pull-left">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</t>
+	</template>
+
+	<record id="student_thanks" model="website.page">
+		<field name="name">Thanks</field>
+		<field name="type">qweb</field>
+		<field name="url">/student-thank-you</field>
+		<field name="website_published">True</field>
+		<field name="key">school.student_thanks</field>
+		<field name="arch" type="xml">
+			<t name="Thanks" t-name="school.student_thanks">
+				<t t-call="website.layout">
+					<div class="container">
+						<h1>Thanks</h1>
+						<div class="row">
+							<div class="col-lg-8">
+								<div class="alert alert-success" role="status">
+									Your message has been sent successfullty.
+								</div>
+								<p>
+									We will gwt back to you
+								</p>
+							</div>
+						</div>
+					</div>
+				</t>
+			</t>
+		</field>
+	</record>
+
+</odoo>
