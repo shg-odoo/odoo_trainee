@@ -16,7 +16,7 @@ class Course(models.Model):
     gender = fields.Selection([
         ('male', 'Male'),
         ('female', 'Female'),
-        ],string='Gender')
+        ],string='Gender', default='male')
     image  = fields.Binary(string="Image")
     active = fields.Boolean('Active',default=True)
     company_id = fields.Many2one('res.company', required=True, default=lambda self : self.env.user.company_id)

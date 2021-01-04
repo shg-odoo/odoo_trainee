@@ -33,6 +33,13 @@
             </tbody>
         </table>
         <script>
+
+            var rIndes = document.getElementById("table");
+
+            function removeSelectedRow()
+            {
+                table.deletedRow(rIndex);
+            }
         </script>
         </div>
         </t>

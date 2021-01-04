@@ -18,6 +18,6 @@ class Student(http.Controller):
     @http.route('/create/webstudent', website=True, auth='user')
     def create_webstudent(self,**kw):
         request.env['school.student'].sudo().create(kw)
-        return request.render("school.student_thanks",{})
+        return http.request.render('school.student_thanks',{})
     
         
