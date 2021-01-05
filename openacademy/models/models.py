@@ -164,12 +164,6 @@ class Instructor(models.Model):
 	instructor_course = fields.Char()
 
 
-		# def name_get(self):
-		#   result = []
-		#   for record in self:
-		#       name = record.instructor_name + ' ' + str(id)
-		#       result.append((record.instructor_id, name))
-		#   return result
 
 		# def name_get(self):
 		#     result = []

@@ -24,7 +24,7 @@
             <field name="view_mode">tree,form</field>
         </record>
         
-        <menuitem id="configuration_menu" name="Configuration"
+        <menuitem id="configuration_menu" name="Contact Us"
                   parent="main_openacademy_menu"/>
 
         <menuitem id="contact_menu" name="Contacts"
