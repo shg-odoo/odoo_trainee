@@ -26,7 +26,7 @@
                                 <td> <t t-esc="student.age"/> </td>
                                 <td> <t t-esc="student.gender"/></td>
                                 <td> <t t-esc="student.company_id"/></td>
-                                <td><button onclick="removeSelectedRow(); alert('You are going to delete the row!!!')">Remove</button></td>
+                                <td><a type="button" class="btn btn-primary" t-attf-href='/student/delete?id=#{student.id}'>Delete</a></td>
                                 <td><button onclick="updateSelectedRow();">Edit</button></td>
                             </tr>
                 </t>
@@ -34,12 +34,29 @@
         </table>
         <script>
 
-            var rIndes = document.getElementById("table");
+            function deleteRow(r) {
+                var i = r.parentNode.parentNode.rowIndex;
+                document.getElementById("table").deleteRow(i);
+            }
+            <!-- var rIndex = document.getElementById("table");
 
             function removeSelectedRow()
             {
                 table.deletedRow(rIndex);
             }
+
+            function updateSelectedRow(){
+
+
+            window.addEventListener('load', () => {
+
+                const params = (new URL(document.location)).searchParams;
+                const name = params.get('name');
+
+                document.getElementById('name').innerHTML = name;
+            })
+
+            } -->
         </script>
         </div>
         </t>

@@ -20,4 +20,17 @@ class Student(http.Controller):
         request.env['school.student'].sudo().create(kw)
         return http.request.render('school.student_thanks',{})
     
+    @http.route('/student/delete', website=True, auth='user', type="http", csrf=False)
+    def delete_student_details(self,**post):
+        current_name = post.get('id')
+        print(current_name)
+        print("\n\n\n\n")
+        request.env['school.student'].search([('id', '=', current_name)]).unlink()
+        return http.local_redirect("/school/student")
         
+        
+    # @http.route('/update_details', website=True, auth='user')
+    # def edit_details(self,**kw):
+    #     request.env['school.student'].sudo()
+    #     
+
