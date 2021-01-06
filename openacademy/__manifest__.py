@@ -11,7 +11,7 @@
     """,
 
     'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'website': "http://www.openacademy.com",
 
    
     'category': 'Test',
