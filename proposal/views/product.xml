@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_manage_product_tree" model="ir.ui.view">
+            <field name="name">proposal.proposal.tree</field>
+            <field name="model">proposal.proposal</field>
+            <field name="arch" type="xml">
+                <tree string="Proposal">
+                	<field name="seq"/>
+                	<field name="proposal_date"/>
+                	<field name="customer_id"/>
+                    <field name="salesman_id" widget="many2one_avatar_user"/> <!-- many2one_avatar_employee -->
+                    <field name="state" widget="badge"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="view_manage_product_form" model="ir.ui.view">
+            <field name="name">proposal.proposal.form</field>
+            <field name="model">proposal.proposal</field>
+            <field name="arch" type="xml">
+                <form string="Proposal">
+                    <header>
+                        <button name="action_proposal_mail_send" type="object" string="Sent Proposal" class="oe_highlight" attrs="{'invisible': [('state', 'in',['confirmed','cancel'])]}"/>
+                        <button name="action_confirmed_proposal" type="object" string="Confirm Proposal" class="oe_highlight" attrs="{'invisible': [('state', '=','sent')]}"/>
+                        <button name="action_cancel_proposal" type="object" string="Cancel Proposal" attrs="{'invisible': [('state', '=','sent')]}"/>
+                        <field name="state" widget='statusbar'/>
+                    </header>
+                	<sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="preview_proposal"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-globe icon">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Customer</span>
+                                    <span class="o_stat_text">Preview</span>
+                                </div>
+                          </button>
+                        </div>
+            			<div class="oe_title">
+                   			<h1>
+                          		<field name="seq" readonly="1"/>
+                    		</h1>
+             			</div>
+                		<group>
+                			<group>
+                				<field name="customer_id" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}"/>
+                                <field name="salesman_id" attrs="{'readonly': [('state', 'in', ('confirmed','cancel'))]}"/>
+                			</group>
+             				<group>
+             					<field name="proposal_date"/>
+             				</group>
+
+                		</group>
+                		<notebook>
+                        <page string="Proposal Line">
+                            <field name="proposal_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="description" />
+                                    <field name="qty_proposed" />
+                                    <field name="price_proposed" />
+                                    <field name="qty_accepted" />
+                                    <field name="price_accepted" />
+                                    <field name="proposed_sub_total"/>
+                                    <field name="accepted_sub_total"/>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="product_id" />
+                                            <field name="description" />
+                                            <field name="qty_proposed" />
+                                            <field name="price_proposed" />
+                                            <field name="qty_accepted" />
+                                            <field name="price_accepted" />
+                                            <field name="proposed_sub_total"/>
+                                            <field name="accepted_sub_total"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                          <div class="oe_subtotal_footer_separator">
+                            <label for="proposed_total_price" />
+                        </div>
+                            <field name="proposed_total_price" force_save="1" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+
+                        <div class="oe_subtotal_footer_separator">
+                            <label for="accepted_total_price" />
+                        </div>
+                            <field name="accepted_total_price" force_save="1" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                    </group>
+                	</sheet>  
+                </form>
+            </field>
+        </record>
+        <record id="proposal_search_view" model="ir.ui.view">
+          <field name="name">proposal.sale.search</field>
+          <field name="model">proposal.proposal</field>
+          <field name="arch" type="xml">
+            <search string="Search Customers">
+                <field name="customer_id" filter_domain="['|',('customer_id', 'ilike', self),('salesman_id','ilike',self)]" />
+
+                <group expand="0" string="Group By">
+                    <filter string="State" name="state" context="{'group_by':'state'}"/>
+                    <filter string="salesman" name="salesman_id" context="{'group_by':'salesman_id'}"/>
+                </group>
+            </search>
+          </field>
+        </record>
+        <record id="action_proposal" model="ir.actions.act_window">
+            <field name="name">Proposal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">proposal.proposal</field>
+            <field name='view_mode'>tree,form</field>
+        </record>
+
+        <menuitem name="Proposal" id="proposal_root_menu" sequence="1"/>
+    	<menuitem id="proposal" name="Proposal" parent="proposal_root_menu" sequence="7" action="action_proposal" />
+       
+    </data>
+</odoo>
