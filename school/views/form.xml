@@ -16,7 +16,7 @@
 							<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 							<div class="form-group">
 								<lable for="name" class="control-label"> Name</lable>
-								<input type="text" name="name" t-att-value="name" id="student_name" class="form-control" required="required"/>
+								<input type="text" name="name"  id="student_name" t-att-value="name" class="form-control" required="required"/>
 							</div>
 							<div class="form-group">
 								<lable for="description" class="control-label"> Despriction</lable>
@@ -43,6 +43,50 @@
 							</div> -->
 							<div class="clearfix oe_login_buttons">
 								<button type="submit" class="btn btn-primary pull-left">Add</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</t>
+	</template>
+
+	<template id="update_student" name="Update Student">
+		<t t-call="website.layout">
+			<div id="wrap">
+				<div class="oe_structure">
+					<div class="container">
+						<form role="form" action="/edit/student" method="POST">
+							<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+							<div class="form-group">
+								<lable for="name" class="control-label"> Name</lable>
+								<input type="text" name="name"  id="student_name" t-att-value="student_data.name" class="form-control" required="required"/>
+							</div>
+							<div class="form-group">
+								<lable for="description" class="control-label"> Despriction</lable>
+								<input type="text" name="description" t-att-value="student_data.description" id="student_description" class="form-control"/>
+							</div>
+							<div class="form-group">
+								<lable for="age" class="control-label"> Age</lable>
+								<input type="number" name="age" t-att-value="student_data.age" id="student_age" default="0" class="form-control"/>
+							</div>
+							<div class="form-group">
+  									<label for="gender"> Gender</label>
+  									<select name="gender" t-att-value="student_data.gender" id="student_gender">
+    								<option value="male">Male</option>
+   							 		<option value="female">Female</option>
+   									</select>
+   							</div>
+							<!-- <div class="form-group">
+								<lable for="date_from" class="control-label" data-date-format="MM DD YYYY"> From</lable>
+								<input type="datetime-local" name="date_from" t-att-value="date_from" id="student_date_from" class="form-control"/>
+							</div>
+							<div class="form-group">
+								<lable for="date_to" class="control-label" data-date-format="MM DD YYYY"> To</lable>
+								<input type="datetime-local" name="date_to" t-att-value="date_to" id="student_date_to" class="form-control"/>
+							</div> -->
+							<div class="clearfix oe_login_buttons">
+								<button type="submit" class="btn btn-primary pull-left">Update</button>
 							</div>
 						</form>
 					</div>
