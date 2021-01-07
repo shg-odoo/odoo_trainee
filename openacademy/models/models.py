@@ -68,7 +68,7 @@ class Session(models.Model):
             else:
                 r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
                 if r.taken_seats >= 100:
-                    raise exceptions.ValidationError(_("Taken seats Should Less or equal to Available seats."))
+                    raise exceptions.ValidationError(_("Taken seats Should Less or e    qual to Available seats."))
 
     @api.onchange('seats', 'attendee_ids')
     def _verify_valid_seats(self):
@@ -158,15 +158,3 @@ class Instructor(models.Model):
 #         result.append((record.id, name))
 #     return result
 
-
-class Students(models.Model):
-    _name = 'openacademy.student'
-    _description = "OpenAcademy Students"
-
-    student_name = fields.Char(required=True)
-    student_email = fields.Char()
-    student_course = fields.Char()
-    student_instructor = fields.Char()
-
-# student_course = fields.Many2many('openacademy.session', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")
-# student_instructor = fields.Many2many('openacademy.instructor', string='Enrolled Course', help="Optional tags you may want to assign for custom reporting", widget="many2many_tags")

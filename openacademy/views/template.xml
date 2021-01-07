@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="session_page" name ="OpenAcademy Sessions">
+        <t t-call="website.layout">
+            Hey This all Are Sessions
+        </t>
+
+
+    </template>
+
+
+
+</odoo>

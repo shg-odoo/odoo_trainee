@@ -26,6 +26,8 @@
         'views/openacademy.xml',
         'views/partner.xml',
         'views/session_board.xml',
+        'views/template.xml',
+
         'reports.xml'
     ],
 }
