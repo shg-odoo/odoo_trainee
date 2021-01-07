@@ -26,8 +26,8 @@
                 <form string="Proposal">
                     <header>
                         <button name="action_proposal_mail_send" type="object" string="Sent Proposal" class="oe_highlight" attrs="{'invisible': [('state', 'in',['confirmed','cancel'])]}"/>
-                        <button name="action_confirmed_proposal" type="object" string="Confirm Proposal" class="oe_highlight" attrs="{'invisible': [('state', '=','sent')]}"/>
-                        <button name="action_cancel_proposal" type="object" string="Cancel Proposal" attrs="{'invisible': [('state', '=','sent')]}"/>
+                        <button name="action_confirmed_proposal" type="object" string="Confirm Proposal" class="oe_highlight" attrs="{'invisible': [('state', '!=','sent')]}"/>
+                        <button name="action_cancel_proposal" type="object" string="Cancel Proposal" attrs="{'invisible': [('state', '!=','sent')]}"/>
                         <field name="state" widget='statusbar'/>
                     </header>
                 	<sheet>

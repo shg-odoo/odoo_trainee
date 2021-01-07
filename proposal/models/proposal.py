@@ -1,8 +1,6 @@
 from odoo import api, fields, models, _
 
 
-
-
 class Proposal(models.Model):
     _name = "proposal.proposal"
     _inherit = ['mail.thread','portal.mixin','mail.activity.mixin']
@@ -51,7 +49,52 @@ class Proposal(models.Model):
             self.accepted_total_price = sum(total)
 
     def action_proposal_mail_send(self):
+        self.ensure_one()
+        ir_model_data = self.env['ir.model.data']
+        try:
+            template_id = ir_model_data.get_object_reference('proposal', 'email_template')[1]
+            print("$$$"*20, template_id)
+        except ValueError:
+            template_id = False
+        ctx = {
+            'default_model': 'proposal.proposal',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True,
+            'proforma': self.env.context.get('proforma', False),
+            'force_email': True,
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+        }
+
+    def action_proposal_mail_send(self):
         self.state = "sent"
+
+    # def action_proposal_mail_send(self):
+    #     self.state = "sent"            
+    #     template_id = self.env.ref('sale_proposal.email_template_proposal_mail').id
+    #     self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
+
+    def action_confirmed_proposal(self):
+        self.state = "confirmed"
+        sale_order_line_ids = []
+        sale_order_tuple_line_ids = ()
+        for rec in self:
+            for line in rec.proposal_line_ids:
+                sale_order_list_line_ids = [0,0]
+                sale_order_list_line_ids.append(({'product_id':line.product_id.id,'name':line.description,'product_uom_qty':line.qty_accepted,'price_unit':line.price_accepted}))
+                sale_order_tuple_line_ids = tuple(sale_order_list_line_ids)
+                sale_order_line_ids.append(sale_order_tuple_line_ids)    
+        self.env['sale.order'].create({'partner_id':self.customer_id.id,'order_line':sale_order_line_ids,'state':'sale'})
 
     def action_confirmed_proposal(self):
         # self.write({'state': 'confirmed'})
@@ -64,14 +107,9 @@ class Proposal(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_url',
-            'target': 'self',
             'url': f'/my/proposals/{self.id}'
         }
 
-    def _get_portal_return_action(self):
-        """ Return the action used to display orders when returning from customer portal. """
-        self.ensure_one()
-        return self.env.ref('proposal')
 
 class ProposalLine(models.Model):
     _name = "proposal.line"

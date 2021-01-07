@@ -5,33 +5,45 @@
         <t t-call="website.layout">
          <div class="oe_structure">
            <div class="container">
-             <br />
-             <center><h3>Proposal Details</h3></center>
-             <br />
-               <table class="table-striped table">
-                 <thead style="font-size: 23px;">
-                 <tr>
-                   <h6>
-                     <b>
-                       <th>Proposal Number</th>
-                       <th>Customer</th>
-                       <th>Date</th>
-                       <th><b>State</b></th>
-                     </b>
-                   </h6>
-                 </tr>
-                 </thead>
-                 <tbody>
-                   <t t-foreach="my_details" t-as="order">
+            <t t-foreach="my_details" t-as="doc">
+
+               <br />
+                <!-- <center><h3>Proposal Details</h3></center> -->
+                <div>
+                  <h3><td><span t-esc="doc.seq"/></td></h3>
+                </div>
+                <div>
+                  <td><b>Proposal Date:</b><span t-esc="doc.proposal_date"/></td>
+                </div>
+                <left><h3>Customer</h3></left>
+                <td><span t-esc="doc.customer_id.name"/></td>
+               <br />
+
+                <table class="table-striped table">
+                   <thead style="font-size: 23px;">
                    <tr>
-                   <td><span t-esc="order.seq"/></td>
-                   <td><span t-esc="order.customer_id.name"/></td>
-                   <td><span t-esc="order.proposal_date"/></td>
-                   <td><span t-esc="order.state"/></td>
+                     <h6>
+                       <b>
+                         <th>Proposal Number</th>
+                         <th>Customer</th>
+                         <th>Date</th>
+                         <th><b>State</b></th>
+                       </b>
+                     </h6>
                    </tr>
-                   </t>
-                 </tbody>
-               </table>
+                   </thead>
+                   <tbody>
+                     <t t-foreach="my_details" t-as="order">
+                     <tr>
+                     <td><span t-esc="order.seq"/></td>
+                     <td><span t-esc="order.customer_id.name"/></td>
+                     <td><span t-esc="order.proposal_date"/></td>
+                     <td><span t-esc="order.state"/></td>
+                     </tr>
+                     </t>
+                   </tbody>
+                 </table>
+              </t>
            </div>
          </div>
      </t>
