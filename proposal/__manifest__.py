@@ -18,7 +18,8 @@ You could use this simplified accounting in case you work with an (external) acc
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
-        'views/product.xml',
+        'views/proposal.xml',
+        'views/template.xml',
         'report/proposal_report.xml',
     ],
     'installable': True,
