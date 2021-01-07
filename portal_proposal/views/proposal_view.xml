@@ -1,0 +1,95 @@
+<odoo>
+	<record model="ir.ui.view" id="proposal_tree_view">
+        <field name="name">portal.proposal.tree</field>
+        <field name="model">portal.proposal</field>
+        <field name="arch" type="xml">
+            <tree>
+            	<field name="name"/>
+                <field name="user_id"/>
+                <field name="partner_id"/>
+                <field name="total_proposed_amt"/>
+                <field name="total_accepted_amt"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="proposal_form_view">
+    	<field name="name">portal.propsal.form</field>
+    	<field name="model">portal.proposal</field>
+    	<field name="arch" type="xml">
+    		<form>
+    			<header>
+    				<button name="send" type="object" string="Send" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+    				<button name="accept" type="object" string="Accept" attrs="{'invisible': [('state', '=', ['draft','confirmed','cancel'])]}"/>
+    				<button name="refuse" type="object" string="Refuse" attrs="{'invisible': [('state', '=', ['draft','confirmed','cancel'])]}"/>
+                    <button name="confirm" type="object" string="Confirm" attrs="{'invisible': [('state', '!=', 'sent')]}"/>
+    				<field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed,cancel"/>
+    			</header>
+    			<sheet>
+    				<div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+    				<group>
+	    				<group>
+	    					<field name="user_id" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+	                		<field name="partner_id" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+	    				</group>
+	    				<group>
+	    					<field name="pricelist_id" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+	    					<field name="total_proposed_amt"/>
+	                		<field name="total_accepted_amt"/>
+	    				</group>
+	    			</group>
+    				<notebook>
+    					<page string="Proposal Lines">
+    						<field name="line_ids">
+    							<tree>
+    								<field name="product_id" required="1" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
+    								<field name="label" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
+    								<field name="proposed_qty" required="1" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
+    								<field name="accepted_qty"/>
+    								<field name="proposed_price" required="1"/>
+    								<field name="accepted_price"/>
+    								<field name="proposal_id" invisible="1"/>
+    							</tree>
+    							<form>
+    								<group>
+    									<group>
+    										<field name="product_id" required="1" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
+	    									<field name="label" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
+    									</group>
+    									<group>
+    										<field name="proposed_qty" required="1" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
+	    									<field name="accepted_qty"/>
+    									</group>
+    									<group>
+    										<field name="proposed_price" required="1"/>
+	    									<field name="accepted_price"/>
+    									</group>   										    									    					
+	    								<field name="proposal_id" invisible="1"/>
+    								</group>
+    							</form>
+    						</field>
+    					</page>
+    				</notebook>
+    			</sheet>
+    			<div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+    		</form>
+    	</field>
+    </record>
+
+	<record id="proposal_action" model="ir.actions.act_window" >
+        <field name="name">Portal Proposal</field>
+        <field name="res_model">portal.proposal</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<menuitem name="Portal Proposal" id="proposal_menu" action="proposal_action" sequence="5" parent="sale.sale_menu_root"/>
+</odoo>

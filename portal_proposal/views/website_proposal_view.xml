@@ -1,0 +1,101 @@
+<odoo>
+    <template id="proposal_page_template">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <div id="portal_rec" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+                        <h2 class="my-0">
+                            <h4>Portal Proposal <span t-field="proposals.name"/></h4>
+                        </h2>
+                    </div>
+                    <div class="row" id="details">
+                        <div class="mb-3 col-6">
+                            <strong>Salesman:</strong> <span t-field="proposals.user_id"/>
+                            <br/> 
+                            <strong>Customer:</strong> <span t-field="proposals.partner_id"/>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <strong>Pricelist:</strong> <span t-field="proposals.pricelist_id"/>
+                            <br/>
+                            <strong>Total Proposed Amount:</strong> <span t-field="proposals.total_proposed_amt"/>
+                            <br/>
+                            <strong>Total Accepted Amount:</strong> <span t-field="proposals.total_accepted_amt"/>
+                        </div>
+                        <div class="mb-3 col-12">
+                            <table class="table table-bordered" string="Proposal Lines">
+                                <tr>
+                                    <th></th>
+                                    <th>Product</th>
+                                    <th>Description</th>
+                                    <th>Qty Proposed</th>
+                                    <th>Qty Accepted</th>
+                                    <th>Price Proposed</th>
+                                    <th>Price Accepted</th>
+                                </tr>
+                                <t t-foreach="proposals.line_ids" t-as="line">
+                                    <tr>
+                                        <td><img t-att-src="image_data_uri(line.product_id.image_1920)" style="max-height: 6rem; max-width: 100%;"/></td>
+                                        <td><span t-field="line.product_id"/></td>
+                                        <td><span t-field="line.label"/></td>
+                                        <td class="text-right"><span t-field="line.proposed_qty"/></td>
+                                        <td class="text-right">
+                                            <input size="5px" id="qty" type="text" class="form-control" name="qty_accepted" t-att-value="line.accepted_qty"/>
+                                        </td>
+                                        <td class="text-right"><span t-field="line.proposed_price"/></td>
+                                        <td class="text-right">
+                                            <input size="5px" id="price" type="text" class="form-control" name="price_accepted" t-att-value="line.accepted_price"/>
+                                        </td>                                        
+                                    </tr>
+                                </t> 
+                            </table>
+                            <button type="button" t-att-id="proposals.id" class="btn btn-primary accept_data">
+                                <a href="/proposal/accept" class="btn btn-info">Accept</a>
+                            </button>
+                            <button type="button" class="btn btn-primary">Reject</button> 
+                            <div id="proposal_communication" class="mt-4">
+                                <h2>History</h2>
+                                <t t-call="portal.message_thread">
+                                    <t t-set="object" t-value="proposals"/>
+                                </t>
+                            </div>
+                        </div>                                                                    
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="accept_page_template">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <div id="portal_acc" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+                        <h2 class="my-0">
+                            <h4>Proposal Accepted</h4>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="proposal_page" model="website.page">
+        <field name="name">Proposal</field>
+        <field name="website_published">True</field>
+        <field name="url">/proposal</field>
+        <field name="view_id" ref="proposal_page_template"/>        
+    </record>
+
+    <record id="accept_page" model="website.page">
+        <field name="name">Accept</field>
+        <field name="website_published">True</field>
+        <field name="url">/proposal/accept</field>
+        <field name="view_id" ref="accept_page_template"/>        
+    </record>
+
+    <template id="assets_frontend" name="proposal assets" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/portal_proposal/static/src/js/accept_proposal.js"></script>
+        </xpath>
+    </template>
+ </odoo>
