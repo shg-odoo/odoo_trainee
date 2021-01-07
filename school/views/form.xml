@@ -58,6 +58,7 @@
 					<div class="container">
 						<form role="form" action="/edit/student" method="POST">
 							<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+							<input type="hidden" name="id" t-att-value="student_data.id"/>
 							<div class="form-group">
 								<lable for="name" class="control-label"> Name</lable>
 								<input type="text" name="name"  id="student_name" t-att-value="student_data.name" class="form-control" required="required"/>

@@ -4,7 +4,6 @@
     <template id="students_id" name="School Students">
         <t t-call="website.layout">
             <div class="container">
-                Hello
                 <table id="table" class="table table-bordered" border="1">
                     <thead>
                         <tr>
@@ -17,7 +16,7 @@
                         </tr>
                     </thead>
                     <form action="/add_student" class="inline">
-                        <button class="float-left submit-button" >Add</button>
+                        <button style="margin-left:auto;margin-right:auto;display:block;margin-top:2%;margin-bottom:1%" class="btn btn-primary" >Create</button>
                         </form>
                     <tbody>
                         <t t-foreach="students" t-as="student">
@@ -26,7 +25,7 @@
                                 <td> <t t-esc="student.age"/> </td>
                                 <td> <t t-esc="student.gender"/></td>
                                 <td> <t t-esc="student.company_id"/></td>
-                                <td><a type="button" class="btn btn-primary" t-attf-href='/student/delete?id=#{student.id}'>Delete</a></td>
+                                <td><a type="button" class="btn btn-primary" t-attf-href='/student/delete/#{student.id}'>Delete</a></td>
                                 <td><a type="button" class="btn btn-primary" t-attf-href='/student/update?id=#{student.id}'>Update</a></td>
                             </tr>
                         </t>
