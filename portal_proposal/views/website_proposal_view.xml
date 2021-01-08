@@ -22,6 +22,7 @@
                             <strong>Total Accepted Amount:</strong> <span t-field="proposals.total_accepted_amt"/>
                         </div>
                         <div class="mb-3 col-12">
+                            <form target="_self" action="" method="post" id="test_form">
                             <table class="table table-bordered" string="Proposal Lines">
                                 <tr>
                                     <th></th>
@@ -48,9 +49,29 @@
                                     </tr>
                                 </t> 
                             </table>
-                            <button type="button" t-att-id="proposals.id" class="btn btn-primary accept_data">
+                            </form>
+                            <button type="button" t-att-id="proposals.id" class="btn btn-primary accept_data" id="acc_btn">
                                 <a href="/proposal/accept" class="btn btn-info">Accept</a>
                             </button>
+                            <script type="text/javascript">
+                                <!-- var qty_input = document.getElementById('qty');
+                                var price_input = document.getElementById('price');
+                                var submit_button = document.getElementsByClassName('accept_data');
+
+                                qty_input.addEventListener('input', function(){
+                                    submit_button.href = "/proposal/?input_value=" + qty_input.value;
+                                });
+                                console.log("INPUT..");
+                                price_input.addEventListener('input', function(){
+                                    submit_button.href = "/proposal/?input_value=" + price_input.value;
+                                }); -->
+                                $('#test_form').on('click', 'button.accept_data', function(e) {
+                                    e.preventDefault();
+                                    var qty_accepted = $( ".qty_accepted" ).val();
+                                    var price_accepted= $( ".price_accepted" ).val();
+                                    console.log('JS..');
+                                });
+                            </script>
                             <button type="button" class="btn btn-primary">Reject</button> 
                             <div id="proposal_communication" class="mt-4">
                                 <h2>History</h2>

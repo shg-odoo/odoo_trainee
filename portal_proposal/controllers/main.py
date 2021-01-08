@@ -15,3 +15,8 @@ class WebsiteProposal(http.Controller):
 	def save_accept_qty_price(self, *args, **kwargs):
 		print("ACCEPT....", args, kwargs, self, request.env.context, request.httprequest.args)
 		return http.request.render('portal_proposal.accept_page_template', {})
+
+	# @http.route('/proposal/', auth='public', website=True)
+	# def get_vals(self, **kw):
+	# 	query_string = request.httprequest.query_string
+	# 	print("STRING...", query_string)
