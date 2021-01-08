@@ -6,9 +6,7 @@
          <div class="oe_structure">
            <div class="container">
             <t t-foreach="my_details" t-as="doc">
-
-               <br />
-                <!-- <center><h3>Proposal Details</h3></center> -->
+            <br />
                 <div>
                   <h3><td><span t-esc="doc.seq"/></td></h3>
                 </div>
@@ -17,17 +15,19 @@
                 </div>
                 <left><h3>Customer</h3></left>
                 <td><span t-esc="doc.customer_id.name"/></td>
-               <br />
-
-                <table class="table-striped table">
-                   <thead style="font-size: 23px;">
+              <br />
+              </t>
+                <table class="table table-sm" id="proposal_table">
+                   <thead style="font-size: 26px;" class="bg-100">
                    <tr>
                      <h6>
                        <b>
-                         <th>Proposal Number</th>
-                         <th>Customer</th>
-                         <th>Date</th>
-                         <th><b>State</b></th>
+                        <th>Prodotto</th>
+                         <th></th>
+                         <th>Proposed Quantity</th>
+                         <th>Proposed Price</th>
+                         <th><b>Accepted Quantity</b></th>
+                         <th><b>Accepted Price</b></th>
                        </b>
                      </h6>
                    </tr>
@@ -35,15 +35,36 @@
                    <tbody>
                      <t t-foreach="my_details" t-as="order">
                      <tr>
-                     <td><span t-esc="order.seq"/></td>
-                     <td><span t-esc="order.customer_id.name"/></td>
-                     <td><span t-esc="order.proposal_date"/></td>
-                     <td><span t-esc="order.state"/></td>
-                     </tr>
-                     </t>
-                   </tbody>
-                 </table>
-              </t>
+                      <td>
+                        <img t-att-src="image_data_uri(order.proposal_line_ids.product_id.image_1024)" style="max-height: 40px; max-width: 80px;"/>
+                      </td>
+                      <td><span t-esc="order.proposal_line_ids.description" /></td>
+                      <td><span t-esc="order.proposal_line_ids.qty_proposed"/></td>
+                      <td><span t-esc="order.proposal_line_ids.price_proposed"/></td>
+                      <td><span t-esc="order.proposal_line_ids.qty_accepted"/></td>
+                      <td><span t-esc="order.proposal_line_ids.price_accepted"/></td>
+                      </tr>
+                      </t>
+                    </tbody>
+                  </table>
+                  <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+                    <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                      <table class="table table-sm">
+                        <tr class="border-black ">
+                          <td class="text-right"><strong>Proposed Total</strong></td>
+                         <!--  <td class="text-right">
+                            <span t-field="proposal.proposed_sub_total" />
+                          </td> -->
+                        </tr>
+                        <tr class="border-black">
+                          <td class="text-right"><strong>Accepted Total</strong></td>
+                          <!-- <td class="text-right">
+                            <span t-field="proposal.accepted_total_price" />
+                          </td> -->
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
            </div>
          </div>
      </t>

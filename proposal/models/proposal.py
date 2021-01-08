@@ -117,6 +117,7 @@ class ProposalLine(models.Model):
     _rec_name = "product_id"
 
     proposal_id = fields.Many2one("proposal.proposal", string="Proposal Id")
+    product_id = fields.Many2one("product.product")
     product_id = fields.Many2one("product.product", string="Product", required=True)
     description = fields.Text()
     qty_proposed = fields.Integer(string="Proposed Quantity", required=True, default=1)
