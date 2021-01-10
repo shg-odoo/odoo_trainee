@@ -20,7 +20,12 @@ class Course(models.Model):
     image  = fields.Binary(string="Image")
     active = fields.Boolean('Active',default=True)
     company_id = fields.Many2one('res.company', required=True, default=lambda self : self.env.user.company_id)
-   
+    state = fields.Selection([
+        ('draft','Draft'),
+        ('confirm','Confirm'),
+        ('done','Done'),
+        ('cancel','Cancelled'),
+        ], string='Status', readonly=True, default='draft')
 
 
     def wiz_test_action(self):
@@ -31,15 +36,18 @@ class Course(models.Model):
         #         'view_mode': 'form',
         #         'target': 'new'
         # }
-#     video_url = fields.Char('Video URL',
-#                             help='URL of a video for showcasing your student.')
-#     embed_code = fields.Char(compute="compute_embed_code")
+
+    def action_confirm(self):
+        for rec in self:
+            rec.state = 'confirm'
+
+    def action_done(self):
+        for rec in self:
+            rec.state = 'done'
 
 
-# @api.depends('video_url')
-# def compute_embed_code(self):
-#     for rec in self:
-#         rec.embed_code = get_video_embed_code(rec.video_url)
+
+
 
 # @api.onchange('company_id')
 # def set_student_gender(self):

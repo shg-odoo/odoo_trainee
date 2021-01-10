@@ -103,7 +103,10 @@
               <field name="arch" type="xml">
                 <form string="Students">
                   <header>
-                    <button name="%(wiz_test_action)d" string="Create" type="action" class="oe_highlight"/>
+                    <button name="%(wiz_test_action)d" string="Update Age" type="action" class="oe_highlight"/>
+                    <button name="action_confirm" type="object" string="Confirm" class="oe_highlight"/>
+                    <button name="action_done" type="object" string="Done" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
                   </header>
                   <sheet>
                     <field name="image" widget="image" class="oe_avatar"/>
