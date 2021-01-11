@@ -23,11 +23,10 @@
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+        'views/template.xml',
         'views/openacademy.xml',
         'views/partner.xml',
         'views/session_board.xml',
-        'views/template.xml',
-
         'reports.xml'
     ],
 }

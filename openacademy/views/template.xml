@@ -1,13 +1,166 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <template id="session_page" name ="OpenAcademy Sessions">
-        <t t-call="website.layout">
-            Hey This all Are Sessions
-        </t>
+
+	
 
 
-    </template>
 
+	<template id="newhome" inherit_id="website.homepage">
+
+		<xpath expr="//div[@id='wrap']" position="inside">
+			<h1> My home page will show all the session </h1>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<a t-attf-href="/add_session" class="btn btn-primary">Create</a>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<h4><b>Name</b></h4>
+							</td>
+							<td>
+								<h4><b>Start Date</b></h4>
+							</td>
+							<td>
+								<h4><b>End Date</b></h4>
+							</td>
+							<td>
+								<h4><b>Seats</b></h4>
+							</td>
+							<td>
+								<h4><b>Update</b></h4>
+							</td>
+							<td>
+								<h4><b>Delete</b></h4>
+							</td>
+						</tr>
+						<t t-foreach="session" t-as="s">
+							<tr>
+								<td>
+									<t t-esc="s.name"/>
+								</td>
+								<td>
+									<t t-esc="s.start_date"/>
+								</td>
+								<td>
+									<t t-esc="s.end_date"/>
+								</td>
+								<td>
+									<t t-esc="s.seats "/>
+								</td>
+								 <td>
+									 <a t-attf-href="/update_rec/#{slug(s)}" class="btn btn-primary">Update</a>
+								</td>
+								<td>
+									<a t-attf-href="/delete_rec/#{slug(s)}" class="btn btn-primary">Delete</a>
+								</td>
+							</tr>
+						</t>
+					</tbody>
+				</table>
+
+		</xpath>
+	</template>
+
+
+	<template id = "update_session" name = "Update Session">
+		<t t-call="website.layout">
+			<form role="form" action="/update/session" method="POST">
+
+
+				<t t-foreach="session_data" t-as="s">
+					<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+					<input type="hidden" name="id" t-att-value="s.id"/>
+					<div class="container">
+						<div class="row justify-content-center">
+				            <div class="col-md-6">
+
+
+
+				                <label for="Name">Session Name :</label>
+				                <input type="text" name="name" t-att-value="s.name" id="name" class="form-control form-control-sm" autofocus="autofocus" required="required"/>
+
+
+
+
+				                <label for="start_date">Start Date :</label>
+				                <input type="text" name="start_date" t-att-value="s.start_date" id="start_date" class="form-control form-control-sm" autofocus="autofocus" required="required"/>
+
+
+
+				                <label for="end_date">End date :</label>
+				                <input type="text" name="end_date" t-att-value="s.end_date" id="end_date" class="form-control form-control-sm" autofocus="autofocus" required="required"/>
+
+
+
+				                <label for="Seats">Seats :</label>
+				                <input type="number" name="seats" t-att-value="s.seats" id="seats" class="form-control form-control-sm" autofocus="autofocus" required="required"/>
+				            </div>
+						</div>
+					</div>
+				</t>
+				<div class="container">
+					<div class="row justify-content-center m-3">
+						<button class="btn btn-primary" type="submit">Update</button>
+					</div>
+				</div>
+			</form>
+		</t>
+	</template>
+
+
+
+
+
+
+
+
+
+
+
+
+	<template id="create_session" name="Create Session">
+		<t t-call="website.layout">
+			<form role="form" action="/create/session" method="POST">
+				<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+				<div class="container">
+						<div class="row justify-content-center">
+				            <div class="col-md-6">
+				            	<t t-set="courses" t-value="request.env['openacademy.course'].sudo().search([])"/>
+				            	<label for="Name">Course :</label>
+				            	<select id="course_id" name="course_id" t-attf-class="form-control">
+                                    <option value="">Course...</option>
+                                    <t t-foreach="courses" t-as="c">
+                                        <option t-att-value="c.id">
+                                            <t t-esc="c.name" />
+                                        </option>
+                                    </t>
+                                </select>
+				                <label for="Name">Session Name :</label>
+				                <input type="text" name="name" id="name" class="form-control form-control-sm" autofocus="autofocus" required="required"/>
+
+				                <label for="start_date">Start Date :</label>
+				                <input type="date" name="start_date" id="start_date" class="form-control form-control-sm" autofocus="autofocus"/>
+
+				                <label for="end_date">End date :</label>
+				                <input type="date" name="end_date" id="end_date" class="form-control form-control-sm" autofocus="autofocus" />
+				                
+				                <label for="seats">Seats :</label>
+				                <input type="number" name="seats" id="seats" class="form-control form-control-sm" autofocus="autofocus" required="required"/>
+				            </div>
+						</div>
+					</div>
+				<div class="container">
+					<div class="row justify-content-center m-3">
+						<button class="btn btn-primary" type="submit">Create</button>
+					</div>
+				</div>
+			</form>
+		</t>
+	</template>
 
 
 </odoo>
+
