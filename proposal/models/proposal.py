@@ -46,6 +46,7 @@ class Proposal(models.Model):
             self.accepted_total_price = sum(total)
 
     def action_proposal_mail_send(self):
+        self.state = "sent"
         self.ensure_one()
         ir_model_data = self.env['ir.model.data']
         try:
@@ -66,20 +67,12 @@ class Proposal(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
-            'res_model': 'mail.compose.message',
+            'res_model': 'mail.mail',
             'views': [(False, 'form')],
             'view_id': False,
             'target': 'new',
             'context': ctx,
         }
-
-    def action_proposal_mail_send(self):
-        self.state = "sent"
-
-    # def action_proposal_mail_send(self):
-    #     self.state = "sent"            
-    #     template_id = self.env.ref('sale_proposal.email_template_proposal_mail').id
-    #     self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
 
     def action_confirmed_proposal(self):
         self.state = "confirmed"
@@ -93,9 +86,6 @@ class Proposal(models.Model):
                 sale_order_line_ids.append(sale_order_tuple_line_ids)    
         self.env['sale.order'].create({'partner_id':self.customer_id.id,'order_line':sale_order_line_ids,'state':'sale'})
 
-    def action_confirmed_proposal(self):
-        # self.write({'state': 'confirmed'})
-        self.state = "confirmed"
 
     def action_cancel_proposal(self):
         self.state = "cancel"
@@ -106,6 +96,12 @@ class Proposal(models.Model):
             'type': 'ir.actions.act_url',
             'url': f'/my/proposals/{self.id}'
         }
+    
+    def accept(self):
+        pass
+
+    def refuse(self):
+        self.state = 'cancel'
 
 
 class ProposalLine(models.Model):
@@ -130,5 +126,5 @@ class ProposalLine(models.Model):
         self.price_accepted = self.price_proposed 
 
     @api.onchange('product_id')
-    def DEscription_change(self):
+    def description_change(self):
         self.description = self.product_id.name

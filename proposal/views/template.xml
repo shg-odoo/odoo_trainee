@@ -1,86 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <template id="proposal_details_page" name="Proposal Details">
+<!--     <template id="portal_my_home_menu_invoice" name="Portal layout : invoice menu entries" inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'invoice'" t-attf-class="breadcrumb-item #{'active ' if not invoice else ''}">
+                <a t-if="invoice" t-attf-href="/my/proposals?{{ keep_query() }}">Invoices &amp; Bills</a>
+                <t t-else="">Invoices &amp; Bills</t>
+            </li>
+            <li t-if="invoice" class="breadcrumb-item active">
+                <t t-esc="proposals.name" t-if="proposals.name != '/'"/>
+                <t t-else=""><em>Draft Invoice</em></t>
+            </li>
+        </xpath>
+    </template> -->
+    <template id="proposal_details_page_template">
         <t t-call="website.layout">
-        <div class="oe_structure">
-          <div class="container">
-            <t t-foreach="my_details" t-as="doc">
-              <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
-                <h2 class="my-0">
-                  <em t-esc="doc.seq"/>
-                </h2>
-              </div>
+            <div id="wrap">
+                <div class="container">
+                    <div id="portal_rec" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+                        <h2 class="my-0">
+                            <h4><span t-field="proposals.seq"/></h4>
+                        </h2>
+                    </div>
+                    <div class="row" id="so_date">
+                      <div class="mb-3 col-6">
+                        <strong>Proposal Date:</strong> 
+                        <span t-field="proposals.proposal_date" t-options='{"widget": "date"}'/>
+                      </div>
+                    </div>
+                    <div class="row" id="details">
+                      <div class="col-lg-6">
+                        <strong class="d-block mb-1">Customer:</strong>
+                        <address t-field="proposals.customer_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                      </div>
 
-              <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
-                <!-- Informations -->
-                <div id="informations">
-                  <div class="row" id="so_date">
-                    <div class="mb-3 col-6">
-                      <strong>Proposal Date:</strong> 
-                      <span t-field="doc.proposal_date" t-options='{"widget": "date"}'/>
+                        <div class="mb-3 col-12">
+                            <form target="_self" action="" id="test_form">
+                            <table class="table table-sm" id="proposal_line">
+                                <tr>
+                                    <th>Product</th>
+                                    <th></th>
+                                    <th>Description</th>
+                                    <th>Proposed Quantity</th>
+                                    <th>Proposed Price</th>
+                                    <th>Accepted Quantity</th>
+                                    <th>Accepted Price</th>
+                                </tr>
+                                <t t-foreach="proposals.proposal_line_ids" t-as="line">
+                                    <tr>
+                                        <td><img t-att-src="image_data_uri(line.product_id.image_1920)" style="max-height: 6rem; max-width: 100%;"/></td>
+                                        <td class="text-left"><span t-field="line.product_id"/></td>
+                                        <td class="text-left"><span t-field="line.description"/></td>
+                                        <td class="text-left"><span t-field="line.qty_proposed"/></td>
+                                        <td class="text-left"><span t-field="line.price_proposed"/></td>
+                                        <td class="text-left">
+                                            <input size="5px" id="qty" type="text" class="form-control" name="qty_accepted" t-att-value="line.qty_accepted"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <input size="5px" id="price" type="text" class="form-control" name="price_accepted" t-att-value="line.price_accepted"/>
+                                        </td>                                        
+                                    </tr>
+                                  </t> 
+                            </table>
+                            <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+                              <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                <table class="table table-sm">
+                                  <tr class="border-black">
+                                    <td class="text-right"><strong>Total</strong></td>
+                                    <td class="text-right">
+                                      <span t-field="proposals.accepted_total_price" />
+                                    </td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </div>
+                            </form>
+                            <div id="buton" name="Buton">
+                              <button type="button" t-att-id="proposals.id" class="btn btn-primary accept_data" id="acc_btn">
+                                  <a href="/proposal/accept" class="btn btn-info">Accept</a>
+                              </button>
+                              <button type="button" class="btn btn-primary reject_data" id="rej_btn">
+                                  <a href="/proposal/reject" class="btn btn-info">Refuse</a>
+                              </button> 
+                            </div>
+                            <div id="proposal_communication" class="mt-4">
+                                <h2>History</h2>
+                                <t t-call="portal.message_thread">
+                                    <t t-set="object" t-value="proposals"/>
+                                </t>
+                            </div>
+                        </div>                                                                    
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <strong class="d-block mb-1">Customer:</strong>
-                      <address t-field="doc.customer_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </t>
-            <table class="table table-sm" id="proposal_table">
-              <thead style="font-size: 25px;" class="bg-100">
-              <tr>
-                <h6>
-                  <b>
-                    <th>Prodotto</th>
-                    <th></th>
-                    <th>Proposed Quantity</th>
-                    <th>Proposed Price</th>
-                    <th><b>Accepted Quantity</b></th>
-                    <th><b>Accepted Price</b></th>
-                  </b>
-                </h6>
-               </tr>
-              </thead>
-              <tbody>
-                <t t-foreach="my_details" t-as="order">
-                 <tr>
-                    <td>
-                      <img t-att-src="image_data_uri(order.proposal_line_ids.product_id.image_1024)" style="max-height: 60px; max-width: 80px;"/>
-                    </td>
-                    <td><span t-esc="order.proposal_line_ids.description" /></td>
-                    <td class="text-center"><span t-esc="order.proposal_line_ids.qty_proposed"/></td>
-                    <td class="text-center"><span t-esc="order.proposal_line_ids.price_proposed"/></td>
-                    <td class="text-center"><span t-esc="order.proposal_line_ids.qty_accepted"/></td>
-                    <td class="text-center"><span t-esc="order.proposal_line_ids.price_accepted"/></td>
-                  </tr>
-                </t>
-              </tbody>
-            </table>
-            <div id="total" class="row" name="total" style="page-break-inside: avoid;">
-              <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-                <table class="table table-sm">
-                  <tr class="border-black ">
-                    <td class="text-right"><strong>Proposed Total</strong></td>
-                   <!--  <td class="text-right">
-                      <span t-field="proposal.proposed_sub_total" />
-                    </td> -->
-                  </tr>
-                  <tr class="border-black">
-                    <td class="text-right"><strong>Accepted Total</strong></td>
-                    <!-- <td class="text-right">
-                      <span t-field="proposal.accepted_total_price" />
-                    </td> -->
-                  </tr>
-                </table>
             </div>
-            </div>
-        </div>
-      </div>
-      </t>
+        </t>
     </template>
+
+
+    <template id="proposal_accept_page_template">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <div id="portal_acc" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+                        <h2 class="my-0">
+                            <h4>Proposal Accepted.</h4>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="proposal_reject_page_template">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <div id="portal_acc" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+                        <h2 class="my-0">
+                            <h4>Proposal Rejected.</h4>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="proposal_page" model="website.page">
+        <field name="name">Proposal</field>
+        <field name="website_published">True</field>
+        <field name="url">/my/proposals</field>
+        <field name="view_id" ref="proposal_details_page_template"/>        
+    </record>
+
+    <record id="accept_page" model="website.page">
+        <field name="name">Accept</field>
+        <field name="website_published">True</field>
+        <field name="url">/proposal/accept</field>
+        <field name="view_id" ref="proposal_accept_page_template"/>        
+    </record>
+
+    <record id="accept_page" model="website.page">
+        <field name="name">Accept</field>
+        <field name="website_published">True</field>
+        <field name="url">/proposal/reject</field>
+        <field name="view_id" ref="proposal_reject_page_template"/>        
+    </record>
+
   </data>
 </odoo>
