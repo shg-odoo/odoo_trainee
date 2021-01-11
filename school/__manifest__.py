@@ -30,6 +30,8 @@
         'views/views.xml',
         'views/dashboard.xml',
         'views/form.xml',
+        'reports/report.xml',
+        'reports/student_card.xml',
     ],
         # only loaded in demonstration mode
     'demo': [],

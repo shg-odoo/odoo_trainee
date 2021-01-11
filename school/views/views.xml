@@ -10,7 +10,6 @@
                             <td><h4> Name </h4></td>
                             <td><h4> Age </h4></td>
                             <td><h4> Gender </h4></td>
-                            <td><h4> Company </h4></td>
                             <td><h4> Delete </h4></td>
                             <td><h4> Update </h4></td>
                         </tr>
@@ -24,7 +23,6 @@
                                 <td><t t-esc="student.name"/></td>
                                 <td> <t t-esc="student.age"/> </td>
                                 <td> <t t-esc="student.gender"/></td>
-                                <td> <t t-esc="student.company_id"/></td>
                                 <td><a type="button" class="btn btn-primary" t-attf-href='/student/delete/#{student.id}'>Delete</a></td>
                                 <td><a type="button" class="btn btn-primary" t-attf-href='/student/update?id=#{student.id}'>Update</a></td>
                             </tr>
