@@ -3,95 +3,84 @@
   <data>
     <template id="proposal_details_page" name="Proposal Details">
         <t t-call="website.layout">
-         <div class="oe_structure">
-           <div class="container">
+        <div class="oe_structure">
+          <div class="container">
             <t t-foreach="my_details" t-as="doc">
-            <!-- <br />
-                <div>
-                  <h3><td><span t-esc="doc.seq"/></td></h3>
-                </div>
-                <div>
-                  <td><b>Proposal Date:</b><span t-esc="doc.proposal_date"/></td>
-                </div>
-                <left><h3>Customer</h3></left>
-                <td><span t-esc="doc.customer_id.name"/></td>
-              <br /> -->
-                <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+              <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
                 <h2 class="my-0">
                   <em t-esc="doc.seq"/>
                 </h2>
-                </div>
+              </div>
 
-                <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
-                  <!-- Informations -->
-                  <div id="informations">
-                    <div class="row" id="so_date">
-                      <div class="mb-3 col-6">
-                        <strong>Proposal Date:</strong> 
-                        <span t-field="doc.proposal_date" t-options='{"widget": "date"}'/>
-                      </div>
+              <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
+                <!-- Informations -->
+                <div id="informations">
+                  <div class="row" id="so_date">
+                    <div class="mb-3 col-6">
+                      <strong>Proposal Date:</strong> 
+                      <span t-field="doc.proposal_date" t-options='{"widget": "date"}'/>
                     </div>
-                    <div class="row">
-                      <div class="col-lg-6">
-                        <strong class="d-block mb-1">Customer:</strong>
-                        <address t-field="doc.customer_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
-                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <strong class="d-block mb-1">Customer:</strong>
+                      <address t-field="doc.customer_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
                     </div>
                   </div>
                 </div>
-
+              </div>
+            </t>
+            <table class="table table-sm" id="proposal_table">
+              <thead style="font-size: 25px;" class="bg-100">
+              <tr>
+                <h6>
+                  <b>
+                    <th>Prodotto</th>
+                    <th></th>
+                    <th>Proposed Quantity</th>
+                    <th>Proposed Price</th>
+                    <th><b>Accepted Quantity</b></th>
+                    <th><b>Accepted Price</b></th>
+                  </b>
+                </h6>
+               </tr>
+              </thead>
+              <tbody>
+                <t t-foreach="my_details" t-as="order">
+                 <tr>
+                    <td>
+                      <img t-att-src="image_data_uri(order.proposal_line_ids.product_id.image_1024)" style="max-height: 60px; max-width: 80px;"/>
+                    </td>
+                    <td><span t-esc="order.proposal_line_ids.description" /></td>
+                    <td class="text-center"><span t-esc="order.proposal_line_ids.qty_proposed"/></td>
+                    <td class="text-center"><span t-esc="order.proposal_line_ids.price_proposed"/></td>
+                    <td class="text-center"><span t-esc="order.proposal_line_ids.qty_accepted"/></td>
+                    <td class="text-center"><span t-esc="order.proposal_line_ids.price_accepted"/></td>
+                  </tr>
                 </t>
-                <table class="table table-sm" id="proposal_table">
-                  <thead style="font-size: 25px;" class="bg-100">
-                  <tr>
-                    <h6>
-                      <b>
-                        <th>Prodotto</th>
-                        <th></th>
-                        <th>Proposed Quantity</th>
-                        <th>Proposed Price</th>
-                        <th><b>Accepted Quantity</b></th>
-                        <th><b>Accepted Price</b></th>
-                      </b>
-                    </h6>
-                   </tr>
-                  </thead>
-                  <tbody>
-                    <t t-foreach="my_details" t-as="order">
-                     <tr>
-                        <td>
-                          <img t-att-src="image_data_uri(order.proposal_line_ids.product_id.image_1024)" style="max-height: 60px; max-width: 80px;"/>
-                        </td>
-                        <td><span t-esc="order.proposal_line_ids.description" /></td>
-                        <td class="text-center"><span t-esc="order.proposal_line_ids.qty_proposed"/></td>
-                        <td class="text-center"><span t-esc="order.proposal_line_ids.price_proposed"/></td>
-                        <td class="text-center"><span t-esc="order.proposal_line_ids.qty_accepted"/></td>
-                        <td class="text-center"><span t-esc="order.proposal_line_ids.price_accepted"/></td>
-                      </tr>
-                    </t>
-                  </tbody>
+              </tbody>
+            </table>
+            <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+              <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                <table class="table table-sm">
+                  <tr class="border-black ">
+                    <td class="text-right"><strong>Proposed Total</strong></td>
+                   <!--  <td class="text-right">
+                      <span t-field="proposal.proposed_sub_total" />
+                    </td> -->
+                  </tr>
+                  <tr class="border-black">
+                    <td class="text-right"><strong>Accepted Total</strong></td>
+                    <!-- <td class="text-right">
+                      <span t-field="proposal.accepted_total_price" />
+                    </td> -->
+                  </tr>
                 </table>
-                <div id="total" class="row" name="total" style="page-break-inside: avoid;">
-                  <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-                      <table class="table table-sm">
-                        <tr class="border-black ">
-                          <td class="text-right"><strong>Proposed Total</strong></td>
-                         <!--  <td class="text-right">
-                            <span t-field="proposal.proposed_sub_total" />
-                          </td> -->
-                        </tr>
-                        <tr class="border-black">
-                          <td class="text-right"><strong>Accepted Total</strong></td>
-                          <!-- <td class="text-right">
-                            <span t-field="proposal.accepted_total_price" />
-                          </td> -->
-                        </tr>
-                      </table>
-                  </div>
-                </div>
-           </div>
-         </div>
-     </t>
+            </div>
+            </div>
+        </div>
+      </div>
+      </t>
     </template>
   </data>
 </odoo>

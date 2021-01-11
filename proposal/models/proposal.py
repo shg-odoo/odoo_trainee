@@ -18,9 +18,6 @@ class Proposal(models.Model):
         ('cancel','Cancel')],default="draft", string="Status")
     proposed_total_price = fields.Float(compute = '_compute_proposed_total', default = 0.0, store=True, readonly=True, string="Proposed Total")
     accepted_total_price = fields.Float(compute = '_compute_accepted_total', default = 0.0, store=True, readonly=True, string="Accepted Total")
-    proposal_status = fields.Selection([('accept', 'Accepted'),
-        ('reject', 'Rejected'),
-        ('no_response', 'No Response')],default="no_response")
 
 
     @api.model

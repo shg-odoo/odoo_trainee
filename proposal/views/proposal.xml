@@ -5,15 +5,13 @@
             <field name="name">proposal.proposal.tree</field>
             <field name="model">proposal.proposal</field>
             <field name="arch" type="xml">
-                <tree string="Proposal" decoration-muted="proposal_status == 'reject'" 
-                    decoration-success="proposal_status == 'accept'" >
+                <tree string="Proposal">
                 	<field name="seq"/>
                 	<field name="proposal_date" readonly="1"/>
                 	<field name="customer_id"/>
                     <field name="salesman_id" widget="many2one_avatar_user"/> <!-- many2one_avatar_employee -->
                     <field name="proposed_total_price"/>
                     <field name="accepted_total_price"/>
-                    <field name="proposal_status"/>
                     <field name="state" widget="badge"/>
 
                 </tree>
@@ -112,7 +110,6 @@
                 <group expand="0" string="Group By">
                     <filter string="State" name="state" context="{'group_by':'state'}"/>
                     <filter string="salesman" name="salesman_id" context="{'group_by':'salesman_id'}"/>
-                    <filter string="Proposal Status" name="proposal_status" context="{'group_by':'proposal_status'}"/>
                 </group>
             </search>
           </field>
