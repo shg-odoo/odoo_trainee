@@ -10,7 +10,7 @@ class PortalProposalLines(models.Model):
     proposed_qty = fields.Integer(string='Qty Proposed')
     accepted_qty = fields.Integer(string='Qty Accepted',compute="_get_default_proposed")
     proposed_price = fields.Float(string='Price Proposed',compute='_get_proposed_price')
-    accepted_price = fields.Float(string='Price Accepted',compute="_get_default_proposed") 
+    accepted_price = fields.Float(string='Price Accepted')#,compute="_get_default_proposed" 
     proposal_id = fields.Many2one('portal.proposal',string='Proposal')
 
     def _get_proposed_price(self):
@@ -24,4 +24,4 @@ class PortalProposalLines(models.Model):
     def _get_default_proposed(self):
     	for line in self:
     		line.accepted_qty = line.proposed_qty
-    		line.accepted_price = line.proposed_price
+    		#line.accepted_price = line.proposed_price

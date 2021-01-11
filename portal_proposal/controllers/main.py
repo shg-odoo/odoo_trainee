@@ -6,17 +6,15 @@ from odoo.addons.website.controllers import main
 class WebsiteProposal(http.Controller):
 	
 	@http.route(['/proposal/<int:pro_id>/'], type='http', auth="public", website=True, sitemap=True)
-	def proposal(self, pro_id, *args, **kwargs):
-		print("ID..........", args, kwargs, self, pro_id)
+	def proposal(self, pro_id, **kwargs):
+		print("ID..........")
 		proposals = request.env['portal.proposal'].sudo().search([('id','=',pro_id)])
 		return http.request.render('portal_proposal.proposal_page_template', {'proposals': proposals})
 
-	@http.route(['/proposal/accept/'], type='http', auth="public", website=True, sitemap=True)
-	def save_accept_qty_price(self, *args, **kwargs):
-		print("ACCEPT....", args, kwargs, self, request.env.context, request.httprequest.args)
-		return http.request.render('portal_proposal.accept_page_template', {})
-
-	# @http.route('/proposal/', auth='public', website=True)
-	# def get_vals(self, **kw):
-	# 	query_string = request.httprequest.query_string
-	# 	print("STRING...", query_string)
+	@http.route(['/proposal/accept'], type='json', auth="user", website=True, sitemap=True)
+	def save_accept_qty_price(self, **kwargs):
+		print("ACCEPT....")
+		# return http.request.render('portal_proposal.accept_page_template', {})
+		return {'html': request.env.ref('portal_proposal.accept_page_template',raise_if_not_found=True)}
+		# return request.env.ref('portal_proposal.accept_page_template').sudo()
+		# return {'html': request.env['ir.qweb']._render('portal_proposal.accept_page_template', {})}
