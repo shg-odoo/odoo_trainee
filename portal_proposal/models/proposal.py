@@ -55,17 +55,12 @@ class PortalProposal(models.Model):
 
 	def accept_qty_price(self,qty_lst,price_lst,proposal_id):
 		rec = self.search([('id', '=', proposal_id)])
-		# pro_amt = acc_amt = 0
 		for line in rec.line_ids:
 			for qty_line in qty_lst:
 				for price_line in price_lst:
 					if qty_line['prod'] == price_line['prod'] == str(line.product_id.id):
 						line.accepted_qty = qty_line['qty']
 						line.accepted_price = price_line['price']
-		# 	pro_amt += line.proposed_price
-		# 	acc_amt += line.accepted_price
-		# rec.total_proposed_amt = pro_amt
-		# rec.total_accepted_amt = acc_amt
 
 	def confirm(self):
 		vals = {'partner_id':self.partner_id.id,

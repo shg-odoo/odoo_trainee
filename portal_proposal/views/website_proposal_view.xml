@@ -16,11 +16,7 @@
                             <strong>Customer:</strong> <span t-field="proposals.partner_id"/>
                         </div>
                         <div class="mb-3 col-6">
-                            <strong>Pricelist:</strong> <span t-field="proposals.pricelist_id"/>
-                            <!-- <br/>
-                            <strong>Total Proposed Amount:</strong> <span t-field="proposals.total_proposed_amt"/>
-                            <br/>
-                            <strong>Total Accepted Amount:</strong> <span t-field="proposals.total_accepted_amt"/> -->
+                            <strong>Pricelist:</strong> <span t-field="proposals.pricelist_id"/>                            
                         </div>
                         <div class="mb-3 col-12">
                             <input type="hidden" id="proposalId" name="proposal_id" t-att-value="proposals.id"/>
@@ -48,7 +44,7 @@
                                         </td>
                                         <td class="text-right"><span t-field="line.proposed_price"/></td>
                                         <td class="text-right">
-                                            <input t-att-readonly="0" size="5px" id="price" type="text" class="form-control onchange_sum" name="price_accepted" t-att-value="line.proposed_price"/><!-- onchange="get_acc_sum()" -->                                            
+                                            <input t-att-readonly="0" size="5px" id="price" type="text" class="form-control" name="price_accepted" t-att-value="line.proposed_price" oninput="onchange_sum()"/>                                            
                                         </td>                                        
                                     </tr>
                                 </t>
@@ -64,8 +60,8 @@
                                     </td>
                                     <td>
                                         <b>Total Accepted Amount:</b>
-                                        <input t-att-readonly="1" size="5px" id="total_acc_amt" type="text" class="form-control" name="sum_acc_amt"/>
-                                    </td>
+                                        <p id="total_acc_amt"/>
+                                    </td>                                    
                                 </tr> 
                             </table>
                             <button type="button" t-att-id="proposals.id" class="btn btn-primary accept_data" id="acc_btn">
