@@ -19,7 +19,7 @@
 
     # any module necessary for this one to work correctly
     'depends': [
-        'base', 'mail', 'board', 'website'],
+        'base', 'mail', 'board', 'website', 'sale'],
 
     # always loaded
     'data': [

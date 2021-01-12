@@ -3,6 +3,11 @@
 from odoo import models, fields, api
 from odoo.addons.website.tools import get_video_embed_code
 
+class SaleOrderInherit(models.Model):
+    _inherit = 'sale.order'
+
+    name = fields.Char(string="Student Name")
+
 class Course(models.Model):
     _name = 'school.student'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -21,6 +26,7 @@ class Course(models.Model):
     active = fields.Boolean('Active',default=True)
     students_lines = fields.One2many('school.student.lines','student_id', string="Students Lines")
     company_id = fields.Many2one('res.company', required=True, default=lambda self : self.env.user.company_id)
+    company_ids= fields.Many2many('res.company', string="Company")
     state = fields.Selection([
         ('draft','Draft'),
         ('confirm','Confirm'),
