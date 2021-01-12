@@ -2,50 +2,50 @@
 
 	<template id="report_student">
 		<t t-call="web.external_layout">
-		<t t-call="web.html_container">
-			<p><h2><strong> Student Card</strong></h2></p>
-			<br/><br/><br/>
-			<t t-foreach="docs" t-as="o">
-				<div class="page">
-					<br/><br/>
-					<div class="oe_structure"/>
-					<div class="row">
-						<div class="col-xs-2" style="float:left;">
-						</div>
-						<center>
-							<div class="col-xs-8" style="float:left" >
-								<table class="table table-condensed" style="border: 3px solid black !important;">
-									<tr>
-										<td width="40%">
-											<p style="text-algin:left;padding-top:10px;">
-												<img t-if="not o.image" t-att-src="'school/static/description/avatar.png'" height="120" border="1" width="120"/>
-												<img t-if="o.image" t-att-src="'data:image/png;base64,%s' % to_text(o.image)" height="120" border="1" width="120"/>
-											</p>
-										</td>
-										<td width="60%">
-											<table style="float:left">
-												<tr>
-													<td>
-														<p style="text-algin:right"><strong>Name</strong></p>
-														<p style="text-algin:right"><strong>Age</strong></p>
-														<p style="text-algin:right"><strong>Gender</strong></p>
-													</td>
-													<td>
-														<p style="text-algin:left;padding-left:10px" t-field="o.name"/>
-														<p style="text-algin:left;padding-left:10px" t-field="o.age"/>
-														<p style="text-algin:left;padding-left:10px" t-field="o.gender"/>
-													</td>
-												</tr>
-											</table>
-										</td>
-									</tr>
-								</table>
+			<t t-call="web.html_container">
+				<p><h2><strong> Student Card</strong></h2></p>
+				<br/><br/><br/>
+				<t t-foreach="docs" t-as="o">
+					<div class="page">
+						<br/><br/>
+						<div class="oe_structure"/>
+						<div class="row">
+							<div class="col-xs-2" style="float:left;">
 							</div>
-						</center>
-					</div>
-				</div>
+							<center>
+								<div class="col-xs-8" style="float:left" >
+									<table class="table table-condensed" style="border: 3px solid black !important;">
+										<tr>
+											<td width="40%">
+												<p style="text-algin:left;padding-top:10px;">
+													<img t-if="not o.image" t-att-src="'school/static/description/avatar.png'" height="120" border="1" width="120"/>
+													<img t-if="o.image" t-att-src="'data:image/png;base64,%s' % to_text(o.image)" height="120" border="1" width="120"/>
+												</p>
+											</td>
+											<td width="60%">
+												<table style="float:left">
+													<tr>
+														<td>
+															<p style="text-algin:right"><strong>Name</strong></p>
+															<p style="text-algin:right"><strong>Age</strong></p>
+															<p style="text-algin:right"><strong>Gender</strong></p>
+														</td>
+														<td>
+															<p style="text-algin:left;padding-left:10px" t-field="o.name"/>
+															<p style="text-algin:left;padding-left:10px" t-field="o.age"/>
+															<p style="text-algin:left;padding-left:10px" t-field="o.gender"/>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</center>
+						</div>
+						</div>
+					</t>
+				</t>
 			</t>
-		</t>
-		</t>
-	</template>
+		</template>
 </odoo>

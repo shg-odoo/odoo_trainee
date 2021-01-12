@@ -26,7 +26,7 @@ class Course(models.Model):
     active = fields.Boolean('Active',default=True)
     students_lines = fields.One2many('school.student.lines','student_id', string="Students Lines")
     company_id = fields.Many2one('res.company', required=True, default=lambda self : self.env.user.company_id)
-    company_ids= fields.Many2many('res.company', string="Company")
+    company_ids= fields.Many2many('res.company', string="Companys")
     state = fields.Selection([
         ('draft','Draft'),
         ('confirm','Confirm'),
