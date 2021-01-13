@@ -10,8 +10,9 @@ publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
         'click .accept_data': '_accept_data', 
     },
 
-    _accept_data: function(e) {
-        e.stopPropagation();
+    _accept_data: function() {
+        var self = this;
+        /*console.log("VAL..",this.$el.html(''));*/
         var qty_lst = [];
         var price_lst = [];
         var pr_table = document.getElementById('pr_table');
@@ -20,41 +21,31 @@ publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
             var price = pr_table.rows[i].cells[6].children[0].value;  
             var prod = pr_table.rows[i].cells[1].children[1].value;
             qty_lst.push({prod,qty});
-            price_lst.push({prod,price});        
+            price_lst.push({prod,price});      
         }
-        
+
     	return this._rpc({
                 model: 'portal.proposal',
                 method: 'accept_qty_price',
-                args: [this.value,qty_lst,price_lst,document.getElementById('proposalId').value],
-                context: this.context,
+                args: [qty_lst,price_lst,document.getElementById('proposalId').value],
+            }).then(function (data) {
+                self.data = data;
             }); 
     }
     
 });
-    
-    document.getElementById("price").addEventListener("change", function onchange_sum(e) {
+
+    if (document.getElementById("pr_table") != null) {
+        document.getElementById("pr_table").addEventListener('input', function onchange_sum(e) {
         var sum = 0
         const inputs = document.querySelectorAll('input[name=price_accepted]');
         const tot = document.getElementById('total_acc_amt');
         for (var input in inputs) {
             if (inputs[input].textContent != undefined || !isNaN(inputs[input].value)) {
-                /*inputs[input].oninput = updateValue(e);*/
                 sum += parseInt(inputs[input].value);
             }
         }
         tot.textContent = sum;
-    }); 
-
-    /*function updateValue(e) {
-        var pr_table = document.getElementById('pr_table');
-        var sum = 0;        
-        for (var i = 1, row; row = pr_table.rows[i]; i++) {
-            var y = pr_table.rows[i].querySelectorAll('input[name=price_accepted]');
-            var x = pr_table.rows[i].cells[6].children[0].value;
-            sum += parseInt(y);            
-        }
-        return sum;
-    }   */
-
+    });
+    }
 });

@@ -54,6 +54,7 @@ class PortalProposal(models.Model):
 		self.state = 'cancel'
 
 	def accept_qty_price(self,qty_lst,price_lst,proposal_id):
+		print("CALLED...",self)
 		rec = self.search([('id', '=', proposal_id)])
 		for line in rec.line_ids:
 			for qty_line in qty_lst:

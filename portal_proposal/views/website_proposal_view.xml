@@ -40,11 +40,11 @@
                                         <td><span t-field="line.label"/></td>
                                         <td class="text-right"><span t-field="line.proposed_qty"/></td>
                                         <td class="text-right">
-                                            <input t-att-readonly="0" size="5px" id="qty" type="text" class="form-control" name="qty_accepted" t-att-value="line.proposed_qty"/>
+                                            <input t-att-readonly="0" size="5px" id="qty" type="text" class="form-control" name="qty_accepted" t-att-value="line.proposed_qty" required="required"/>
                                         </td>
                                         <td class="text-right"><span t-field="line.proposed_price"/></td>
                                         <td class="text-right">
-                                            <input t-att-readonly="0" size="5px" id="price" type="text" class="form-control" name="price_accepted" t-att-value="line.proposed_price" oninput="onchange_sum()"/>                                            
+                                            <input t-att-readonly="0" size="5px" id="price" type="text" class="form-control" name="price_accepted" t-att-value="line.proposed_price" required="true"/>                                            
                                         </td>                                        
                                     </tr>
                                 </t>
@@ -60,13 +60,14 @@
                                     </td>
                                     <td>
                                         <b>Total Accepted Amount:</b>
-                                        <p id="total_acc_amt"/>
+                                        <p id="total_acc_amt"><span t-field="proposals.total_proposed_amt"/></p>
                                     </td>                                    
                                 </tr> 
                             </table>
-                            <button type="button" t-att-id="proposals.id" class="btn btn-primary accept_data" id="acc_btn">
+                            <!-- <button type="button" t-att-id="proposals.id" class="btn btn-primary accept_data" id="acc_btn">
                                 <a href="/proposal/accept" class="btn btn-info">Accept</a>
-                            </button>                            
+                            </button> -->
+                            <button type="button" class="btn btn-primary accept_data">Accept</button>                            
                             <button type="button" class="btn btn-primary">Reject</button> 
                             <div id="proposal_communication" class="mt-4">
                                 <h2>History</h2>

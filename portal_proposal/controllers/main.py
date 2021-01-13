@@ -12,5 +12,5 @@ class WebsiteProposal(http.Controller):
 
 	@http.route(['/proposal/accept'], type='http', auth="public", website=True, sitemap=True)
 	def save_accept_qty_price(self, **kwargs):
-		return http.request.render('portal_proposal.accept_page_template', {})
+		return http.request.render('portal_proposal.accept_page_template', {'accepted': True})
 		

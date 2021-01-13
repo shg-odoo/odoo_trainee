@@ -7,4 +7,5 @@ class PortalProposal(TransactionCase):
 
 	@classmethod
 	def setUpClass(cls, chart_template_ref=None):
-		super(PortalProposal, cls).setUpClass()
+		res = super(PortalProposal, cls).setUpClass()
+		return res
