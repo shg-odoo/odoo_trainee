@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
 from werkzeug.urls import url_join
 
@@ -47,14 +48,11 @@ class PortalProposal(models.Model):
 		self.env['mail.mail'].create(vals)
 		self.state = 'sent'
 
-	def accept(self):
-		pass
-
-	def refuse(self):
-		self.state = 'cancel'
+	def refuse(self,proposal_id):
+		rec = self.search([('id', '=', proposal_id)])
+		rec.state = 'cancel'
 
 	def accept_qty_price(self,qty_lst,price_lst,proposal_id):
-		print("CALLED...",self)
 		rec = self.search([('id', '=', proposal_id)])
 		for line in rec.line_ids:
 			for qty_line in qty_lst:
@@ -62,6 +60,7 @@ class PortalProposal(models.Model):
 					if qty_line['prod'] == price_line['prod'] == str(line.product_id.id):
 						line.accepted_qty = qty_line['qty']
 						line.accepted_price = price_line['price']
+
 
 	def confirm(self):
 		vals = {'partner_id':self.partner_id.id,

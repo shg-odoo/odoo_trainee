@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 {
     'name': 'Portal Proposal',
     'version': '1.1',
@@ -10,7 +11,7 @@
     'data': ['security/ir.model.access.csv','data/proposal_data.xml','views/proposal_view.xml','views/website_proposal_view.xml'],
     'qweb': [],
     'demo': [],
-    'test': [],
+    'test': ['static/tests/proposal_tests.js'],
     'installable': True,
     'auto_install': False,
     'application': True,

@@ -64,11 +64,10 @@
                                     </td>                                    
                                 </tr> 
                             </table>
-                            <!-- <button type="button" t-att-id="proposals.id" class="btn btn-primary accept_data" id="acc_btn">
-                                <a href="/proposal/accept" class="btn btn-info">Accept</a>
-                            </button> -->
-                            <button type="button" class="btn btn-primary accept_data">Accept</button>                            
-                            <button type="button" class="btn btn-primary">Reject</button> 
+                            <button type="button" class="btn btn-primary accept_data" id="acc_btn">Accept</button>                            
+                            <button type="button" class="btn btn-primary reject_data" id="rej_btn">Reject</button>                             
+                            <div id="success_div">
+                            </div>
                             <div id="proposal_communication" class="mt-4">
                                 <h2>History</h2>
                                 <t t-call="portal.message_thread">
@@ -83,20 +82,6 @@
         </t>
     </template>
 
-    <template id="accept_page_template">
-        <t t-call="website.layout">
-            <div id="wrap">
-                <div class="container">
-                    <div id="portal_acc" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
-                        <h2 class="my-0">
-                            <h4>Proposal Accepted</h4>
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </t>
-    </template>
-
     <record id="proposal_page" model="website.page">
         <field name="name">Proposal</field>
         <field name="website_published">True</field>
@@ -104,16 +89,17 @@
         <field name="view_id" ref="proposal_page_template"/>        
     </record>
 
-    <record id="accept_page" model="website.page">
-        <field name="name">Accept</field>
-        <field name="website_published">True</field>
-        <field name="url">/proposal/accept</field>
-        <field name="view_id" ref="accept_page_template"/>        
-    </record>
-
     <template id="assets_frontend" name="proposal assets" inherit_id="web.assets_frontend">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/portal_proposal/static/src/js/accept_proposal.js"></script>
         </xpath>
     </template>
+
+
+    <template id="qunit_suite" name="proposal_tests" inherit_id="web.qunit_suite_tests">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/portal_proposal/static/tests/proposal_tests.js"/>
+        </xpath>
+    </template>
+
  </odoo>

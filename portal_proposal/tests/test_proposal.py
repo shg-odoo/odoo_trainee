@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from odoo.tests import tagged
 from odoo.addons.portal_proposal.tests.common import PortalProposal
 
@@ -14,13 +15,10 @@ class PortalProposalTest(PortalProposal):
 		vals = {'proposal_id':proposal.id,
 				'product_id':self.env['product.product'].browse(20).id,
 				'proposed_qty':5,
-				'proposed_price':100,
 				}
 		line = self.env['portal.proposal.line'].create(vals)
+		print("LINE...", proposal, line)
 		
 		self.assertEqual(line.proposed_qty, 5)
-		self.assertEqual(line.proposed_price, 100)
-		self.assertEqual(line.proposal_id, proposal.id)
+		self.assertEqual(line.proposal_id.id, proposal.id)
 		print('The test was succesfull!')
-
-		proposal.send()
