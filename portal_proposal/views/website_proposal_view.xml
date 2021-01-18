@@ -1,6 +1,9 @@
 <odoo>
     <template id="proposal_page_template">
         <t t-call="website.layout">
+           <!--  <link rel="stylesheet" href="http://github.com/jquery/qunit/raw/master/qunit/qunit.css" type="text/css" media="screen"/>
+            <script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+     -->
             <div id="wrap">
                 <div class="container">
                     <form class="oe_proposal_form" role="form">
@@ -92,11 +95,17 @@
     <template id="assets_frontend" name="proposal assets" inherit_id="web.assets_frontend">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/portal_proposal/static/src/js/accept_proposal.js"></script>
+            <!-- <script type="text/javascript" src="/portal_proposal/static/tests/proposal_tests.js"/> -->
         </xpath>
     </template>
 
+    <template id="assets_editor" name="proposal editor" inherit_id="website.assets_editor">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/portal_proposal/static/tests/proposal_tests.js"/>
+        </xpath>
+    </template>
 
-    <template id="qunit_suite" name="proposal_tests" inherit_id="web.qunit_suite_tests">
+    <template id="qunit_proposal_suite" name="proposal_tests" inherit_id="web.qunit_suite_tests">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/portal_proposal/static/tests/proposal_tests.js"/>
         </xpath>
