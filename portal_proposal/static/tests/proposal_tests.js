@@ -1,57 +1,69 @@
 odoo.define('portal_proposal.proposal_tests', function (require) {
 "use strict";
 
-/*var Widget = require('web.Widget');*/
-var publicWidget = require('web.public.widget');
-/*const testUtils = require('web.test_utils');*/
-const tour = require('web_tour.tour');
+
 var FormView = require('web.FormView');
 var testUtils = require('web.test_utils');
+const { afterEach, beforeEach, start } = require('mail/static/src/utils/test_utils.js');
 
 var createView = testUtils.createView;
 
-/*QUnit.module('proposal_tests.js', {
-	beforeEach: function () {
-		this.data = {};
-	},
-},*/
- /*function prop_js_tests() {*/
 QUnit.module('portal_proposal', {}, function () {
 QUnit.module('static', {}, function () {
 QUnit.module('tests', {}, function () {
 QUnit.module('proposal_tests.js', {
 	beforeEach() {
 		beforeEach(this);
+		this.data = {
+            'portal.proposal': {
+                fields: {},
+                records: []
+            }
+        };
 	},
+	afterEach() {
+        afterEach(this);
+    },
 });
-QUnit.test('Proposal form', function (assert) {
-    assert.expect(1);
+QUnit.test('Proposal form', async function (assert) {
+    assert.expect(2);
     assert.ok(1,1,'Qunit test executed!!!');
-    var parent = new publicWidget();
-    parent.appendTo($('#qunit-fixture'));
+   
+    var form = await createView({
+        View: FormView,
+        model: 'portal.proposal',
+        data: this.data,
+        arch:'<form>' +
+                '<sheet>' +
+                    '<group>' +
+                        '<button type="button" class="btn btn-primary accept_data" id="acc_btn">Accept</button>' +
+                        '<div id="success_div">' + 
+                        	'<p><strong>The proposal has been accepted.</strong></p>' +
+                        '</div>' +
+                    '</group>' +
+                '</sheet>' +
+            '</form>',
+        res_id: 1,
+        mockRPC: function (route, args) {        	
+        	if (args.model) {
+        		assert.strictEqual(args.model, "portal.proposal", "Model should be proposal");
+        		return Promise.resolve();
+        	}
+            return this._super.apply(this, arguments);
+        },
+    });	
 
-    var $form = $(
-        '<form>' +
-            '<input name="qty_accepted" type="text"/>' +
-            '<input name="price_accepted" type="text"/>' +                  
-        '</form>');
-    $('#qunit-fixture').append($form);
+    await testUtils.form.clickEdit(form);
 
-    assert.strictEqual(form.$('div .success_div').text(), 'The proposal has been accepted.', "The proposal has been accepted.");
-
-    let button = document.querySelector('button');
-    testUtils.dom.click(button);
-    /*console.log("TEST...");*/
     form.$('.accept_data').trigger('focus');
 	form.$('.popover .accept_data').trigger('click');
+	
+	form.destroy();
 
-    parent.unmount();
-    parent.destroy();
     });
 });
 });
 });
-/*};*//*
-)*/
+
 QUnit.testStart(prop_js_tests);
 });
