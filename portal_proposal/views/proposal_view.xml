@@ -20,8 +20,8 @@
     	<field name="arch" type="xml">
     		<form>
     			<header>
-    				<button name="send" type="object" string="Send" attrs="{'invisible': [('state', '!=', 'draft')]}"/>    				
-                    <button name="confirm" type="object" string="Confirm" attrs="{'invisible': [('state', '!=', 'sent')]}"/>
+    				<button name="action_send" type="object" string="Send" attrs="{'invisible': [('state', '!=', 'draft')]}"/>    				
+                    <button name="action_confirm" type="object" string="Confirm" attrs="{'invisible': [('state', '!=', 'sent')]}"/>
     				<field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed,cancel"/>
     			</header>
     			<sheet>
@@ -36,15 +36,13 @@
 	                		<field name="partner_id" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
 	    				</group>
 	    				<group>
-	    					<field name="pricelist_id" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
-	    					<field name="total_proposed_amt"/>
-	                		<field name="total_accepted_amt"/>
+	    					<field name="pricelist_id" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>	    					
 	    				</group>
 	    			</group>
     				<notebook>
     					<page string="Proposal Lines">
     						<field name="line_ids">
-    							<tree>
+    							<tree editable="bottom">
     								<field name="product_id" required="1" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
     								<field name="label" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
     								<field name="proposed_qty" required="1" attrs="{'readonly': [('parent.state', '=', 'confirmed')]}"/>
@@ -71,6 +69,12 @@
     								</group>
     							</form>
     						</field>
+                            <group name="note_group" col="6" class="mt-2 mt-md-0">                                
+                                <group class="oe_subtotal_footer oe_right" colspan="2">
+                                    <field name="total_proposed_amt"/>
+                                    <field name="total_accepted_amt"/>
+                                </group>                                
+                            </group>
     					</page>
     				</notebook>
     			</sheet>

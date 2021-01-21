@@ -20,6 +20,8 @@
                         </div>
                         <div class="mb-3 col-12">
                             <input type="hidden" id="proposalId" name="proposal_id" t-att-value="proposals.id"/>
+                            <input type="hidden" id="proposalToken" name="proposal_token" t-att-value="token"/>
+                            <input type="hidden" t-att-value="proposals.access_token"/>
                             <table class="table table-bordered" string="Proposal Lines" id="pr_table">
                                 <tr>
                                     <th></th>
@@ -85,7 +87,7 @@
     <record id="proposal_page" model="website.page">
         <field name="name">Proposal</field>
         <field name="website_published">True</field>
-        <field name="url">/proposal</field>
+        <field name="url">/proposal?token=${object.access_token}</field>
         <field name="view_id" ref="proposal_page_template"/>        
     </record>
 

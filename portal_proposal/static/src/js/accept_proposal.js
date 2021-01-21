@@ -34,7 +34,7 @@ publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
     	return this._rpc({
                 model: 'portal.proposal',
                 method: 'accept_qty_price',
-                args: [this.value,qty_lst,price_lst,document.getElementById('proposalId').value],
+                args: [this.value,qty_lst,price_lst,document.getElementById('proposalId').value,document.getElementById('proposalToken').value],
             }); 
     },
 
