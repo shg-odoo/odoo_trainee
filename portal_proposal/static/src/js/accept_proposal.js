@@ -2,6 +2,7 @@ odoo.define('portal_proposal.proposal_page_template', function (require) {
 'use strict';
 
 var publicWidget = require('web.public.widget');
+/*const session = require('web.session');*/
 
 
 publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
@@ -35,7 +36,12 @@ publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
                 model: 'portal.proposal',
                 method: 'accept_qty_price',
                 args: [this.value,qty_lst,price_lst,document.getElementById('proposalId').value,document.getElementById('proposalToken').value],
-            }); 
+                /*context: session.user_context,*/
+                /*context: this.context,*/
+            })/*.then(function(result) {
+                self.do_action(result);
+                return self.do_action('portal_proposal.accept_qty_price');
+            })*/; 
     },
 
     _reject_data: function() {

@@ -41,8 +41,9 @@ class PortalProposal(models.Model):
         self.access_token = access_token
         web_base_url = self.env['ir.config_parameter'].sudo(
         ).get_param('web.base.url')
-        url = (web_base_url + '/proposal/%s/access_token=%s' +
-               str(self.id)) % (self.id, access_token)
+        # url = (web_base_url + '/proposal/%s?access_token=%s' +
+        #        str(self.id)) % (self.id, access_token)
+        url = (web_base_url + '/proposal/%s') % (self.id)
         self.link = url
 
         template = self.env['mail.template'].search(
@@ -60,8 +61,7 @@ class PortalProposal(models.Model):
 
     def accept_qty_price(self, qty_lst, price_lst, proposal_id, token):
         rec = self.search(
-            [('id', '=', proposal_id), ('access_token', '=', token)])
-        print("REC...",rec)
+            [('id', '=', proposal_id)])
         message = ''
         for line in rec.line_ids:
             for qty_line in qty_lst:
@@ -71,7 +71,7 @@ class PortalProposal(models.Model):
                         line.accepted_price = price_line['price']
                         message += ('Accepted qty is %s and accepted price is %s for product %s. \n') % (
                             line.accepted_qty, line.accepted_price, line.product_id.name)
-        rec.sudo().message_post(body=message,email_from=rec.partner_id.email,model='portal.proposal',res_id=proposal_id)
+        rec.sudo().message_post(body=message, email_from=rec.partner_id.email)
 
     def action_confirm(self):
         vals = {'partner_id': self.partner_id.id,
