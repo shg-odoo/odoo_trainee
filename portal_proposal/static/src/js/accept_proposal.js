@@ -2,7 +2,8 @@ odoo.define('portal_proposal.proposal_page_template', function (require) {
 'use strict';
 
 var publicWidget = require('web.public.widget');
-/*const session = require('web.session');*/
+const session = require('web.session');
+var ajax = require('web.ajax');
 
 
 publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
@@ -32,16 +33,14 @@ publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
         document.getElementById('rej_btn').setAttribute('hidden', 'True');
         document.getElementById('success_div').className += 'alert alert-success text-center';
         document.getElementById('success_div').innerHTML = "<p><strong>The proposal has been accepted.</strong></p>";
+
+        return ajax.jsonRpc(this._getUri('/proposal'), 'call', {});
+
     	return this._rpc({
                 model: 'portal.proposal',
                 method: 'accept_qty_price',
-                args: [this.value,qty_lst,price_lst,document.getElementById('proposalId').value,document.getElementById('proposalToken').value],
-                /*context: session.user_context,*/
-                /*context: this.context,*/
-            })/*.then(function(result) {
-                self.do_action(result);
-                return self.do_action('portal_proposal.accept_qty_price');
-            })*/; 
+                args: [this.value,qty_lst,price_lst,document.getElementById('proposalId').value,document.getElementById('proposalToken').value],                                
+            }); 
     },
 
     _reject_data: function() {

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, http
+import uuid
 
 
 class PortalProposal(models.Model):
@@ -20,7 +21,8 @@ class PortalProposal(models.Model):
     name = fields.Char(string='Number', copy=False)
     pricelist_id = fields.Many2one('product.pricelist', string='Pricelist')
     link = fields.Char(string='Link')
-    access_token = fields.Char(string='Access Token')
+    access_token = fields.Char(
+        string='Access Token', default=lambda self: str(uuid.uuid4()))
 
     def _get_total_proposed_accepted_amt(self):
         for proposal in self:
@@ -41,8 +43,7 @@ class PortalProposal(models.Model):
         self.access_token = access_token
         web_base_url = self.env['ir.config_parameter'].sudo(
         ).get_param('web.base.url')
-        # url = (web_base_url + '/proposal/%s?access_token=%s' +
-        #        str(self.id)) % (self.id, access_token)
+        
         url = (web_base_url + '/proposal/%s') % (self.id)
         self.link = url
 
@@ -60,6 +61,7 @@ class PortalProposal(models.Model):
         rec.state = 'cancel'
 
     def accept_qty_price(self, qty_lst, price_lst, proposal_id, token):
+        print("Called....")
         rec = self.search(
             [('id', '=', proposal_id)])
         message = ''

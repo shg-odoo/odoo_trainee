@@ -3,7 +3,7 @@
         <t t-call="website.layout">
             <div id="wrap">
                 <div class="container">                    
-                    <form class="oe_proposal_form" role="form" t-attf-action="/proposal/form/#{proposals.id}/access_token=#{proposals.access_token}">
+                    <form class="oe_proposal_form js_accept_json" role="form" t-att-data-token="proposals.access_token" t-attf-action="/proposal/#{proposals.id}/access_token=#{proposals.access_token}">
                     <div id="portal_rec" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
                         <h2 class="my-0">
                             <h4>Portal Proposal <span t-field="proposals.name"/></h4>
@@ -19,8 +19,8 @@
                             <strong>Pricelist:</strong> <span t-field="proposals.pricelist_id"/>                            
                         </div>
                         <div class="mb-3 col-12">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input type="hidden" id="proposalId" name="proposal_id" t-att-value="proposals.id"/>
-                            <!-- <input type="hidden" id="proposalToken" name="proposal_token" t-att-value="token"/> -->
                             <input type="hidden" id="proposalToken" name="proposal_token" t-att-value="proposals.access_token"/>
                             <table class="table table-bordered" string="Proposal Lines" id="pr_table">
                                 <tr>
@@ -66,7 +66,10 @@
                                     </td>                                    
                                 </tr> 
                             </table>
-                            <button type="button" class="btn btn-primary accept_data" id="acc_btn">Accept</button>                            
+                            <t t-esc="proposals.get_portal_url()"/>
+                            <br/>
+                            <t t-esc="proposals.get_portal_url(suffix='/accept')"/>
+                            <button type="button" class="btn btn-primary accept_data" id="acc_btn" t-att-href="proposals.get_portal_url(suffix='/accept')">Accept</button>  
                             <button type="button" class="btn btn-primary reject_data" id="rej_btn">Reject</button>                             
                             <div id="success_div">
                             </div>
@@ -84,6 +87,16 @@
         </t>
     </template>
 
+  <!--   <template id="proposal_page_template">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">                    
+                    <form class="oe_proposal_form js_accept_json" role="form" t-att-data-token="proposals.access_token" t-attf-action="/proposal/#{proposals.id}/access_token=#{proposals.access_token}">
+                </form>
+            </div>
+        </div>
+    </t>
+ -->
     <record id="proposal_page" model="website.page">
         <field name="name">Proposal</field>
         <field name="website_published">True</field>
