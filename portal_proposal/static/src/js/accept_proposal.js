@@ -34,38 +34,52 @@ publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
         document.getElementById('success_div').className += 'alert alert-success text-center';
         document.getElementById('success_div').innerHTML = "<p><strong>The proposal has been accepted.</strong></p>";
 
-        return ajax.jsonRpc(this._getUri('/proposal'), 'call', {});
-
-    	return this._rpc({
-                model: 'portal.proposal',
-                method: 'accept_qty_price',
-                args: [this.value,qty_lst,price_lst,document.getElementById('proposalId').value,document.getElementById('proposalToken').value],                                
-            }); 
+        return this._rpc({
+            route: '/proposal/accept',
+            params: {
+                qty_list: qty_lst,
+                price_list: price_lst,
+                pro_id: document.getElementById('proposalId').value,
+                token: document.getElementById('proposalToken').value,
+            },
+        });
     },
 
     _reject_data: function() {
         document.getElementById('acc_btn').setAttribute('hidden', 'True');
         document.getElementById('rej_btn').setAttribute('hidden', 'True');
         return this._rpc({
-                model: 'portal.proposal',
-                method: 'refuse',
-                args: [this.value,document.getElementById('proposalId').value],
-            });
+            route: '/proposal/reject',
+            params: {                
+                pro_id: document.getElementById('proposalId').value,
+                token: document.getElementById('proposalToken').value,
+            },
+        });       
     }
     
 });
 
     if (document.getElementById("pr_table") != null) {
         document.getElementById("pr_table").addEventListener('input', function onchange_sum(e) {
-        var sum = 0
+        var sum = 0;
+        var qty = 0;
+        var res = 0;
         const inputs = document.querySelectorAll('input[name=price_accepted]');
+        const qty_inputs = document.querySelectorAll('input[name=qty_accepted]');
         const tot = document.getElementById('total_acc_amt');
-        for (var input in inputs) {
-            if (inputs[input].textContent != undefined || !isNaN(inputs[input].value)) {
-                sum += parseInt(inputs[input].value);
+        for (var qty_input in qty_inputs) {
+            for (var input in inputs) {
+                if (qty_input == input) {
+                    if (qty_inputs[qty_input].textContent != undefined || !isNaN(qty_inputs[qty_input].value) || inputs[input].textContent != undefined || !isNaN(inputs[input].value)) {
+                        qty = parseInt(qty_inputs[qty_input].value);
+                        sum = parseFloat(inputs[input].value);
+                        res += qty * sum;
+                    }
+                }
             }
-        }
-        tot.textContent = sum;
+        }        
+        
+        tot.textContent = res;
     });
     }
 });

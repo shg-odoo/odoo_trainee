@@ -26,11 +26,10 @@ class PortalProposal(models.Model):
 
     def _get_total_proposed_accepted_amt(self):
         for proposal in self:
-            proposal.total_proposed_amt = sum(
-                proposal.line_ids.mapped('proposed_price'))
-            proposal.total_accepted_amt = sum(
-                proposal.line_ids.mapped('accepted_price'))
-
+            for line in proposal.line_ids:
+                proposal.total_proposed_amt += line.proposed_qty * line.proposed_price
+                proposal.total_accepted_amt += line.accepted_qty * line.accepted_price
+                          
     @api.model
     def create(self, vals):
         if not vals.get('name') or vals['name'] == _('New'):
@@ -43,7 +42,7 @@ class PortalProposal(models.Model):
         self.access_token = access_token
         web_base_url = self.env['ir.config_parameter'].sudo(
         ).get_param('web.base.url')
-        
+
         url = (web_base_url + '/proposal/%s') % (self.id)
         self.link = url
 
@@ -61,19 +60,19 @@ class PortalProposal(models.Model):
         rec.state = 'cancel'
 
     def accept_qty_price(self, qty_lst, price_lst, proposal_id, token):
-        print("Called....")
         rec = self.search(
             [('id', '=', proposal_id)])
-        message = ''
-        for line in rec.line_ids:
-            for qty_line in qty_lst:
-                for price_line in price_lst:
-                    if qty_line['prod'] == price_line['prod'] == str(line.product_id.id):
-                        line.accepted_qty = qty_line['qty']
-                        line.accepted_price = price_line['price']
-                        message += ('Accepted qty is %s and accepted price is %s for product %s. \n') % (
-                            line.accepted_qty, line.accepted_price, line.product_id.name)
-        rec.sudo().message_post(body=message, email_from=rec.partner_id.email)
+        if rec.state != 'confirmed':
+            message = ''
+            for line in rec.line_ids:
+                for qty_line in qty_lst:
+                    for price_line in price_lst:
+                        if qty_line['prod'] == price_line['prod'] == str(line.product_id.id):
+                            line.accepted_qty = qty_line['qty']
+                            line.accepted_price = price_line['price']
+                            message += ('Accepted qty is %s and accepted price is %s for product %s. \n') % (
+                                line.accepted_qty, line.accepted_price, line.product_id.name)
+            rec.sudo().message_post(body=message, email_from=rec.partner_id.email)
 
     def action_confirm(self):
         vals = {'partner_id': self.partner_id.id,

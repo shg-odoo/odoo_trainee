@@ -41,12 +41,12 @@
                                         </td>                                        
                                         <td><span t-field="line.label"/></td>
                                         <td class="text-right"><span t-field="line.proposed_qty"/></td>
-                                        <td class="text-right">
-                                            <input t-att-readonly="0" size="5px" id="qty" type="text" class="form-control" name="qty_accepted" t-att-value="line.proposed_qty" required="required"/>
+                                        <td class="text-right">                                                                                        
+                                            <input t-att-readonly="0" size="5px" id="qty" type="number" class="form-control" name="qty_accepted" t-att-value="line.proposed_qty" required="required"/>
                                         </td>
                                         <td class="text-right"><span t-field="line.proposed_price"/></td>
-                                        <td class="text-right">
-                                            <input t-att-readonly="0" size="5px" id="price" type="text" class="form-control" name="price_accepted" t-att-value="line.proposed_price" required="true"/>                                            
+                                        <td class="text-right">                                                                                        
+                                            <input t-att-readonly="0" size="5px" id="price" type="number" class="form-control" name="price_accepted" t-att-value="line.proposed_price" required="true" step="0.1"/>   
                                         </td>                                        
                                     </tr>
                                 </t>
@@ -66,9 +66,7 @@
                                     </td>                                    
                                 </tr> 
                             </table>
-                            <t t-esc="proposals.get_portal_url()"/>
-                            <br/>
-                            <t t-esc="proposals.get_portal_url(suffix='/accept')"/>
+                           
                             <button type="button" class="btn btn-primary accept_data" id="acc_btn" t-att-href="proposals.get_portal_url(suffix='/accept')">Accept</button>  
                             <button type="button" class="btn btn-primary reject_data" id="rej_btn">Reject</button>                             
                             <div id="success_div">
@@ -87,16 +85,6 @@
         </t>
     </template>
 
-  <!--   <template id="proposal_page_template">
-        <t t-call="website.layout">
-            <div id="wrap">
-                <div class="container">                    
-                    <form class="oe_proposal_form js_accept_json" role="form" t-att-data-token="proposals.access_token" t-attf-action="/proposal/#{proposals.id}/access_token=#{proposals.access_token}">
-                </form>
-            </div>
-        </div>
-    </t>
- -->
     <record id="proposal_page" model="website.page">
         <field name="name">Proposal</field>
         <field name="website_published">True</field>
