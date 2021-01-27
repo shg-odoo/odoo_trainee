@@ -17,6 +17,7 @@ from werkzeug.wrappers import Response
 
 class Cart(object):
 
+
     def __init__(self, config):
         self.redis = redis.Redis(config['redis_host'], config['redis_port'])
         template_path = os.path.join(os.path.dirname(__file__), 'templates')
@@ -34,8 +35,6 @@ class Cart(object):
         if request.method == 'POST':
             search_item = request.form['search']
             print(search_item)
-            if isinstance(search_item, str):
-                print('hi')
         return self.render_template('index.html', error=error, url=url)
 
 
