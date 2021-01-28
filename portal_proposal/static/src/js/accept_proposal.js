@@ -2,8 +2,6 @@ odoo.define('portal_proposal.proposal_page_template', function (require) {
 'use strict';
 
 var publicWidget = require('web.public.widget');
-const session = require('web.session');
-var ajax = require('web.ajax');
 
 
 publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
@@ -17,50 +15,51 @@ publicWidget.registry.ProposalPage = publicWidget.Widget.extend({
         var self = this;
         var qty_lst = [];
         var price_lst = [];
-        var pr_table = document.getElementById('pr_table');
-        for (var i = 1; i < pr_table.rows.length; i++) { 
-            if (pr_table.rows[i].cells[4].children[0] && pr_table.rows[i].cells[6].children[0] && pr_table.rows[i].cells[1].children[1]) {
-                var qty = pr_table.rows[i].cells[4].children[0].value;
-                pr_table.rows[i].cells[4].children[0].setAttribute('readonly', 'True');
-                var price = pr_table.rows[i].cells[6].children[0].value;  
-                pr_table.rows[i].cells[6].children[0].setAttribute('readonly', 'True');
-                var prod = pr_table.rows[i].cells[1].children[1].value;
+        
+        $('table > tbody  > tr').each(function(index, tr) {     
+            var prod = $('#productId', tr).val();        
+            var qty = $('#qty', tr).val();
+            $( "#qty", tr ).replaceWith( "<p>" + qty + "</p>" );
+            var price = $('#price', tr).val();
+            $('#price', tr).replaceWith( "<p>" + price + "</p>" );
+            if (qty != undefined && price != undefined) {
                 qty_lst.push({prod,qty});
-                price_lst.push({prod,price});
-            }      
-        }
-        document.getElementById('acc_btn').setAttribute('hidden', 'True');
-        document.getElementById('rej_btn').setAttribute('hidden', 'True');
-        document.getElementById('success_div').className += 'alert alert-success text-center';
-        document.getElementById('success_div').innerHTML = "<p><strong>The proposal has been accepted.</strong></p>";
+                price_lst.push({prod,price}); 
+            }            
+        });  
+        $('#acc_btn').hide();
+        $('#rej_btn').hide();
+           
+        $("#success_div").addClass("alert alert-success text-center");
+        $("#success_div").html("<p><strong>The proposal has been accepted.</strong></p>");
 
         return this._rpc({
             route: '/proposal/accept',
             params: {
                 qty_list: qty_lst,
                 price_list: price_lst,
-                pro_id: document.getElementById('proposalId').value,
-                token: document.getElementById('proposalToken').value,
+                pro_id: $('#proposalId').val(),
+                token: $('#proposalToken').val(),
             },
         });
     },
 
     _reject_data: function() {
-        document.getElementById('acc_btn').setAttribute('hidden', 'True');
-        document.getElementById('rej_btn').setAttribute('hidden', 'True');
+        $('#acc_btn').hide();
+        $('#rej_btn').hide();
         return this._rpc({
             route: '/proposal/reject',
             params: {                
-                pro_id: document.getElementById('proposalId').value,
-                token: document.getElementById('proposalToken').value,
+                pro_id: $('#proposalId').val(),
+                token: $('#proposalToken').val(),
             },
         });       
     }
     
 });
 
-    if (document.getElementById("pr_table") != null) {
-        document.getElementById("pr_table").addEventListener('input', function onchange_sum(e) {
+    if (document.getElementById('pr_table') != null) {
+        document.getElementById('pr_table').addEventListener('input', function onchange_sum(e) {
         var sum = 0;
         var qty = 0;
         var res = 0;
