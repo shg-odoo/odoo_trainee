@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <div id="main">
+        <input type="text" name="search" id="search" onkeyup="searchFunction()" placeholder="Search"/>
+        <div id="myData"></div>
+        <div id="cart"></div>
+    </div>
+    <script>
+        function createCard(data) {
+            let card = document.createElement('div');
+            card.className = "cards";
+
+            let title = document.createElement('div');
+            title.innerText = data.product_name;
+
+            let price = document.createElement('div');
+            price.innerText = "Price: " + data.price;
+
+            let a = document.createElement('a');
+            a.href = "/add/to/cart/" + data.id;
+            a.innerText = "Add to Cart";
+            a.classname = "input";
+
+            card.appendChild(title);
+            card.appendChild(price);
+            card.appendChild(a);
+            return card
+        }
+
+        data = %(data)s
+        cartData = %(cartData)s
+
+        var mainContainer = document.getElementById("main");
+        var dataContainer = document.getElementById("myData");
+        var cartContainer = document.getElementById("cart");
+        for (var i = 0; i < data.length; i++) {
+            let card = this.createCard(data[i])
+            dataContainer.appendChild(card);
+            if (cartData && parseInt(data[i].id) in cartData) {
+                let div = document.createElement('div');
+                div.innerText = data[i].product_name + " " + data[i].price
+                let a = document.createElement('a');
+                a.href = "/remove/" + data[i].id;
+                a.innerText = "Remove";
+                cartContainer.appendChild(div);
+                cartContainer.appendChild(a);
+            }
+        }
+
+        function searchFunction() {
+            var input, filter, mainDiv, div, childDiv, i, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            mainDiv = document.getElementById("myData");
+            div = mainDiv.getElementsByClassName("cards");
+            for (i = 0; i < div.length; i++) {
+                childDiv = div[i].getElementsByTagName("div")[0];
+                if (childDiv) {
+                    txtValue = childDiv.textContent || childDiv.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        div[i].style.display = "";
+                    } else {
+                        div[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

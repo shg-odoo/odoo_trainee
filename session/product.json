@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1",
+        "product_name": "Shirt",
+        "price": "999"
+    },
+    {
+        "id": "2",
+        "product_name": "T-shirt",
+        "price": "399"
+    },
+    {
+        "id": "3",
+        "product_name": "Mobile",
+        "price": "19999"
+    },
+    {
+        "id": "4",
+        "product_name": "Watch",
+        "price": "1499"
+    }
+]
