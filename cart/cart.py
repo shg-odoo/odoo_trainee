@@ -1,5 +1,4 @@
 import os
-
 import redis
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
@@ -12,12 +11,19 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import redirect
 from werkzeug.wrappers import Request
 from werkzeug.wrappers import Response
+import psycopg2
+
+connection = psycopg2.connect(dbname='kpt', user='postgres',password='123456',host='localhost')
+
+cursor = connection.cursor()
+cursor.execute('select *  from products')
+for item in cursor:
+    print(item)
+
 
 
 
 class Cart(object):
-
-
     def __init__(self, config):
         self.redis = redis.Redis(config['redis_host'], config['redis_port'])
         template_path = os.path.join(os.path.dirname(__file__), 'templates')
@@ -25,18 +31,24 @@ class Cart(object):
             loader=FileSystemLoader(template_path), autoescape=True)
         self.url_map = Map([
             Rule('/', endpoint='home'),
-            # Rule('/<short_id>', endpoint="follow_short_link"),
+            # Rule('/', endpoint="search"),
             # Rule('/<short_id>+', endpoint='short_link_details')
         ])
 
     def on_home(self, request):
+        resultSet = []
+        # item = []
         error = None
         url = ''
         if request.method == 'POST':
             search_item = request.form['search']
-            print(search_item)
-        return self.render_template('index.html', error=error, url=url)
-
+            searchItem = search_item.capitalize()
+            cursor.execute("select product_name, product_price from products where product_name= %s",[searchItem])
+            for row in cursor:
+                resultSet.append(row)
+                print(resultSet)
+            return self.render_template('index.html', resultset = resultSet, error=error, url=url)
+        
 
     def render_template(self, template_name, **context):
         t = self.jinja_env.get_template(template_name)
@@ -78,3 +90,7 @@ if __name__ == "__main__":
 
     app = create_app()
     run_simple("127.0.0.1", 5000, app, use_debugger=True, use_reloader=True)
+
+
+cursor.close()
+connection.close()
