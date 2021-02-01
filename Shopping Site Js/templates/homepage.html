@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+{% block title %}Shopping Site{% endblock %}
+{% block body %}
+  
+  
+      
+      <form class="form-inline">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search For Products..">
+        <ul id='myProducts'>
+       
+        {% for item in items['items']%}
+        <li>
+          <a href='#' style="text-decoration: none;color: inherit;">
+        <div class="card">
+          <img id="image" src="{{item['image_link']}}" data-link="{{item['image_link']}}">
+          <h2 id="name" data-name="{{item['name']}}" data-id="{{item['id']}}">{{item['name']}}</h2>
+          <p id="price" class="price" data-price="{{item['price']}}"> ₹ {{item['price']}}</p>
+          <p  id="quantity" class='quantity' data-qty="{{item['quantity']}}">Quantity: {{item['quantity']}}</p>
+          <p><button onclick="addToCart()">Add To Cart</button></p>
+        </div>
+          </a>
+        </li>
+       
+        {% endfor %}
+      </ul>
+
+      <hr>
+
+      <div align='center'>
+      <table id="cart"  style="visibility:hidden;vertical-align: middle;display: table-cell;align-items: center;" class="table">
+        <thead>
+             <tr>
+               <th class="info"></th>
+               <th class="info">Product</th>
+                 <th class="info">Price</th>
+                 <th class="info"></th>       
+            </tr>
+        </thead>
+        <tbody id="cartBody">
+
+        </tbody>
+   </table>
+  </div>
+  
+      </form>
+{% endblock %}
