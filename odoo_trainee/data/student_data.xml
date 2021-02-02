@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student1" model="student" >
+        <field name="name">Kamlesh Pathekar</field>
+        <field name="enrollmentNo">55</field>
+        <field name="contactNo">9999999999</field>
+        <field name="email">odoo@gmail.com</field>
+        <field name="branch">CSE</field>
+    </record>
+
+    <record id="student" model="student">
+        <field name="name">kunal</field>
+        <field name="enrollmentNo">56</field>
+        <field name="contactNo">888888888</field>
+        <field name="email">odoo@gmail.com</field>
+        <field name="branch">CSE</field>
+    </record>
+
+</odoo>
