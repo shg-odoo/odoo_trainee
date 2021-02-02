@@ -43,12 +43,20 @@ class Cart(object):
         if request.method == 'POST':
             search_item = request.form['search']
             searchItem = search_item.capitalize()
-            cursor.execute("select product_name, product_price from products where product_name= %s",[searchItem])
-            for row in cursor:
-                resultSet.append(row)
-                print(resultSet)
-            return self.render_template('index.html', resultset = resultSet, error=error, url=url)
-        
+            if search_item:    
+                cursor.execute("select product_name, product_price from products where product_name= %s",[searchItem])
+                for row in cursor:
+                    resultSet.append(row)
+                    print(resultSet)
+                return self.render_template('index.html', resultset = resultSet, error=error, url=url)
+            else:
+                cursor.execute("select product_name, product_price from products")
+                for row in cursor:
+                    resultSet.append(row)
+                    print(resultSet)
+                return self.render_template('index.html', resultset = resultSet, error=error, url=url)
+           
+
 
     def render_template(self, template_name, **context):
         t = self.jinja_env.get_template(template_name)

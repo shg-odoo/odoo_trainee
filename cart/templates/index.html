@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>The Generics | Store</title>
+    <title>Shopping Store</title>
     <meta name="description" content="This is the description">
     <link rel="stylesheet" href="/static/cart.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -26,7 +26,7 @@
             <div class="shop-item">
                 <h2 class="shop-item-title">Product Name:{{i[0]}}</h2>
                 <div class="shop-item-details">
-                    <h3 id="shop-item-price">{{i[1]}}</h3><hr>
+                    <h3 id="shop-item-price">$ {{i[1]}}</h3><hr>
                     <button id="add-to-cart" >Add to Cart</button><hr>
                     <button id="del-to-cart">Remove</button>
                 </div>
@@ -70,10 +70,12 @@
         del.addEventListener("click", function (e) {
             e.preventDefault()
             console.log('you click the remove')
-            count -= 1
+            if(count>=0){
+               count -= 1
+            }
             console.log(count)
             document.getElementById('items').innerText = count
-        });
+        })
 
     </script>
 
