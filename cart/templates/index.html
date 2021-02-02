@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shopping Store</title>
+    <meta name="description" content="This is the description">
+    <link rel="stylesheet" href="/static/cart.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="/static/store.js" async></script> -->
+</head>
+
+<body>
+
+    <section class="container content-section">
+        <h2 class="section-header">Shopping Cart</h2>
+
+        <form class="example" action="" method="post">
+            <input type="text" placeholder="Search.." name="search" id="myInput">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+        {% block body %}
+        {% for i in resultset %}
+
+        <div class="shop-items" id="myTable"
+            style="background: white; align-content: left; min-width: 400px; max-width: 100%;">
+            <div class="shop-item">
+                <h2 class="shop-item-title">Product Name:{{i[0]}}</h2>
+                <div class="shop-item-details">
+                    <h3 id="shop-item-price">$ {{i[1]}}</h3><hr>
+                    <button id="add-to-cart" >Add to Cart</button><hr>
+                    <button id="del-to-cart">Remove</button>
+                </div>
+            </div>
+            {% endfor %}
+            {% endblock %}
+    </section>
+
+    
+    <section class="container content-section" style="width: 100%;align-content: center;">
+        <H1><b>Cart</b> </H1>
+        <table style="width: 100%; align-content: center;">
+            <tr>
+                <th scope="col">Items</th>
+                <th scope="col">SubTotal</th>
+            </tr>
+            <tr>
+                <th scope="row" id="items"></th>
+                <td id="subtotal"></td>
+            </tr>
+        </table><br>
+        <button class="checkout" style="width: 20%;height: 40px;">Checkout</button>
+    </section>
+
+
+    <script>
+        var add = document.getElementById("add-to-cart")
+        var del = document.getElementById("del-to-cart")
+        var total = Number(document.getElementById('shop-item-price').value)
+        var count = 0
+ 
+        add.addEventListener("click", function (e) {
+            e.preventDefault()
+            console.log('you click the cart')
+            count += 1
+            console.log(count)
+            console.log(total)
+            document.getElementById('items').innerText = count
+        });
+
+        del.addEventListener("click", function (e) {
+            e.preventDefault()
+            console.log('you click the remove')
+            if(count>=0){
+               count -= 1
+            }
+            console.log(count)
+            document.getElementById('items').innerText = count
+        })
+
+    </script>
+
+</html>
