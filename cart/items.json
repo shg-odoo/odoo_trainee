@@ -1,0 +1,42 @@
+[
+    {
+        "id": "1",
+        "product_name": "Nike shoes",
+        "price": "499"
+    },
+    {
+        "id": "2",
+        "product_name": "Adidas Bagpack",
+        "price": "249"
+    },
+    {
+        "id": "3",
+        "product_name": "Iphone 12 Mobile",
+        "price": "10000"
+    },
+    {
+        "id": "4",
+        "product_name": "Watch",
+        "price": "3999"
+    },
+    {
+        "id": "5",
+        "product_name": "Laptop",
+        "price": "45000"
+    },
+    {
+        "id": "6",
+        "product_name": "Cup",
+        "price": "499"
+    },
+    {
+        "id": "7",
+        "product_name": "Mask",
+        "price": "149"
+    },
+    {
+        "id": "8",
+        "product_name": "Shirt",
+        "price": "699"
+    }
+]

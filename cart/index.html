@@ -1,0 +1,108 @@
+<html>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <div id="main">
+        <input type="text" name="search" id="search" onkeyup="searchItems()" placeholder="Search" style="margin-top: 20px;margin-left: 25px; padding: 10px;font-size: 17px; border: 2px solid rgb(143, 137, 137); background: #f5f1f1;width: 350px;"/><br><br><hr>
+        <div id="items" style="font-family: monospace; text-align: center;display: grid;gap: 20px;"><h1 style="font-weight: 200;"><b>Items</b></h1></div><br><hr>
+        <div id="cart" style="font-family: monospace; text-align: center;display: grid;gap: 7px;"><h1 style="font-weight: 200;"><b>Cart</b></h1></div><br><br>
+    </div>
+    <script>
+        function createCard(data) {
+            let card = document.createElement('div');
+            card.className = "cards";
+            
+
+            let itemName = document.createElement('div');
+            itemName.innerText = data.product_name;
+
+            let price = document.createElement('div');
+            price.innerText = "Price: " + data.price;
+
+            let a = document.createElement('a');
+            a.href = "/add/to/cart/" + data.id;
+            a.innerText = "Add to Cart";
+            a.classList.add("input");
+            a.id = 'elem'
+            a.setAttribute('data-id', data.id);
+            a.addEventListener('click',function(e){
+                e.preventDefault()
+                console.log('clicked')
+                // debugger
+                const className = e.currentTarget.dataset.id;
+                const element = document.getElementsByClassName(className)[0]
+                element.style.display = 'block';
+                // debugger
+                let total = parseInt(element.querySelector('#total').innerText)
+                element.querySelector('#total').innerHTML = total + 1;
+            })
+            card.appendChild(itemName);
+            card.appendChild(price);
+            card.appendChild(a);
+            return card
+        }
+
+        var data = %(data)s
+        var itemIds = %(ids)s
+
+        var mainContainer = document.getElementById("main");
+        var dataContainer = document.getElementById("items");
+        var cartContainer = document.getElementById("cart");
+        for (var i = 0; i < data.length; i++) {
+            let card = this.createCard(data[i])
+            dataContainer.appendChild(card);
+            if (itemIds && parseInt(data[i].id) in itemIds) {
+                let parentDiv = document.createElement('div');
+                let div = document.createElement('div');
+                div.innerText = data[i].product_name + "\nPrice: " + data[i].price
+                let a = document.createElement('a');
+                a.href = "/Remove/" + data[i].id;
+                a.innerText = "Remove";
+                a.id = 'remove'
+                a.addEventListener('click',function(e){
+                    e.preventDefault()
+                    console.log('clicked')
+                    const className = e.currentTarget.dataset.id;
+                    const element = document.getElementsByClassName(className)[0]
+                    let total = parseInt(element.querySelector('#total').innerText)
+                    if(total <=1){
+                       
+                        e.currentTarget.parentElement.parentElement.style.display = 'none';
+                    }else{
+                    element.querySelector('#total').innerHTML = total - 1;
+                    }
+                })
+                a.setAttribute('data-id', data[i].id);
+                let tot = document.createElement('div')
+                tot.id = 'total'
+                tot.innerHTML = '0';
+                parentDiv.classList.add(data[i].id);
+                parentDiv.appendChild(div);
+                div.appendChild(a);
+                div.appendChild(tot);
+                cartContainer.appendChild(parentDiv);
+            }
+        }
+
+        function searchItems() {
+            var input, filter, mainDiv, div, childDiv, i, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            mainDiv = document.getElementById("items");
+            div = mainDiv.getElementsByClassName("cards");
+            for (i = 0; i < div.length; i++) {
+                childDiv = div[i].getElementsByTagName("div")[0];
+                if (childDiv) {
+                    txtValue = childDiv.textContent || childDiv.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        div[i].style.display = "";
+                    } else {
+                        div[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
