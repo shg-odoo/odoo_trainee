@@ -6,19 +6,30 @@
         <field name="contactNo">9999999999</field>
         <field name="email">kpt-odoo@gmail.com</field>
         <field name="branch">CSE</field>
-        <field name="per">70</field>
+        <field name="per">75</field>
         <field name="bdate">2000-04-22</field>
         <field name="gender">male</field>
     </record>
 
     <record id="s2" model="student">
-        <field name="name">kunal Mahajan</field>
+        <field name="name">kunal Dindorkar</field>
         <field name="enrollmentNo">56</field>
         <field name="contactNo">8888888888</field>
         <field name="email">kam-odoo@gmail.com</field>
         <field name="branch">CSE</field> 
         <field name="per">85</field>
         <field name="bdate">2000-09-22</field>
+        <field name="gender">male</field>
+    </record>
+
+    <record id="s3" model="student">
+        <field name="name">Mayank Mahajan</field>
+        <field name="enrollmentNo">76</field>
+        <field name="contactNo">7777777777</field>
+        <field name="email">Mam-odoo@gmail.com</field>
+        <field name="branch">ECE</field> 
+        <field name="per">65</field>
+        <field name="bdate">1998-12-09</field>
         <field name="gender">male</field>
     </record>
 

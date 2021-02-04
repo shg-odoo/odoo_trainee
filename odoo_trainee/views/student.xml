@@ -11,9 +11,11 @@
                     <field name="email"/>
                     <field name="branch"/>
                     <field name="per"/>
+                    <field name="html"/>
                     <field name="bdate"/>
                     <field name="gender" widget="radio" />
                     <field name="image" widget="image" class="oe_avatar"/>
+                    <field name="current_date"/>
                 </tree>
             </field>
         </record>
@@ -29,22 +31,52 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="openacademy_session_graph_view">
+
+        <record model="ir.ui.view" id="student_search_view">
             <field name="name">student</field>
             <field name="model">student</field>
             <field name="arch" type="xml">
-                <graph string="Participations by Courses">
+                <search>
+                    <field name="name"/>
+                    <field name="branch"/>
+                    <filter string="Male" name="male" domain="[('gender','=','male')]" />
+                    <separator/>
+                    <filter string="Female" name="female" domain="[('gender','=','female')]" />
+                    <group string="Group By">
+                         <filter string="Branch" name="branch" context="{'group_by':'branch'}" />
+                    </group>
+                </search>
+            </field>
+        </record> 
+
+
+         <record model="ir.ui.view" id="student_gantt_view">
+            <field name="name">student.gantt</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <gantt date_stop="current_date" date_start="bdate" string="Session Gantt" default_group_by="branch">
+                </gantt>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="student_session_graph_view">
+            <field name="name">student.search</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <graph string="Student by percentage">
                     <field name="name"/>
                     <field name="per" type="measure"/>
                 </graph>
             </field>
         </record>
 
+
      
     <record id="student_action" model="ir.actions.act_window" >
         <field name="name">student</field>
         <field name="res_model">student</field>
-        <field name="view_mode">tree,calendar,graph</field>
+        <field name="view_mode">tree,calendar,graph,form,gantt</field>
     </record>
 
     <menuitem id="student_menu" name="Student Data"/>

@@ -11,9 +11,11 @@ class student(models.Model):
     email = fields.Char(string="Email Id")
     branch = fields.Char(string="Branch")
     per = fields.Integer(string="Percentage")
+    html = fields.Html()
     bdate = fields.Date(string='Date of birth')
     gender = fields.Selection([ ('male', 'Male'),('female', 'Female'),],'Gender', default='male')
     image = fields.Binary(string='Image')
+    current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
    
 
 
