@@ -1,0 +1,40 @@
+[{
+
+        "id": "1",
+        "product_name": "Mobile",
+        "price": "1000",
+        "qnt": 23
+    },
+
+    {
+        "id": "2",
+        "product_name": "Toy",
+        "price": "1399",
+        "qnt": 12
+    },
+
+    {
+        "id": "3",
+        "product_name": "Apple iPhone",
+        "price": "800",
+        "qnt": 21
+    },
+    {
+        "id": "4",
+        "product_name": "iPad",
+        "price": "999",
+        "qnt": 10
+    },
+    {
+        "id": "5",
+        "product_name": "Laptop",
+        "price": "399",
+        "qnt": 15
+    },
+    {
+        "id": "6",
+        "product_name": "Jeans",
+        "price": "19999",
+        "qnt": 6
+    }
+]
