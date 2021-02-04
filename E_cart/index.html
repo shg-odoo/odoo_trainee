@@ -51,9 +51,12 @@
                 e.preventDefault()
                 console.log('clicked')
                 const className = e.currentTarget.dataset.id;
+                console.log(className)
                 const element = document.getElementsByClassName(className)[0]
+                console.log(element)
                 element.style.display = '';
                 let total = parseInt(element.querySelector('#total').innerText)
+                console.log(total)
                 element.querySelector('#total').innerHTML = total + 1;
             })
         
