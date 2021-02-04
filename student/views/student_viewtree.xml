@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student_view_tree" model="ir.ui.view">
+        <field name="name">Student.tree</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="roll_no"/>
+                <field name="birthdate"/>
+                <field name="image" widget="image" class="oe_avatar"/>
+                <field name="gender" widget="radio " class="gender"/>
+                <field name="age"/>
+                <field name="physics"/>
+                <field name="maths"/>
+                <field name="chemistry"/>
+                <field name="Average"/>
+                <field name="current_date"/>
+                <field name="Address"/>
+                <field name="contect_no"/>
+            </tree>
+        </field> 
+    </record>
+    <record id="student_view_calender" model="ir.ui.view" >
+        <field name="name">Student.calender</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <calendar string="Calender View" date_start="birthdate" color="roll_no">
+                <field name="name" />
+                <field name="birthdate"/>
+            </calendar>
+        </field>
+    </record>
+    <record id="student_view_graph" model="ir.ui.view">
+        <field name="name">Student.graph</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+           <graph string="graph view">
+               <field name="name"/>
+               <field name="Average" type="measure"/>
+           </graph>
+        </field>
+    </record>
+    <record id="student_action" model="ir.actions.act_window">
+        <field name="name">student</field>
+        <field name="res_model">student</field>
+        <field name="view_mode">tree,calendar,graph</field>
+    </record>
+    <menuitem id="student_menu" name="Student Data"/>
+    <menuitem id="student" name="Details" sequence="1" action="student_action" parent="student_menu"/>
+</odoo>
