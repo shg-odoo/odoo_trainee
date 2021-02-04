@@ -1,0 +1,136 @@
+<html>
+<head>
+    <head>
+    
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+         rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" 
+         crossorigin="anonymous">
+    
+    <title>Home Page</title>
+</head>
+<body>
+    <div id="main">
+        <input type="text" name="search" id="search" onkeyup="searchFunction()" placeholder="Search" 
+        style="margin-top: 20px;margin-left: 750px; padding: 10px;font-size: 17px; border: 1px solid blue; 
+        background: #f1f1f1;"/>
+        <br><br>
+        <div id="myData" ></div>
+        <br><br><br><br><br><hr>
+        <div id="cart" style="font-family: monospace; text-align: center;display: grid;gap: 7px;"></div>
+    <script>
+        function createCard(data) {
+            
+            let card = document.createElement('div');
+            card.className = "cards";
+            card.style = "float: left;width:260px";
+            
+    
+
+            let title = document.createElement('div');
+            title.innerText = data.product_name;
+
+            let price = document.createElement('div');
+            price.innerText = "Price: " + data.price;
+
+            
+            //let num = parseInt(data.qnt)
+
+    
+            let a = document.createElement('a');
+            a.href = "/add/to/cart/" + data.id;;
+            a.innerText = "Add to Cart";
+            a.classname = "input";
+            a.classList.add("input");
+            a.id = 'elem'
+            a.setAttribute('data-id', data.id);
+            a.addEventListener('click',function(e){
+                e.preventDefault()
+                console.log('clicked')
+                const className = e.currentTarget.dataset.id;
+                console.log(className)
+                const element = document.getElementsByClassName(className)[0]
+                console.log(element)
+                element.style.display = '';
+                let total = parseInt(element.querySelector('#total').innerText)
+                console.log(total)
+                element.querySelector('#total').innerHTML = total + 1;
+            })
+        
+            
+            card.appendChild(title);
+            card.appendChild(price);
+            card.appendChild(a);
+            return card
+        }
+
+        data = %(data)s
+        cartData = %(cartData)s
+        //if(cartData.indexOf)
+        console.log(cartData["3"])
+        console.log(Object.keys(cartData));
+        console.log(typeof(cartData));
+
+        var mainContainer = document.getElementById("main");
+        var dataContainer = document.getElementById("myData");
+        var cartContainer = document.getElementById("cart");
+        for (var i = 0; i < data.length; i++) {
+            let card = this.createCard(data[i])
+            dataContainer.appendChild(card);
+            if (cartData && parseInt(data[i].id) in cartData) {
+                let parentDiv = document.createElement('div')
+                let div = document.createElement('div');
+                div.innerText = data[i].product_name + "\n price:" + data[i].price
+                let a = document.createElement('a');
+                a.href = "/remove/" + data[i].id;
+                a.innerText = "Remove";
+                a.id = 'remove'
+                a.addEventListener('click',function(e){
+                    e.preventDefault()
+                    console.log('clicked')
+                    const className = e.currentTarget.dataset.id;
+                    const element = document.getElementsByClassName(className)[0]
+                    let total = parseInt(element.querySelector('#total').innerText)
+                    if(total <=1){
+                        debugger;
+                        e.currentTarget.parentElement.parentElement.style.display = 'none';
+                    }else{
+                    element.querySelector('#total').innerHTML = total - 1;
+                    }
+                })
+                a.setAttribute('data-id', data[i].id);
+                let tot = document.createElement('div')
+                tot.id = 'total'
+                tot.innerHTML = '0';
+                parentDiv.classList.add(data[i].id);
+                parentDiv.appendChild(div);
+                div.appendChild(a);
+                div.appendChild(tot);
+                cartContainer.appendChild(parentDiv);
+            }
+        }
+
+        function searchFunction() {
+            var input, filter, mainDiv, div, childDiv, i, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            mainDiv = document.getElementById("myData");
+            div = mainDiv.getElementsByClassName("cards");
+            for (i = 0; i < div.length; i++) {
+                childDiv = div[i].getElementsByTagName("div")[0];
+                if (childDiv) {
+                    txtValue = childDiv.textContent || childDiv.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        div[i].style.display = "";
+                    } else {
+                        div[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
