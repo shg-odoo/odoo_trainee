@@ -10,6 +10,7 @@ class student(models.Model):
     image = fields.Binary()
     gender = fields.Selection([('male','Male') ,('female','Female')],string='Gender', default='male')
     age = fields.Char(string='age')
+    html = fields.Html()
     physics = fields.Integer(string='physics')
     maths = fields.Integer(string='maths')
     chemistry = fields.Integer(string='chemistry')

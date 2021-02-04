@@ -9,12 +9,13 @@
                 <field name="roll_no"/>
                 <field name="birthdate"/>
                 <field name="image" widget="image" class="oe_avatar"/>
-                <field name="gender" widget="radio " class="gender"/>
+                <field name="gender" widget="radio"/>
                 <field name="age"/>
                 <field name="physics"/>
                 <field name="maths"/>
                 <field name="chemistry"/>
                 <field name="Average"/>
+                <field name="html"/>
                 <field name="current_date"/>
                 <field name="Address"/>
                 <field name="contect_no"/>
@@ -31,6 +32,33 @@
             </calendar>
         </field>
     </record>
+    <record id="student_view_search" model="ir.ui.view">
+        <field name="name">Student.search</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="Address"/>
+                <filter string="Male" name="male" domain=
+                "[('gender','=','male')]"/>
+                <separator />
+                <filter string="Female" name="female" domain=
+                "[('gender','=','female')]"/>  
+                <group> 
+                    <filter string="Group_by" name="Address" context=
+                    "{'group_by':'Address'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="student_view_ganttchart" model="ir.ui.view" >
+        <field name="name">Student.gantt</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <gantt date_start="birthdate" date_stop="current_date" string="Gantt Chart">
+            </gantt>
+        </field>
+    </record>
     <record id="student_view_graph" model="ir.ui.view">
         <field name="name">Student.graph</field>
         <field name="model">student</field>
@@ -44,7 +72,7 @@
     <record id="student_action" model="ir.actions.act_window">
         <field name="name">student</field>
         <field name="res_model">student</field>
-        <field name="view_mode">tree,calendar,graph</field>
+        <field name="view_mode">tree,calendar,graph,form,gantt</field>
     </record>
     <menuitem id="student_menu" name="Student Data"/>
     <menuitem id="student" name="Details" sequence="1" action="student_action" parent="student_menu"/>
