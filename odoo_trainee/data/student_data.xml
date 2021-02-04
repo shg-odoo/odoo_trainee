@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="student1" model="student" >
+    <record id="s1" model="student" >
         <field name="name">Kamlesh Pathekar</field>
         <field name="enrollmentNo">55</field>
         <field name="contactNo">9999999999</field>
-        <field name="email">odoo@gmail.com</field>
+        <field name="email">kpt-odoo@gmail.com</field>
         <field name="branch">CSE</field>
+        <field name="per">70</field>
+        <field name="bdate">2000-04-22</field>
+        <field name="gender">male</field>
     </record>
 
-    <record id="student" model="student">
-        <field name="name">kunal</field>
+    <record id="s2" model="student">
+        <field name="name">kunal Mahajan</field>
         <field name="enrollmentNo">56</field>
-        <field name="contactNo">888888888</field>
-        <field name="email">odoo@gmail.com</field>
-        <field name="branch">CSE</field>
+        <field name="contactNo">8888888888</field>
+        <field name="email">kam-odoo@gmail.com</field>
+        <field name="branch">CSE</field> 
+        <field name="per">85</field>
+        <field name="bdate">2000-09-22</field>
+        <field name="gender">male</field>
     </record>
 
 </odoo>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
         <record model="ir.ui.view" id="student_id">
-            <field name="name">Student.tree</field>
+            <field name="name">Student</field>
             <field name="model">student</field>
             <field name="arch" type="xml">
                 <tree>
@@ -10,14 +10,41 @@
                     <field name="contactNo"/>
                     <field name="email"/>
                     <field name="branch"/>
+                    <field name="per"/>
+                    <field name="bdate"/>
+                    <field name="gender" widget="radio" />
+                    <field name="image" widget="image" class="oe_avatar"/>
                 </tree>
             </field>
         </record>
 
-        <record id="student_action" model="ir.actions.act_window" >
+        <record model="ir.ui.view" id="student_calendar_view">
+            <field name="name">student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <calendar color="name" date_start="bdate" string="Student Calendar" mode="month">
+                    <field name="name"/>
+                    <field name="contactNo"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="openacademy_session_graph_view">
+            <field name="name">student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <graph string="Participations by Courses">
+                    <field name="name"/>
+                    <field name="per" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+     
+    <record id="student_action" model="ir.actions.act_window" >
         <field name="name">student</field>
         <field name="res_model">student</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,calendar,graph</field>
     </record>
 
     <menuitem id="student_menu" name="Student Data"/>
