@@ -44,24 +44,26 @@
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_card oe_kanban_global_click oe_background_grey">
-                        <div class="row">
-                            <div class="col-9">
-                                <div class="oe_kanban_details">
-                                    <strong class="o_kanban_record_title"><field name="name"/></strong>
+                            <div class="row">
+                                <div class="col-9">
+                                    <div class="oe_kanban_details">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div t-if="record.Address.value">
+                                        <strong>Address</strong>:<field name="Address"/>
+                                    </div>
+                                    <div t-if="record.contect_no.value">
+                                        <strong>Contect No</strong>:<field name="contect_no"/>
+                                    </div>
                                 </div>
-                                <div t-if="record.Address.value">
-                                    <strong>Address</strong>:<field name="Address"/>
-                                </div>
-                                <div t-if="record.contect_no.value">
-                                    <strong>Contect No</strong>:<field name="contect_no"/>
+                                <div class="col-1" t-if="record.branch.value">
+                                    <span class="badge rounded-pill bg-primary">
+                                        <field name="branch"/>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="col-1" t-if="record.branch.value">
-                                <span class="badge rounded-pill bg-primary">
-                                    <field name="branch"/>
-                                </span>
-                            </div>
-                        </div>
                         </div>
                     </t>
                 </templates>
