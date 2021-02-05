@@ -16,7 +16,7 @@
             margin-right: auto 
         }
 
-        .cart{
+        #cart{
             font-family: monospace; 
             text-align: center;
             display: inline-block;
@@ -33,7 +33,7 @@
             padding-left: 0;
         }
 
-
+       
     </style>
 
 
@@ -52,7 +52,12 @@
         </ul>
         <br><br>
         <h3><p style="text-align:center;">Cart</p></h3>
-        <div id="cart"></div>
+        <ul>
+        <div id="cart">
+        </div>
+        </ul>
+
+       
 
     <script>
       function createCard(data) {
@@ -66,43 +71,40 @@
           let price = document.createElement('div');
           price.innerHTML = "Price: " + data.price;
 
-          let quantity = document.createElement('div');
-          quantity.innerHTML= "Quantity: " + data.qnt;
-
           let a = document.createElement('a');
-          a.href = "/add/to/cart/" + data.id;
-          a.innerText = "Add to Cart";
-          a.classname = "input";
+            a.href = "/add/to/cart/" + data.id;
+            a.innerText = "Add to Cart";
 
-          card.appendChild(title);
-          card.appendChild(price);
-          card.appendChild(quantity)
-          card.appendChild(a);
-          return card
+            card.appendChild(title);
+            card.appendChild(price);
+            card.appendChild(a);
+            return card
       }
 
-      data = %(data)s
-      cartData = %(cartData)s
+        data = %(data)s
+        cartData = %(cartData)s
+        console.log(cartData["3"])
+        console.log(Object.keys(cartData));
+        console.log(typeof(cartData));
 
-      var mainContainer = document.getElementById("main");
-      var dataContainer = document.getElementById("myData");
-      var cartContainer = document.getElementById("cart");
-      for (var i = 0; i < data.length; i++) {
-          let card = this.createCard(data[i])
-          dataContainer.appendChild(card);
-          if (cartData && parseInt(data[i].id) in cartData) {
+        var mainContainer = document.getElementById("main");
+        var dataContainer = document.getElementById("myData");
+        var cartContainer = document.getElementById("cart");
+        for (var i = 0; i < data.length; i++) {
+            let card = this.createCard(data[i])
+            dataContainer.appendChild(card);
+            if (cartData && parseInt(data[i].id) in cartData) {
+                let parentDiv = document.createElement('div')
+                let div = document.createElement('div');
+                div.innerText = data[i].product_name + "\n Price:" + data[i].price + "\n Quantity:" + data[i].qnt
 
-              let div = document.createElement('div');
-              div.innerText = data[i].product_name + " " + data[i].price + " " + data[i].qnt
-
-              let a = document.createElement('a');
-
-              a.href = "/remove/" + data[i].id;
-              a.innerText = "Remove";
-              cartContainer.appendChild(div);
-              cartContainer.appendChild(a);
-          }
-      }
+                let a = document.createElement('a');
+                a.href = "/remove/" + data[i].id;
+                a.innerText = "Remove\n\n";
+                cartContainer.appendChild(div);
+                cartContainer.appendChild(a);
+            }
+        }
 
       function searchFunction() {
           var input, filter, mainDiv, div, childDiv, i, txtValue;

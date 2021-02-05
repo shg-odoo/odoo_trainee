@@ -20,6 +20,19 @@ def index(self):
 
 
 def cart(self, product_id=None):
+
+    temp=open('product.json','r').read()
+    dataTemp=json.loads(temp)
+    qty=0
+    
+    for i in dataTemp:
+        if i['id']==product_id:
+            qty=i['qnt']
+            i['qnt']=qty+1
+            
+    with open('product.json','w+') as obj:
+        json.dump(dataTemp,obj)
+
     if product_id and not bool(int(self.session.__len__())):
         self.session['product_ids'] = {product_id: product_id}
     else:
@@ -28,6 +41,16 @@ def cart(self, product_id=None):
 
 
 def remove(self, product_id=None):
+
+    temp=open('product.json','r').read()
+    dataTemp=json.loads(temp)
+    for i in dataTemp:
+        if i['id']==product_id:
+            i['qnt']=0
+            
+    with open('product.json','w+') as obj:
+        json.dump(dataTemp,obj)
+
     if product_id and bool(int(self.session.__len__())):
         self.session['product_ids'].pop(product_id)
     return index(self)
