@@ -40,6 +40,23 @@ def cart(self, product_id=None):
         
     return index(self)
 
+def decrease(self,product_id=None):
+    dataTemp=json.loads(open('item_list.json','r').read())
+    for i in dataTemp:
+        if i['id']==product_id:
+            if i['quantity']>1:    
+                i['quantity']=i['quantity']-1
+            
+    with open('item_list.json','w+') as obj:
+        json.dump(dataTemp,obj)
+        
+    if product_id and not bool(int(self.session.__len__())):
+        self.session['product_ids'] = {product_id: product_id}    
+    else:
+        self.session['product_ids'].update({product_id: product_id})
+        
+    return index(self)
+        
 def remove(self, product_id=None):
     dataTemp=json.loads(open('item_list.json','r').read())
     for i in dataTemp:
@@ -57,13 +74,15 @@ def remove(self, product_id=None):
 url_map = Map([
     Rule("/", endpoint="index"),
     Rule("/add/to/cart/<int:product_id>", endpoint="cart"),
-    Rule("/remove/<int:product_id>", endpoint="remove")
+    Rule("/remove/<int:product_id>", endpoint="remove"),
+    Rule("/decrease/<int:product_id>", endpoint="decrease")
 ])
 
 views = {
     "index": index,
     "cart": cart,
-    "remove": remove
+    "remove": remove,
+    "decrease":decrease,
 }
 
 session_store = FilesystemSessionStore(path=gettempdir())

@@ -124,11 +124,21 @@ let th5=document.createElement("th");
 th5.classList.add("info");
 th5.style.textAlign="center";
 
+let th6=document.createElement("th");
+th6.classList.add("info");
+th6.style.textAlign="center";
+
+let th7=document.createElement("th");
+th7.classList.add("info");
+th7.style.textAlign="center";
+
 trHead.appendChild(th1);
 trHead.appendChild(th2);
 trHead.appendChild(th3);
 trHead.appendChild(th4);
 trHead.appendChild(th5);
+trHead.appendChild(th6);
+trHead.appendChild(th7);
 thead.appendChild(trHead);               
 
 let tbody=document.createElement("tbody");
@@ -160,30 +170,54 @@ for (var i = 0; i <data.length; i++) {
                 tdPrice.appendChild(price);
 
                 let tdQty=document.createElement("td");
+                tdQty.style.display='inline-block';
+                let increase=document.createElement("a");
+                increase.style.textDecoration="none";
+                increase.href="/add/to/cart"+"/"+data[i].id;
+                let h4Incr=document.createElement("h4");
+                let bIncr=document.createElement("b");
+                bIncr.innerText="+";
+                h4Incr.appendChild(bIncr);
+                increase.appendChild(h4Incr);
+                tdQty.appendChild(increase);
                 tdQty.id="tdqty";
                 let qty=document.createElement("p");
                 qty.innerText=data[i].quantity;
                 tdQty.appendChild(qty);
+                let decrease=document.createElement("a");
+                decrease.style.textDecoration="none";
+                decrease.href="/decrease"+"/"+data[i].id;
+                let h4Dcr=document.createElement("h4");
+                let bDcr=document.createElement("b");
+                bDcr.innerText="-";
+                h4Dcr.appendChild(bDcr);
+                decrease.appendChild(h4Dcr);
+                tdQty.appendChild(decrease);
 
                 let tdRemove=document.createElement("td");
                 let a = document.createElement('a');
+                a.style.textDecoration="none";
                 a.href = "/remove/" + data[i].id;              
                 let b=document.createElement("b");
                 b.innerText = "Remove";
                 a.appendChild(b);
                 tdRemove.appendChild(a);
                 
+               
+
                 tdImage.style.verticalAlign="middle";
                 tdName.style.verticalAlign="middle";
                 tdPrice.style.verticalAlign="middle";
                 tdQty.style.verticalAlign="middle";
                 tdRemove.style.verticalAlign="middle";
+                
 
                 tr.appendChild(tdImage);
                 tr.appendChild(tdName);
                 tr.appendChild(tdPrice);
                 tr.appendChild(tdQty);
                 tr.appendChild(tdRemove);
+               
 
                 tbody.appendChild(tr);
                 table.appendChild(thead);
