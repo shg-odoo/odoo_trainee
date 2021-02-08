@@ -1,13 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <act_window id="student_action"
-                name="Students"
-                res_model="student" 
-                view_mode="tree"/>
+
+    <record id="student_tree_view" model="ir.ui.view">
+        <field name="name">Student Tree</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <tree string="Students">
+            <field name="name" />
+            <field name="age" />
+            <field name="height" />
+            <field name="birthDate" />
+            <field name="gender" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="student_form_view" model="ir.ui.view">
+        <field name="name">Student Form</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="image" widget="image" class="oe_avatar" style="float:left;padding-bottom:10px;"/>
+                        <field name="name" />
+                        <field name="gender" widget="radio" />
+                        <field name="birthDate" />
+                        <field name="age" />
+                        <field name="height"/>                        
+                    </group>           
+                </sheet>
+                <sheet>
+                    <group>
+                        <field name="html" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="student_menu_action" model="ir.actions.act_window">
+        <field name="name">Create New Student</field>
+        <field name="res_model">school.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create Student Record
+            </p>
+        </field>
+    </record>
+    
+    <menuitem
+        id="student_menu"
+        name="Students"
+        sequence="1"/>
 
     <menuitem
-        id="studnet_menu"
-        name="Students"
-        sequence="1"
-        action="student_action"/>
+        id="school_student_menu"
+        name="Student Main"
+        parent="student_menu"
+        action = "student_menu_action"
+        sequence="1"/>
+
 </odoo>
