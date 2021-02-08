@@ -7,6 +7,8 @@
     'data': [
         'data/student_data.xml',
         'views/student.xml',
+        # 'security/security.xml',
+        'security/ir.model.access.csv'
     ],
     'application' : True,
 }
