@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="s1" model="student">
+    <field name="name">Meet Patel</field>
+    <field name="age">23</field>
+    <field name="height">5.7</field>
+    <field name="birthDate">1998-05-02</field>
+</record>
+<record id="s2" model="student">
+    <field name="name">Honey Patel</field>
+    <field name="age">22</field>
+    <field name="height">5.5</field>
+    <field name="birthDate">1999-03-26</field>
+</record>    
+<record id="s3" model="student">
+    <field name="name">Raj Patel</field>
+    <field name="age">22</field>
+    <field name="height">5.4</field>
+    <field name="birthDate">1999-02-16</field>
+</record>    
+</odoo>

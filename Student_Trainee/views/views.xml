@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <act_window id="student_action"
+                name="Students"
+                res_model="student" 
+                view_mode="tree"/>
+
+    <menuitem
+        id="studnet_menu"
+        name="Students"
+        sequence="1"
+        action="student_action"/>
+</odoo>
