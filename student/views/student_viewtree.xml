@@ -14,12 +14,15 @@
                 <field name="branch"/>
                 <field name="physics"/>
                 <field name="maths"/>
+                <field name="total"/>
                 <field name="chemistry"/>
                 <field name="Average"/>
+                <field name="total_compute"/>
                 <field name="html"/>
                 <field name="current_date"/>
                 <field name="Address"/>
                 <field name="contect_no"/>
+                <field name="college_name"/>
             </tree>
         </field> 
     </record>
@@ -111,7 +114,7 @@
                             <field name="roll_no"/>
                         </group>
                         <group >
-                            <field name="image"/>
+                            <field name="image" widget="image" class="oe_avatar"/>
                             <field name="birthdate"/>
                             <field name="age"/>
                         </group>
@@ -124,6 +127,7 @@
                         <group>
                             <field name="contect_no"/>
                             <field name="Address"/>
+                            <field name="college_name"/>
                         </group>
                     </group>
                     <group>
@@ -134,11 +138,14 @@
                             <field name="chemistry"/>
                         </group>
                         <group>
+                            <field name="total"/>
                             <field name="Average"/>
+                            <field name="total_compute"/>
                             <field name="branch"/>
                         </group>
                     </group>
                 </sheet>
+                
             </form>
         </field>
     </record>
@@ -160,42 +167,35 @@
            </graph>
         </field>
     </record>
-    <record id="student_action" model="ir.actions.act_window">
-        <field name="name">student</field>
+    <record id="college_view_tree" model="ir.ui.view" >
+        <field name="name">college.tree</field>
+        <field name="model">student.college</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="college_name"/>
+                <field name="college_city"/>
+            </tree>
+        </field>
+    </record>
+    <record id="student_action1" model="ir.actions.act_window">
+        <field name="name">Tree</field>
         <field name="res_model">student</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,form,calendar</field>
     </record>
     <record id="student_action2" model="ir.actions.act_window">
-        <field name="name">student2</field>
+        <field name="name">Graph</field>
         <field name="res_model">student</field>
-        <field name="view_mode">graph</field>
+        <field name="view_mode">graph,gantt,kanban</field>
     </record>
-    <record id="student_action3" model="ir.actions.act_window">
-        <field name="name">student3</field>
-        <field name="res_model">student</field>
-        <field name="view_mode">calendar</field>
+    <record id="college_action1" model="ir.actions.act_window">
+        <field name="name">College_details</field>
+        <field name="res_model">student.college</field>
+        <field name="view_mode">tree,form</field>
     </record>
-    <record id="student_action6" model="ir.actions.act_window">
-        <field name="name">student6</field>
-        <field name="res_model">student</field>
-        <field name="view_mode">form</field>
-    </record>
-    <record id="student_action4" model="ir.actions.act_window">
-        <field name="name">student4</field>
-        <field name="res_model">student</field>
-        <field name="view_mode">gantt</field>
-    </record>
-    <record id="student_action5" model="ir.actions.act_window">
-        <field name="name">student5</field>
-        <field name="res_model">student</field>
-        <field name="view_mode">kanban</field>
-    </record>
+    
     <menuitem id="student_menu" name="Student Data"/>
-    <menuitem id="student" name="Tree" sequence="1" action="student_action" parent="student_menu"/>
-    <menuitem id="student2" name="Graph" sequence="2" action="student_action2" parent="student_menu"/>
-    <menuitem id="student3" name="Calender" sequence="2" action="student_action3" parent="student_menu"/>
-    <menuitem id="student4" name="Form" sequence="2" action="student_action6" parent="student_menu"/>
-    <menuitem id="student5" name="Gantt" sequence="2" action="student_action4" parent="student_menu"/>
-    <menuitem id="student6" name="Kanban" sequence="2" action="student_action5" parent="student_menu"/>
-   
+    <menuitem id="Details1" name="Details1" sequence="1" action="student_action1" parent="student_menu"/>
+    <menuitem id="Details2" name="Details2" sequence="1" action="student_action2" parent="student_menu"/>
+    <menuitem id="college1" name="Cmenu" sequence="3" action="college_action1" parent="student_menu"/>
+    
 </odoo>

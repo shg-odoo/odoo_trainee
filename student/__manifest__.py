@@ -7,6 +7,7 @@
     time""",
 
     'data': [
+        'security/ir.model.access.csv',
         'views/student_viewtree.xml',
         'data/student_data.xml',
     ],
