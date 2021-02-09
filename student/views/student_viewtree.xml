@@ -14,15 +14,15 @@
                 <field name="branch"/>
                 <field name="physics"/>
                 <field name="maths"/>
-                <field name="total"/>
                 <field name="chemistry"/>
+                <field name="total"/>
                 <field name="Average"/>
                 <field name="total_compute"/>
                 <field name="html"/>
                 <field name="current_date"/>
                 <field name="Address"/>
                 <field name="contect_no"/>
-                <field name="college_name"/>
+                <field name="college_id"/>
             </tree>
         </field> 
     </record>
@@ -106,46 +106,48 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <form>
-                <sheet>
-                    <group>
-                        <separator string="General Details" colspan="2"/>
+                <notebook>
+                    <page string="Personal Details">
                         <group>
-                            <field name="name"/>
-                            <field name="roll_no"/>
+                            <group>
+                                <field name="name"/>
+                                <field name="gender" widget="radio"/>
+                                <field name="birthdate"/>
+                                <field name="age"/>
+                            </group>
+                            <group >
+                                <field name="image" widget="image" class="oe_avatar"/>
+                                <field name="contect_no"/>
+                                <field name="Address"/>
+                            </group>
                         </group>
-                        <group >
-                            <field name="image" widget="image" class="oe_avatar"/>
-                            <field name="birthdate"/>
-                            <field name="age"/>
-                        </group>
-                    </group>
-                    <group>
-                        <separator string="Personal Details" colspan="2"/>
+                    </page>
+                    <page string="Acadamic Details">
                         <group>
-                            <field name="gender" widget="radio"/>
+                            <group>
+                                <field name="branch"/>
+                                <field name="roll_no"/>
+                            </group>
+                            <group> 
+                                <field name="college_id"/>
+                            </group>
                         </group>
+                    </page>
+                    <page string="Marks Details">
                         <group>
-                            <field name="contect_no"/>
-                            <field name="Address"/>
-                            <field name="college_name"/>
+                            <group>
+                                <field name="physics"/>
+                                <field name="maths"/>
+                                <field name="chemistry"/>
+                            </group>
+                            <group>
+                                <field name="total"/>
+                                <field name="Average"/>
+                                <field name="total_compute"/>   
+                            </group>
                         </group>
-                    </group>
-                    <group>
-                        <separator string="Acadamic Details" colspan="2"/>
-                        <group>
-                            <field name="physics"/>
-                            <field name="maths"/>
-                            <field name="chemistry"/>
-                        </group>
-                        <group>
-                            <field name="total"/>
-                            <field name="Average"/>
-                            <field name="total_compute"/>
-                            <field name="branch"/>
-                        </group>
-                    </group>
-                </sheet>
-                
+                    </page>
+                </notebook>
             </form>
         </field>
     </record>
@@ -175,6 +177,21 @@
                 <field name="college_name"/>
                 <field name="college_city"/>
             </tree>
+        </field>
+    </record>
+    <record id="college_view_form" model="ir.ui.view" >
+        <field name="name">college.form</field>
+        <field name="model">student.college</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="college_name"/>
+                        <field name="college_city"/>
+                        <field name="Student_record"/>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
     <record id="student_action1" model="ir.actions.act_window">

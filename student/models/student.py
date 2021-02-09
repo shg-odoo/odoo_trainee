@@ -1,5 +1,7 @@
 from odoo import fields,models,api
 from odoo.exceptions import ValidationError
+from datetime import date,datetime
+from dateutil.relativedelta import relativedelta
 
 class student(models.Model):
     _name = 'student'
@@ -7,24 +9,24 @@ class student(models.Model):
    #             'mail.activity.mixin']
     _description = "Student Details"
     
-    name = fields.Char(string="Name" ,required=True)
+    name = fields.Char(string="Name" )
     roll_no = fields.Integer(string='Roll No')
     birthdate = fields.Date(string='birth date')
     image = fields.Binary()
     gender = fields.Selection([('male','Male') ,('female','Female')],string='Gender', default="male")
-    age = fields.Integer(string='age')
+    age = fields.Integer(string='age',compute="_get_age",store=True)
     html = fields.Html()
     branch = fields.Char(string="Branch")
     physics = fields.Integer(string='physics')
     maths = fields.Integer(string='maths')
     chemistry = fields.Integer(string='chemistry')
-    Average = fields.Float(string='Average',store=True)
+    Average = fields.Float(string='Average',store=True, compute='_get_total')
     Address = fields.Char(string='Address')
     current_date = fields.Date('Current Date',default = lambda cdate:fields.Date.today())
     contect_no = fields.Char(string='Contect No')
-    total = fields.Integer(string='Total',store=True)
-    total_compute = fields.Integer(compute='_get_total',string='Total Compute',store=True)
-    college_name = fields.Many2one('student.college',string='College')
+    total = fields.Integer(string='Total',store=True,compute='_get_total')
+    total_compute = fields.Integer(compute='_get_total', string='Total Compute',store=True)
+    college_id = fields.Many2one('student.college', string='College')
 
     @api.constrains('age')  
     def _constraints_age(self):
@@ -52,13 +54,22 @@ class student(models.Model):
     @api.depends('physics','maths','chemistry')
     def _get_total(self):
         for rec in self:
+            rec.total = rec.maths+rec.physics+rec.chemistry
+            rec.Average = rec.total/3
             rec.total_compute = rec.maths + rec.physics + rec.chemistry
+    
+    @api.depends("birthdate")
+    def _get_age(self):
+        for i in self:
+            if i.birthdate:
+                i.age = relativedelta(date.today(),i.birthdate).years
     
 
 
 class college(models.Model):
     _name = 'student.college'
 
-    college_name = fields.Char(string="College Name")
-    college_city = fields.Char(string="College City")
+    college_name = fields.Char('College Name')
+    college_city = fields.Char('College City')
+    Student_record = fields.One2many('student','college_id',string="Student Record")
     
