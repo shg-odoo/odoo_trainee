@@ -19,6 +19,7 @@ class Student(models.Model):
     mobile_number=fields.Char(string="Mobile Number",size=10)
     email=fields.Char(string="Email ID")
     address=fields.Text(string="Address")
+    city=fields.Char(string="City")
     
     bloodGroup=fields.Selection([("o+","O+"),("o-","O-"),("b+","B+"),("b-","B-"),("a+","A+"),("a-","A-"),("ab+","AB+"),("ab-","AB-")],string="Blood Group")
     height=fields.Float(string="Height")

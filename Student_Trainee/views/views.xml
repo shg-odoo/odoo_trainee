@@ -6,13 +6,14 @@
         <field name="model">school.student</field>
         <field name="arch" type="xml">
             <tree string="Students">
-            <field name="student_id"/>
+            <field name="student_id" />
             <field name="name" />
             <field name="gender" />
             <field name="birthDate" />
             <field name="age" />
             <field name="mobile_number"/>
             <field name="email" />
+            <field name="city" />
             <field name="bloodGroup"/>
             <field name="height" />
             <field name="weight" />
@@ -43,7 +44,8 @@
                     <group>    
                         <field name="mobile_number" style="width:25%;"/>
                         <field name="email" style="width:25%;"/>
-                        <field name="address" style="width:25%;"/>                
+                        <field name="address" style="width:25%;"/>
+                        <field name="city" style="width:25%;"/>                   
                     </group>       
                 </page>
                 <page string="Other Details">
@@ -95,10 +97,29 @@
        </field>
    </record>
 
+   <record id="search_view_search" model="ir.ui.view">
+       <field name="name">Student Search</field>
+       <field name="model">school.student</field>
+       <field name="arch" type="xml">
+           <search string="Student Search">
+               <field name="name" />
+               <field name="email" />
+               <filter string="Male" name="male" domain="[('gender','=','male')]"/>
+               <separator/>
+               <filter string="Female" name="female" domain="[('gender','=','female')]"/>
+               <group>
+                   <filter string="By City" name="city" context="{'group_by':'city'}"/>
+                   <separator/>
+                   <filter string="By Blood Group" name="bloodGroup" context="{'group_by':'bloodGroup'}"/>
+               </group>
+           </search>
+       </field>
+   </record>
+
     <record id="student_menu_action" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">school.student</field>
-        <field name="view_mode">tree,form,calendar,graph,gantt</field>
+        <field name="view_mode">tree,form,calendar,graph,gantt,search</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create Student Record
             </p>
