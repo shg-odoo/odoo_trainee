@@ -1,16 +1,26 @@
-from odoo import models,fields
+from odoo import models,fields,api
 
 class Student(models.Model):
     _name='school.student'
     _description='Student Details'
     
-    name=fields.Char(string='Name')
-    age=fields.Integer(string='Age')
-    height=fields.Float(string='Height')
-    birthDate=fields.Date(string='Birth Date')
+    image=fields.Binary(string="Image")
+    student_id=fields.Integer(string="Student ID")
+    name=fields.Char(string="Name")
     gender = fields.Selection([
         ('male', 'Male'),
         ('female', 'Female'),
-        ],string='Gender', default='male')
-    image=fields.Binary(string="Image")
-    html=fields.Html('Description')
+        ],string="Gender", default='male') 
+    birthDate=fields.Date(string="Birth Date")
+    age=fields.Integer(string="Age")
+    
+    mobile_number=fields.Char(string="Mobile Number",size=10)
+    email=fields.Char(string="Email ID")
+    address=fields.Text(string="Address")
+    
+    bloodGroup=fields.Selection([("o+","O+"),("o-","O-"),("b+","B+"),("b-","B-"),("a+","A+"),("a-","A-"),("ab+","AB+"),("ab-","AB-")],string="Blood Group")
+    height=fields.Float(string="Height")
+    weight=fields.Integer(string="Weight")
+    disabled=fields.Boolean(string="Physically Disabled?",default=False)
+    
+    intro=fields.Html('Introduction')
