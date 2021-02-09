@@ -112,14 +112,27 @@
                    <separator/>
                    <filter string="By Blood Group" name="bloodGroup" context="{'group_by':'bloodGroup'}"/>
                </group>
+               <searchpanel class="">
+                    <field name="gender" icon="fa-users"/>
+            </searchpanel>
            </search>
+       </field>
+   </record>
+
+   <record id="student_view_pivot" model="ir.ui.view">
+       <field name="name">Student Pivot</field>
+       <field name="model">school.student</field>
+       <field name="arch" type="xml">
+           <pivot string="Students">
+               
+           </pivot>
        </field>
    </record>
 
     <record id="student_menu_action" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">school.student</field>
-        <field name="view_mode">tree,form,calendar,graph,gantt,search</field>
+        <field name="view_mode">tree,form,calendar,graph,gantt,search,pivot</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create Student Record
             </p>
