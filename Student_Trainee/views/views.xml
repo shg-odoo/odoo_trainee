@@ -10,8 +10,13 @@
             <field name="name" />
             <field name="gender" />
             <field name="birthDate" />
+            <field name="age" />
             <field name="mobile_number"/>
             <field name="email" />
+            <field name="bloodGroup"/>
+            <field name="height" />
+            <field name="weight" />
+            <field name="disabled" />
             </tree>
         </field>
     </record>
@@ -21,56 +26,79 @@
         <field name="model">school.student</field>
         <field name="arch" type="xml">
             <form>
-                <sheet>
-                    <group>
-                        <separator string="Personal Details"/>
-                    </group>
+                <notebook>
+                <page string="Personal Details">
                     <group>    
                         <field name="image" widget="image" class="oe_avatar" style="float:left;padding-bottom:10px;"/>
                         <field name="student_id" style="width:25%;"/>
-                        <field name="name" style="width:25%;"/>
+                        <field name="name" style="width:25%;"/>                     
+                    </group>      
+                    <group>
                         <field name="gender" widget="radio" />
                         <field name="birthDate" style="width:25%;" />
-                        <field name="age" style="width:25%;"/>                      
-                    </group>           
-                </sheet>
-                <sheet>
-                    <group>
-                        <separator string="Contact Details"/>
-                    </group>
+                        <field name="age" style="width:25%;"/> 
+                    </group>     
+                </page>
+                <page string="Contact Details">           
                     <group>    
                         <field name="mobile_number" style="width:25%;"/>
                         <field name="email" style="width:25%;"/>
                         <field name="address" style="width:25%;"/>                
                     </group>       
-                </sheet>
-                <sheet>
-                    <group>
-                        <separator string="Other Details"/>
-                    </group>
+                </page>
+                <page string="Other Details">
                     <group>
                         <field name="bloodGroup" style="width:25%;"/>
                         <field name="height" style="width:25%;"/>
                         <field name="weight" style="width:25%"/> 
                         <field name="disabled"/> 
                     </group>
-                </sheet>
-                <sheet>
-                    <group>
-                        <separator string="Write Your Brief Introduction"/>
-                    </group>
+                </page>
+                <page string="Write Your Brief Introduction">
                     <group>
                         <field name="intro" />
                     </group>
-                </sheet>
+                </page>
+            </notebook>
             </form>
         </field>
     </record>
+    <record id="student_view_graph" model="ir.ui.view">
+        <field name="name">Student Graph</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <graph string="Student Graph" type="bar">
+                <field name="name" />
+                <field name="age" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="student_view_gantt" model="ir.ui.view">
+        <field name="name">Student Gantt</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <gantt string="" date_start="birthDate" date_stop="date_today">
+                <field name="name" />
+                <field name="age"/>
+            </gantt>
+        </field>
+    </record>
+   <record id="student_view_calendar" model="ir.ui.view">
+       <field name="name">Student Calendar</field>
+       <field name="model">school.student</field>
+       <field name="arch" type="xml">
+           <calendar string="Student_Calendar" date_start="birthDate" color="name">
+               <field name="student_id" />
+               <field name="name"/>
+               <field name="birthDate" />
+           </calendar>
+       </field>
+   </record>
 
     <record id="student_menu_action" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">school.student</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar,graph,gantt</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create Student Record
             </p>

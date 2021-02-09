@@ -1,4 +1,6 @@
 from odoo import models,fields,api
+from datetime import date, datetime
+from dateutil.relativedelta import relativedelta
 
 class Student(models.Model):
     _name='school.student'
@@ -12,8 +14,8 @@ class Student(models.Model):
         ('female', 'Female'),
         ],string="Gender", default='male') 
     birthDate=fields.Date(string="Birth Date")
-    age=fields.Integer(string="Age")
-    
+    age=fields.Integer(string="Age",compute="_get_age",store=True)
+            
     mobile_number=fields.Char(string="Mobile Number",size=10)
     email=fields.Char(string="Email ID")
     address=fields.Text(string="Address")
@@ -24,3 +26,11 @@ class Student(models.Model):
     disabled=fields.Boolean(string="Physically Disabled?",default=False)
     
     intro=fields.Html('Introduction')
+    
+    date_today=fields.Date(default=lambda today:fields.date.today())
+    
+    @api.depends("birthDate")
+    def _get_age(self):
+        for i in self:
+            if i.birthDate:
+                i.age = relativedelta(date.today(),i.birthDate).years
