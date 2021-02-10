@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record  model="student" id="studentdata1">
-        <field name="name">Kartik</field>
+        <field name="student_name">Kartik</field>
         <field name="roll_no">1</field>
         <field name="birthdate">1998-10-11</field>
         <field name="image"></field>
@@ -15,7 +15,7 @@
         <field name="contect_no">955880</field>
     </record>
     <record model="student" id="studentdata2">
-        <field name="name">Aman</field>
+        <field name="student_name">Aman</field>
         <field name="roll_no">2</field>
         <field name="birthdate">1999-06-17</field>
         <field name="image"></field>
@@ -30,7 +30,7 @@
         <field name="contect_no">123456</field>
     </record>
     <record  model="student" id="studentdata3">
-        <field name="name">Parth</field>
+        <field name="student_name">Parth</field>
         <field name="roll_no">3</field>
         <field name="birthdate">1998-02-03</field>
         <field name="image"></field>

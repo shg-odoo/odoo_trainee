@@ -5,7 +5,8 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
+                <field name="name_seq"/>
+                <field name="student_name"/>
                 <field name="roll_no"/>
                 <field name="birthdate"/>
                 <field name="image" widget="image" class="oe_avatar"/>
@@ -23,6 +24,7 @@
                 <field name="Address"/>
                 <field name="contect_no"/>
                 <field name="college_id"/>
+                <field name="Hobbies" widget="many2many_tags"/>
             </tree>
         </field> 
     </record>
@@ -31,7 +33,7 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <calendar string="Calender View" date_start="birthdate" color="roll_no">
-                <field name="name" />
+                <field name="student_name" />
                 <field name="birthdate"/>
             </calendar>
         </field>
@@ -41,7 +43,7 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <kanban>
-                <field name="name"/>
+                <field name="student_name"/>
                 <field name="branch"/>
                 <field name="contect_no"/>
                 <templates>
@@ -51,7 +53,7 @@
                                 <div class="col-9">
                                     <div class="oe_kanban_details">
                                         <strong class="o_kanban_record_title">
-                                            <field name="name"/>
+                                            <field name="student_name"/>
                                         </strong>
                                     </div>
                                     <div t-if="record.Address.value">
@@ -78,7 +80,7 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="student_name"/>
                 <field name="Address"/>
                 <filter string="Male" name="male" domain=
                 "[('gender','=','male')]"/>
@@ -108,9 +110,14 @@
             <form>
                 <notebook>
                     <page string="Personal Details">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name_seq"/>
+                            </h1>
+                        </div>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="student_name"/>
                                 <field name="gender" widget="radio"/>
                                 <field name="birthdate"/>
                                 <field name="age"/>
@@ -118,9 +125,15 @@
                             <group >
                                 <field name="image" widget="image" class="oe_avatar"/>
                                 <field name="contect_no"/>
+                                <field name="Hobbies" widget="many2many_tags"/>
                                 <field name="Address"/>
                             </group>
                         </group>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                            <field name="message_ids" widget="mail_thread" options="{'post_refresh':'recipients'}"/>
+                        </div>
                     </page>
                     <page string="Acadamic Details">
                         <group>
@@ -164,7 +177,7 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
            <graph string="graph view">
-               <field name="name"/>
+               <field name="student_name"/>
                <field name="Average" type="measure"/>
            </graph>
         </field>
@@ -194,10 +207,20 @@
             </form>
         </field>
     </record>
+    <record id="hobby_view_tree" model="ir.ui.view" >
+        <field name="name">hobby.tree</field>
+        <field name="model">student.hobby</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
     <record id="student_action1" model="ir.actions.act_window">
         <field name="name">Tree</field>
         <field name="res_model">student</field>
         <field name="view_mode">tree,form,calendar</field>
+        <field name="context">{"search_default_male":1}</field>
     </record>
     <record id="student_action2" model="ir.actions.act_window">
         <field name="name">Graph</field>
@@ -209,10 +232,16 @@
         <field name="res_model">student.college</field>
         <field name="view_mode">tree,form</field>
     </record>
+    <record id="hobby_action" model="ir.actions.act_window">
+        <field name="name">hobby_details</field>
+        <field name="res_model">student.hobby</field>
+        <field name="view_mode">tree,form</field>
+    </record>
     
-    <menuitem id="student_menu" name="Student Data"/>
+    <menuitem id="student_menu" name="Student Data" web_icon="student,static/description/icon.png"/>
     <menuitem id="Details1" name="Details1" sequence="1" action="student_action1" parent="student_menu"/>
     <menuitem id="Details2" name="Details2" sequence="1" action="student_action2" parent="student_menu"/>
-    <menuitem id="college1" name="Cmenu" sequence="3" action="college_action1" parent="student_menu"/>
+    <menuitem id="college1" name="College_menu" sequence="3" action="college_action1" parent="student_menu"/>
+    <menuitem id="Hobby" name="Hobby_menu" sequence="4" action="hobby_action" parent="student_menu"/>
     
 </odoo>

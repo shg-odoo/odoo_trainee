@@ -1,15 +1,16 @@
-from odoo import fields,models,api
+from odoo import fields,models,api,_
 from odoo.exceptions import ValidationError
 from datetime import date,datetime
 from dateutil.relativedelta import relativedelta
 
 class student(models.Model):
     _name = 'student'
-  #  _inherit = ['mail.thread',
-   #             'mail.activity.mixin']
+    _inherit = ['mail.thread',
+               'mail.activity.mixin']
     _description = "Student Details"
+    _rec_name = "student_name"
     
-    name = fields.Char(string="Name" )
+    student_name = fields.Char(string="Name" )
     roll_no = fields.Integer(string='Roll No')
     birthdate = fields.Date(string='birth date')
     image = fields.Binary()
@@ -27,6 +28,8 @@ class student(models.Model):
     total = fields.Integer(string='Total',store=True,compute='_get_total')
     total_compute = fields.Integer(compute='_get_total', string='Total Compute',store=True)
     college_id = fields.Many2one('student.college', string='College')
+    name_seq = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,  index=True, default=lambda self: _('New'))
+    Hobbies = fields.Many2many('student.hobby',string='Hobbies')
 
     @api.constrains('age')  
     def _constraints_age(self):
@@ -64,12 +67,25 @@ class student(models.Model):
             if i.birthdate:
                 i.age = relativedelta(date.today(),i.birthdate).years
     
+    @api.model
+    def create(self, vals):
+        if vals.get('name_seq', _('New')) == _('New'):
+            vals['name_seq'] = self.env['ir.sequence'].next_by_code('Student_Sequence') or _('New')
+        result = super(student, self).create(vals)
+        return result
+
 
 
 class college(models.Model):
     _name = 'student.college'
+    _rec_name = "college_name"
 
     college_name = fields.Char('College Name')
     college_city = fields.Char('College City')
     Student_record = fields.One2many('student','college_id',string="Student Record")
+    
+class Hobby(models.Model):
+    _name = 'student.hobby'
+
+    name = fields.Char('Hobby')
     
