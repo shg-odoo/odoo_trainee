@@ -4,10 +4,11 @@
     'summary': 'practice odoo',
     'sequence' : 5,
     'category': 'Management',
+    'depends': ['base', 'mail'],
     'data': [
         'data/student_data.xml',
         'views/student.xml',
-        # 'security/security.xml',
+        'data/sequence.xml',
         'security/ir.model.access.csv'
     ],
     'application' : True,

@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api,_
 from datetime import datetime,date
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError
@@ -25,6 +25,8 @@ class student(models.Model):
     age = fields.Integer(string="age",compute="_get_age",store=True)
     total = fields.Integer(string="total",compute="_get_total")
     college_id = fields.Many2one("student.college", string="College")
+    hobbies_id = fields.Many2many("student.hobby", string="Person hobbies")
+    name_seq = fields.Char(string="Student Sequence", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
 
     @api.onchange('maths','physics','chemistry')
     def _get_percentage(self):
@@ -61,10 +63,27 @@ class student(models.Model):
             if(rec.chemistry > 100 or rec.chemistry < 0):
                 raise ValidationError("Chemistry marks should be in 0-100")
 
+    @api.model
+    def create(self,vals):
+        if vals.get('name_seq',_('New')) == _('New'):
+                vals['name_seq'] = self.env['ir.sequence'].next_by_code('student.sequence') or _('New')
+        result = super(student, self).create(vals)
+        return result
+
+
 
 class college(models.Model):
     _name = "student.college"
+    _rec_name = "college_name"
 
     college_name = fields.Char(string="College Name")
     college_city = fields.Char(string="College city")
     id1 = fields.One2many("student", "college_id", string="College Id")
+
+
+class hobby(models.Model):
+    _name = "student.hobby"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _rec_name = "hobbies"
+
+    hobbies = fields.Char(string="Hobbies")
