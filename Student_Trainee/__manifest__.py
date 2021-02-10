@@ -1,14 +1,12 @@
 {
-    'name':'Student',
-    'version':'0.1',
-    'category':'Extra Tools',
-    'author':'Vivek Patel (vpt)',
-    'website':'http://www.odoo.com/',
-    'summary':'Student Management Software',
-    'description':'A student management software to manage students and their records',
-    'depends':['base'],
-    'data':['views/views.xml','data/student_data.xml'],
-    
-    'application':True,
-    
+    'name': 'odoo trainee',
+    'version': '1.0',
+    'summary': 'practice odoo',
+    'sequence' : 5,
+    'category': 'Management',
+    'data': [
+        'data/student_data.xml',
+        'views/student.xml',
+    ],
+    'application' : True,
 }

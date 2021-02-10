@@ -1,24 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<record id="s1" model="school.student">
-    <field name="name">Meet Patel</field>
-    <field name="age">23</field>
-    <field name="height">5.7</field>
-    <field name="birthDate">1998-05-02</field>
-    <field name="gender">male</field>
-</record>
-<record id="s2" model="school.student">
-    <field name="name">Honey Patel</field>
-    <field name="age">22</field>
-    <field name="height">5.5</field>
-    <field name="birthDate">1999-03-26</field>
-    <field name="gender">female</field>
-</record>    
-<record id="s3" model="school.student">
-    <field name="name">Raj Patel</field>
-    <field name="age">22</field>
-    <field name="height">5.4</field>
-    <field name="birthDate">1999-02-16</field>
-    <field name="gender">male</field>
-</record>    
+    <record id="s1" model="student" >
+        <field name="name">Kamlesh Pathekar</field>
+        <field name="enrollmentNo">55</field>
+        <field name="contactNo">9999999999</field>
+        <field name="email">kpt-odoo@gmail.com</field>
+        <field name="branch">CSE</field>
+        <field name="bdate">2000-04-22</field>
+        <field name="gender">male</field>
+        <field name="maths">75</field>
+        <field name="physics">92</field>
+        <field name="chemistry">86</field>
+        <field name="fees">25000</field>
+    </record>
+
+    <record id="s2" model="student">
+        <field name="name">kunal Dindorkar</field>
+        <field name="enrollmentNo">56</field>
+        <field name="contactNo">8888888888</field>
+        <field name="email">kam-odoo@gmail.com</field>
+        <field name="branch">CSE</field> 
+        <field name="bdate">2000-09-22</field>
+        <field name="gender">male</field>
+        <field name="maths">79</field>
+        <field name="physics">70</field>
+        <field name="chemistry">89</field>
+        <field name="fees">45000</field>
+    </record>
+
+    <record id="s3" model="student">
+        <field name="name">Mayank Mahajan</field>
+        <field name="enrollmentNo">76</field>
+        <field name="contactNo">7777777777</field>
+        <field name="email">mmj-odoo@gmail.com</field>
+        <field name="branch">ECE</field> 
+        <field name="bdate">1998-12-09</field>
+        <field name="gender">male</field>
+        <field name="maths">97</field>
+        <field name="physics">82</field>
+        <field name="chemistry">92</field>
+        <field name="fees">20000</field>
+    </record>
+
+    <record id="s4" model="student">
+        <field name="name">Mayur</field>
+        <field name="enrollmentNo">37</field>
+        <field name="contactNo">4345464742</field>
+        <field name="email">mub-odoo@gmail.com</field>
+        <field name="branch">IT</field> 
+        <field name="bdate">1998-06-09</field>
+        <field name="gender">male</field>
+        <field name="maths">59</field>
+        <field name="physics">95</field>
+        <field name="chemistry">92</field>
+        <field name="fees">30000</field>
+    </record>
+
+      <record id="s5" model="student">
+        <field name="name">Arhan</field>
+        <field name="enrollmentNo">73</field>
+        <field name="contactNo">2324252627</field>
+        <field name="email">aal-odoo@gmail.com</field>
+        <field name="branch">ME</field> 
+        <field name="bdate">1997-11-09</field>
+        <field name="gender">male</field>
+        <field name="maths">59</field>
+        <field name="physics">95</field>
+        <field name="chemistry">92</field>
+        <field name="fees">30000</field>
+    </record>
+
 </odoo>
