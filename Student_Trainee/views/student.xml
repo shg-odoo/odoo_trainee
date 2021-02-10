@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record model="ir.ui.view" id="student_id">
+            <field name="name">Student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="enrollmentNo"/>
+                    <field name="contactNo"/>
+                    <field name="email"/>
+                    <field name="branch"/>
+                    <field name="bdate"/>
+                    <field name="gender" widget="radio" options="{'vertical':true}"/>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <field name="current_date"/>
+                    <field name="maths"/>
+                    <field name="physics"/>
+                    <field name="chemistry"/>
+                    <field name="percentage"/>
+                    <field name="fees"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="student_calendar_view">
+            <field name="name">student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <calendar color="name" date_start="bdate" string="Student Calendar" mode="month">
+                    <field name="name"/>
+                    <field name="contactNo"/>
+                </calendar>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="student_search_view">
+            <field name="name">student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="branch"/>
+                    <filter string="Male" name="male" domain="[('gender','=','male')]" />
+                    <separator/>
+                    <filter string="Female" name="female" domain="[('gender','=','female')]" />
+                    <group string="Group By">
+                         <filter string="Branch" name="branch" context="{'group_by':'branch'}" />
+                         <filter string="Gender" name="gender" context="{'group_by':'gender'}" />
+                    </group>
+                </search>
+            </field>
+        </record> 
+
+
+         <record model="ir.ui.view" id="student_gantt_view">
+            <field name="name">student.gantt</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <gantt date_stop="current_date" date_start="bdate" string="Session Gantt" default_group_by="branch">
+                </gantt>
+            </field>
+        </record>
+
+        
+        <record model="ir.ui.view" id="course_form_view">
+            <field name="name">Student.form</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <form string="Course Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="enrollmentNo"/>
+                            </group>
+                            <group>
+                                <field name="contactNo"/>
+                                <field name="email"/>
+                            </group>
+                            <group>
+                                <field name="branch"/>
+                                <field name="percentage"/>
+                            </group>
+                            <group>
+                                <field name="bdate"/>
+                                <field name="gender" widget="radio"/>
+                            </group>
+                            <group>
+                                <field name="image"/>
+                                <field name="current_date"/>
+                            </group>
+                            <group>
+                                <field name="maths"/>
+                                <field name="physics"/>
+                                <field name="chemistry"/>
+                                <field name="fees"/>
+                            </group>
+                           
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="student_kanban" model="ir.ui.view">
+            <field name="name">student.kanban.view</field>
+            <field name="model">student</field> 
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="image"/>
+                       <templates>  
+                           <t t-name="kanban-box">
+                                <div class="container">
+                                 <div class="row">
+                                   <div class="col-9">
+                                        <div class="oe_kanban_details">
+                                           <strong class="o_kanban_record_title">Name: 
+                                           <field name="name"/>
+                                           </strong>
+                                       </div>
+                                       <br/>
+                                       <div class="oe_kanban_details">
+                                           <strong style="font_family: monospace;"  class="o_kanban_record_title">Email: </strong>
+                                           <field name="email"/>
+                                       </div>
+                                       <br/>
+                                        <div class="oe_kanban_details">
+                                           <strong style="font_family: monospace;"  class="o_kanban_record_title">Contact: </strong>
+                                           <field name="contactNo"/>
+                                       </div>
+                                       <br/>
+                                        <div class="oe_kanban_details">
+                                           <strong style="font_family: monospace;" class="o_kanban_record_title">Date of Birth: </strong>
+                                           <field name="bdate"/>
+                                       </div>
+                                   </div>
+
+                                   <div class="col-2">
+                                         <a type="button" class="col-sm-12 bg-light text-right">
+                                             <h2><button name="button_name" type="button_type" class="badge badge-pill badge-secondary">
+                                                 <span><field name="branch" /></span>
+                                             </button></h2>
+                                         </a>
+                                   </div>
+                                 </div>
+                               </div>
+                           </t>          
+                       </templates>       
+                </kanban>   
+            </field>
+        </record>	
+                         
+
+
+
+        <record model="ir.ui.view" id="student_session_graph_view">
+            <field name="name">student.search</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <graph string="Student by percentage">
+                    <field name="name"/>
+                    <field name="percentage" type="measure"/>
+                    <field name="fees" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+     
+    <record id="student_action" model="ir.actions.act_window" >
+        <field name="name">student</field>
+        <field name="res_model">student</field>
+        <field name="view_mode">tree,calendar,graph,form,gantt,kanban</field>
+    </record>
+
+    <menuitem id="student_menu" name="Student Data"/>
+
+    <menuitem id="student" name="Details" sequence="1" action="student_action" parent="student_menu"/>
+    </odoo>
