@@ -7,6 +7,7 @@
     'depends': ['base', 'mail'],
     'data': [
         'data/student_data.xml',
+        'wizard/student_wizards.xml',
         'views/student.xml',
         'data/sequence.xml',
         'security/ir.model.access.csv'
