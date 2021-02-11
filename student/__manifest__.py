@@ -11,6 +11,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+        'wizard/student_wizard_view.xml',
         'views/student_viewtree.xml',
         'data/student_data.xml',
         'data/sequence.xml',
