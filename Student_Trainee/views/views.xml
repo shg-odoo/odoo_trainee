@@ -14,10 +14,22 @@
             <field name="mobile_number"/>
             <field name="email" />
             <field name="city" />
+            <field name="school_id"/>
             <field name="bloodGroup"/>
             <field name="height" />
             <field name="weight" />
             <field name="disabled" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="school_tree_view" model="ir.ui.view">
+        <field name="name">School Tree</field>
+        <field name="model">student.school</field>
+        <field name="arch" type="xml">
+            <tree string="School">
+            <field name="school_name"/>
+            <field name="school_city" />
             </tree>
         </field>
     </record>
@@ -52,13 +64,13 @@
                     <group>
                         <field name="bloodGroup" style="width:25%;"/>
                         <field name="height" style="width:25%;"/>
-                        <field name="weight" style="width:25%"/> 
-                        <field name="bmi" style="width:25%"/> 
+                        <field name="weight" style="width:25%"/>  
                         <field name="disabled"/> 
                     </group>
                 </page>
                 <page string="Academic Details">
                     <group>
+                        <field name="school_id" style="width:25%"/>
                         <field name="maths" style="width:25%;"/>
                         <field name="chemistry" style="width:25%;"/>
                         <field name="physics" style="width:25%"/> 
@@ -75,6 +87,41 @@
             </form>
         </field>
     </record>
+
+<record id="school_view_form" model="ir.ui.view">
+    <field name="name">School Form</field>
+    <field name="model">student.school</field>
+    <field name="arch" type="xml">
+        <form string="">
+            <sheet>
+                <group>
+                    <field name="school_name" />
+                    <field name="school_city" />
+                </group>
+                <group>
+                
+                    <field name="student_record">
+                       
+                        <tree>
+                            <field name="student_id" />
+                            <field name="name" />
+                            <field name="gender"/>
+                            <field name="birthDate" />
+                            <field name="age" />
+                            <field name="mobile_number" />
+                            <field name="email" />
+                            <field name="city"/>
+                            <field name="disabled" />
+                        </tree>
+                    
+                    </field>
+              
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+    
     <record id="student_view_graph" model="ir.ui.view">
         <field name="name">Student Graph</field>
         <field name="model">school.student</field>
@@ -85,6 +132,7 @@
             </graph>
         </field>
     </record>
+
     <record id="student_view_gantt" model="ir.ui.view">
         <field name="name">Student Gantt</field>
         <field name="model">school.student</field>
@@ -95,6 +143,7 @@
             </gantt>
         </field>
     </record>
+
    <record id="student_view_calendar" model="ir.ui.view">
        <field name="name">Student Calendar</field>
        <field name="model">school.student</field>
@@ -138,6 +187,7 @@
            </pivot>
        </field>
    </record>
+
    <record id="student_view_kanban" model="ir.ui.view">
        <field name="name">Student Kanban</field>
        <field name="model">school.student</field>
@@ -191,16 +241,33 @@
         </field>
     </record>
     
+    <record id="school_menu_action" model="ir.actions.act_window">
+        <field name="name">School</field>
+        <field name="res_model">student.school</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create School Record
+            </p>
+        </field>
+    </record>
+
     <menuitem
         id="student_menu"
-        name="Students"
+        name="School Management"
         sequence="1"/>
 
     <menuitem
         id="school_student_menu"
-        name="Student Main"
+        name="Student"
         parent="student_menu"
         action = "student_menu_action"
         sequence="1"/>
+
+        <menuitem
+            id="school_menu"
+            name="School"
+            parent="student_menu"
+            action = "school_menu_action"
+            sequence="2"/>
 
 </odoo>

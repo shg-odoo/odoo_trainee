@@ -25,7 +25,6 @@ class Student(models.Model):
     bloodGroup=fields.Selection([("o+","O+"),("o-","O-"),("b+","B+"),("b-","B-"),("a+","A+"),("a-","A-"),("ab+","AB+"),("ab-","AB-")],string="Blood Group")
     height=fields.Float(string="Height")
     weight=fields.Integer(string="Weight")
-    bmi=fields.Float(string="BMI")
     disabled=fields.Boolean(string="Physically Disabled?",default=False)
     
     intro=fields.Html('Introduction')
@@ -35,9 +34,11 @@ class Student(models.Model):
     maths=fields.Integer(string="Maths")
     chemistry=fields.Integer(string="Chemistry")
     physics=fields.Integer(string="Physics")
-    total=fields.Integer(string="Total")
-    average=fields.Float(string="Average")
+    total=fields.Integer(string="Total", readonly=True)
+    average=fields.Float(string="Average", readonly=True)
     
+    school_id = fields.Many2one('student.school',string="School")
+
     @api.depends("birthDate")
     def _get_age(self):
         for i in self:
@@ -49,14 +50,18 @@ class Student(models.Model):
         if self.age<18:
             raise ValidationError("Age Must Be 18 Or 18+")
     
-    @api.onchange('weight','height')
-    def _calculateBMI(self):
-        for i in self:
-            i.bmi= (i.weight)/((i.height*0.3048)**2)
     
     @api.onchange('maths','chemistry','physics')
     def _calculateResult(self):
         for i in self:
             i.total=i.maths+i.chemistry+i.physics
             i.average=(i.total)/3
-        
+
+class School(models.Model):
+    _name='student.school'
+    _description='School Details'
+    _rec_name = "school_name"
+
+    school_name=fields.Char(string="School Name")
+    school_city=fields.Char(string="City")
+    student_record=fields.One2many('school.student','school_id',string="Student Record")
