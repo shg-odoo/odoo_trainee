@@ -195,19 +195,24 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="course_form_view">
+        <record model="ir.ui.view" id="course_form_view1">
             <field name="name">College.form</field>
             <field name="model">student.college</field>
             <field name="arch" type="xml">
-                <form string="Course Form">
+                 <form string="Course Form">
                     <sheet>
                         <group>
-                                <field name="college_name"/>
-                                <field name="college_city"/>
-                                <field name="id1"/>
+                            <field name="college_name"/>
+                            <field name="college_city"/>
+                            <field name="id1">
+                                <tree>
+                                    <field name="branch"/>
+                                </tree>
+                            </field>
                         </group>
                     </sheet>
-                </form>
+                </form> 
+
             </field>
         </record>
 
@@ -232,8 +237,9 @@
                         </group>
                     </sheet>
                     <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_attachment"/>
+                        <field name="message_follower_ids" widget="mail_followers"/>
                        <field name="activity_ids" widget="mail_activity"/>
+                       <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}" />
                     </div>
                 </form>
             </field>
@@ -260,7 +266,7 @@
     </record>
 
 
-    <menuitem id="student_menu" name="Student Data"/>
+    <menuitem id="student_menu" name="Student Data" web_icon="odoo_trainee,static/description/icon.png"/>
 
     <menuitem id="college_id" name="College Data" sequence="2" action="college_action"  parent="student_menu"/>
 
