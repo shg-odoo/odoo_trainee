@@ -6,6 +6,7 @@
         <field name="contactNo">9999999999</field>
         <field name="email">kpt-odoo@gmail.com</field>
         <field name="branch">CSE</field>
+        
         <field name="bdate">2000-04-22</field>
         <field name="gender">male</field>
         <field name="fees">25000</field>

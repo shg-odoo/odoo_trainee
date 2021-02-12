@@ -10,7 +10,8 @@
         'wizard/student_wizards.xml',
         'views/student.xml',
         'data/sequence.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        'report/report_student.xml'
     ],
     'application' : True,
 }

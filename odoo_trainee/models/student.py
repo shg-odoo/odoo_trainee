@@ -27,11 +27,20 @@ class student(models.Model):
     college_id = fields.Many2one("student.college", string="College")
     hobbies_id = fields.Many2many("student.hobby", string="Person hobbies")
     name_seq = fields.Char(string="Student Sequence", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('confirm','Confirm'),
+            ('done','Done'),
+            ('cancel','Cancelled'),
+    ], string='Staus', readonly=True, default='draft')
+
+
 
     @api.onchange('maths','physics','chemistry')
     def _get_percentage(self):
         for r in self:
             r.percentage = (r.maths + r.chemistry + r.physics)/3 
+        print(self.id)
 
     @api.depends('maths','physics','chemistry')
     def _get_total(self):
@@ -69,6 +78,16 @@ class student(models.Model):
                 vals['name_seq'] = self.env['ir.sequence'].next_by_code('student.sequence') or _('New')
         result = super(student, self).create(vals)
         return result
+
+    
+    def action_confirm(self):
+        for rec in self:
+            rec.state = 'confirm'
+
+
+    def action_done(self):
+        for rec in self:
+            rec.state = 'done'
 
 
 
