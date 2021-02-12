@@ -10,7 +10,8 @@
             <field name="name" />
             <field name="gender" />
             <field name="birthDate" />
-            <field name="age" />
+            <!-- <field name="age" /> -->
+            <field name="hobby_id" widget="many2many_tags"/>
             <field name="mobile_number"/>
             <field name="email" />
             <field name="city" />
@@ -50,6 +51,7 @@
                         <field name="gender" widget="radio" />
                         <field name="birthDate" style="width:25%;" />
                         <field name="age" style="width:25%;"/> 
+                        <field name="hobby_id" widget="many2many_tags"/>
                     </group>     
                 </page>
                 <page string="Contact Details">           

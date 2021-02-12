@@ -16,6 +16,7 @@ class Student(models.Model):
         ],string="Gender", default='male') 
     birthDate=fields.Date(string="Birth Date")
     age=fields.Integer(string="Age",compute="_get_age",store=True)
+    hobby_id=fields.Many2many('student.hobbies',string="Hobbies")
             
     mobile_number=fields.Char(string="Mobile Number",size=10)
     email=fields.Char(string="Email ID")
@@ -65,3 +66,10 @@ class School(models.Model):
     school_name=fields.Char(string="School Name")
     school_city=fields.Char(string="City")
     student_record=fields.One2many('school.student','school_id',string="Student Record")
+
+class Hobbies(models.Model):
+    _name='student.hobbies'
+    _description='Student Hobbies'
+    _rec_name='student_hobby'
+
+    student_hobby=fields.Char(string="Hobbies")
