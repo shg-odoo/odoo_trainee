@@ -4,7 +4,7 @@
         <field name="student_name">Kartik</field>
         <field name="roll_no">1</field>
         <field name="birthdate">1998-10-11</field>
-        <field name="image"></field>
+        <!-- <field name="image"></field> -->
         <!-- <field name="age">22</field> -->
         <field name="branch">computer</field>
         <field name="physics">78</field>
@@ -18,7 +18,7 @@
         <field name="student_name">Aman</field>
         <field name="roll_no">2</field>
         <field name="birthdate">1999-06-17</field>
-        <field name="image"></field>
+        <!-- <field name="image"></field> -->
         <field name="gender">male</field>
         <!-- <field name="age">21</field> -->
         <field name="branch">mech</field>
@@ -33,7 +33,7 @@
         <field name="student_name">Parth</field>
         <field name="roll_no">3</field>
         <field name="birthdate">1998-02-03</field>
-        <field name="image"></field>
+        <!-- <field name="image"></field> -->
         <field name="gender">male</field>
         <!-- <field name="age">22</field> -->
         <field name="branch">computer</field>

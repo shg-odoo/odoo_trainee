@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+    id = "student_report"
+    model = "student"
+    string = "Student Data"
+    name = "student.New_data"
+    file = "student.New_data"
+    report_type = "qweb-pdf"
+    attachment_use = "True"
+    />
+    <template id="New_data">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <center>
+                    <h2>Student Data</h2>
+                </center>
+                <br></br>
+                <table style="width:100%;border: 1px solid black;">
+                    <thread>
+                        <tr>
+                            <th style="border: 1px solid black;">Name</th>
+                            <th style="border: 1px solid black;">Roll NO</th>
+                            <th style="border: 1px solid black;">College</th>
+                            <th style="border: 1px solid black;">Address</th>
+                            <th style="border: 1px solid black;">Birthdate</th>
+                            <th style="border: 1px solid black;">Gender</th>
+                            <!-- <th style="border: 1px solid black;">Image</th> -->
+                            <th style="border: 1px solid black;">Hobbies</th>
+                            
+                        </tr>
+                    </thread>
+                        <t t-foreach="docs" t-as="o">
+                            <tr>
+                                <td style="border: 1px solid black;"><span t-field="o.student_name"/></td>
+                                <td style="border: 1px solid black;"><span t-field="o.roll_no"/></td>
+                                <td style="border: 1px solid black;"><span t-field="o.college_id"/></td>
+                                <td style="border: 1px solid black;"><span t-field="o.Address"/></td>
+                                <td style="border: 1px solid black;"><span t-field="o.birthdate"/></td>
+                                <td style="border: 1px solid black;"><span t-field="o.gender"/></td>
+                                <!-- <td style="border: 1px solid black;"><img t-field="o.image" alt="Image"/></td> -->
+                                <td style="border: 1px solid black;"><span t-field="o.Hobbies"/></td>
+                            </tr> 
+                        </t>
+                </table>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -9,12 +9,13 @@ class student(models.Model):
     _inherit = ['mail.thread',
                'mail.activity.mixin']
     _description = "Student Details"
+    _order = "id desc"
     _rec_name = "student_name"
     
     student_name = fields.Char(string="Name" )
     roll_no = fields.Integer(string='Roll No')
     birthdate = fields.Date(string='birth date')
-    image = fields.Binary()
+    image = fields.Binary('Image')
     gender = fields.Selection([('male','Male') ,('female','Female')],string='Gender', default="male")
     age = fields.Integer(string='age',compute="_get_age",store=True)
     html = fields.Html()
@@ -75,15 +76,21 @@ class student(models.Model):
         result = super(student, self).create(vals)
         return result
 
+    def open_college(self):
+        #self.ensure_one()
+        return {
+            'name' : _('College'),
+            'view_type' : 'form' ,
+            'rec_model' : 'student.college',
+            'view_id' : False,
+            'domain' : [('roll_no','=',self.roll_no)],
+            'view_mode' : 'tree,form',
+            'type' : 'ir.actions.act_window',
+
+        }
 
 
-class college(models.Model):
-    _name = 'student.college'
-    _rec_name = "college_name"
 
-    college_name = fields.Char('College Name')
-    college_city = fields.Char('College City')
-    Student_record = fields.One2many('student','college_id',string="Student Record")
     
 class Hobby(models.Model):
     _name = 'student.hobby'

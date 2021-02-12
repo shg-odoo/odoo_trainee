@@ -15,6 +15,7 @@
         'views/student_viewtree.xml',
         'data/student_data.xml',
         'data/sequence.xml',
+        'report/student_report.xml',
     ],
 
     'application' : True
