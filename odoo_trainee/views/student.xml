@@ -18,6 +18,7 @@
                     <field name="maths"/>
                     <field name="physics"/>
                     <field name="chemistry"/>
+                    <field name="scholarship" />
                     <field name="percentage"/>
                     <field name="fees"/>
                     <field name="age"/>
@@ -27,6 +28,20 @@
                 </tree>
             </field>
         </record>
+
+
+       <!-- <record id="sale_order_inherit" model="ir.ui.view">
+           <field name="name">sale.order.inherit</field>
+           <field name="model">student</field>
+           <field name="inherit_id" ref="odoo_trainee.student_view_form"/>
+           <field name="arch" type="xml">
+               <field name="fees" position="after">
+                    <field name="name"/>
+                    <field name="scholarship"/>
+               </field>
+           </field>
+       </record> -->
+
 
         <record model="ir.ui.view" id="student_calendar_view">
             <field name="name">student</field>
@@ -104,6 +119,7 @@
                             <field name="college_id" />
                             <field name="branch"/>
                             <field name="fees"/>
+                            <field name="scholarship" />
                             <field name="hobbies_id" widget="many2many_tags"/>
                         </group>     
                     </page>
@@ -138,7 +154,7 @@
                                        <img t-att-src="kanban_image('student', 'image', record.id.raw_value)"  alt="Avatar"/>
                                     </div>
                                  <div class="row">
-                                   <div class="col-8">
+                                   <div class="col-6">
                                         <div class="oe_kanban_details">
                                            <strong class="o_kanban_record_title"> 
                                            <field name="name"/>
