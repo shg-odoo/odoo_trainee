@@ -18,27 +18,35 @@
           <center>
                 <h1>student Data</h1>
             </center><br/>
-                    <table style="width:100%;border: 1px solid #ddd;padding: 8px; ">
+                    <table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
                        <thread>
                        <tr>
-                       <th style="border: 1px solid #ddd;padding: 8px;background-color: #4CAF50;">Name</th>
-                       <th style="border: 1px solid #ddd;padding: 8px;background-color: #4CAF50;">Roll NO</th>
-                       <th style="border: 1px solid #ddd;padding: 8px;background-color: #4CAF50;">College</th>
-                       <th style="border: 1px solid #ddd;padding: 8px;background-color: #4CAF50;">Date of Birth</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Name</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Roll NO</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">College</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Date of Birth</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Contact</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Email</th>
                        </tr>
                        <t t-foreach="docs" t-as="o">
-                       <tr  style="border: 1px solid #ddd;padding: 8px;">
-                       <td style="border: 1px solid #ddd;padding: 8px;">
+                       <tr  style="border: 2px solid #ddd;padding: 8px;">
+                       <td style="border: 2px solid #ddd;padding: 8px;">
                        <span t-field="o.name"/>
                        </td>
-                       <td style="border: 1px solid #ddd;padding: 8px;"> 
+                       <td style="border: 2px solid #ddd;padding: 8px;"> 
                        <span t-field="o.enrollmentNo"/>
                        </td>
-                       <td style="border: 1px solid #ddd;padding: 8px;"> 
+                       <td style="border: 2px solid #ddd;padding: 8px;"> 
                        <span t-field="o.college_id"/>
                        </td>
-                       <td style="border: 1px solid #ddd;padding: 8px;">
+                       <td style="border: 2px solid #ddd;padding: 8px;">
                        <span t-field="o.bdate"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.contactNo"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.email"/>
                        </td>
                        </tr>
                        </t>
@@ -47,8 +55,4 @@
         </t>
         </t>
     </template>
-
-
-
-
 </odoo>

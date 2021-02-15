@@ -106,3 +106,9 @@ class hobby(models.Model):
     _rec_name = "hobbies"
 
     hobbies = fields.Char(string="Hobbies")
+
+
+class scholarship(models.Model):
+    _inherit = "student"
+
+    scholarship = fields.Integer(string="Scholarship")
