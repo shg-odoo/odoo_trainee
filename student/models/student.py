@@ -32,6 +32,10 @@ class student(models.Model):
     college_id = fields.Many2one('student.college', string='College')
     name_seq = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,  index=True, default=lambda self: _('New'))
     Hobbies = fields.Many2many('student.hobby',string='Hobbies')
+    state = fields.Selection(
+        [('Dontknow','Dontknow'),('Good','Good') ,('bad','Bad')]
+        ,string='Status', readonly=True, default='Dontknow')
+  
 
     @api.constrains('age')  
     def _constraints_age(self):
@@ -89,11 +93,25 @@ class student(models.Model):
 
         }
 
+    def Action_status_good(self):
+        for rec in self:
+            rec.state = 'Good'
 
+    def Action_status_bad(self):
+        for rec in self:
+            rec.state = 'bad'
 
+    def Action_status_dontknow(self):
+        for rec in self:
+            rec.state = 'Dontknow'
     
 class Hobby(models.Model):
+
     _name = 'student.hobby'
 
     name = fields.Char('Hobby')
     
+class Extradetails(models.Model):
+    _inherit = 'student'
+
+    review = fields.Char(string="Review")

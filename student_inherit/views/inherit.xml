@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="student_int_view_tree" model="ir.ui.view">
+        <field name="name">Studentint</field>
+        <field name="model">student_inherit</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name_seq"/>
+                <field name="student_name"/>
+                <field name="roll_no"/>
+                <field name="birthdate"/>
+                <field name="image" widget="image" class="oe_avatar"/>
+                <field name="gender" widget="radio"/>
+                <field name="age"/>
+                <field name="branch"/>
+                <field name="physics"/>
+                <field name="maths"/>
+                <field name="chemistry"/>
+                <field name="total"/>
+                <field name="Average"/>
+                <field name="total_compute"/>
+                <field name="html"/>
+                <field name="current_date"/>
+                <field name="Address"/>
+                <field name="contect_no"/>
+                <field name="college_id"/>
+                <field name="Hobbies" widget="many2many_tags"/>
+                <field name="review"/>
+                <field name="update_new"/>
+            </tree>
+        </field> 
+    </record>
+   <record id="student_int_view_form" model="ir.ui.view" >
+        <field name="name">Studentintform</field>
+        <field name="model">student_inherit</field>
+        <field name="arch" type="xml">
+            <form>
+                <notebook>
+                    <page string="Personal Details">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name_seq"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="student_name"/>
+                                <field name="gender" widget="radio"/>
+                                <field name="birthdate"/>
+                                <field name="age"/>
+                            </group>
+                            <group >
+                                <field name="image" widget="image" class="oe_avatar"/>
+                                <field name="contect_no"/>
+                                <field name="Hobbies" widget="many2many_tags"/>
+                                <field name="Address"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Acadamic Details">
+                        <group>
+                            <group>
+                                <field name="branch"/>
+                                <field name="roll_no"/>
+                            </group>
+                            <group> 
+                                <field name="college_id"/>
+                                <field name="review"/>
+                                <field name="update_new"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Marks Details">
+                        <group>
+                            <group>
+                                <field name="physics"/>
+                                <field name="maths"/>
+                                <field name="chemistry"/>
+                            </group>
+                            <group>
+                                <field name="total"/>
+                                <field name="Average"/>
+                                <field name="total_compute"/>   
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+    <record id="student_action1" model="ir.actions.act_window">
+        <field name="name">Tree</field>
+        <field name="res_model">student_inherit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context"></field>
+    </record>
+    
+    
+    <menuitem id="student_int_menu" name="Student Inherited Data" web_icon="student_inherit,static/description/icon.png"/>
+    <menuitem id="Details1" name="Details1" sequence="1" action="student_action1" parent="student_int_menu"/>
+</odoo>
