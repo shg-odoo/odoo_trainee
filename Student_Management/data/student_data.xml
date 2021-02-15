@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="s1" model="student">
+        <field name="name">Meet</field>
+        <field name="enrollmentNo">10</field>
+        <field name="contactNo">9876543218</field>
+        <field name="email">odoo@gmail.com</field>
+        <field name="branch">Computer Engineering</field>
+        <field name="birthdate">2020-06-02</field>
+        
+    </record>
+    <record id="s2" model="student">
+        <field name="name">Vivek</field>
+        <field name="enrollmentNo">20</field>
+        <field name="contactNo">8764543567</field>
+        <field name="email">odoo@gmail.com</field>
+        <field name="branch">Civil Engineering</field>
+        <field name="birthdate">2020-10-08</field>
+        
+    </record>
+</odoo>
