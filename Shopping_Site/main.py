@@ -5,7 +5,6 @@ from werkzeug.routing import Map, Rule
 from werkzeug.serving import run_simple
 from werkzeug.wrappers import Request, Response
 
-
 def index(self):
     html = open('template/index.html', 'r').read()
     data = open('product.json', 'r').read()
@@ -18,7 +17,6 @@ def index(self):
     response.headers['content-type'] = 'text/html'
     return response
 
-
 def cart(self, product_id=None):
 
     temp=open('product.json','r').read()
@@ -29,7 +27,7 @@ def cart(self, product_id=None):
         if i['id']==product_id:
             qty=i['qnt']
             i['qnt']=qty+1
-            
+
     with open('product.json','w+') as obj:
         json.dump(dataTemp,obj)
 
@@ -38,6 +36,28 @@ def cart(self, product_id=None):
     else:
         self.session['product_ids'].update({product_id: product_id})
     return index(self)
+
+def decrease(self, product_id=None):
+    
+    dataTemp=json.loads(open('product.json','r').read())
+
+    for i in dataTemp:
+        if i['id']==product_id:
+            if i['qnt']>1:    
+                i['qnt']=i['qnt']-1
+            
+    with open('product.json','w+') as obj:
+        json.dump(dataTemp,obj)
+        
+        
+    if product_id and not bool(int(self.session.__len__())):
+        self.session['product_ids'] = {product_id: product_id}    
+    else:
+        self.session['product_ids'].update({product_id: product_id})
+
+
+    return index(self)
+
 
 
 def remove(self, product_id=None):
@@ -59,13 +79,15 @@ def remove(self, product_id=None):
 url_map = Map([
     Rule("/", endpoint="index"),
     Rule("/add/to/cart/<int:product_id>", endpoint="cart"),
-    Rule("/remove/<int:product_id>", endpoint="remove")
+    Rule("/remove/<int:product_id>", endpoint="remove"),
+    Rule("/decrease/<int:product_id>", endpoint="decrease")
 ])
 
 views = {
     "index": index,
     "cart": cart,
-    "remove": remove
+    "remove": remove,
+    "decrease":decrease
 }
 
 session_store = FilesystemSessionStore(path=gettempdir())
@@ -97,4 +119,4 @@ def create_app(with_static=True):
 
 if __name__ == '__main__':
     app = create_app()
-    run_simple('localhost', 4040, application)
+    run_simple('localhost', 4041, application)

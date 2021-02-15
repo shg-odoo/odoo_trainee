@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home Page</title>
+    <title>Shopping Site</title>
 
     <style>
         #search{
@@ -32,11 +32,7 @@
             align-items: center;
             padding-left: 0;
         }
-
-       
     </style>
-
-
 
   </head>
   <body>
@@ -82,27 +78,36 @@
       }
 
         data = %(data)s
-        cartData = %(cartData)s
-        console.log(cartData["3"])
-        console.log(Object.keys(cartData));
-        console.log(typeof(cartData));
-
-        var mainContainer = document.getElementById("main");
+        cartData = %(cartData)s  
+        
         var dataContainer = document.getElementById("myData");
         var cartContainer = document.getElementById("cart");
+
         for (var i = 0; i < data.length; i++) {
+
             let card = this.createCard(data[i])
             dataContainer.appendChild(card);
-            if (cartData && parseInt(data[i].id) in cartData) {
-                let parentDiv = document.createElement('div')
-                let div = document.createElement('div');
-                div.innerText = data[i].product_name + "\n Price:" + data[i].price + "\n Quantity:" + data[i].qnt
 
+            if (cartData && data[i].id in cartData) {
+
+
+                let div =  document.createElement('div');
+                div.innerText = data[i].product_name + "\n Price:" + data[i].price + "\n Quantity:" + data[i].qnt
+                
                 let a = document.createElement('a');
                 a.href = "/remove/" + data[i].id;
                 a.innerText = "Remove\n\n";
+
+                let decrease=document.createElement("a");
+                decrease.style.textDecoration="none";
+                decrease.href="/decrease"+"/"+data[i].id;
+                decrease.innerHTML="<button>Decrease Quantity</button><br>";
+
+                
                 cartContainer.appendChild(div);
+                cartContainer.appendChild(decrease);
                 cartContainer.appendChild(a);
+                
             }
         }
 
@@ -110,20 +115,23 @@
           var input, filter, mainDiv, div, childDiv, i, txtValue;
           input = document.getElementById("search");
           filter = input.value.toUpperCase();
+
           mainDiv = document.getElementById("myData");
+
           div = mainDiv.getElementsByClassName("cards");
+          
           for (i = 0; i < div.length; i++) {
               childDiv = div[i].getElementsByTagName("div")[0];
-              if (childDiv) {
-                  txtValue = childDiv.textContent || childDiv.innerText;
-                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              txtValue = childDiv.textContent || childDiv.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
                       div[i].style.display = "";
-                  } else {
+                  } 
+                else {
                       div[i].style.display = "none";
                   }
-              }
           }
       }
+
     </script>
   </body>
 </html>
