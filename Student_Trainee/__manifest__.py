@@ -6,8 +6,8 @@
     'website':'http://www.odoo.com/',
     'summary':'Student Management Software',
     'description':'A student management software to manage students and their records',
-    'depends':['base'],
-    'data':['views/views.xml','data/student_data.xml','wizard/school_wizard.xml'],
+    'depends':['base','mail'],
+    'data':['views/views.xml','data/student_data.xml','wizard/school_wizard.xml','report/student_report.xml'],
     
     'application':True,
     

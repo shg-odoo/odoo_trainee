@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report id="student_report_card" model="school.student" string="Student Report" name="Student_Trainee.student_report" file="Student_Trainee.student_report" report_type="qweb-pdf" attachment_use="True" print_report_name="'Student Report- %s' % (object.name)"></report>
+    <template id="student_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <center>
+                    <h1>
+                        <b>Personal Details</b>
+                    </h1>
+                </center>
+                <br/>
+                <table style="width:100%;border: 1px solid #ddd;padding: 8px; ">
+                    <thread>
+                        <tr>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #003366;color:white"></th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #003366;color:white">Student ID</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #003366;color:white">Name</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #003366;color:white">Gender</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #003366;color:white">Date of Birth</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #003366;color:white">Age</th>
+                        </tr>
+                        <t t-foreach="docs" t-as="o">
+                            <tr style="border: 1px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <div align="center">
+                                        <img t-attf-src="data:image/*;base64,{{o.image}}" style="width:100px;"/>
+                                    </div>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.student_id"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.name"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.gender"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.birthDate"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.age"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </thread>
+                </table>
+                <br/>
+                <center>
+                    <h1>
+                        <b>Contact Details</b>
+                    </h1>
+                </center>
+                <br/>
+                <table style="width:100%;border: 1px solid #ddd;padding: 8px; ">
+                    <thread>
+                        <tr>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #01452c;color:white">Mobile Number</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #01452c;color:white">Email ID</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #01452c;color:white">Address</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #01452c;color:white">City</th>
+                        </tr>
+                        <t t-foreach="docs" t-as="o">
+                            <tr style="border: 1px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.mobile_number"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.email"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.address"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.city"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </thread>
+                </table>
+                <br/>
+                <center>
+                    <h1>
+                        <b>Academic Details</b>
+                    </h1>
+                </center>
+                <br/>
+                <table style="width:100%;border: 1px solid #ddd;padding: 8px; ">
+                    <thread>
+                        <tr>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #3f0000;color:white">School</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #3f0000;color:white">Maths</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #3f0000;color:white">Chemistry</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #3f0000;color:white">Physics</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #3f0000;color:white">Total</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #3f0000;color:white">Average</th>
+                        </tr>
+                        <t t-foreach="docs" t-as="o">
+                            <tr style="border: 1px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.school_id"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.maths"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.chemistry"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.physics"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.total"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.average"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </thread>
+                </table>
+                <br/>
+                <center>
+                    <h1>
+                        <b>Other Details</b>
+                    </h1>
+                </center>
+                <br/>
+                <table style="width:100%;border: 1px solid #ddd;padding: 8px; ">
+                    <thread>
+                        <tr>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #2a2a2a;color:white">Blood Group</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #2a2a2a;color:white">Height</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #2a2a2a;color:white">Weight</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #2a2a2a;color:white">Disabled</th>
+                        </tr>
+                        <t t-foreach="docs" t-as="o">
+                            <tr style="border: 1px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.bloodGroup"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.height"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.weight"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.disabled"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </thread>
+                </table>
+                <br/>
+                <table style="width:100%;border: 1px solid #ddd;padding: 8px; ">
+                    <thread>
+                        <tr>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #794848;color:white">Hobbies</th>
+                        </tr>
+                        <t t-foreach="docs" t-as="o">
+                            <tr style="border: 1px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.hobby_id"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </thread>
+                </table>
+            </t>
+        </t>
+    </template>
+</odoo>
