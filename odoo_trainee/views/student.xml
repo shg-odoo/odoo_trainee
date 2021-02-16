@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+        
+        <record model="ir.actions.act_window" id="open_student_hobby">
+           <field name="name">Hobbies</field>
+           <field name="res_model">student.hobby</field>
+           <field name="view_mode">tree,form</field>
+           <field name="domain">[('id','=',active_id)]</field>
+           <field name="context">{}</field>
+        </record>
+        
         <record model="ir.ui.view" id="student_id">
             <field name="name">Student</field>
             <field name="model">student</field>
@@ -95,13 +104,22 @@
                     <button name="action_done" type="object" states="confirm" string="Done" class="oe_highlight" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
                 </header>
+                <br/>
+                <div class="oe_button_box" name="button_box">
+                        <button name="%(open_student_hobby)d" type="action"
+                                class="oe_stat_button" string="Hobbies" icon="fa-calendar">
+                        </button>
+                    </div>
+                    <br/>
                 <notebook>
+                    
                     <page string="Personal Details">
                         <div class="oe_title">
                            <h1>
                                <field name="name_seq" readonly="1"/>
                            </h1>
                         </div>
+                        
                         <group>
                             <field name="name"/>
                             <field name="contactNo"/>

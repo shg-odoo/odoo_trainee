@@ -3,6 +3,8 @@ from datetime import datetime,date
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError
 
+
+
 class student(models.Model):
     _name = 'student'
     _description = "Student Details"
@@ -100,15 +102,19 @@ class college(models.Model):
     id1 = fields.One2many("student", "college_id", string="College Id")
 
 
+
 class hobby(models.Model):
     _name = "student.hobby"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = "hobbies"
 
     hobbies = fields.Char(string="Hobbies")
+   
+
 
 
 class scholarship(models.Model):
     _inherit = "student"
 
     scholarship = fields.Integer(string="Scholarship")
+   
