@@ -16,6 +16,7 @@
         'data/student_data.xml',
         'data/sequence.xml',
         'report/student_report.xml',
+       # 'security/security.xml',
     ],
 
     'application' : True

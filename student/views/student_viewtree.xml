@@ -4,8 +4,8 @@
         <field name="name">Hobbys</field>
         <field name="res_model">student.hobby</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('id','in',active_ids)]</field>
-        <field name="context">{}</field>
+        <field name="domain">[('hobby_id','in',active_ids)]</field>
+        <field name="context">{'name':'Hobbies'}</field>
     </record>
     <record id="student_view_tree" model="ir.ui.view">
         <field name="name">Student.tree</field>
@@ -20,9 +20,9 @@
                 <field name="gender" widget="radio"/>
                 <field name="age"/>
                 <field name="branch"/>
-                <field name="physics"/>
-                <field name="maths"/>
-                <field name="chemistry"/>
+                <field name="physics" avg="Average of physics"/>
+                <field name="maths" avg="Average of maths"/>
+                <field name="chemistry" avg="Average of chemistry"/>
                 <field name="total"/>
                 <field name="Average"/>
                 <field name="total_compute"/>
@@ -135,73 +135,79 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="%(student.student_wizard_action)d" type="action" string="Add College" class="oe_highlight"/>
                     <button name="Action_status_good" states="Dontknow" type="object" string="Good" class="oe_highlight"/>
                     <button name="Action_status_bad" states="Good" type="object" string="Bad" class="oe_highlight"/>
                     <button name="Action_status_dontknow" states="bad" type="object" string="Dontknow" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="Dontknow,Good,bad"/>
                 </header>
-                <notebook>
-                    <page string="Personal Details">
-                        <div class="oe_title">
-                            <h1>
-                                <field name="name_seq"/>
-                            </h1>
-                        </div>
-                        <div class="oe_button_box" name="button_box">
-                            <button name="open_college" string="(O)Colleges" type="object" class="btn oe_stat_button"
-                            icon="fa-calendar"/>
-                            <button name="%(open_hobby)d" string="(A)Hobbies" type="action" class="btn oe_stat_button"
-                            icon="fa-gittip">
-                                <!-- <field name="Hobbies_count" string="hobbies_count" widget="statinfo" /> -->
-                            </button>
-                        </div>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_college" string="(O)Colleges" type="object" class="btn oe_stat_button"
+                        icon="fa-calendar"/>
+                        <button name="%(open_hobby)d" string="(A)Hobbies" type="action" class="btn oe_stat_button"
+                        icon="fa-gittip">
+                            <field name="Hobbies_count"  widget="statinfo" />
+                        </button>
+                        <button name="toggle_active" string="Archive" type="object" class="btn oe_stat_button"
+                        icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                        </button>
+                    </div>
+                    <separator string="Personal Details"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name_seq"/>
+                        </h1>
+                    </div>
+                    <group>
                         <group>
-                            <group>
-                                <field name="student_name"/>
-                                <field name="gender" widget="radio"/>
-                                <field name="birthdate"/>
-                                <field name="age"/>
-                            </group>
-                            <group >
-                                <field name="image" widget="image" class="oe_avatar"/>
-                                <field name="contect_no"/>
-                                <field name="Hobbies" widget="many2many_tags"/>
-                                <field name="Address"/>
-                            </group>
+                            <field name="student_name"/>
+                            <field name="gender" widget="radio"/>
+                            <field name="birthdate"/>
+                            <field name="age"/>
                         </group>
-                        <div class="oe_chatter">
-                            <field name="message_follower_ids" widget="mail_followers"/>
-                            <field name="activity_ids" widget="mail_activity"/>
-                            <field name="message_ids" widget="mail_thread" options="{'post_refresh':'recipients'}"/>
-                        </div>
-                    </page>
-                    <page string="Acadamic Details">
-                        <group>
-                            <group>
-                                <field name="branch"/>
-                                <field name="roll_no"/>
-                            </group>
-                            <group> 
-                                <field name="college_id"/>
-                                <field name="review"/>
-                            </group>
+                        <group >
+                            <field name="image" widget="image" class="oe_avatar"/>
+                            <field name="contect_no"/>
+                            <field name="Hobbies" widget="many2many_tags"/>
+                            <field name="Address"/>
                         </group>
-                    </page>
-                    <page string="Marks Details">
-                        <group>
+                    </group>
+                    <notebook>
+                        <page string="Acadamic Details">
                             <group>
-                                <field name="physics"/>
-                                <field name="maths"/>
-                                <field name="chemistry"/>
-                            </group>
+                                <group>
+                                    <field name="branch"/>
+                                    <field name="roll_no"/>
+                                </group>
+                                <group> 
+                                    <field name="college_id"  options="{'no_create_edit':True , 'no_create':True , 'no_open':True}"/>
+                                    <field name="review"/>
+                                </group>
+                          </group>
+                        </page>
+                        <page string="Marks Details">
                             <group>
-                                <field name="total"/>
-                                <field name="Average"/>
-                                <field name="total_compute"/>   
+                                <group>
+                                    <field name="physics"/>
+                                    <field name="maths"/>
+                                    <field name="chemistry"/>
+                                </group>
+                                <group>
+                                    <field name="total"/>
+                                    <field name="Average"/>
+                                    <field name="total_compute"/>   
+                                </group>
                             </group>
-                        </group>
-                    </page>
-                </notebook>
+                        </page>
+                   </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh':'recipients'}"/>
+                    </div>
+                </sheet>
             </form>
         </field>
     </record>
@@ -257,6 +263,7 @@
         <field name="model">student.hobby</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="hobby_id"/>
                 <field name="name"/>
             </tree>
         </field>

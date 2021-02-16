@@ -11,15 +11,23 @@ class student(models.Model):
     _description = "Student Details"
     _order = "id desc"
     _rec_name = "student_name"
+
+    @api.depends('Hobbies')
+    def _gethobby_count(self):
+        count = self.env['student.hobby'].search_count([('hobby_id','in',self.hobby_id)])
+        self.Hobbies_count = count
     
-    student_name = fields.Char(string="Name" )
-    roll_no = fields.Integer(string='Roll No')
-    birthdate = fields.Date(string='birth date')
+    def _default_branch(self):
+        return 'computer'
+    
+    student_name = fields.Char(string="Name" ,required=True)
+    roll_no = fields.Integer(string='Roll No' ,required=True)
+    birthdate = fields.Date(string='birth date' ,required=True)
     image = fields.Binary('Image')
     gender = fields.Selection([('male','Male') ,('female','Female')],string='Gender', default="male")
     age = fields.Integer(string='age',compute="_get_age",store=True)
     html = fields.Html()
-    branch = fields.Char(string="Branch")
+    branch = fields.Char(string="Branch",default=_default_branch)
     physics = fields.Integer(string='physics')
     maths = fields.Integer(string='maths')
     chemistry = fields.Integer(string='chemistry')
@@ -30,11 +38,16 @@ class student(models.Model):
     total = fields.Integer(string='Total',store=True,compute='_get_total')
     total_compute = fields.Integer(compute='_get_total', string='Total Compute',store=True)
     college_id = fields.Many2one('student.college', string='College')
+    hobby_id = fields.Many2one('student.hobby', string='Hobby')
     name_seq = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,  index=True, default=lambda self: _('New'))
     Hobbies = fields.Many2many('student.hobby',string='Hobbies')
+    Hobbies_count = fields.Integer(compute='_gethobby_count' ,store=True)
     state = fields.Selection(
         [('Dontknow','Dontknow'),('Good','Good') ,('bad','Bad')]
         ,string='Status', readonly=True, default='Dontknow')
+
+    active = fields.Boolean(string="Active",default=True)
+  
   
 
     @api.constrains('age')  
@@ -59,7 +72,9 @@ class student(models.Model):
             i.total = i.physics + i.chemistry + i.maths
             i.Average = (i.total)/3
          
+  #  @api.depends('Hobbies')
     
+
     @api.depends('physics','maths','chemistry')
     def _get_total(self):
         for rec in self:
@@ -81,17 +96,18 @@ class student(models.Model):
         return result
 
     def open_college(self):
-        #self.ensure_one()
-        return {
-            'name' : _('College'),
+        self.ensure_one()
+        vals = {
+            'name' : 'College',
             'view_type' : 'form' ,
             'rec_model' : 'student.college',
             'view_id' : False,
-            'domain' : [('roll_no','=',self.roll_no)],
+            'domain' : [('college_id','=',self.id)],
             'view_mode' : 'tree,form',
             'type' : 'ir.actions.act_window',
 
         }
+        return vals
 
     def Action_status_good(self):
         for rec in self:
@@ -109,6 +125,7 @@ class Hobby(models.Model):
 
     _name = 'student.hobby'
 
+    hobby_id =fields.Integer('Hobby Id')
     name = fields.Char('Hobby')
     
 class Extradetails(models.Model):
