@@ -7,7 +7,7 @@
     'summary':'Student Management Software',
     'description':'A student management software to manage students and their records',
     'depends':['base','mail'],
-    'data':['views/views.xml','data/student_data.xml','wizard/school_wizard.xml','report/student_report.xml'],
+    'data':['views/views.xml','wizard/school_wizard.xml','report/student_report.xml','data/sequence.xml'],
     
     'application':True,
     

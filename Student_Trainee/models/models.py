@@ -9,9 +9,18 @@ class Student(models.Model):
     _description = "Student Details"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    nameseq = fields.Char(
+        string="Student Sequence",
+        required=True,
+        copy=False,
+        readonly=True,
+        index=True,
+        default="New",
+    )
+
     image = fields.Binary(string="Image")
-    student_id = fields.Integer(string="Student ID")
-    name = fields.Char(string="Name")
+    student_id = fields.Integer(string="Student ID", required=True)
+    name = fields.Char(string="Name", required=True)
     gender = fields.Selection(
         [
             ("male", "Male"),
@@ -20,14 +29,14 @@ class Student(models.Model):
         string="Gender",
         default="male",
     )
-    birthDate = fields.Date(string="Birth Date")
+    birthDate = fields.Date(string="Birth Date", required=True)
     age = fields.Integer(string="Age", compute="_get_age", store=True)
     hobby_id = fields.Many2many("student.hobbies", string="Hobbies")
 
-    mobile_number = fields.Char(string="Mobile Number", size=10)
-    email = fields.Char(string="Email ID")
-    address = fields.Text(string="Address")
-    city = fields.Char(string="City")
+    mobile_number = fields.Char(string="Mobile Number", size=10, required=True)
+    email = fields.Char(string="Email ID", required=True)
+    address = fields.Text(string="Address", required=True)
+    city = fields.Char(string="City", required=True)
 
     bloodGroup = fields.Selection(
         [
@@ -50,13 +59,13 @@ class Student(models.Model):
 
     date_today = fields.Date(default=lambda today: fields.date.today())
 
-    maths = fields.Integer(string="Maths")
-    chemistry = fields.Integer(string="Chemistry")
-    physics = fields.Integer(string="Physics")
-    total = fields.Integer(string="Total", readonly=True)
-    average = fields.Float(string="Average", readonly=True)
+    maths = fields.Integer(string="Maths", required=True)
+    chemistry = fields.Integer(string="Chemistry", required=True)
+    physics = fields.Integer(string="Physics", required=True)
+    total = fields.Integer(string="Total", store=True)
+    average = fields.Float(string="Average", store=True)
 
-    school_id = fields.Many2one("student.school", string="School")
+    school_id = fields.Many2one("student.school", string="School", required=True)
 
     @api.depends("birthDate")
     def _get_age(self):
@@ -75,14 +84,23 @@ class Student(models.Model):
             i.total = i.maths + i.chemistry + i.physics
             i.average = (i.total) / 3
 
+    @api.model
+    def create(self, vals):
+        if vals.get("nameseq", "New") == "New":
+            vals["nameseq"] = (
+                self.env["ir.sequence"].next_by_code("school.student.sequence") or "New"
+            )
+        result = super(Student, self).create(vals)
+        return result
+
 
 class School(models.Model):
     _name = "student.school"
     _description = "School Details"
     _rec_name = "school_name"
 
-    school_name = fields.Char(string="School Name")
-    school_city = fields.Char(string="City")
+    school_name = fields.Char(string="School Name", required=True)
+    school_city = fields.Char(string="City", required=True)
     student_record = fields.One2many(
         "school.student", "school_id", string="Student Record"
     )
