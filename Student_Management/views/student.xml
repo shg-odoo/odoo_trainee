@@ -12,9 +12,10 @@
                 <field name="gender" />
                 <field name="contactNo"/>
                 <field name="bloodGroup" />
+                <field name="college_ids"/>
+                <field name="hobbies_ids" widget="many2many_tags"/>
                 <field name="city" />
                 <field name="country" />
-                <field name="qualification" />
                 <field name="branch"/>
                 <field name="bloodGroup" />
                 <field name="height" />
@@ -33,41 +34,41 @@
                     <field name="image" widget="image" class="oe_avatar" />
                     <div class="oe_title">
                         <h1>
-                            <field name="name" />
+                            <field name="name" style="width:25%;"/>
                         </h1>
                     </div>
                     <notebook>
                         <page name="page_personal" string="Personal Details">
                             <group>
-                                <field name="enrollmentNo"/>
-                                <field name="birthdate" />
-                                <field name="age" />
-                                <field name="gender"/>
+                                <field name="enrollmentNo" style="width:25%;"/>
+                                <field name="birthdate" style="width:25%;"/>
+                                <field name="age" style="width:25%;"/>
+                                <field name="gender" style="width:25%;"/>
+                                <field name="hobbies_ids" widget="many2many_tags" style="width:25%;"/>
                             </group>
                         </page>
                         <page name="page_contact" string="Contact Details">
                             <group>
-                                <field name="contactNo"/>
-                                <field name="email"/>
-                                <field name="address" />
-                                <field name="city" />
-                                <field name="pincode" />
-                                <field name="country" />
+                                <field name="contactNo" style="width:25%;"/>
+                                <field name="email" style="width:25%;"/>
+                                <field name="address" style="width:25%;"/>
+                                <field name="city" style="width:25%;"/>
+                                <field name="pincode" style="width:25%;"/>
+                                <field name="country" style="width:25%;"/>
                             </group>
                         </page>
                         <page name="page_other" string="Medical Details">
                             <group>
-                                <field name="bloodGroup" />
-                                <field name="height" />
-                                <field name="weight" />
-                                <field name="disabled" />
+                                <field name="bloodGroup" style="width:25%;"/>
+                                <field name="height" style="width:25%;"/>
+                                <field name="weight" style="width:25%;"/>
+                                <field name="disabled" style="width:25%;"/>
                             </group>
                         </page>
-
                         <page name="page_academic" string="Academic Details">
                             <group>
-                                <field name="branch"/>
-                                <field name="qualification"/>
+                                <field name="college_ids" style="width:25%;" />
+                                <field name="branch" style="width:25%;"/>
                             </group>
                         </page>
                     </notebook>
@@ -114,11 +115,16 @@
                 <field name="name" />
                 <field name="enrollmentNo" />
                 <field name="email" />
+                <field name="college_ids" />
                 <group expand="1" string="Group By">
                     <filter name="group_branch" string="Branch" context="{'group_by': 'branch'}" />
+                    <separator />
                     <filter name="group_city" string="City" context="{'group_by': 'city'}"/>
+                    <separator />
+                    <filter name="group_country" string="Country" context="{'group_by': 'country'}"/>
                 </group>
                 <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]" />
+                <separator />
                 <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]" />
                 <searchpanel>
                     <field name="gender" />
@@ -166,7 +172,7 @@
             </kanban>
         </field>
     </record>
-    <record id="student_gantt_view" model="ir.ui.view">
+    <record id="student_gantt" model="ir.ui.view">
         <field name="name">student.gantt</field>
         <field name="model">student</field>
         <field name="arch" type="xml">
@@ -176,11 +182,55 @@
             </gantt>
         </field>
     </record>
+    <record id="college_tree" model="ir.ui.view">
+        <field name="name">college.tree</field>
+        <field name="model">college</field>
+        <field name="arch" type="xml">
+            <tree string="Colleges">
+                <field name="collegeName"/>
+                <field name="collegeCity"/>
+            </tree>
+        </field>
+    </record>
+    <record id="college_form" model="ir.ui.view">
+        <field name="name">college.form</field>
+        <field name="model">college</field>
+        <field name="arch" type="xml">
+            <form string="Colleges">
+                <sheet string="Colleges">
+                    <group>
+                        <field name="collegeName"/>
+                        <field name="collegeCity"/>
+                    </group>
+                    <group>
+                        <field name="student_ids">
+                            <tree width="175">
+                                <field name="enrollmentNo"/>
+                                <field name="name"/>
+                                <field name="birthdate" />
+                                <field name="age" />
+                                <field name="gender" />
+                                <field name="email"/>
+                                <field name="city" />
+                                <field name="hobbies_ids" widget="many2many_tags"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
     <record id="student_action" model="ir.actions.act_window">
         <field name="name">student</field>
         <field name="res_model">student</field>
         <field name="view_mode">tree,form,calendar,graph,gantt,pivot,search,kanban</field>
     </record>
-    <menuitem id="student_menu" name="Student Data"/>
-    <menuitem id="student" name="Details" sequence="1" action="student_action" parent="student_menu"/>
+    <record id="college_action" model="ir.actions.act_window">
+        <field name="name">college</field>
+        <field name="res_model">college</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="student_menu" name="Student Data" />
+    <menuitem id="student" name="Student Details" sequence="1" action="student_action" parent="student_menu"/>
+    <menuitem id="college" name="College Details" sequence="2" action="college_action" parent="student_menu"/>
 </odoo>

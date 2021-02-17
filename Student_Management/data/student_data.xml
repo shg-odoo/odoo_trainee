@@ -54,4 +54,16 @@
         <field name="birthdate">1998-07-31</field>
         <field name="city" >Jaipur</field>
     </record>
+    <record id="c1" model="college">
+        <field name="collegeName">SRM</field>
+        <field name="collegeCity">Mumbai</field>
+    </record>
+    <record id="c2" model="college">
+        <field name="collegeName">MIT</field>
+        <field name="collegeCity">Jaipur</field>
+    </record>
+    <record id="c3" model="college">
+        <field name="collegeName">BITS</field>
+        <field name="collegeCity">Goa</field>
+    </record>
 </odoo>

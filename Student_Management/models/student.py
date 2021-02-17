@@ -30,18 +30,32 @@ class student(models.Model):
             ('O-', 'O-'),
         ], string='Blood Group', default='B+')
 
-    qualification = fields.Selection([
-            ('10th', '10th'),
-            ('12th', '12th'),
-            ('graduate', 'Graduate'),
-            ('post-graduate', 'Post-Graduate'),
-            ('phd', 'Phd'),
-        ], string='Qualification', default='10th')
-
     address = fields.Text(string="Address")
     pincode = fields.Char(string="Pincode")
     country = fields.Char(string="Country")
     weight = fields.Float(string="Weight")
     height = fields.Float(string="Height")
     disabled = fields.Boolean(string="Disabled", default=False)
-    
+
+    college_ids = fields.Many2one('college', string='College',)
+
+    hobbies_ids = fields.Many2many('hobbies', string='Hobbies')
+
+
+class college(models.Model):
+    _name = 'college'
+    _description = "College Details"
+    _rec_name = "collegeName"
+
+    collegeName = fields.Char(string="College Name")
+    collegeCity = fields.Char(string="College City")
+
+    student_ids = fields.One2many('student','college_ids',string='Student')
+
+
+class hobbies(models.Model):
+    _name = 'hobbies'
+    _description = "Student Hobbies"
+    _rec_name = "hobbies"
+
+    hobbies = fields.Char(string="Hobbies")
