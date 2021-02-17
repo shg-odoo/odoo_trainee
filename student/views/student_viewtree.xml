@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="open_hooby_from_action" model="ir.actions.act_window">
+        <field name="name">Hobbys1</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">student.hobby</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="domain">[('hobby_id','=',active_ids)]</field>
+        <field name="view_mode">tree,form</field> 
+        <field name="view_id" ref="hobby_view_tree"/> 
+        <field name="binding_model_id" ref="model_student"/>
+    </record>  
     <record id="open_hobby" model="ir.actions.act_window">
         <field name="name">Hobbys</field>
         <field name="res_model">student.hobby</field>
@@ -29,6 +39,7 @@
                 <field name="html"/>
                 <field name="current_date"/>
                 <field name="Address"/>
+                <field name="email_id"/>
                 <field name="contect_no"/>
                 <field name="college_id"/>
                 <field name="Hobbies" widget="many2many_tags"/>
@@ -135,6 +146,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="%(email_template_studentdata)d" type="action" string="send mail" class="oe_highlight"/>
                     <button name="%(student.student_wizard_action)d" type="action" string="Add College" class="oe_highlight"/>
                     <button name="Action_status_good" states="Dontknow" type="object" string="Good" class="oe_highlight"/>
                     <button name="Action_status_bad" states="Good" type="object" string="Bad" class="oe_highlight"/>
@@ -172,6 +184,7 @@
                             <field name="contect_no"/>
                             <field name="Hobbies" widget="many2many_tags"/>
                             <field name="Address"/>
+                            <field name="email_id"/>
                         </group>
                     </group>
                     <notebook>

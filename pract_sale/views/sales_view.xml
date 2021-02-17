@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="sales_id">
+        <field name="name">sales</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="number_seq" readonly="1"/>
+                <field name="customer"/>
+                <field name="invoice_date"/>
+                <field name="due_date"/>
+                <field name="next_activity"/>
+                <field name="taxt_included"/>
+                <field name="total" />
+                <field name="state" options="{'vertical':true}" decoration-success="state == 'confirm' 
+                            or state == 'done' or state == 'draft'" decoration-info="state == 'draft' or state == 'done'"
+                            widget="badge" optional="show"/>
+                <field name="status" options="{'vertical':true}" decoration-success="status == 'draft' 
+                            or status == 'posted' or status == 'cancel'" widget="badge" optional="show"/>
+                <field name="payment" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="sales_view_form" model="ir.ui.view" >
+        <field name="name">Sales.form</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight" />
+                    <button name="action_done" type="object" states="confirm" string="Done" class="oe_highlight" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                </header>
+                <sheet string="Customer Invoice">
+                     <div class="oe_title">
+                           <h1>
+                               <strong><h1><field name="number_seq" readonly="1"/></h1></strong>
+                           </h1>
+                        </div>
+                        <br/>
+                        <group>
+                            <field name="customer" style="width:50%"/>
+                            <field name="invoice_date" style="width:50%"/>
+                            <field name="due_date" style="width:50%"/>
+                        </group>
+                        <br/><br/>
+
+                <notebook>
+                    
+                    <page string="Personal Details">
+                        <group>
+                            
+                            <field name="next_activity"/>
+                            <field name="total"/>
+                            <field name="state"  options="{'vertical':true}" decoration-success="state == 'confirm' 
+                            or state == 'done' or state == 'draft'" decoration-info="state == 'draft' or state == 'done'"
+                            widget="badge" optional="show"/>
+                            <field name="payment" widget="radio" options="{'vertical':true}"/>
+                            <field name="status" widget="radio" options="{'vertical':true}"/>
+                        </group>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="activities_tree_view">
+            <field name="name">Sales.activity.tree</field>
+            <field name="model">sales.activity</field>
+            <field name="arch" type="xml">
+                <tree string="Activities">
+                    <field name="activity"/>
+                </tree>
+            </field>
+        </record>
+    
+    <record model="ir.ui.view" id="course_form_view">
+            <field name="name">Sales.activity.form</field>
+            <field name="model">sales.activity</field>
+            <field name="arch" type="xml">
+                <form string="Activities Form">
+                    <sheet>
+                        <group>
+                                <field name="activity"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+     <record id="sales_action" model="ir.actions.act_window" >
+        <field name="name">Sales</field>
+        <field name="res_model">sales</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="sales_activity_action" model="ir.actions.act_window" >
+        <field name="name">Sales</field>
+        <field name="res_model">sales.activity</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+    <menuitem id="sales_menu" name="Sales Data" web_icon="pract_sale,static/description/icon.png"/>
+    
+    <menuitem id="sales1" name="To Invoice" sequence="1" action="sales_action" parent="sales_menu"/>
+
+    <menuitem id="sales2" name="Activity" sequence="2" action="sales_activity_action" parent="sales_menu"/>
+
+
+</odoo>

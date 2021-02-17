@@ -89,6 +89,16 @@
             </form>
         </field>
     </record>
+    <record id="college_view_tree2" model="ir.ui.view">
+        <field name="name">student_int</field>
+        <field name="model">student.college</field>
+        <field name="inherit_id" ref="student.college_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='college_name']" position="after">
+              <field name="Student_record" string="Number of student"/>
+            </xpath>
+        </field>
+    </record>
     <record id="student_action1" model="ir.actions.act_window">
         <field name="name">Tree</field>
         <field name="res_model">student_inherit</field>

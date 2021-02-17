@@ -20,6 +20,12 @@ class student(models.Model):
     def _default_branch(self):
         return 'computer'
     
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((rec.id, '%s - %s' %(rec.name_seq,rec.student_name)))
+        return res
+
     student_name = fields.Char(string="Name" ,required=True)
     roll_no = fields.Integer(string='Roll No' ,required=True)
     birthdate = fields.Date(string='birth date' ,required=True)
@@ -47,7 +53,7 @@ class student(models.Model):
         ,string='Status', readonly=True, default='Dontknow')
 
     active = fields.Boolean(string="Active",default=True)
-  
+    email_id = fields.Char(string="Email id")
   
 
     @api.constrains('age')  
