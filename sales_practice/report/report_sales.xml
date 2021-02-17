@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <report
+        id="sales_report_card"
+        model="sales"
+        string="Print"
+        name="sales_practice.sales_report"
+        file="sales_practice.sales_report"
+        report_type="qweb-pdf"
+        attachment_use="True"
+    />
+
+
+    <template id="sales_report">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+          <center>
+                <h1>Sales Data</h1>
+            </center><br/>
+                    <table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
+                       <thread>
+                       <tr>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #000000;">Address</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #000000;">Number</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #000000;">Customer</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #000000;">Invoice Date</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #000000;">Tax</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #000000;">Total</th>
+                       </tr>
+                       <t t-foreach="docs" t-as="o">
+                       <tr  style="border: 2px solid #ddd;padding: 8px;">
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.address"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;"> 
+                       <span t-field="o.number_seq"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;"> 
+                       <span t-field="o.customer"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.invoice_date"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.taxt_included" sum="Tax su#000000"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.total" sum="Total"/>
+                       </td>
+                       </tr>
+                       </t>
+                       </thread>
+                    </table>
+        </t>
+        </t>
+    </template>
+</odoo>

@@ -10,22 +10,26 @@ class Sales(models.Model):
     customer = fields.Char(string="Customer")
     invoice_date = fields.Date(string="Invoice Date")
     current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
-    due_date = fields.Char(string="Due Date")
+    due_date = fields.Char(string="Due Date",readonly=True)
     next_activity = fields.Many2one("sales.activity",string="Next Activity")
     taxt_included = fields.Integer(string="Tax Included")
     total = fields.Integer(string="Total")
-    status = fields.Selection(selection=[
-            ('draft', 'Draft'),
-            ('posted', 'Posted'),
-            ('cancel', 'Cancelled'),
-        ], string='Status')
     payment = fields.Selection([ ('paid', 'Paid'),('not_paid', 'Not Paid'),],'Payment')
     state = fields.Selection([
             ('draft','Draft'),
             ('confirm','Confirm'),
             ('done','Done'),
             ('cancel','Cancelled'),
-    ], string='Staus', readonly=True, default='draft')
+    ], string='Status', readonly=True, default='draft')
+    address = fields.Char("Address")
+
+    
+    # @api.onchange('invoice_date','current_date')
+    # def _get_due_date(self):
+    #    start_date = datetime.strptime(str(self.invoice_date), '%Y-%m-%d')
+    #    end_date = datetime.strptime(str(self.current_date), '%Y-%m-%d')
+            # rec.due_date = ((end_date - start_date).days)
+
 
 
 

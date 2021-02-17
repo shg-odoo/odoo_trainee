@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        
+
         <record model="ir.actions.act_window" id="open_student_hobby">
            <field name="name">Hobbies</field>
            <field name="res_model">student.hobby</field>

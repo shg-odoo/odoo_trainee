@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+        <record id="view_student_form_inherit" model="ir.ui.view">
+            <field name="name">student1</field>
+            <field name="model">student.college</field>
+            <field name="inherit_id" ref="odoo_trainee.course_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='college_name']" position="after">
+                    <field name="id1"/>
+                </xpath>
+            </field>
+        </record>
+
+
         <record model="ir.ui.view" id="student_id11">
             <field name="name">Student</field>
             <field name="model">student.inherit</field>
