@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1",
+        "name": "SHOES",
+        "Price": "4200",
+        "image_link": "https://images.unsplash.com/photo-1578116922645-3976907a7671?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+    
+    },
+    {
+        "id": "2",
+        "name": "SHIRTS",
+        "Price": "500",
+        "image_link":"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=750&q=80"
+    },
+    {
+        "id": "3",
+        "name": "IPHONE",
+        "Price": "49000",
+        "image_link":"https://images.unsplash.com/photo-1510878933023-e2e2e3942fb0?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=751&q=80"
+    }
+]
+
