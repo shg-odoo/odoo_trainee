@@ -112,3 +112,20 @@ class Hobbies(models.Model):
     _rec_name = "student_hobby"
 
     student_hobby = fields.Char(string="Hobbies")
+
+
+class Scholarship(models.Model):
+    _inherit = "school.student"
+
+    eligible = fields.Boolean(string="Eligible For Scholarship",compute="_Eligible",store=True)
+    
+    @api.depends("average")
+    def _Eligible(self):
+        for i in self:
+            if i.average>90:
+                i.eligible=True
+            else:
+                i.eligible=False
+    
+
+

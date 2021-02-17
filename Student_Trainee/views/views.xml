@@ -90,6 +90,7 @@
                                     <field name="physics" style="width:25%"/>
                                     <field name="total" style="width:25%"/>
                                     <field name="average" style="width:25%"/>
+                                    <field name="eligible" />
                                 </group>
                             </page>
                             <page string="Write Your Brief Introduction">
