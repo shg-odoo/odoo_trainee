@@ -1,0 +1,129 @@
+<html>
+	<head>
+	
+		<tiitle>
+            <div align="center" style="margin-bottom: 20px"/>
+        <h>SHOPPING CART</h>
+    </tiitle>
+    </div>
+		<link rel="stylesheet" type="text/css" href="style.css">
+			
+	</head>
+	<body>
+		
+		<form>
+			<div>
+				<div align="center" >
+				<input type="text" id="search" placeholder="Search for products.."  onkeyup="myFunction()" style="margin-bottom: 20px ,margin-top: 20px"/>
+			
+				<div id="Data"></div>
+  			</div>
+			<div id="cart">
+			   <div id="myProduct"></div>	
+			</div>
+		</div>	
+	</form>	
+<script type="text/javascript">
+
+
+function createCard(data) {
+    let card = document.createElement('Data');
+    card.className = "cards";
+    card.style.margin="10px 10px 10px 10px";
+    //card.style.verticalverticalAlign;
+    card.classList.add("card");
+    
+    
+   // let t1=document.createElement('table')
+    //t1.style.margin="10px";
+    //card.appendChild(t1);
+
+    let a = document.createElement('a');
+    a.style.margin="20px";
+    card.appendChild(a);
+    //t1.appendChild(a);
+    
+    let image=document.createElement('img')
+    image.style.margin="10px";
+    image.style.width="200px";
+    image.style.hight="200px";
+    image.setAttribute('id','image')
+    image.setAttribute('src',data.image_link)
+
+ 
+    let product = document.createElement('p');
+    product.style.margin="10px";
+    product.innerText = data.name;
+
+
+    let price = document.createElement('p1');
+    price.style.margin="10px";
+    price.innerText = "Price: " + data.Price;
+    
+    let input=document.createElement("input")
+    input.setAttribute("type","button")
+    input.style.margin=" 10px "
+    input.classList.add("card")
+    input.setAttribute("value","Add To Cart")
+    input.onclick=function() {addFunction()};
+    function addFunction() {
+    window.location.href="/add/to/cart"+"/"+data.id
+    
+    
+  }
+    
+//    a.style.margin="50px"
+  // a.innerText = "Add to Cart";
+       
+    card.appendChild(product);
+    card.appendChild(price);
+    card.appendChild(input);			        
+	card.appendChild(image)
+    //a.href = "/add/to/cart/" + data.id;
+    //a.appendChild(a);
+    return card
+}
+data = %(data)s
+cartData = %(cartData)s
+var dataContainer = document.getElementById("Data");
+var cartContainer = document.getElementById("cart");
+
+for (var i = 0; i < data.length; i++) {
+let card = this.createCard(data[i])
+dataContainer.appendChild(card);
+
+    if (cartData && parseInt(data[i].id) in cartData) {
+        let div = document.createElement('div');
+        div.style.margin="10px"
+        div.innerText = "product :"+data[i].name + " " + "price :" +data[i].Price ;
+        let a = document.createElement('a');
+        a.href = "/remove/" + data[i].id;
+        a.innerText = "Remove";
+        cartContainer.appendChild(div);
+        cartContainer.appendChild(a);
+        console.log(cartData);
+    }
+}
+
+function searchFunction() {
+    var input, filter, mainDiv, div, childDiv, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    mainDiv = document.getElementById("a");
+    div = mainDiv.getElementsByClassName("card");
+    for (i = 0; i < div.length; i++) {
+        childDiv = div[i].getElementsByTagName("div")[0];
+        if (childDiv) {
+            txtValue = childDiv.textContent || childDiv.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                div[i].style.display = "";
+            } else {
+                div[i].style.display = "none";
+            }
+        }
+    }
+}
+
+</script>
+    </body>
+</html>
