@@ -12,7 +12,7 @@ class student(models.Model):
     _order = "id desc"
     _rec_name = "student_name"
 
-    @api.depends('Hobbies')
+   # @api.depends('Hobbies')
     def _gethobby_count(self):
         count = self.env['student.hobby'].search_count([('hobby_id','in',self.hobby_id)])
         self.Hobbies_count = count
@@ -26,7 +26,23 @@ class student(models.Model):
             res.append((rec.id, '%s - %s' %(rec.name_seq,rec.student_name)))
         return res
 
+    def email_template1(self):
+        print("send mail")
+        mail_data = self.env.ref("student.email_template_studentdata").id
+        temp = self.env['mail.template'].browse(mail_data).send_mail(self.id,force_send=True)
+        return temp
+
+    @api.depends('student_name')
+    def _get_upper_name(self):
+        for rec in self:
+            rec.student_name_up = rec.student_name.upper() if rec.student_name else False
+
+    def _get_lower_name(self):
+        for rec in self:
+            rec.student_name_up = rec.student_name.lower() if rec.student_name else False
+    
     student_name = fields.Char(string="Name" ,required=True)
+    student_name_up = fields.Char(sstring="Uname" ,compute="_get_upper_name" ,inverse="_get_lower_name")
     roll_no = fields.Integer(string='Roll No' ,required=True)
     birthdate = fields.Date(string='birth date' ,required=True)
     image = fields.Binary('Image')

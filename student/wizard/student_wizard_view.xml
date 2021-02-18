@@ -11,6 +11,7 @@
                 </group>
                 <footer>
                     <button name="add_college" string="Add College" type="object" class="btn btn-primary"/>
+                    <button name="get_data" string="Get Data" type="object" class="btn btn-primary"/>
                 </footer>
             </form>
         </field>
