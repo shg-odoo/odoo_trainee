@@ -1,16 +1,16 @@
 from odoo import models, fields, api,_
-from datetime import datetime,date
+from datetime import datetime,timedelta
 from dateutil.relativedelta import relativedelta
 
 class Sales(models.Model):
     _name = 'sales'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Sales Details"
 
     number_seq = fields.Char(string="Number", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
     customer = fields.Char(string="Customer")
     invoice_date = fields.Date(string="Invoice Date")
-    current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
-    due_date = fields.Char(string="Due Date",readonly=True)
+    due_date = fields.Char(string="Due Date(Remaining days)")
     next_activity = fields.Many2one("sales.activity",string="Next Activity")
     taxt_included = fields.Integer(string="Tax Included")
     total = fields.Integer(string="Total")
@@ -22,13 +22,24 @@ class Sales(models.Model):
             ('cancel','Cancelled'),
     ], string='Status', readonly=True, default='draft')
     address = fields.Char("Address")
+    sales_person = fields.Many2one("sales.salesmen",string="Sales Person")
+    review = fields.Char("Customer Review")
 
     
-    # @api.onchange('invoice_date','current_date')
-    # def _get_due_date(self):
-    #    start_date = datetime.strptime(str(self.invoice_date), '%Y-%m-%d')
-    #    end_date = datetime.strptime(str(self.current_date), '%Y-%m-%d')
-            # rec.due_date = ((end_date - start_date).days)
+
+    @api.onchange('invoice_date')
+    def _get_due_date(self):
+        if self.invoice_date:
+            for rec in self:
+                date_format = '%Y-%m-%d'
+                joining_date = rec.invoice_date
+                current_date = (datetime.today()).strftime(date_format)
+
+                d1 = datetime.strptime(str(joining_date), date_format).date()
+                d2 = datetime.strptime(str(current_date), date_format).date()
+                r = relativedelta(d2,d1)
+                rec.due_date = (r.years*365)+(r.months*30)+(r.days)
+
 
 
 
@@ -55,7 +66,20 @@ class Sales(models.Model):
 
 class Activity(models.Model):
     _name = 'sales.activity'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = "activity"
 
     activity_id = fields.One2many("sales","next_activity",string="Activity Id")
     activity = fields.Char("Activity")
+
+
+class SalesMen(models.Model):
+    _name = "sales.salesmen"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _rec_name = "sales_person"
+
+
+    sales_person = fields.Char("Sales Person")
+    contactNo = fields.Char("Contact")
+    email = fields.Char("Email")
+    salesman_id = fields.One2many("sales","next_activity",string="Sales Person Id")

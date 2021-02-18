@@ -10,11 +10,13 @@
                 <field name="customer"/>
                 <field name="invoice_date"/>
                 <field name="due_date"/>
-                <field name="next_activity" />
+                <field name="sales_person" widget="mail_activity" />
+                <field name="next_activity" widget="mail_activity" optional="show"/>
                 <field name="taxt_included" sum="Tax Count"/>
                 <field name="total" sum="sum of total"/>
                 <field name="state" decoration-success="state == 'done'"  decoration-info="state == 'confirm'" decoration-warning="state == 'draft'" widget="badge"/>
                 <field name="payment" decoration-success="payment == 'paid'"  decoration-warning="payment == 'not_paid'" widget="badge"/>
+                <field name="review" widget="char_emojis"/>
             </tree>
         </field>
     </record>
@@ -49,14 +51,21 @@
                     <page string="Personal Details">
                         <group>
                             <field name="next_activity"/>
+                            <field name="sales_person" widget="mail_activity" />
                             <field name="taxt_included"/>
                             <field name="total"/>
                             <field name="address"/>
                             <field name="payment" widget="radio" options="{'vertical':true}"/>
+                            <field name="review" widget="char_emojis"/>
                         </group>
                     </page>
                 </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                       <field name="activity_ids" widget="mail_activity"/>
+                       <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}" />
+                </div>
             </form>
         </field>
     </record>
@@ -110,14 +119,23 @@
                 <search>
                     <field name="customer"/>
                     <field name="number_seq"/>
+                    <field name="next_activity"/>
+                    <field name="state"/>
+                    <field name="payment"/>
+                    <separator/>
                     <filter string="Done" name="state" domain="[('state','=','done')]" />
-                    <separator/>
                     <filter string="Confirm" name="state" domain="[('state','=','confirm')]" />
-                    <separator/>
                      <filter string="Draft" name="state" domain="[('state','=','draft')]" />
+                     <separator/>
+                     <filter string="Paid" name="payment" domain="[('payment','=','paid')]" />
+                     <filter string="Not Paid" name="payment" domain="[('payment','=','not_paid')]" />
+                     <separator/>
                     <group string="Group By">
                          <filter string="State" name="state" context="{'group_by':'state'}" />
                          <filter string="Payment" name="payment" context="{'group_by':'payment'}" />
+                         <separator/>
+                         <filter string="Invoice Date" name="invoice_date" context="{'group_by':'invoice_date:year'}" />
+                         <filter string="Due Date" name="due_date" context="{'group_by':'due_date:year'}" />
                     </group>
                 </search>
             </field>
@@ -142,9 +160,51 @@
                     <sheet>
                         <group>
                             <field name="activity"/>
+                            <field name="activity_ids" widget="mail_activity"/>
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="salesperson_tree_view">
+            <field name="name">Sales.salesmen.tree</field>
+            <field name="model">sales.salesmen</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Person">
+                    <field name="sales_person"/>
+                    <field name="contactNo"/>
+                    <field name="email"/>
+                </tree>
+            </field>
+        </record>
+    
+    <record model="ir.ui.view" id="salesperson_form_view">
+            <field name="name">Sales.salesperson.form</field>
+            <field name="model">sales.salesmen</field>
+            <field name="arch" type="xml">
+                <form string="Sales Person Form">
+                    <sheet>
+                        <group>
+                            <field name="sales_person"/>
+                            <field name="contactNo"/>
+                            <field name="email"/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sales_session_graph_view">
+            <field name="name">sales.graph</field>
+            <field name="model">sales</field>
+            <field name="arch" type="xml">
+                <graph string="Sales by Tax">
+                    <field name="customer"/>
+                    <field name="taxt_included" type="measure"/>
+                    <field name="total" type="measure"/>
+                </graph>
             </field>
         </record>
 
@@ -161,13 +221,29 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record id="sales_salesperson_action" model="ir.actions.act_window" >
+        <field name="name">Sales Person</field>
+        <field name="res_model">sales.salesmen</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="sales_graph_action" model="ir.actions.act_window" >
+        <field name="name">Sales Tax Graph</field>
+        <field name="res_model">sales</field>
+        <field name="view_mode">graph</field>
+    </record>
+
 
 
     <menuitem id="sales_menu" name="Sales Data" />
     
     <menuitem id="sales1" name="Customers" sequence="1" action="sales_action" parent="sales_menu"/>
 
-    <menuitem id="sales2" name="Activity" sequence="2" action="sales_activity_action" parent="sales_menu"/>
+    <menuitem id="sales2" name="Vendors" sequence="2" action="sales_activity_action" parent="sales_menu"/>
+
+    <menuitem id="sales3" name="Sales Men" action="sales_salesperson_action" parent="sales2"/>
+    
+    <menuitem id="sales4" name="Invoice Analysis"  action="sales_graph_action" parent="sales2"/>
 
 
 </odoo>

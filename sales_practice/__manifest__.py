@@ -8,7 +8,8 @@
     'data': [
         'views/sales_view.xml',
         'data/sequence.xml',
-        'report/report_sales.xml'
+        'report/report_sales.xml',
+        'wizard/sales_wizard.xml'
     ],
     'application' : True,
 }

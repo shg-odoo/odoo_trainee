@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sales_wizard_form" model="ir.ui.view">
+        <field name="name">sales.form.wizard</field>
+        <field name="model">sales.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="next_activity"/>
+                </group>
+                <footer>
+                    <button name="add_activity" string="Add Activity" type="object" class="btn btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="student_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add Activity</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sales.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sales_wizard_form"/>
+        <field name="binding_model_id" ref="model_sales"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
