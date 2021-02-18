@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+    id = "student_report"
+    model = "student"
+    string = "Student Report"
+    name = "Student_Management.student_report"
+    file = "Student_Management.student_report"
+    report_type = "qweb-pdf"
+    attachment_use = "True">
+    </report>
+    <template id="student_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <center>
+                        <h1>
+                            Student Details
+                       </h1>
+                    </center>
+                    <br></br>
+                    <table style="width:100%;border: 1px solid black;">
+                        <thread>
+                            <tr>
+                                <th style="border: 1px solid black;text-align: center;">Name</th>
+                                <th style="border: 1px solid black;text-align: center;">Roll NO</th>
+                                <th style="border: 1px solid black;text-align: center;">College</th>
+                                <th style="border: 1px solid black;text-align: center;">Address</th>
+                                <th style="border: 1px solid black;text-align: center;">Birthdate</th>
+                                <th style="border: 1px solid black;text-align: center;">Gender</th>
+                                <th style="border: 1px solid black;text-align: center;">Hobbies</th>
+                            </tr>
+                        </thread>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -35,9 +35,9 @@ class student(models.Model):
     country = fields.Char(string="Country")
     weight = fields.Float(string="Weight")
     height = fields.Float(string="Height")
-    disabled = fields.Boolean(string="Disabled", default=False)
+    disabled = fields.Boolean(string="Physically Disabled?", default=False)
 
-    college_ids = fields.Many2one('college', string='College',)
+    college_ids = fields.Many2one('college', string='College')
 
     hobbies_ids = fields.Many2many('hobbies', string='Hobbies')
 
