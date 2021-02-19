@@ -12,10 +12,10 @@ class student(models.Model):
     _order = "id desc"
     _rec_name = "student_name"
 
-   # @api.depends('Hobbies')
-    def _gethobby_count(self):
-        count = self.env['student.hobby'].search_count([('hobby_id','in',self.hobby_id)])
-        self.Hobbies_count = count
+    # @api.depends('Hobbies')
+    # def _gethobby_count(self):
+    #     count = self.env['student.hobby'].search_count([('hobby_id','=',self.id)])
+    #     self.Hobbies_count = count
     
     def _default_branch(self):
         return 'computer'
@@ -60,10 +60,9 @@ class student(models.Model):
     total = fields.Integer(string='Total',store=True,compute='_get_total')
     total_compute = fields.Integer(compute='_get_total', string='Total Compute',store=True)
     college_id = fields.Many2one('student.college', string='College')
-    hobby_id = fields.Many2one('student.hobby', string='Hobby')
     name_seq = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,  index=True, default=lambda self: _('New'))
     Hobbies = fields.Many2many('student.hobby',string='Hobbies')
-    Hobbies_count = fields.Integer(compute='_gethobby_count' ,store=True)
+    # Hobbies_count = fields.Integer(compute='_gethobby_count' ,store=True)
     state = fields.Selection(
         [('Dontknow','Dontknow'),('Good','Good') ,('bad','Bad')]
         ,string='Status', readonly=True, default='Dontknow')
@@ -119,17 +118,21 @@ class student(models.Model):
 
     def open_college(self):
         self.ensure_one()
-        vals = {
-            'name' : 'College',
-            'view_type' : 'form' ,
-            'rec_model' : 'student.college',
-            'view_id' : False,
-            'domain' : [('college_id','=',self.id)],
-            'view_mode' : 'tree,form',
-            'type' : 'ir.actions.act_window',
-
+        return {
+            'name': _('College'),
+            'domain': [('Student_record', '=', self.id)],
+            'view_type': 'form',
+            'res_model': 'student.college',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'type': 'ir.actions.act_window'
         }
-        return vals
+
+    # collage_count = fields.Integer('College', compute='_compute_collage_count')
+
+    # def _compute_collage_count(self):
+        # for rec in self:
+           # collage_count = self.env['student.college'].search_count([('')])
 
     def Action_status_good(self):
         for rec in self:

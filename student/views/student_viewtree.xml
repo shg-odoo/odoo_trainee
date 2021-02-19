@@ -15,7 +15,7 @@
             <tree>
                 <field name="name_seq"/>
                 <field name="student_name"/>
-                <field name="student_name_up"/>
+                <field name="student_name_up" groups="base.group_no_one"/>
                 <field name="roll_no"/>
                 <field name="birthdate"/>
                 <field name="image" widget="image" class="oe_avatar"/>
@@ -139,7 +139,8 @@
             <form>
                 <header>
                     <button name="email_template1" type="object" string="send mail" class="oe_highlight"/>
-                    <button name="%(student.student_wizard_action)d" type="action" string="Add College" class="oe_highlight"/>
+                    <button name="%(student.student_wizard_action)d" type="action" string="Add College" class="oe_highlight"
+                    context="{'default_college_id' : active_id}"/>
                     <button name="Action_status_good" states="Dontknow" type="object" string="Good" class="oe_highlight"/>
                     <button name="Action_status_bad" states="Good" type="object" string="Bad" class="oe_highlight"/>
                     <button name="Action_status_dontknow" states="bad" type="object" string="Dontknow" class="oe_highlight"/>
@@ -148,10 +149,12 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="open_college" string="(O)Colleges" type="object" class="btn oe_stat_button"
-                        icon="fa-calendar"/>
+                        icon="fa-calendar">
+
+                        </button>
                         <button name="%(open_hobby)d" string="(A)Hobbies" type="action" class="btn oe_stat_button"
                         icon="fa-gittip">
-                            <field name="Hobbies_count"  widget="statinfo" />
+                            <!-- <field name="Hobbies_count"  widget="statinfo" /> -->
                         </button>
                         <button name="toggle_active" string="Archive" type="object" class="btn oe_stat_button"
                         icon="fa-archive">
@@ -183,7 +186,7 @@
                         <page string="Acadamic Details">
                             <group>
                                 <group>
-                                    <field name="student_name_up"/>
+                                    <field name="student_name_up" groups="base.group_no_one"/>
                                     <field name="branch"/>
                                     <field name="roll_no"/>
                                 </group>
