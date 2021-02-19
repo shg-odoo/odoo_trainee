@@ -12,5 +12,8 @@ class student(models.Model):
     branch=fields.Char(string="Branch")
     fees=fields.Integer(string="Fees")
     image=fields.Binary(string="Image")
+    gender=fields.Selection([('male','Male'),('female','Female'),],string="Gender",default='male')
+    date=fields.Date(string="date")
+    bdate=fields.Date(string="BDate" ,default=datetime.today())
 
     
