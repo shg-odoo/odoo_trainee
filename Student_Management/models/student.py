@@ -1,5 +1,6 @@
 from odoo import models, fields, api, exceptions
 from datetime import timedelta, datetime, date
+from dateutil.relativedelta import relativedelta
 
 class student(models.Model):
     _name = 'student'
@@ -8,7 +9,7 @@ class student(models.Model):
     name = fields.Char(string="Name")
     enrollmentNo = fields.Integer(string="Enrollment No")
     contactNo = fields.Char(string="Contact No", size=10) 
-    age = fields.Integer(string="Age")
+    age = fields.Integer(string="Age", compute='cal_age', store=True,)
     email = fields.Char(string="Email Id")
     branch = fields.Char(string="Branch")
     image = fields.Binary(string = "image")
@@ -41,6 +42,12 @@ class student(models.Model):
 
     hobbies_ids = fields.Many2many('hobbies', string='Hobbies')
 
+    @api.depends("birthdate")
+    def cal_age(self):
+        for i in self:
+            if i.birthdate:
+                i.age = relativedelta(date.today(), i.birthdate).years
+
 
 class college(models.Model):
     _name = 'college'
@@ -59,3 +66,9 @@ class hobbies(models.Model):
     _rec_name = "hobbies"
 
     hobbies = fields.Char(string="Hobbies")
+
+
+# class admission(models.Models):
+#     _inherit = "student"
+   
+            

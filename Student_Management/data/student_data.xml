@@ -16,7 +16,7 @@
         <field name="email">odoo@gmail.com</field>
         <field name="branch">Civil</field>
         <field name="birthdate">1998-10-08</field>
-        <field name="city" >Mumbai</field>
+        <field name="city" >Jaipur</field>
     </record>
     <record id="s3" model="student">
         <field name="name">Raj</field>
@@ -34,7 +34,7 @@
         <field name="email">odoo@gmail.com</field>
         <field name="branch">Mechanical</field>
         <field name="birthdate">1998-07-31</field>
-        <field name="city" >Ottawa</field>
+        <field name="city" >Ahmedabad</field>
     </record>
     <record id="s5" model="student">
         <field name="name">Emma</field>
@@ -43,7 +43,7 @@
         <field name="email">odoo@gmail.com</field>
         <field name="branch">Mechanical</field>
         <field name="birthdate">1999-05-08</field>
-        <field name="city" >Ottawa</field>
+        <field name="city" >Ahmedabad</field>
     </record>
     <record id="s6" model="student">
         <field name="name">Sophia</field>
