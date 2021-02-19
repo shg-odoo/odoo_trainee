@@ -6,6 +6,7 @@
     'category': 'Management',
     'depends': ['base', 'mail'],
     'data': [
+        'data/mail_template.xml',
         'data/student_data.xml',
         'wizard/student_wizards.xml',
         'views/student.xml',

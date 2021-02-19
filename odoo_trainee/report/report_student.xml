@@ -4,7 +4,7 @@
     <report
         id="student_report_card"
         model="student"
-        string="Print"
+        string="Student Data"
         name="odoo_trainee.student_report"
         file="odoo_trainee.student_report"
         report_type="qweb-pdf"
@@ -52,6 +52,21 @@
                        </t>
                        </thread>
                     </table>
+                    <br/>
+                    <br/>
+                    <center>
+                    <t t-foreach="docs" t-as="o">
+                    <table class="table table-bordered mb-0" style="border: 2px solid black;">
+                        <tr>
+                            <td class="text-center align-middle" style="height: 16rem">
+                                <img alt="Barcode" t-att-src="'report/barcode/?type=%s&amp;value=%s&amp;height=%s&amp;width=%s' %('EAN13',o.name_seq,250,400)" style="width:50%;height:80%;"/>
+                                <span t-field="o.name_seq"/>
+                            </td>
+                        </tr>                       
+                    </table> 
+                    <br/><br/>
+                    </t>
+                    </center>
         </t>
         </t>
     </template>

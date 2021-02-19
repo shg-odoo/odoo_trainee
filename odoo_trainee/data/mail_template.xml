@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+    <odoo>
+    <!--  Mail template are declared in a NOUPDATE block
+            so users can freely customize/delete them  -->
+        <data noupdate="1">
+            <!-- Email template  -->
+            <record id="email_template_studentdata" model="mail.template">
+                <field name="name">student data: Send by email</field>
+                <field name="model_id" ref="odoo_trainee.model_student"/>
+                <field name="email_from">${object.name.email_formatted  |safe}</field>
+                <field name="email_to">${object.email}</field>
+                <field name="subject">Email sent to (Ref ${object.name_seq})</field>
+                <field name="body_html" type="html">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear % if object.name: ${object.name} , % else: ${object.enrollmentNo}, % endif
+                        <br/>
+                        <br/>
+                        Here is your 
+                        <br/>
+                        Contact No: ${object.contactNo}
+                        <br/>
+                        <br/>
+                        Do not hesitate to contact us if you have any questions.
+                        </p>
+                    </div>
+                </field>
+                <field name="report_template" ref="student_report_card"/>
+                <field name="report_name">Data_${(object.name_seq)}</field>
+            </record>
+        </data>
+    </odoo>

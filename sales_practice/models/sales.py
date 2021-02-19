@@ -51,9 +51,17 @@ class Sales(models.Model):
         result = super(Sales, self).create(vals)
         return result
 
+     
     def action_confirm(self):
         for rec in self:
             rec.state = 'confirm'
+            return {
+                'effect': {
+                    'fadeout': 'slow',
+                    'message': 'Confirmed Your Sales Data Entry',
+                    'type': 'rainbow_man',
+                }
+            }
 
 
     def action_done(self):

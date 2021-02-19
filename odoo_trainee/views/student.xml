@@ -100,6 +100,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="email_template1" type="object" string="send mail" class="oe_highlight"/>
+                    <!-- <button name="test_recordset" type="object" string="Record Set Operations" class="oe_highlight" /> -->
                     <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight" />
                     <button name="action_done" type="object" states="confirm" string="Done" class="oe_highlight" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
@@ -111,8 +113,10 @@
                         </button>
                     </div>
                     <br/>
+                <sheet>
+                    <widget name="web_ribbon" text="Male" bg_color="bg-danger" attrs="{'invisible': [('gender','=','female')]}" />
+                    <widget name="web_ribbon" text="female" bg_color="bg-success" attrs="{'invisible': [('gender','=','male')]}" />
                 <notebook>
-                    
                     <page string="Personal Details">
                         <div class="oe_title">
                            <h1>
@@ -150,6 +154,12 @@
                         </group>     
                     </page>
                 </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                       <field name="activity_ids" widget="mail_activity"/>
+                       <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}" />
+                    </div>
             </form>
         </field>
     </record>
@@ -161,7 +171,7 @@
             <field name="name">student.kanban.view</field>
             <field name="model">student</field> 
             <field name="arch" type="xml">
-                <kanban>
+                <kanban default_group_by="branch">
                     <field name="name"/>
                     <field name="image" widget="image"/>
                     <field name="id"/>

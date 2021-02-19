@@ -235,7 +235,7 @@
 
 
 
-    <menuitem id="sales_menu" name="Sales Data" />
+    <menuitem id="sales_menu" name="Sales Data" web_icon="sales_practice,static/description/icon.png"/>
     
     <menuitem id="sales1" name="Customers" sequence="1" action="sales_action" parent="sales_menu"/>
 
