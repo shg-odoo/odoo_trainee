@@ -19,7 +19,7 @@ class Student(models.Model):
     )
 
     image = fields.Binary(string="Image")
-    student_id = fields.Integer(string="Student ID", required=True)
+    student_id = fields.Integer(string="Student ID")
     name = fields.Char(string="Name", required=True)
     gender = fields.Selection(
         [
@@ -33,10 +33,10 @@ class Student(models.Model):
     age = fields.Integer(string="Age", compute="_get_age", store=True)
     hobby_id = fields.Many2many("student.hobbies", string="Hobbies")
 
-    mobile_number = fields.Char(string="Mobile Number", size=10, required=True)
-    email = fields.Char(string="Email ID", required=True)
-    address = fields.Text(string="Address", required=True)
-    city = fields.Char(string="City", required=True)
+    mobile_number = fields.Char(string="Mobile Number", size=10)
+    email = fields.Char(string="Email ID")
+    address = fields.Text(string="Address")
+    city = fields.Char(string="City")
 
     bloodGroup = fields.Selection(
         [
@@ -59,13 +59,13 @@ class Student(models.Model):
 
     date_today = fields.Date(default=lambda today: fields.date.today())
 
-    maths = fields.Integer(string="Maths", required=True)
-    chemistry = fields.Integer(string="Chemistry", required=True)
-    physics = fields.Integer(string="Physics", required=True)
+    maths = fields.Integer(string="Maths")
+    chemistry = fields.Integer(string="Chemistry")
+    physics = fields.Integer(string="Physics")
     total = fields.Integer(string="Total", store=True)
     average = fields.Float(string="Average", store=True)
 
-    school_id = fields.Many2one("student.school", string="School", required=True)
+    school_id = fields.Many2one("student.school", string="School")
 
     @api.depends("birthDate")
     def _get_age(self):
@@ -117,15 +117,14 @@ class Hobbies(models.Model):
 class Scholarship(models.Model):
     _inherit = "school.student"
 
-    eligible = fields.Boolean(string="Eligible For Scholarship",compute="_Eligible",store=True)
-    
+    eligible = fields.Boolean(
+        string="Eligible For Scholarship", compute="_Eligible", store=True
+    )
+
     @api.depends("average")
     def _Eligible(self):
         for i in self:
-            if i.average>90:
-                i.eligible=True
+            if i.average > 90:
+                i.eligible = True
             else:
-                i.eligible=False
-    
-
-
+                i.eligible = False

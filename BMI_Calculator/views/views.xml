@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="bmi_tree_view" model="ir.ui.view">
+        <field name="name">BMI Tree</field>
+        <field name="model">bmi.calculator</field>
+        <field name="arch" type="xml">
+            <tree string="BMI Calculator">
+                <field name="name" />
+                <field name="gender" />
+                <field name="birthDate" />
+                <field name="age" />
+                <field name="bloodGroup"/>
+                <field name="height" />
+                <field name="weight" />
+                <field name="bmi" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="bmi_form_view" model="ir.ui.view">
+        <field name="name">BMI Form</field>
+        <field name="model">bmi.calculator</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" style="width:25%;"/>
+                        <field name="gender" widget="radio" />
+                        <field name="birthDate" style="width:25%;" />
+                        <field name="age" style="width:25%;"/>
+                        <field name="bloodGroup" style="width:25%;"/>
+                        <field name="height" style="width:25%;"/>
+                        <field name="weight" style="width:25%"/>
+                        <field name="bmi" style="width:25%" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="bmi_menu_action" model="ir.actions.act_window">
+        <field name="name">BMI Calculator</field>
+        <field name="res_model">bmi.calculator</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create BMI Record
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="bmi_menu" name="BMI Calculator" sequence="1"/>
+
+    <menuitem id="bmi_calculate_menu" name="BMI" parent="bmi_menu"
+        action = "bmi_menu_action" sequence="1"/>
+
+</odoo>
