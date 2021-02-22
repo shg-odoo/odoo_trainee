@@ -20,7 +20,7 @@ class Student(models.Model):
 
     image = fields.Binary(string="Image")
     student_id = fields.Integer(string="Student ID")
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(string="Name", required=True, track_visibility="always")
     gender = fields.Selection(
         [
             ("male", "Male"),
@@ -29,14 +29,18 @@ class Student(models.Model):
         string="Gender",
         default="male",
     )
-    birthDate = fields.Date(string="Birth Date", required=True)
+    birthDate = fields.Date(
+        string="Birth Date", required=True, track_visibility="always"
+    )
     age = fields.Integer(string="Age", compute="_get_age", store=True)
     hobby_id = fields.Many2many("student.hobbies", string="Hobbies")
 
-    mobile_number = fields.Char(string="Mobile Number", size=10)
-    email = fields.Char(string="Email ID")
-    address = fields.Text(string="Address")
-    city = fields.Char(string="City")
+    mobile_number = fields.Char(
+        string="Mobile Number", size=10, track_visibility="always"
+    )
+    email = fields.Char(string="Email ID", track_visibility="always")
+    address = fields.Text(string="Address", track_visibility="always")
+    city = fields.Char(string="City", track_visibility="always")
 
     bloodGroup = fields.Selection(
         [
@@ -66,6 +70,7 @@ class Student(models.Model):
     average = fields.Float(string="Average", store=True)
 
     school_id = fields.Many2one("student.school", string="School")
+    active = fields.Boolean("Active", default=True)
 
     @api.depends("birthDate")
     def _get_age(self):

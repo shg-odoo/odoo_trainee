@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="student_tree_view" model="ir.ui.view">
+    <record id="student_tree_view" model="ir.ui.view" >
         <field name="name">Student Tree</field>
         <field name="model">school.student</field>
         <field name="arch" type="xml">
-            <tree string="Students">
+            <tree string="Students" default_order="nameseq">
+                <field name="active" invisible="1" />
                 <field name="nameseq" />
                 <field name="student_id" />
                 <field name="name" />
@@ -42,6 +43,8 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <widget name="web_ribbon" text="Male" attrs="{'invisible': [('gender', '=' , 'female')]}" bg_color="bg-primary" />
+                    <widget name="web_ribbon" text="Female" attrs="{'invisible': [('gender', '=' , 'male')]}" bg_color="bg-danger" />
                     <group>
                         <div class="oe_title">
                             <h1>
@@ -193,12 +196,14 @@
                 <filter string="Male" name="male" domain="[('gender','=','male')]"/>
                 <separator/>
                 <filter string="Female" name="female" domain="[('gender','=','female')]"/>
+                <separator />
+                <filter string="Archived" name="active" domain="[('active','=',False)]"/>
                 <group>
                     <filter string="By City" name="city" context="{'group_by':'city'}"/>
                     <separator/>
                     <filter string="By Blood Group" name="bloodGroup" context="{'group_by':'bloodGroup'}"/>
                 </group>
-                <searchpanel class="">
+                <searchpanel>
                     <field name="gender" icon="fa-users"/>
                 </searchpanel>
             </search>
