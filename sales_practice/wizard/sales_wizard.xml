@@ -10,7 +10,7 @@
                     <field name="next_activity"/>
                 </group>
                 <footer>
-                    <button name="add_activity" string="Add Activity" type="object" class="btn btn-primary"/>
+                    <button name="add_activity" string="Add Activity" type="object" class="btn btn-primary" context="{'default_salesman_id': active_id}" />
                 </footer>
             </form>
         </field>

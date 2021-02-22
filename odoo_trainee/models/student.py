@@ -107,12 +107,6 @@ class student(models.Model):
         temp = self.env['mail.template'].browse(mail_data).send_mail(self.id,force_send=True)
         return temp
 
-    # def test_recordset(self):
-    #     for rec in self:
-    #         print("Odoo ORM: Record set Operation")
-    #         colleges = self.env('student.college').search([])
-    #         print("College..", colleges)
-
 
 
 class college(models.Model):

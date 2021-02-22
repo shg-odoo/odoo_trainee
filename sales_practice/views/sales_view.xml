@@ -10,8 +10,8 @@
                 <field name="customer"/>
                 <field name="invoice_date"/>
                 <field name="due_date"/>
-                <field name="sales_person" widget="mail_activity" />
-                <field name="next_activity" widget="mail_activity" optional="show"/>
+                <field name="sales_person" widget="many2one" optional="show"/>
+                <field name="next_activity" widget="list_activity" optional="show"/>
                 <field name="taxt_included" sum="Tax Count"/>
                 <field name="total" sum="sum of total"/>
                 <field name="state" decoration-success="state == 'done'"  decoration-info="state == 'confirm'" decoration-warning="state == 'draft'" widget="badge"/>
@@ -30,9 +30,20 @@
                 <header>
                     <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
                     <button name="action_done" type="object" states="confirm" string="Done" class="oe_highlight"/>
+                    <button name="test_recordset" type="object" string="Record Set Opertaions" class="oe_highlight" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
                 </header>
+                 <br/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_sales_salesperson" type="object"
+                                class="oe_stat_button" string="Activity" icon="fa-calendar">
+                                <field name="active" widget="boolean_button" />
+                        </button>
+                    </div>
+                <br/>
                 <sheet string="Customer Invoice">
+                <widget name="web_ribbon" text="Not Paid" bg_color="bg-danger" attrs="{'invisible': [('payment','=','paid')]}" />
+                <widget name="web_ribbon" text="Paid" bg_color="bg-success" attrs="{'invisible': [('payment','=','not_paid')]}" />
                      <div class="oe_title">
                            <h1>
                                <strong><h1><field name="number_seq" readonly="1"/></h1></strong>
@@ -111,6 +122,30 @@
             </field>
         </record>	
 
+        <record model="ir.ui.view" id="sales_calendar_view">
+            <field name="name">Sales</field>
+            <field name="model">sales</field>
+            <field name="arch" type="xml">
+                <calendar color="customer" date_start="invoice_date" string="Sales Calendar" mode="month">
+                    <field name="customer"/>
+                    <!-- <field name="contactNo"/> -->
+                </calendar>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="ssales_session_graph_view">
+            <field name="name">sales.graph</field>
+            <field name="model">sales</field>
+            <field name="arch" type="xml">
+                <graph string="sales by percentage">
+                    <field name="customer"/>
+                    <field name="taxt_included" type="measure"/>
+                    <field name="total" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
 
          <record model="ir.ui.view" id="sales_search_view">
             <field name="name">Sales.search</field>
@@ -173,8 +208,10 @@
             <field name="arch" type="xml">
                 <tree string="Sales Person">
                     <field name="sales_person"/>
+                    <field name="salesman_id"/>
                     <field name="contactNo"/>
                     <field name="email"/>
+                    <field name="image" widget="image" class="oe_avatar"/>
                 </tree>
             </field>
         </record>
@@ -190,6 +227,7 @@
                             <field name="contactNo"/>
                             <field name="email"/>
                             <field name="activity_ids" widget="mail_activity"/>
+                            <field name="image" widget="image" class="oe_avatar"/>
                         </group>
                     </sheet>
                 </form>
@@ -200,7 +238,7 @@
             <field name="name">sales.graph</field>
             <field name="model">sales</field>
             <field name="arch" type="xml">
-                <graph string="Sales by Tax">
+                <graph string="Sales">
                     <field name="customer"/>
                     <field name="taxt_included" type="measure"/>
                     <field name="total" type="measure"/>
@@ -209,10 +247,39 @@
         </record>
 
 
+        <record model="ir.ui.view" id="sales_session_pivot_view">
+            <field name="name">sales.pivot</field>
+            <field name="model">sales</field>
+            <field name="arch" type="xml">
+                <pivot string="Sales by Due Date">
+                    <field name="customer" type="row"/>
+                    <field name="due_date" type="col" interval="days"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="sales_order_view_activity" model="ir.ui.view">
+            <field name="name">sales.activity</field>
+            <field name="model">sales</field>
+            <field name="arch" type="xml">
+                <activity string="Sales Order">
+                    <templates>
+                        <div t-name="activity-box">
+                            <div>
+                                <field name="customer" display="full"/>
+                                <field name="next_activity" display="full"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record>
+
+
      <record id="sales_action" model="ir.actions.act_window" >
         <field name="name">Sales Invoices</field>
         <field name="res_model">sales</field>
-        <field name="view_mode">tree,form,kanban,search</field>
+        <field name="view_mode">tree,form,kanban,search,calendar,pivot,graph,activity</field>
     </record>
 
     <record id="sales_activity_action" model="ir.actions.act_window" >
