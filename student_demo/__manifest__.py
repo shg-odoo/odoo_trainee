@@ -6,7 +6,7 @@
     'category': 'Management',
     'depends' : ['base'],
     'data': [
-        'data/student_data.xml',
+        #'data/student_data.xml',
         'views/student.xml'
     ],
     'application' : True,
