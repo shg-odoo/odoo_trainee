@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="iw_tree_view" model="ir.ui.view">
+        <field name="name">IW Tree</field>
+        <field name="model">iw.calculator</field>
+        <field name="arch" type="xml">
+            <tree string="IW Calculator">
+                <field name="name" />
+                <field name="enrollmentNo" />
+                <field name="gender" />
+                <field name="birthdate" />
+                <field name="age" />
+                <field name="bloodGroup"/>
+                <field name="height" />
+                <field name="weight" />
+                <field name="iw" />
+            </tree>
+        </field>
+    </record>
+    <record id="iw_form_view" model="ir.ui.view">
+        <field name="name">IW Form</field>
+        <field name="model">iw.calculator</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" style="width:25%;"/>
+                            </h1>
+                        </div>
+                        <group>
+                        <field name="enrollmentNo" style="width:25%;"/>
+                        <field name="gender" widget="radio" />
+                        <field name="birthdate" style="width:25%;" />
+                        <field name="age" style="width:25%;"/>
+                        <field name="bloodGroup" style="width:25%;"/>
+                        <field name="height" style="width:25%;"/>
+                        <field name="weight" style="width:25%"/>
+                        <field name="iw" style="width:25%" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="iw_menu_action" model="ir.actions.act_window">
+        <field name="name">IW Calculator</field>
+        <field name="res_model">iw.calculator</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="iw_menu" name="Ideal Weight Calculator" sequence="1"/>
+    <menuitem id="iw_calculate_menu" name="Ideal Weight Calculator" parent="iw_menu"
+        action = "iw_menu_action" sequence="2"/>
+</odoo>

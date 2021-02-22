@@ -15,7 +15,7 @@
         <field name="contactNo">8764543567</field>
         <field name="email">odoo@gmail.com</field>
         <field name="branch">Civil</field>
-        <field name="birthdate">1998-10-08</field>
+        <field name="birthdate">1997-10-08</field>
         <field name="city" >Jaipur</field>
     </record>
     <record id="s3" model="student">
@@ -33,7 +33,7 @@
         <field name="contactNo">9872345678</field>
         <field name="email">odoo@gmail.com</field>
         <field name="branch">Mechanical</field>
-        <field name="birthdate">1998-07-31</field>
+        <field name="birthdate">1999-07-31</field>
         <field name="city" >Ahmedabad</field>
     </record>
     <record id="s5" model="student">
@@ -51,7 +51,7 @@
         <field name="contactNo">9872376785</field>
         <field name="email">odoo@gmail.com</field>
         <field name="branch">Civil</field>
-        <field name="birthdate">1998-07-31</field>
+        <field name="birthdate">1999-07-31</field>
         <field name="city" >Jaipur</field>
     </record>
     <record id="c1" model="college">

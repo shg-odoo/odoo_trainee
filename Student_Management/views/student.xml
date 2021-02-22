@@ -13,6 +13,7 @@
                 <field name="contactNo"/>
                 <field name="bloodGroup" />
                 <field name="college_ids"/>
+                <field name="eligible"/>
                 <field name="hobbies_ids" widget="many2many_tags"/>
                 <field name="city" />
                 <field name="country" />
@@ -43,7 +44,7 @@
                                 <field name="enrollmentNo" style="width:25%;"/>
                                 <field name="birthdate" style="width:25%;"/>
                                 <field name="age" style="width:25%;"/>
-                                <field name="gender" style="width:25%;"/>
+                                <field name="gender" style="width:25%;" widget="radio"/>
                                 <field name="hobbies_ids" widget="many2many_tags" style="width:25%;"/>
                             </group>
                         </page>
@@ -67,8 +68,14 @@
                         </page>
                         <page name="page_academic" string="Academic Details">
                             <group>
+                                <field name="maths" style="width:25%;"/>
+                                <field name="chemistry" style="width:25%;"/>
+                                <field name="physics" style="width:25%;"/>
+                                <field name="total" style="width:25%;" />
+                                <field name="average" style="width:25%;"/>
                                 <field name="college_ids" style="width:25%;" />
                                 <field name="branch" style="width:25%;"/>
+                                <field name="eligible" style="width:25%;"/>
                             </group>
                         </page>
                     </notebook>
@@ -218,6 +225,18 @@
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+    <record id="student_form" model="ir.ui.view" >
+        <field name="name">student.form.inherit</field>
+        <field name="model">college</field>
+        <field name="inherit_id" ref="student.form"/>
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='address']/form/field[@name='email']"
+                position="after">
+                <field name="age"/>
+            </xpath>
         </field>
     </record>
     <record id="student_action" model="ir.actions.act_window">

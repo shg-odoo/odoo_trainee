@@ -35,12 +35,19 @@ class student(models.Model):
     pincode = fields.Char(string="Pincode")
     country = fields.Char(string="Country")
     weight = fields.Float(string="Weight")
-    height = fields.Float(string="Height")
+    height = fields.Float(string="Height (cm)")
     disabled = fields.Boolean(string="Physically Disabled?", default=False)
 
     college_ids = fields.Many2one('college', string='College')
 
     hobbies_ids = fields.Many2many('hobbies', string='Hobbies')
+    
+    maths = fields.Integer(string="Maths")
+    chemistry = fields.Integer(string="Chemistry")
+    physics = fields.Integer(string="Physics")
+    total = fields.Integer(string="Total")
+    average = fields.Integer(string="Average")
+
 
     @api.depends("birthdate")
     def cal_age(self):
@@ -48,6 +55,13 @@ class student(models.Model):
             if i.birthdate:
                 i.age = relativedelta(date.today(), i.birthdate).years
 
+
+    @api.onchange("maths", "chemistry", "physics")
+    def _result(self):
+        for i in self:
+            i.total = i.maths + i.chemistry + i.physics
+            i.average = (i.total)/3
+    
 
 class college(models.Model):
     _name = 'college'
@@ -68,7 +82,16 @@ class hobbies(models.Model):
     hobbies = fields.Char(string="Hobbies")
 
 
-# class admission(models.Models):
-#     _inherit = "student"
-   
-            
+class admission(models.Model):
+    _inherit = "student"
+
+    eligible = fields.Boolean(
+        string="Eligible For Admission", compute="_Eligible", store=True)
+
+    @api.depends("age")
+    def _Eligible(self):
+        for i in self:
+            if i.age >= 22:
+                i.eligible = True
+            else:
+                i.eligible = False
