@@ -4,12 +4,13 @@
     'catagory': 'Extra Tools',
     'author': 'Meet Patel (mte)',
     'summery': 'Student Management Software',
-    'depends': ['base'],
+    'depends': ['base','mail'],
     'data':[
         'data/student_data.xml',
         'views/student.xml',
         'wizard/add_college_wizard_view.xml',
-        'report/student_report.xml'
+        'report/student_report.xml',
+        'data/sequence.xml'
     ],
     'application':True,
 }

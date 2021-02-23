@@ -4,6 +4,7 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <tree string="strings">
+                <field name="sequenceName" />
                 <field name="enrollmentNo"/>
                 <field name="name"/>
                 <field name="birthdate" />
@@ -23,6 +24,7 @@
                 <field name="weight" />
                 <field name="pincode" />
                 <field name="disabled" />
+                <field name="active" />
             </tree>
         </field>
     </record>
@@ -32,15 +34,18 @@
         <field name="arch" type="xml">
             <form>
                 <sheet string="students">
+                    <widget name="web_ribbon" text="Male" attrs="{'invisible': [('gender', '=' , 'female')]}" bg_color="bg-primary" />
+                    <widget name="web_ribbon" text="Female" attrs="{'invisible': [('gender', '=' , 'male')]}" bg_color="bg-danger" />
                     <field name="image" widget="image" class="oe_avatar" />
                     <div class="oe_title">
                         <h1>
-                            <field name="name" style="width:25%;"/>
+                            <field name="sequenceName" style="width:50%;"/>
                         </h1>
                     </div>
                     <notebook>
-                        <page name="page_personal" string="Personal Details">
-                            <group>
+                        <page string="Personal Details">
+                            <group >
+                                <field name="name" style="width:25%;"/>
                                 <field name="enrollmentNo" style="width:25%;"/>
                                 <field name="birthdate" style="width:25%;"/>
                                 <field name="age" style="width:25%;"/>
@@ -79,6 +84,15 @@
                             </group>
                         </page>
                     </notebook>
+                </sheet>
+                <sheet>
+                    <group>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail.followers"/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                            <field name="message_ids" widget="mail_thread" options="{'post_refresh':'recipients'}"/>
+                        </div>
+                    </group>
                 </sheet>
             </form>
         </field>
@@ -133,6 +147,10 @@
                 <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]" />
                 <separator />
                 <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]" />
+                <separator />
+                <filter name="filter_Archive" string="Archived" domain="[('active', '=', False)]" />
+                <separator />
+               
                 <searchpanel>
                     <field name="gender" />
                 </searchpanel>
@@ -189,13 +207,26 @@
             </gantt>
         </field>
     </record>
+    <record id="student_form_inherit" model="ir.ui.view">
+        <field name="name">student_form</field>
+        <field name="model">college</field>
+        <field name="inherit_id" ref="Student_Management.college_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='collegeName']" position="after">
+                <group>
+                    <field name="city"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
     <record id="college_tree" model="ir.ui.view">
         <field name="name">college.tree</field>
         <field name="model">college</field>
         <field name="arch" type="xml">
             <tree string="Colleges">
                 <field name="collegeName"/>
-                <field name="collegeCity"/>
+                <!-- <field name="collegeCity"/> -->
+                <field name="city" />
             </tree>
         </field>
     </record>
@@ -207,7 +238,7 @@
                 <sheet string="Colleges">
                     <group>
                         <field name="collegeName"/>
-                        <field name="collegeCity"/>
+                        <!-- <field name="collegeCity"/> -->
                     </group>
                     <group>
                         <field name="student_ids">
@@ -227,18 +258,6 @@
             </form>
         </field>
     </record>
-    <record id="student_form" model="ir.ui.view" >
-        <field name="name">student.form.inherit</field>
-        <field name="model">college</field>
-        <field name="inherit_id" ref="student.form"/>
-        <field name="arch" type="xml">
-            <xpath
-                expr="//field[@name='address']/form/field[@name='email']"
-                position="after">
-                <field name="age"/>
-            </xpath>
-        </field>
-    </record>
     <record id="student_action" model="ir.actions.act_window">
         <field name="name">student</field>
         <field name="res_model">student</field>
@@ -249,7 +268,7 @@
         <field name="res_model">college</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <menuitem id="student_menu" name="Student Data" />
+    <menuitem id="student_menu" name="Student Data" web_icon = "Student_Management,static/description/icon.png"/>
     <menuitem id="student" name="Student Details" sequence="1" action="student_action" parent="student_menu"/>
     <menuitem id="college" name="College Details" sequence="2" action="college_action" parent="student_menu"/>
 </odoo>

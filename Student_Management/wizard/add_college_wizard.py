@@ -9,3 +9,5 @@ class AddCollegeWizard(models.TransientModel):
     def add_college(self):
         ids = self._context.get('active_ids')
         self.env['student'].browse(ids).write({'college_ids':self.college_ids})
+
+

@@ -17,6 +17,7 @@
             </tree>
         </field>
     </record>
+    
     <record id="iw_form_view" model="ir.ui.view">
         <field name="name">IW Form</field>
         <field name="model">iw.calculator</field>
