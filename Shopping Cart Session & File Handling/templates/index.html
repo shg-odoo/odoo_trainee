@@ -1,0 +1,233 @@
+<!doctype html>
+
+<html style="overflow-x: hidden;max-width: 100;">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shopping Site</title>
+
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel = "icon" href = "/static/images/shopping-cart.png" type = "image/x-icon"> 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="/static/js/search.js"></script>
+
+</head>
+
+<body>
+
+  <div id='main' align="center">
+    <form class="form-inline">
+      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search For Products.." style="margin-top: 20px;max-width: 500px;margin-bottom: 40px;">
+      <ul id='myProducts'>   
+            <div id="myData"></div>
+      </ul>
+    </form>
+    <div id="cart" align="center" style="padding: 50px 0px 0px 0px;"></div>
+  </div>
+
+
+</body>
+<script>
+  
+  function createCard(data) {
+
+    let card = document.createElement('div');
+    card.style.margin="0px 40px 0px 0px";
+    card.style.display="inline-block";
+    card.style.verticalAlign="middle";
+    card.classList.add("card");
+
+    let li=document.createElement('li');
+    li.style.justifyContent="space-evenly";
+    card.appendChild(li);
+
+    let a=document.createElement('a');
+    a.setAttribute('href','#');
+    a.style.textDecoration="none";
+    a.style.color="inherit";
+    li.appendChild(a);
+
+    let image=document.createElement('img');
+    image.setAttribute('id','image');
+    image.setAttribute('src',data.image_link);
+
+    let name = document.createElement('h2');
+    name.innerText = data.name;
+    name.setAttribute('id','name');
+
+    let price = document.createElement('p');
+    price.setAttribute('id','price');
+    price.classList.add("price");
+    price.innerText = "Price: " + data.price;    
+
+    let input=document.createElement("input");
+    input.setAttribute("type","button");
+    input.style.margin="0px 0px 10px 0px";
+    input.classList.add("ip");
+    input.setAttribute("value","Add To Cart");
+    input.onclick=function() {addFunction()};
+
+    function addFunction() {
+    window.location.href="/add/to/cart"+"/"+data.id;
+    }
+    
+    a.appendChild(image);
+    a.appendChild(name);
+    a.appendChild(price);
+    a.appendChild(input);
+
+    return card;
+}
+
+data = %(data)s;
+cartData = %(cartData)s;
+
+var dataContainer = document.getElementById("myData");
+var cartContainer = document.getElementById("cart");
+
+let table=document.createElement('table');
+table.classList.add("table");
+table.style.alignItems="center";
+table.style.display="table-cell";
+table.style.verticalAlign="middle";
+table.style.textAlign="center";
+
+let thead=document.createElement("thead");
+let trHead=document.createElement("tr");
+
+let th1=document.createElement("th");
+th1.classList.add("info");
+th1.innerText="Cart";
+th1.style.textAlign="center";
+
+let th2=document.createElement("th");
+th2.classList.add("info");
+th2.innerText="Product";
+th2.style.textAlign="center";
+
+let th3=document.createElement("th");
+th3.classList.add("info");
+th3.innerText="Price";
+th3.style.textAlign="center";
+
+let th4=document.createElement("th");
+th4.classList.add("info");
+th4.innerText="Quantity";
+th4.style.textAlign="center";
+
+let th5=document.createElement("th");
+th5.classList.add("info");
+th5.style.textAlign="center";
+
+let th6=document.createElement("th");
+th6.classList.add("info");
+th6.style.textAlign="center";
+
+let th7=document.createElement("th");
+th7.classList.add("info");
+th7.style.textAlign="center";
+
+trHead.appendChild(th1);
+trHead.appendChild(th2);
+trHead.appendChild(th3);
+trHead.appendChild(th4);
+trHead.appendChild(th5);
+trHead.appendChild(th6);
+trHead.appendChild(th7);
+thead.appendChild(trHead);               
+
+let tbody=document.createElement("tbody");
+
+for (var i = 0; i <data.length; i++) {
+
+    let card = this.createCard(data[i]);
+    dataContainer.appendChild(card);
+    
+    if (cartData && parseInt(data[i].id) in cartData) {
+                let div = document.createElement('div');
+
+                let tr=document.createElement("tr")
+
+                let tdImage=document.createElement("td");
+                let img=document.createElement("img");
+                img.setAttribute("width","150");
+                img.setAttribute("src",data[i].image_link);
+                tdImage.appendChild(img);
+
+                let tdName=document.createElement("td");
+                let name=document.createElement("p");
+                name.innerText=data[i].name;
+                tdName.appendChild(name);
+
+                let tdPrice=document.createElement("td");
+                let price=document.createElement("p");
+                price.innerText=data[i].price;
+                tdPrice.appendChild(price);
+
+                let tdQty=document.createElement("td");
+                tdQty.style.display='inline-block';
+                let increase=document.createElement("a");
+                increase.style.textDecoration="none";
+                increase.href="/add/to/cart"+"/"+data[i].id;
+                let h4Incr=document.createElement("h4");
+                let bIncr=document.createElement("b");
+                bIncr.innerText="+";
+                h4Incr.appendChild(bIncr);
+                increase.appendChild(h4Incr);
+                tdQty.appendChild(increase);
+                tdQty.id="tdqty";
+                let qty=document.createElement("p");
+                qty.innerText=data[i].quantity;
+                tdQty.appendChild(qty);
+                let decrease=document.createElement("a");
+                decrease.style.textDecoration="none";
+                decrease.href="/decrease"+"/"+data[i].id;
+                let h4Dcr=document.createElement("h4");
+                let bDcr=document.createElement("b");
+                bDcr.innerText="-";
+                h4Dcr.appendChild(bDcr);
+                decrease.appendChild(h4Dcr);
+                tdQty.appendChild(decrease);
+
+                let tdRemove=document.createElement("td");
+                let a = document.createElement('a');
+                a.style.textDecoration="none";
+                a.href = "/remove/" + data[i].id;              
+                let b=document.createElement("b");
+                b.innerText = "Remove";
+                a.appendChild(b);
+                tdRemove.appendChild(a);
+                
+               
+
+                tdImage.style.verticalAlign="middle";
+                tdName.style.verticalAlign="middle";
+                tdPrice.style.verticalAlign="middle";
+                tdQty.style.verticalAlign="middle";
+                tdRemove.style.verticalAlign="middle";
+                
+
+                tr.appendChild(tdImage);
+                tr.appendChild(tdName);
+                tr.appendChild(tdPrice);
+                tr.appendChild(tdQty);
+                tr.appendChild(tdRemove);
+               
+
+                tbody.appendChild(tr);
+                table.appendChild(thead);
+                table.appendChild(tbody);
+
+                div.appendChild(table);
+                cartContainer.appendChild(div);    
+            }
+}
+
+</script>
+
+</html>
