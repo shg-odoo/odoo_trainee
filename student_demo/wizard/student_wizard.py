@@ -1,12 +1,11 @@
-from odoo import fields, models, api
-
+from odoo import models, fields, api,_
 
 class Wizards(models.TransientModel):
     _name = "student.wizard"
-    _description = "Wizard: Quick Registration of College"
+    _description = "Wizard: ADD  College"
 
 
-    college_id = fields.Many2one("student.college", string="College")
+    college_id = fields.Many2one('student.college', string="College")
 
 
     def add_college(self):

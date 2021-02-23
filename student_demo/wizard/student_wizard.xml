@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="student_wizard_form" model="ir.ui.view">
+        <field name="name">student.form.wizard</field>
+        <field name="model">student.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="college_id"/>
+                </group>
+                <footer>
+                    <button name="add_college" string="Add College" type="object" class=" btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="student_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add College</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">student.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="student_wizard_form"/>
+        <field name="binding_model_id" ref="model_student"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

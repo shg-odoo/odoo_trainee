@@ -4,10 +4,12 @@
     'summary': 'Student information',
     'sequence' : 5,
     'category': 'Management',
-    'depends' : ['base'],
+    'depends' : ['mail'],
     'data': [
         #'data/student_data.xml',
-        'views/student.xml'
+        'views/student.xml',
+        'wizard/student_wizard.xml',
+        'report/report.xml',
     ],
     'application' : True,
 }
