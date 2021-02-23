@@ -88,9 +88,10 @@ class Sales(models.Model):
 
     def open_sales_salesperson(self):
         for rec in self:
+            print(rec.next_activity)
             return {
                 'name': _('Salesperson'),
-                'domain': [('id','=',rec.id)],
+                'domain': [('salesman_id','=',rec.id)],
                 'view_type': 'form',
                 'res_model': 'sales.salesmen',
                 'view_id': False,
@@ -121,4 +122,26 @@ class SalesMen(models.Model):
     salesman_id = fields.One2many("sales","next_activity",string="Sales Person Id")
     current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
     image = fields.Binary(string='Image')
+
+
+class Products(models.Model):
+    _name = "sales.products"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    # _rec_name = "sales_person"
+
+
+    product_seq = fields.Char(string="Product Sequence", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
+    product_name = fields.Char(string="Product Name")
+    color = fields.Char("Color")
+    price = fields.Char("Price")
+    image = fields.Binary(string='Image')
+
+
+    @api.model
+    def create(self,vals):
+        if vals.get('product_seq',_('New')) == _('New'):
+                vals['product_seq'] = self.env['ir.sequence'].next_by_code('sales.products.sequence') or _('New')
+        result = super(Products, self).create(vals)
+        return result
+
     

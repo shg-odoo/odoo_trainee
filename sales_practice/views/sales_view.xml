@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+   <record model="ir.actions.act_window" id="open_sales_salesperson">
+       <field name="name">Sales.Person</field>
+       <field name="res_model">sales.salesmen</field>
+       <field name="view_mode">tree,form</field>
+       <field name="domain">[('salesman_id','=',active_id)]</field>
+       <field name="context">{}</field>
+   </record>
+
+
     <record model="ir.ui.view" id="sales_id">
         <field name="name">sales</field>
         <field name="model">sales</field>
@@ -11,7 +20,7 @@
                 <field name="invoice_date"/>
                 <field name="due_date"/>
                 <field name="sales_person" widget="many2one" optional="show"/>
-                <field name="next_activity" widget="list_activity" optional="show"/>
+                <field name="next_activity" widget="list_activity" />
                 <field name="taxt_included" sum="Tax Count"/>
                 <field name="total" sum="sum of total"/>
                 <field name="state" decoration-success="state == 'done'"  decoration-info="state == 'confirm'" decoration-warning="state == 'draft'" widget="badge"/>
@@ -36,8 +45,13 @@
                  <br/>
                     <div class="oe_button_box" name="button_box">
                         <button name="open_sales_salesperson" type="object"
-                                class="oe_stat_button" string="Activity" icon="fa-calendar">
+                                class="oe_stat_button" string="Sales Person" icon="fa-calendar">
                                 <field name="active" widget="boolean_button" />
+                        </button>
+
+                         <button name="%(open_sales_salesperson)d" type="action"
+                                class="oe_stat_button" string="Sales Person" icon="fa-usd">
+                                <!-- <field name="sales_count" string="Sales Person" widget="statinfo" /> -->
                         </button>
                     </div>
                 <br/>
@@ -104,11 +118,11 @@
                                    </div>
 
                                    <div class="col-4" style="text-align:right;">
-                                        <div class="oe_kanban_details">
-                                           <strong  class="o_kanban_record_title"></strong>
-                                           <field name="invoice_date"/>
-                                       </div>
-                                         <a type="button" class="col-sm-12 bg-light text-right">
+                                         <a type="button" class="col-sm-12 bg-light">
+                                             <div class="oe_kanban_details">
+                                                <strong  class="o_kanban_record_title"></strong>
+                                                <field name="invoice_date"/>
+                                            </div>
                                              <h3>
                                                  <field name="state" decoration-success="state == 'done'"  decoration-info="state == 'confirm'" decoration-warning="state == 'draft'" widget="badge"/>
                                             </h3>
@@ -276,6 +290,79 @@
         </record>
 
 
+        <record model="ir.ui.view" id="products_tree_view">
+            <field name="name">Sales.products.tree</field>
+            <field name="model">sales.products</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Products">
+                    <field name="product_seq"/>
+                    <field name="product_name"/>
+                    <field name="color"/>
+                    <field name="price"/>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                </tree>
+            </field>
+        </record>
+    
+    <record model="ir.ui.view" id="products_form_view">
+            <field name="name">Sales.salesperson.form</field>
+            <field name="model">sales.products</field>
+            <field name="arch" type="xml">
+                <form string="Sales Person Form">
+                    <sheet>
+                        <group>
+                            <field name="product_seq"/>
+                            <field name="product_name"/>
+                            <field name="color"/>
+                            <field name="price" widget="mail_activity"/>
+                            <field name="image" widget="image" class="oe_avatar"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="sales_products_kanban" model="ir.ui.view">
+            <field name="name">sales.kanban.view</field>
+            <field name="model">sales.products</field> 
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="product_name"/>
+                    <field name="image" widget="image"/>
+                    <field name="id"/>
+                       <templates>  
+                           <t t-name="kanban-box">
+                                <div class="container">
+                                 <div class="o_kanban_image"> 
+                                       <img t-att-src="kanban_image('sales.products', 'image', record.id.raw_value)"  alt="Avatar"/>
+                                    </div>
+                                 <div class="row">
+                                   <div class="col-8">
+                                        <div class="oe_kanban_details">
+                                           <strong class="o_kanban_record_title"> 
+                                           <field name="product_name"/></strong>
+                                       </div>
+                                       <div class="oe_kanban_details">
+                                           <strong   class="o_kanban_record_title"></strong>
+                                           <field name="product_seq"/>
+                                       </div>
+                                       <div class="oe_kanban_details">
+                                           <strong   class="o_kanban_record_title">Price: </strong>
+                                           <field name="price"/>
+                                       </div>
+                                   </div>
+
+                               </div>
+                               </div>
+                           </t>          
+                       </templates>       
+                </kanban>   
+            </field>
+        </record>	
+
+
+
      <record id="sales_action" model="ir.actions.act_window" >
         <field name="name">Sales Invoices</field>
         <field name="res_model">sales</field>
@@ -300,6 +387,12 @@
         <field name="view_mode">graph</field>
     </record>
 
+    <record id="sales_products_action" model="ir.actions.act_window" >
+        <field name="name">Sales Products</field>
+        <field name="res_model">sales.products</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
 
 
     <menuitem id="sales_menu" name="Sales Data" web_icon="sales_practice,static/description/icon.png"/>
@@ -307,6 +400,12 @@
     <menuitem id="sales1" name="Customers" sequence="1" action="sales_action" parent="sales_menu"/>
 
     <menuitem id="sales2" name="Vendors" sequence="2" action="sales_activity_action" parent="sales_menu"/>
+
+    <menuitem id="sales6" name="orders" sequence="3" action="sales_products_action" parent="sales_menu"/>
+
+    <menuitem id="sales7" name="Products"  action="sales_products_action" parent="sales6"/>
+
+    <menuitem id="sales5" name="Activity"  action="sales_activity_action" parent="sales2"/>
 
     <menuitem id="sales3" name="Sales Men" action="sales_salesperson_action" parent="sales2"/>
     
