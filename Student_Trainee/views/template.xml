@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="students" name="Students">
+        <t t-call="website.layout">
+            <center>
+                <br/>
+                <strong>
+                    <h1>Student List</h1>
+                </strong>
+            </center>
+            <br/>
+            <div class="container">
+                <table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
+                    <thread>
+                        <tr>
+                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">Student ID</th>
+                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">Name</th>
+                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">City</th>
+                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">Email</th>
+                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">Mobile Number</th>
+                        </tr>
+                        <t t-foreach="students" t-as="o">
+                            <tr style="border: 2px solid #ddd;padding: 8px;">
+                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                    <span t-field="o.student_id"/>
+                                </td>
+                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                    <span t-field="o.name"/>
+                                </td>
+                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                    <span t-field="o.city"/>
+                                </td>
+                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                    <span t-field="o.email"/>
+                                </td>
+                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                    <span t-field="o.mobile_number"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </thread>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <!-- <template id="students_hobbies" name="Students Hobbies">
+        <t t-call="website.layout">
+            <center>
+            <br/>
+                <strong><h1 style="font-family:monospace;">Student Hobbies</h1></strong>
+            </center><br/>
+            <div class="container">
+                <table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
+                       <thread>
+                       <tr>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Hobbies</th>
+                       </tr>
+                       <t t-foreach="hobbies" t-as="o">
+                       <tr style="border: 2px solid #ddd;padding: 8px;">
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;">
+                       <span t-field="o.hobbies"/>
+                       </td>
+                       </tr>
+                       </t>
+                       </thread>
+                </table>
+            </div>
+        </t>
+    </template> -->
+
+
+</odoo>

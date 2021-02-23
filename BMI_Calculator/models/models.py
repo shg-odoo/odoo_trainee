@@ -5,7 +5,7 @@ class BMICalculator(models.Model):
     _inherit="school.student"
 
     bmi=fields.Float(string="BMI",store=True)
-
+    
     @api.onchange("weight","height")
     def _calculateBMI(self):
         for i in self:

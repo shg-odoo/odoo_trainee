@@ -104,8 +104,8 @@ class School(models.Model):
     _description = "School Details"
     _rec_name = "school_name"
 
-    school_name = fields.Char(string="School Name", required=True)
-    school_city = fields.Char(string="City", required=True)
+    school_name = fields.Char(string="School Name")
+    school_city = fields.Char(string="City")
     student_record = fields.One2many(
         "school.student", "school_id", string="Student Record"
     )
