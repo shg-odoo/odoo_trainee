@@ -11,15 +11,16 @@ class MyController(http.Controller):
     
     @http.route('/students/detail/<model("school.student"):student>', type='http', auth="public", website=True)
     def student_details(self, student, **kw):
-        student_details = request.env['school.student'].search([('id', '=', student)])
+        student_details = request.env['school.student'].browse(student.id)
         print('\n\n\n\n\n')
-        print(student_details)
+        print(student.id)
         print('\n\n\n\n\n')
-        return student_details
+        return request.render("Student_Trainee.student_detail", {'students': student_details})
 
     @http.route('/students/delete/<model("school.student"):student>', type='http', auth="public", website=True)
     def delete_student(self, student, **kw):
         print('\n\n\n\n\n')
+        print(student)
         student.unlink()
         print('\n\n\n\n\n\n\n\n')
         return http.local_redirect("/students")

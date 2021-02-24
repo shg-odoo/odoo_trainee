@@ -168,6 +168,32 @@
                         </t>
                     </thread>
                 </table>
+                <table style="width:100%;border: 1px solid #ddd;padding: 8px; ">
+                    <thread>
+                        <tr>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #2a2a2a;color:white">Blood Group</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #2a2a2a;color:white">Height</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #2a2a2a;color:white">Weight</th>
+                            <th style="border: 1px solid #ddd;padding: 8px;background-color: #2a2a2a;color:white">Disabled</th>
+                        </tr>
+                        <t t-foreach="students" t-as="o">
+                            <tr style="border: 1px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.bloodGroup"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.height"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.weight"/>
+                                </td>
+                                <td style="border: 1px solid #ddd;padding: 8px;">
+                                    <span t-field="o.disabled"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </thread>
+                </table>
             </t>
         </t>
     </template>

@@ -72,13 +72,17 @@ class Student(models.Model):
     school_id = fields.Many2one("student.school", string="School")
     active = fields.Boolean("Active", default=True)
 
-    state = fields.Selection([
-            ('applied', 'Applied'),
-            ('inProgress', 'In Progress'),
-            ('underReview', 'Under Review'),
-            ('decision', 'Decision'),
-        ], string='Status', default='applied', readonly=True)
-
+    state = fields.Selection(
+        [
+            ("applied", "Applied"),
+            ("inProgress", "In Progress"),
+            ("underReview", "Under Review"),
+            ("decision", "Decision"),
+        ],
+        string="Status",
+        default="applied",
+        readonly=True,
+    )
 
     def action_inProgress(self):
         for rec in self:
