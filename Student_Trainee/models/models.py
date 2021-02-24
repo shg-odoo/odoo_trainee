@@ -72,6 +72,30 @@ class Student(models.Model):
     school_id = fields.Many2one("student.school", string="School")
     active = fields.Boolean("Active", default=True)
 
+    state = fields.Selection([
+            ('applied', 'Applied'),
+            ('inProgress', 'In Progress'),
+            ('underReview', 'Under Review'),
+            ('decision', 'Decision'),
+        ], string='Status', default='applied', readonly=True)
+
+
+    def action_inProgress(self):
+        for rec in self:
+            rec.state = "inProgress"
+
+    def action_underReview(self):
+        for rec in self:
+            rec.state = "underReview"
+
+    def action_decision(self):
+        for rec in self:
+            rec.state = "decision"
+
+    def action_restart(self):
+        for rec in self:
+            rec.state = "applied"
+
     @api.depends("birthDate")
     def _get_age(self):
         for i in self:
@@ -97,6 +121,9 @@ class Student(models.Model):
             )
         result = super(Student, self).create(vals)
         return result
+
+    def student_school(self):
+        print("Button Clicked")
 
 
 class School(models.Model):

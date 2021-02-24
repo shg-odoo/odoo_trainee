@@ -39,7 +39,20 @@
         <field name="model">school.student</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_inProgress" type="object" string="Next" class="oe_highlight" states="applied" />
+                    <button name="action_underReview" type="object" string="Next" class="oe_highlight" states="inProgress" />
+                    <button name="action_decision" type="object" string="Done" class="oe_highlight" states="underReview" />
+                    <button name="action_restart" type="object" string="Restart" class="oe_highlight" states="decision" />
+
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="student_school" type="object" class="oe_inline oe_stat_button" icon="fa-university" string="School: ">
+                            <field string="School" name="school_id" widget="statinfo" style="margin-right:70px;" />
+                        </button>
+                    </div>
                     <widget name="web_ribbon" text="Male" attrs="{'invisible': [('gender', '=' , 'female')]}" bg_color="bg-primary" />
                     <widget name="web_ribbon" text="Female" attrs="{'invisible': [('gender', '=' , 'male')]}" bg_color="bg-danger" />
                     <group>

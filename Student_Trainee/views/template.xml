@@ -11,31 +11,39 @@
             </center>
             <br/>
             <div class="container">
-                <table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
+                <table class="table" style="text-align:center">
                     <thread>
                         <tr>
-                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">Student ID</th>
-                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">Name</th>
-                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">City</th>
-                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">Email</th>
-                            <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #003366;">Mobile Number</th>
+                            <th style="border: 2px solid #ddd;color:white;background-color: #003366;">Student ID</th>
+                            <th style="border: 2px solid #ddd;color:white;background-color: #003366;">Name</th>
+                            <th style="border: 2px solid #ddd;color:white;background-color: #003366;">City</th>
+                            <th style="border: 2px solid #ddd;color:white;background-color: #003366;">Email</th>
+                            <th style="border: 2px solid #ddd;color:white;background-color: #003366;">Mobile Number</th>
+                            <th style="border:none;"></th>
+                            <th style="border:none;"></th>
                         </tr>
                         <t t-foreach="students" t-as="o">
-                            <tr style="border: 2px solid #ddd;padding: 8px;">
-                                <td style="border: 2px solid #ddd;padding: 8px;">
+                            <tr >
+                                <td style="border: 1px solid #ddd;vertical-align: middle;">
                                     <span t-field="o.student_id"/>
                                 </td>
-                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;vertical-align: middle;">
                                     <span t-field="o.name"/>
                                 </td>
-                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;vertical-align: middle;">
                                     <span t-field="o.city"/>
                                 </td>
-                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;vertical-align: middle;">
                                     <span t-field="o.email"/>
                                 </td>
-                                <td style="border: 2px solid #ddd;padding: 8px;">
+                                <td style="border: 1px solid #ddd;vertical-align: middle;">
                                     <span t-field="o.mobile_number"/>
+                                </td>
+                                <td style="border:1px solid #ddd">
+                                    <a type="button" class="btn btn-success" t-attf-href='/students/detail/#{o.id}'>View Details</a>
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    <a type="button" class="btn btn-danger" t-attf-href='/students/delete/#{o.id}' >Delete</a>
                                 </td>
                             </tr>
                         </t>
