@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sales_tree_view" model="ir.ui.view">
+		<field name="name">Sales</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+        	<tree>
+        		<field name="name"/>
+        		<field name="order_date"/>
+        		<field name="partner_id" /> 
+               	<field name="sales_person"/>
+    		 	<field name="next_activity"/>
+            	<field name="total"/>     		                        		
+        	</tree>
+        </field>
+    </record>
+    
+    <record id="sales_form_view" model="ir.ui.view">
+    	<field name="name">Sales</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+        	<form>
+        		<sheet>
+        			<div class="oe_title">
+	                 <h1>
+	                   <field name="name" readonly="1"/>
+	                 </h1>
+                    </div>
+
+                    <group>
+                    	<field name="partner_id" /> 	
+                    </group>
+
+                    <group>
+                   	<field name="sales_person"/>
+        		 	<field name="next_activity"/>
+                	<field name="total"/> 
+                    </group>
+                    
+                    <group>
+                    	<field name="order_date"/>
+                    </group>
+
+        			<notebook>
+        				<page string="Ordder_Lines">
+        					
+        				</page>
+        				<page string="Other info">
+        				  	
+        				</page>
+        				<page string="Customer Signature">
+        					
+        				</page>
+        			</notebook>
+        		</sheet>
+        	</form>
+        </field>
+    </record>
+
+    <record id="sales_partner_tree_view" model="ir.ui.view">
+    	<field name="name">Sales_Partner</field>
+        <field name="model">sales.partner</field>
+        <field name="arch" type="xml">
+        	<tree>
+        		<field name="company_name"/>
+        		<field name="company_state"/>
+                <field name="company_country"/>
+        		<field name="company_address"/>               
+        	</tree>
+        </field>
+        
+    </record>
+
+    <record id="sales_partner_form_view" model="ir.ui.view">
+    	<field name="name">Sales_Partner</field>
+        <field name="model">sales.partner</field>
+        <field name="arch" type="xml">
+        	<form>
+        		<group>
+        		<field name="company_name"/>	
+        		<field name="company_state"/>
+                <field name="company_country"/>
+        		<field name="company_address"/>    
+        		</group>
+        	</form>
+        </field>
+    </record>
+
+    <record id="sales_partner_action" model="ir.actions.act_window">
+      <field name="name">Sales.Partner</field>
+      <field name="res_model">sales.partner</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="sales_action" model="ir.actions.act_window" >
+      <field name="name">Sales</field>
+      <field name="res_model">sales</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sales_menu" name="Sales" />
+
+    <menuitem id="Sales_order" name="Order" sequence="1" action="sales_action" parent="sales_menu"/>
+
+    <menuitem id="Sales_invoice" name="To invoice" sequence="2" action="sales_action" parent="sales_menu"/>
+
+    <menuitem id="Sales_product" name="Products" sequence="3" action="sales_action" parent="sales_menu"/>
+    
+    <menuitem id="Sales_report" name="Reporting" sequence="4" action="sales_action" parent="sales_menu"/>
+
+    <menuitem id="Sales_config" name="Configuration" sequence="5" action="sales_action" parent="sales_menu"/>
+
+    <menuitem id="Sales_partner" name="deatils" sequence="1" action="sales_partner_action" parent="Sales_order"/>
+
+
+
+</odoo>
