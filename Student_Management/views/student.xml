@@ -33,18 +33,31 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <form>
-                <sheet string="students">
+                <header>
+                        <button name="action_inProgress" type="object" string="Next" class="oe_highlight" states="applied" />
+                        <button name="action_underReview" type="object" string="Next" class="oe_highlight" states="inProgress" />
+                        <button name="action_result" type="object" string="Done" class="oe_highlight" states="underReview" />
+                        <button name="action_restart" type="object" string="Restart" class="oe_highlight" states="result" />
+                        
+                        <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="student_college" type="object" class="oe_inline oe_stat_button" icon="fa-archive" string="College: ">
+                            <field string="Colleges" name="college_ids" widget="statinfo" />
+                        </button>
+                    </div>
                     <widget name="web_ribbon" text="Male" attrs="{'invisible': [('gender', '=' , 'female')]}" bg_color="bg-primary" />
                     <widget name="web_ribbon" text="Female" attrs="{'invisible': [('gender', '=' , 'male')]}" bg_color="bg-danger" />
-                    <field name="image" widget="image" class="oe_avatar" />
                     <div class="oe_title">
                         <h1>
                             <field name="sequenceName" style="width:50%;"/>
                         </h1>
                     </div>
                     <notebook>
-                        <page string="Personal Details">
+                        <page string="Personal Details" >
                             <group >
+                                <field name="image" widget="image" class="oe_avatar" style="float:left;padding-bottom:10px;"/>
                                 <field name="name" style="width:25%;"/>
                                 <field name="enrollmentNo" style="width:25%;"/>
                                 <field name="birthdate" style="width:25%;"/>
@@ -150,7 +163,6 @@
                 <separator />
                 <filter name="filter_Archive" string="Archived" domain="[('active', '=', False)]" />
                 <separator />
-               
                 <searchpanel>
                     <field name="gender" />
                 </searchpanel>
@@ -225,8 +237,8 @@
         <field name="arch" type="xml">
             <tree string="Colleges">
                 <field name="collegeName"/>
-                <!-- <field name="collegeCity"/> -->
-                <field name="city" />
+                <field name="collegeCity" />
+                <!-- <field name="city" /> -->
             </tree>
         </field>
     </record>
@@ -237,8 +249,10 @@
             <form string="Colleges">
                 <sheet string="Colleges">
                     <group>
-                        <field name="collegeName"/>
-                        <!-- <field name="collegeCity"/> -->
+                        <div>
+                        <field name="collegeName" style="width:25%;"/>
+                        <field name="collegeCity" style="width:25%;"/>
+                        </div>
                     </group>
                     <group>
                         <field name="student_ids">
@@ -258,6 +272,25 @@
             </form>
         </field>
     </record>
+
+    <record id="add_college_form" model="ir.ui.view">
+        <field name="name">addCollege</field>
+        <field name="model">add.college</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="college_ids" />
+                    <field name="addCity" />
+                </group>
+               <footer>
+                    <button name="add_college" string="Add College" type="object" class="btn btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
     <record id="student_action" model="ir.actions.act_window">
         <field name="name">student</field>
         <field name="res_model">student</field>
@@ -268,7 +301,22 @@
         <field name="res_model">college</field>
         <field name="view_mode">tree,form</field>
     </record>
+
+
+    <record id="add_college_action" model="ir.actions.act_window">
+        <field name="name">Add College</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">add.college</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="add_college_form"/>
+        <field name="binding_model_id" ref="model_student"/>
+        <field name="target">new</field>
+    </record>
+
     <menuitem id="student_menu" name="Student Data" web_icon = "Student_Management,static/description/icon.png"/>
     <menuitem id="student" name="Student Details" sequence="1" action="student_action" parent="student_menu"/>
     <menuitem id="college" name="College Details" sequence="2" action="college_action" parent="student_menu"/>
+    <menuitem id="Add_College" name="Add College" sequence="3" action="add_college_action" parent="student_menu"/>
+    
+   
 </odoo>

@@ -6,6 +6,7 @@ class student(models.Model):
     _name = 'student'
     _description = "Student Details"
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'id desc'
 
     name = fields.Char(string="Name", track_visibility='always')
     enrollmentNo = fields.Integer(string="Enrollment No")
@@ -60,6 +61,30 @@ class student(models.Model):
         default="New",
     )
 
+    state = fields.Selection([
+            ('applied', 'Applied'),
+            ('inProgress', 'In Progress'),
+            ('underReview', 'Under Review'),
+            ('result', 'Result'),
+        ], string='Status', default='applied', readonly=True)
+
+
+    def action_inProgress(self):
+        for rec in self:
+            rec.state = "inProgress"
+
+    def action_underReview(self):
+        for rec in self:
+            rec.state = "underReview"
+
+    def action_result(self):
+        for rec in self:
+            rec.state = "result"
+    
+    def action_restart(self):
+        for rec in self:
+            rec.state = "applied"
+
     @api.model
     def create(self, vals):
         if vals.get("sequenceName", "New") == "New":
@@ -82,8 +107,19 @@ class student(models.Model):
         for i in self:
             i.total = i.maths + i.chemistry + i.physics
             i.average = (i.total)/3
+    
 
+    def student_college(self):
+        print("Button Clicked")
 
+    def add_college(self):
+        ids = self._context.get('active_ids')
+        self.env['student'].browse(ids).write({'college_ids':self.college_ids})
+
+    def name_get(self):
+        res=[]
+        for rec in self:
+            rec.append((rec.id, '%s%s' % (rec.sequenceName, rec.name)))
 
 
 class college(models.Model):
@@ -96,6 +132,8 @@ class college(models.Model):
     collegeCity = fields.Char(string="College City")
 
     student_ids = fields.One2many('student','college_ids',string='Student')
+
+    
 
 
 class hobbies(models.Model):
@@ -119,3 +157,19 @@ class admission(models.Model):
                 i.eligible = True
             else:
                 i.eligible = False
+
+
+class AddCollege(models.TransientModel):
+    _name = "add.college"
+    _description = "Registration of College to Mutiple Student Records"
+    _rec_name = "addCity"
+    
+
+    college_ids = fields.Char(string="College")
+    addCity = fields.Char(string="City")
+    def add_college(self):
+        vals={
+            'collegeName': self.college_ids,
+            'collegeCity' : self.addCity
+        }
+        self.env['college'].create(vals)
