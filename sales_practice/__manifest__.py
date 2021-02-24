@@ -9,7 +9,8 @@
         'views/sales_view.xml',
         'data/sequence.xml',
         'report/report_sales.xml',
-        'wizard/sales_wizard.xml'
+        'wizard/sales_wizard.xml',
+        'views/customers.xml',
     ],
     'application' : True,
 }

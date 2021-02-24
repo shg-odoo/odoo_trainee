@@ -15,6 +15,7 @@
                        <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Enrollment No</th>
                        <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Email</th>
                        <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Contact</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Gender</th>
                        </tr>
                        <t t-foreach="students" t-as="o">
                        <tr  style="border: 2px solid #ddd;padding: 8px;">
@@ -29,6 +30,9 @@
                        </td>
                        <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
                        <span t-field="o.contactNo"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
+                       <span t-field="o.gender"/>
                        </td>
                        </tr>
                        </t>

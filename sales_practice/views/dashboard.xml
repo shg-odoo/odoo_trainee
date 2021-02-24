@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <record id="act_sales_activity" model="ir.actions.act_window">
+        <field name="name">Sales </field>
+        <field name="res_model">sales</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="sales_practice.ssales_session_graph_view" />
+   </record>
+
+
+    <record id="dashboard_calender" model="ir.actions.act_window">
+        <field name="name">Sales.Dashboard.calendar</field>
+        <field name="res_model">sales</field>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="sales_practice.sales_calendar_view" />
+   </record>
+
+
+   <record id="act_sales_salesmen" model="ir.actions.act_window">
+        <field name="name">Sales.dashboard</field>
+        <field name="res_model">sales</field>
+        <field name="view_mode">tree,form</field>
+   </record>
+
+
+   <record id="dashboard_tree_form" model="ir.ui.view">
+        <field name="name">Dashboard Form</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard"> 
+                <board style="1-2">
+                    <column>
+                        <action
+                            string="Sales"
+                            name="%(sales_practice.act_sales_activity)d" />
+                        <action
+                            string="Sales salesmen"
+                            name="%(dashboard_tree_form)d" />
+                    </column>
+                    <column> 
+                         <action  
+                            string="Customers" 
+                            name="%(dashboard_calender)" />
+                    </column>
+                </board>
+            </form>
+        </field>
+   </record>
+
+   
+   <record id="sales_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="dashboard_tree_form" />
+   </record>
+
+   
+   <menuitem
+         name="Dashboard"
+         parent="sales_menu"
+         action="sales_dashboard"
+         sequence="4"
+         id="menu_dashboard"
+    />
+
+</odoo>

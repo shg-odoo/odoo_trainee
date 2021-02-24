@@ -13,7 +13,7 @@
         'views/template.xml',
         'data/sequence.xml',
         'security/ir.model.access.csv',
-        'report/report_student.xml'
+        'report/report_student.xml',
     ],
     'application' : True,
 }

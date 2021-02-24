@@ -8,7 +8,7 @@ class Sales(models.Model):
     _description = "Sales Details"
 
     number_seq = fields.Char(string="Number", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
-    customer = fields.Char(string="Customer")
+    customer = fields.Many2one("sales.customers", string="Customer")
     invoice_date = fields.Date(string="Invoice Date", track_visibility="always")
     due_date = fields.Char(string="Due Date(Remaining days)")
     next_activity = fields.Many2one("sales.activity",string="Next Activity")
@@ -56,18 +56,19 @@ class Sales(models.Model):
     def action_confirm(self):
         for rec in self:
             rec.state = 'confirm'
-            return {
-                'effect': {
-                    'fadeout': 'slow',
-                    'message': 'Confirmed Your Sales Data Entry',
-                    'type': 'rainbow_man',
-                }
-            }
+            
 
 
     def action_done(self):
         for rec in self:
             rec.state = 'done'
+            return {
+                'effect': {
+                    'fadeout': 'slow',
+                    'message': 'Done Your Sales Data Entry',
+                    'type': 'rainbow_man',
+                }
+            }
 
     
     def test_recordset(self):
@@ -87,11 +88,9 @@ class Sales(models.Model):
 
 
     def open_sales_salesperson(self):
-        for rec in self:
-            print(rec.next_activity)
             return {
-                'name': _('Salesperson'),
-                'domain': [('salesman_id','=',rec.id)],
+                'name': _('SalesMen'),
+                'domain': [('salesman_id','=',self.id)],
                 'view_type': 'form',
                 'res_model': 'sales.salesmen',
                 'view_id': False,
@@ -119,7 +118,7 @@ class SalesMen(models.Model):
     sales_person = fields.Char("Sales Person")
     contactNo = fields.Char("Contact")
     email = fields.Char("Email")
-    salesman_id = fields.One2many("sales","next_activity",string="Sales Person Id")
+    salesman_id = fields.One2many("sales","sales_person",string="Sales Person Id")
     current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
     image = fields.Binary(string='Image')
 
@@ -132,7 +131,7 @@ class Products(models.Model):
 
     product_seq = fields.Char(string="Product Sequence", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
     product_name = fields.Char(string="Product Name")
-    color = fields.Char("Color")
+    color = fields.Integer("Color")
     price = fields.Char("Price")
     image = fields.Binary(string='Image')
 
