@@ -82,7 +82,8 @@ def search(request, args):
 		product.append(dict(productdict))
 		new_dict[i] = row
 		i+=1
-		print(new_dict)
+		# print(new_dict)
+		# print(product)
 	# print(product)
 	text=json.dumps(product)
 	cursor.close()
@@ -95,7 +96,23 @@ def cart(request, args):
 	a = request.data
 	b = json.loads(a)
 	print(b)
-	text='<!DOCTYPE html><html><style>body{color: red;}</style><body><b><u>Welcome to the %s</u></b></body></html>' % request.args.get('name', 'homepage')
+	conn = psycopg2.connect("dbname=kbs user=kbs password=karanbos31..")
+	cursor = conn.cursor()
+	cursor.execute("set search_path to products;")
+	cursor.execute("UPDATE USERS SET SESSIONID='' WHERE _ID= ;")
+	cursor.execute("INSERT INTO ORDERS(_ID, ORDERDATE, USERID) VALUES();")
+	cursor.execute("INSERT INTO ORDERDET(_ID, ORDERID, QUANTITY, PRODUCTID) VALUES();")
+	conn.commit()
+
+	# cursor.execute("SELECT * FROM USERS inner join orders on orders.userid = users._id inner join orderdet on orderdet.orderid = orders._id inner join product on product._id = orderdet.productid;")
+	product_select=cursor.fetchall()
+	# for row in product_select:
+	# 	print(row)
+	cursor.close()
+	conn.close()
+	print(b)
+
+	# text='<!DOCTYPE html><html><style>body{color: red;}</style><body><b><u>Welcome to the %s</u></b></body></html>' % request.args.get('name', 'homepage')
 	response=Response(text, mimetype='text/html')
 	return response
 
