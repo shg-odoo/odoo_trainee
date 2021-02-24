@@ -1,8 +1,9 @@
+from datetime import date,datetime
+from dateutil.relativedelta import relativedelta
+
 from odoo import fields,models,api,_
 from odoo.exceptions import ValidationError
 
-from datetime import date,datetime
-from dateutil.relativedelta import relativedelta
 
 class student(models.Model):
     _name = 'student'
@@ -12,14 +13,22 @@ class student(models.Model):
     _order = "id desc"
     _rec_name = "student_name"
 
-    # @api.depends('Hobbies')
+  #  @api.depends('Hobbies')
     # def _gethobby_count(self):
-    #     count = self.env['student.hobby'].search_count([('hobby_id','=',self.id)])
+    #     count = self.env['student.hobby'].search_count([()])
+    #     print(count)
     #     self.Hobbies_count = count
     
     def _default_branch(self):
         return 'computer'
-    
+
+    def student_sorted(self):
+        for rec in self:
+            print("odoo ORM:record set operation")
+            std = self.env['student'].search([])
+            print("Mapped studentname...",std.mapped('student_name'))
+            print("Sorted student...",std.sorted(lambda o:o.birthdate,reverse=True))
+            print("filter student city...",std.filtered(lambda o:o.Address))
     def name_get(self):
         res = []
         for rec in self:
@@ -42,8 +51,8 @@ class student(models.Model):
             rec.student_name_up = rec.student_name.lower() if rec.student_name else False
     
     student_name = fields.Char(string="Name" ,required=True)
-    student_name_up = fields.Char(sstring="Uname" ,compute="_get_upper_name" ,inverse="_get_lower_name")
-    roll_no = fields.Integer(string='Roll No' ,required=True)
+    student_name_up = fields.Char(string="Uname" ,compute="_get_upper_name" ,inverse="_get_lower_name")
+    roll_no = fields.Integer(string='Roll No' ,required=True,track_visibility="always")
     birthdate = fields.Date(string='birth date' ,required=True)
     image = fields.Binary('Image')
     gender = fields.Selection([('male','Male') ,('female','Female')],string='Gender', default="male")
@@ -137,6 +146,13 @@ class student(models.Model):
     def Action_status_good(self):
         for rec in self:
             rec.state = 'Good'
+            return {
+                'effect': {
+                    'fadeout': 'slow',
+                    'message': 'This student Behavior is good',
+                    'type': 'rainbow_man',
+                }
+            }
 
     def Action_status_bad(self):
         for rec in self:

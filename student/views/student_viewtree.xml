@@ -138,6 +138,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="student_sorted" type="object" string="Sorted" class="oe_highlight"/>                  
                     <button name="email_template1" type="object" string="send mail" class="oe_highlight"/>
                     <button name="%(student.student_wizard_action)d" type="action" string="Add College" class="oe_highlight"
                     context="{'default_college_id' : active_id}"/>
@@ -160,6 +161,9 @@
                         icon="fa-archive">
                             <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
                         </button>
+                        <widget name="web_ribbon" text="Good" bg_color="bg-success" attrs="{'invisible':['|',('state','=','bad'),('state','=','Dontknow')]}"/>
+                        <widget name="web_ribbon" text="Bad" bg_color="bg-danger" attrs="{'invisible':['|',('state','=','Good'),('state','=','Dontknow')]}"/>
+                        <widget name="web_ribbon" text="Dontknow" bg_color="bg-info" attrs="{'invisible':['|',('state','=','bad'),('state','=','Good')]}"/>
                     </div>
                     <separator string="Personal Details"/>
                     <div class="oe_title">

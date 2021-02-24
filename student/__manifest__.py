@@ -7,7 +7,7 @@
     time""",
 
     'depends':[
-        'base','mail'
+        'website','base','mail'
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -18,6 +18,7 @@
         'report/student_report.xml',
         'data/mail_temp.xml',
         'security/security.xml',
+        'views/templates.xml',
     ],
 
     'application' : True
