@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="sale_menu_root"
+            name="Sales"
+            web_icon="Sale_Practice,static/description/icon.png" />
+
+    <menuitem id="sale_order_menu"
+            name="Orders"
+            parent="sale_menu_root"
+            sequence="1"/>
+    
+    
+
+</odoo>

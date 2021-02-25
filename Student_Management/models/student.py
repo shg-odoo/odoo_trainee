@@ -8,7 +8,8 @@ class student(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
-    name = fields.Char(string="Name", track_visibility='always')
+    name = fields.Char(string="Name" )
+
     enrollmentNo = fields.Integer(string="Enrollment No")
     contactNo = fields.Char(string="Contact No", size=10, track_visibility='always') 
     age = fields.Integer(string="Age", compute='cal_age', store=True,)
@@ -20,7 +21,7 @@ class student(models.Model):
     gender = fields.Selection([
             ('male', 'Male'),
             ('female', 'Female'),
-        ], string='Gender', default='male')
+        ], string='Gender')
     city = fields.Char(string = "City")
     bloodGroup = fields.Selection([
             ('A+', 'A+'),
@@ -41,7 +42,6 @@ class student(models.Model):
     disabled = fields.Boolean(string="Physically Disabled?", default=False)
     active = fields.Boolean('Active', default=True)
 
-
     college_ids = fields.Many2one('college', string='College')
 
     hobbies_ids = fields.Many2many('hobbies', string='Hobbies')
@@ -51,6 +51,8 @@ class student(models.Model):
     physics = fields.Integer(string="Physics")
     total = fields.Integer(string="Total")
     average = fields.Integer(string="Average")
+
+    defaultName = fields.Char(string="Default Name")
 
     sequenceName = fields.Char(
         string="Student Sequence",
@@ -105,7 +107,7 @@ class student(models.Model):
     @api.onchange("maths", "chemistry", "physics")
     def _result(self):
         for i in self:
-            i.total = i.maths + i.chemistry + i.physics
+            icollege_ids = fields.Many2one('college', string='College').total = i.maths + i.chemistry + i.physics
             i.average = (i.total)/3
     
 
@@ -117,11 +119,61 @@ class student(models.Model):
         self.env['student'].browse(ids).write({'college_ids':self.college_ids})
 
     def name_get(self):
-        res=[]
+        res = []
         for rec in self:
-            rec.append((rec.id, '%s%s' % (rec.sequenceName, rec.name)))
+            res.append((rec.id, '%s %s' % (rec.sequenceName, rec.name)))
+        return res
+
+    def test_recordset(self):
+        for rec in self:
+            print("Record Set Operation")
+            students = self.env['student'].search([])
+            print("Mapped Students...", students.mapped('name'))
+            print("Sorted Students...", students.sorted(lambda o: o.write_date, reverse=True))
+            print("Filtered Students...", students.filtered(lambda o: o.disabled))
+
+            #Search
+            students_male = self.env['student'].search([('gender', '=', 'male')])
+            print("Male Students....", students_male)
+
+            students_female = self.env['student'].search([('gender', '=', 'female')])
+            print("Female Students....", students_female)
+
+            #Search with OR
+            students_male_or = self.env['student'].search(['|',('gender', '=', 'male'),('age', '=', 22)])
+            print("Male Students Or Age = 22....", students_male_or)
+
+            #Search with AND
+            students_male_or = self.env['student'].search([('gender', '=', 'male'),('age', '=', 22)])
+            print("Male Students and Age = 22....", students_male_or)
 
 
+            #Search Count
+            students_count = self.env['student'].search_count([])
+            print("Student Count...", students_count)
+
+
+            #Browse
+            students_browse = self.env['student'].browse(101)
+            print("Student Browse...", students_browse)
+
+            #Exists
+            if students_browse.exists():
+                print("Record Found")
+            else:
+                print("No Record Found")
+
+            #Copy
+            students_copy = self.env['student'].browse(1)
+            students_copy.copy() 
+
+            #Unlink
+            students_unlink = self.env['student'].browse(11)
+            students_unlink.unlink() 
+
+
+
+    
 class college(models.Model):
     _name = 'college'
     _description = "College Details"
@@ -133,7 +185,9 @@ class college(models.Model):
 
     student_ids = fields.One2many('student','college_ids',string='Student')
 
-    
+
+
+
 
 
 class hobbies(models.Model):

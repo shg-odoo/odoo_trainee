@@ -4,7 +4,7 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <tree string="strings">
-                <field name="sequenceName" />
+                <field name="sequenceName"/>
                 <field name="enrollmentNo"/>
                 <field name="name"/>
                 <field name="birthdate" />
@@ -38,6 +38,7 @@
                         <button name="action_underReview" type="object" string="Next" class="oe_highlight" states="inProgress" />
                         <button name="action_result" type="object" string="Done" class="oe_highlight" states="underReview" />
                         <button name="action_restart" type="object" string="Restart" class="oe_highlight" states="result" />
+                        <button name="test_recordset" type="object" string="Record Set Operation" class="oe_highlight"/>
                         
                         <field name="state" widget="statusbar"/>
                 </header>
@@ -47,6 +48,7 @@
                             <field string="Colleges" name="college_ids" widget="statinfo" />
                         </button>
                     </div>
+
                     <widget name="web_ribbon" text="Male" attrs="{'invisible': [('gender', '=' , 'female')]}" bg_color="bg-primary" />
                     <widget name="web_ribbon" text="Female" attrs="{'invisible': [('gender', '=' , 'male')]}" bg_color="bg-danger" />
                     <div class="oe_title">
@@ -59,11 +61,13 @@
                             <group >
                                 <field name="image" widget="image" class="oe_avatar" style="float:left;padding-bottom:10px;"/>
                                 <field name="name" style="width:25%;"/>
+                                <field name="defaultName" style="width:25%;" />
                                 <field name="enrollmentNo" style="width:25%;"/>
                                 <field name="birthdate" style="width:25%;"/>
                                 <field name="age" style="width:25%;"/>
                                 <field name="gender" style="width:25%;" widget="radio"/>
                                 <field name="hobbies_ids" widget="many2many_tags" style="width:25%;"/>
+                               
                             </group>
                         </page>
                         <page name="page_contact" string="Contact Details">
@@ -290,16 +294,17 @@
         </field>
     </record>
 
-
     <record id="student_action" model="ir.actions.act_window">
         <field name="name">student</field>
         <field name="res_model">student</field>
         <field name="view_mode">tree,form,calendar,graph,gantt,pivot,search,kanban</field>
+        <field name="context">{'default_gender':'male'}</field>
     </record>
     <record id="college_action" model="ir.actions.act_window">
         <field name="name">college</field>
         <field name="res_model">college</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'default_collegeCity':'AHM'}</field>
     </record>
 
 
