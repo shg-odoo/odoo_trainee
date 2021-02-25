@@ -4,16 +4,18 @@
         <t t-call="website.layout">
             <center><br/>
                 <strong><h1 style="font-family:monospace;">Student Data</h1></strong>
+                <a type="button" name="create_student" class="btn btn-primary" t-attf-href="/create_student">Create</a>  
             </center><br/>
             <div class="container">
                 <table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
                        <thread>
                        <tr>
                        <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Name</th>
-                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Enrollment No</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Roll No</th>
                        <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Email</th>
                        <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Contact</th>
                        <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Gender</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Delete</th>
                        </tr>
                        <t t-foreach="students" t-as="o">
                        <tr  style="border: 2px solid #ddd;padding: 8px;">
@@ -32,6 +34,9 @@
                        <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
                        <span t-field="o.gender"/>
                        </td>
+                       <td style="border:none">
+                            <a type="button" class="btn btn-danger" t-attf-href='/students/delete/#{o.id}' >Delete</a>
+                        </td>
                        </tr>
                        </t>
                        </thread>
@@ -68,6 +73,146 @@
             </div>
         </t>
     </template>
-
+    
+    <template id="student_detail" name="Students Details">
+        <t t-call="website.layout">
+            <center>
+                <h1>
+                    <b>Personal Details</b>
+                </h1>
+            </center>
+            <br/>
+            <table class="table" style="text-align:center">
+                <thread>
+                    <tr>
+                        <th style="border: 1px solid #ddd;background-color: #003366;color:white"></th>
+                        <th style="border: 1px solid #ddd;background-color: #003366;color:white">Roll NO</th>
+                        <th style="border: 1px solid #ddd;background-color: #003366;color:white">Name</th>
+                        <th style="border: 1px solid #ddd;background-color: #003366;color:white">Gender</th>
+                        <th style="border: 1px solid #ddd;background-color: #003366;color:white">Date of Birth</th>
+                        <th style="border: 1px solid #ddd;background-color: #003366;color:white">Age</th>
+                    </tr>
+                    <t t-foreach="students" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <div align="center">
+                                    <img t-attf-src="data:image/*;base64,{{o.image}}" style="width:100px;"/>
+                                </div>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.roll_no"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.student_name"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.gender"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.birthdate"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.age"/>
+                            </td>
+                        </tr>
+                    </t>
+                </thread>
+            </table>
+            <br/>
+            <center>
+                <h1>
+                    <b>Contact Details</b>
+                </h1>
+            </center>
+            <br/>
+            <table class="table" style="text-align:center">
+                <thread>
+                    <tr>
+                        <th style="border: 1px solid #ddd;background-color: #01452c;color:white">Contect Number</th>
+                        <th style="border: 1px solid #ddd;background-color: #01452c;color:white">Email ID</th>
+                        <th style="border: 1px solid #ddd;background-color: #01452c;color:white">Address</th>
+                    </tr>
+                    <t t-foreach="students" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.contect_no"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.email_id"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.Address"/>
+                            </td>
+                        </tr>
+                    </t>
+                </thread>
+            </table>
+            <br/>
+            <center>
+                <h1>
+                    <b>Academic Details</b>
+                </h1>
+            </center>
+            <br/>
+            <table class="table" style="text-align:center">
+                <thread>
+                    <tr>
+                        <th style="border: 1px solid #ddd;background-color: #3f0000;color:white">Maths</th>
+                        <th style="border: 1px solid #ddd;background-color: #3f0000;color:white">Chemistry</th>
+                        <th style="border: 1px solid #ddd;background-color: #3f0000;color:white">Physics</th>
+                        <th style="border: 1px solid #ddd;background-color: #3f0000;color:white">Total</th>
+                        <th style="border: 1px solid #ddd;background-color: #3f0000;color:white">Average</th>
+                    </tr>
+                    <t t-foreach="students" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.maths"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.chemistry"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.physics"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.total"/>
+                            </td>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.Average"/>
+                            </td>
+                        </tr>
+                    </t>
+                </thread>
+            </table>
+            <br/>
+            <table class="table" style="text-align:center">
+                <thread>
+                    <tr>
+                        <th style="border: 1px solid #ddd;background-color: #794848;color:white">Hobbies</th>
+                    </tr>
+                    <t t-foreach="students" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid #ddd;vertical-align: middle;">
+                                <span t-field="o.Hobbies"/>
+                            </td>
+                        </tr>
+                    </t>
+                </thread>
+            </table>
+        </t>
+    </template>
+    <template id="new_student" name="Students">
+        <t t-call="website.layout">
+            <form action="/submit" id="form1">
+                <div>Name   :<input type="text" name="student_name" id="student_name"/></div>
+                <br/>
+                <div>Roll No:<input type="text" name="roll_no" id="roll_no"/></div>
+                <br/>
+                <div>Age:<input type="text" name="age" id="age"/></div>
+                <br/>
+                <button type="submit" form="form1" value="Submit" style="margin:20px;">Submit</button>
+            </form>
+        </t>
+    </template>
 
 </odoo>

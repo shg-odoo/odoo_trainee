@@ -12,12 +12,6 @@ class student(models.Model):
     _description = "Student Details"
     _order = "id desc"
     _rec_name = "student_name"
-
-  #  @api.depends('Hobbies')
-    # def _gethobby_count(self):
-    #     count = self.env['student.hobby'].search_count([()])
-    #     print(count)
-    #     self.Hobbies_count = count
     
     def _default_branch(self):
         return 'computer'
@@ -25,7 +19,7 @@ class student(models.Model):
     def student_sorted(self):
         for rec in self:
             print("odoo ORM:record set operation")
-            std = self.env['student'].search([])
+            std = rec.env['student'].search([])
             print("Mapped studentname...",std.mapped('student_name'))
             print("Sorted student...",std.sorted(lambda o:o.birthdate,reverse=True))
             print("filter student city...",std.filtered(lambda o:o.Address))
@@ -53,10 +47,10 @@ class student(models.Model):
     student_name = fields.Char(string="Name" ,required=True)
     student_name_up = fields.Char(string="Uname" ,compute="_get_upper_name" ,inverse="_get_lower_name")
     roll_no = fields.Integer(string='Roll No' ,required=True,track_visibility="always")
-    birthdate = fields.Date(string='birth date' ,required=True)
+    birthdate = fields.Date(string='birth date' ,)
     image = fields.Binary('Image')
     gender = fields.Selection([('male','Male') ,('female','Female')],string='Gender', default="male")
-    age = fields.Integer(string='age',compute="_get_age",store=True)
+    age = fields.Integer(string='age',compute="_get_age",store=True) 
     html = fields.Html()
     branch = fields.Char(string="Branch",default=_default_branch)
     physics = fields.Integer(string='physics')
@@ -71,7 +65,6 @@ class student(models.Model):
     college_id = fields.Many2one('student.college', string='College')
     name_seq = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,  index=True, default=lambda self: _('New'))
     Hobbies = fields.Many2many('student.hobby',string='Hobbies')
-    # Hobbies_count = fields.Integer(compute='_gethobby_count' ,store=True)
     state = fields.Selection(
         [('Dontknow','Dontknow'),('Good','Good') ,('bad','Bad')]
         ,string='Status', readonly=True, default='Dontknow')
@@ -136,12 +129,6 @@ class student(models.Model):
             'view_mode': 'tree,form',
             'type': 'ir.actions.act_window'
         }
-
-    # collage_count = fields.Integer('College', compute='_compute_collage_count')
-
-    # def _compute_collage_count(self):
-        # for rec in self:
-           # collage_count = self.env['student.college'].search_count([('')])
 
     def Action_status_good(self):
         for rec in self:

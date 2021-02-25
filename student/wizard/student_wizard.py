@@ -18,7 +18,7 @@ class Wizard(models.TransientModel):
 
 
     def get_data(self):
-        college_data = self.env['student.college'].search([('college_city','=','PAtan')])
+        college_data = self.env['student.college'].search([('college_city','=','Mehsana')])
         print("college data :" , college_data)
         for rec in college_data:
             print("college name",rec.college_name)

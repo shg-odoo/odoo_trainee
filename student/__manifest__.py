@@ -19,6 +19,7 @@
         'data/mail_temp.xml',
         'security/security.xml',
         'views/templates.xml',
+        'data/website_menu.xml',
     ],
 
     'application' : True
