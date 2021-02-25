@@ -17,7 +17,7 @@
             <tree>
                 <field name="number_seq" readonly="1"/>
                 <field name="customer"  widget="many2one" optional="show"/>
-                <field name="invoice_date" options='{"countdown": "timer"}'/>
+                <field name="invoice_date"/>
                 <field name="due_date"/>
                 <field name="sales_person" widget="many2one" optional="show"/>
                 <field name="next_activity" widget="list_activity" optional="show"/>
@@ -66,6 +66,7 @@
                         <group>
                             <field name="customer" style="width:50%"/>
                             <field name="invoice_date" style="width:50%"/>
+                            <field name="last_date" style="width:50%"/>
                             <field name="due_date" style="width:50%"/>
                         </group>
                         <br/><br/>

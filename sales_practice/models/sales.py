@@ -10,7 +10,8 @@ class Sales(models.Model):
     number_seq = fields.Char(string="Number", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
     customer = fields.Many2one("sales.customers", string="Customer")
     invoice_date = fields.Date(string="Invoice Date", track_visibility="always")
-    due_date = fields.Char(string="Due Date(Remaining days)")
+    last_date = fields.Date(string="Last Date", track_visibility="always")
+    due_date = fields.Char(string="Due Date(Remaining days)",track_visibility="always")
     next_activity = fields.Many2one("sales.activity",string="Next Activity")
     taxt_included = fields.Integer(string="Tax Included")
     total = fields.Integer(string="Total")
@@ -28,17 +29,17 @@ class Sales(models.Model):
 
     
 
-    @api.onchange('invoice_date')
+    @api.onchange('last_date')
     def _get_due_date(self):
-        if self.invoice_date:
+        if self.last_date:
             for rec in self:
                 date_format = '%Y-%m-%d'
-                joining_date = rec.invoice_date
+                joining_date = rec.last_date
                 current_date = (datetime.today()).strftime(date_format)
 
                 d1 = datetime.strptime(str(joining_date), date_format).date()
                 d2 = datetime.strptime(str(current_date), date_format).date()
-                r = relativedelta(d2,d1)
+                r = relativedelta(d1,d2)
                 rec.due_date = (r.years*365)+(r.months*30)+(r.days)
 
 
