@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError
 class sales(models.Model):
 	_name="sales"
 	_description="Sales Model"
+	#_inherits={'sales.partner':'partner_id'}
 
 	name=fields.Char(string="Number",require=True,readonly=True,
 		                                 index=True,default=lambda self:_('New') )
@@ -14,6 +15,7 @@ class sales(models.Model):
 	sales_person=fields.Char(string="Sales Person")
 	next_activity=fields.Char(string="Next Activity")
 	total=fields.Integer(string="Total")
+	image=fields.Binary(string="Image")
 
 
 	@api.model
@@ -25,12 +27,9 @@ class sales(models.Model):
 		return result	
 
 
-class partner(models.Model):
-	_name="sales.partner"
-	_rec_name="company"
 
-	company=fields.Char(string="Company")
-	company_name=fields.Char(string="Company")
-	company_address=fields.Char(string="Company address")
-	company_state=fields.Char(string="Company State")
-	company_country=fields.Char(string="Company country")
+
+class test(models.Model):
+	_inherit="sales"
+
+	review=fields.Char(string="Review")
