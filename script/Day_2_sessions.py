@@ -35,15 +35,20 @@ def application(environ, start_response):
 	#	response = do_karan(request,args)
 	#elif endpoint=='karanhome':
 	#	response=do_karanhome(request,args)
-	sid = request.cookies.get('cookie')
+	sid = request.cookies.get("session_id")
+
 	if sid is None:
 		request.session = session_store.new()
 	else:
 		request.session = session_store.get(sid)
+	# response = get_the_response_object(request)
 	if request.session.should_save:
 		session_store.save(request.session)
-		response.set_cookie('cookie_name', request.session.sid)
+		request.set_cookie("session_id", request.session.sid)
+	print(request.session.sid)
 
+	# sid = request.session.sid
+	# print(get(sid))
 	return response(environ, start_response)
 
 # def javascr(request, args):
@@ -96,24 +101,41 @@ def cart(request, args):
 	a = request.data
 	b = json.loads(a)
 	print(b)
+	sid = request.cookies.get("session_id")
 	conn = psycopg2.connect("dbname=kbs user=kbs password=karanbos31..")
 	cursor = conn.cursor()
 	cursor.execute("set search_path to products;")
-	cursor.execute("UPDATE USERS SET SESSIONID='' WHERE _ID= ;")
-	cursor.execute("INSERT INTO ORDERS(_ID, ORDERDATE, USERID) VALUES();")
-	cursor.execute("INSERT INTO ORDERDET(_ID, ORDERID, QUANTITY, PRODUCTID) VALUES();")
+	cursor.execute("SELECT COUNT(SESSIONID) FROM USERS WHERE SESSIONID='{}';".format(sid))
+	sess = cursor.fetchone()
+	if sess[0] == 0;
+		cursor.execute("SELECT COUNT(_ID) FROM USERS;")
+		count = cursor.fetchall()
+		cursor.execute("INSERT INTO USERS(_ID, SESSIONID) VALUES({0}, '{1}');".format(count[0]+1, sid))
+		cursor.execute("SELECT COUNT(_ID) FROM ORDERS;")
+		count_orderid = cursor.fetchone()
+		cursor.execute("INSERT INTO ORDERS(_ID, DATE, USERID) VALUES({0}, {1}, {2});".format(count_orderid[0]+1, DATE, count[0]+1))
+		cursor.execute("INSERT INTO ORDERDET(_ID, ORDERID, QUANTITY, PRODUCTID) VALUES({0}, {1}, {2}, {3});".format(count[0]+1, count_orderid[0]+1,  1, b['product-id']))
+	elif sess[0] == 1;
+		cursor.execute("SELECT * FROM ORDERDET INNER JOIN ORDERS ON ORDERDET.ORDERID = ORDER._ID INNER JOIN PRODUCT ON ORDERDET.PRODUCTID = PRODUCT._ID INNER JOIN USERS ON ORDERS.USERID=USERS._ID WHERE USERS.SESSIONID='{}';".format(sid))
+		cursor.execute("SELECT COUNT(ORDERDET._ID) FROM ORDERDET INNER JOIN ORDERS ON ORDERDET.ORDERID = ORDERS._ID INNER JOIN PRODUCT ON ORDERDET.PRODUCTID = PRODUCT._ID INNER JOIN USERS ON ORDERS.USERID=USERS._ID WHERE USERS.SESSIONID='{}';".format(sid))
+		count= cursor.fetchone()
+		if count[0]>0:
+			cursor.execute("SELECT ORDERDET.ORDERID, ORDERDET.QUANTITY FROM ORDERDET INNER JOIN ORDERS ON ORDERDET.ORDERID = ORDERS._ID INNER JOIN PRODUCT ON ORDERDET.PRODUCTID = PRODUCT._ID INNER JOIN USERS ON ORDERS.USERID=USERS._ID WHERE USERS.SESSIONID='{}';".format(sid))
+			quantity = cursor.fetchone()
+			cursor.execute("UPDATE ORDERDET SET QUANTITY= {0} where orderid={1};".format(quantity[1]+1, quantity[0]))
+		elif count[0]==0:
+			cursor.execute("SELECT COUNT(_ID) FROM ORDERS;")
+			count_orderid = cursor.fetchone()
+			cursor.execute("INSERT INTO ORDERDET(_ID, ORDERID, QUANTITY, PRODUCTID) VALUES({0}, {1}, {2}, {3});".format(count[0]+1, count_orderid[0]+1,  1, b['product-id']))
 	conn.commit()
 
 	# cursor.execute("SELECT * FROM USERS inner join orders on orders.userid = users._id inner join orderdet on orderdet.orderid = orders._id inner join product on product._id = orderdet.productid;")
-	product_select=cursor.fetchall()
-	# for row in product_select:
-	# 	print(row)
 	cursor.close()
 	conn.close()
-	print(b)
+	# print(b)
 
 	# text='<!DOCTYPE html><html><style>body{color: red;}</style><body><b><u>Welcome to the %s</u></b></body></html>' % request.args.get('name', 'homepage')
-	response=Response(text, mimetype='text/html')
+	response=Response(b, mimetype='text/json')
 	return response
 
 

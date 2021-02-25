@@ -63,7 +63,7 @@ window.onload = function(event){
           var span1 = document.createElement("span");
           span1.innerText=obj[i].price;
           var addtocart = document.createElement("button");
-          addtocart.setAttribute('id', `button${i}`);
+          // addtocart.setAttribute('id', `button${i}`);
           addtocart.setAttribute('data-id', `${obj[i]._id}`);
           addtocart.innerText = 'Add to Cart';
           addtocart.addEventListener("click", function(event){
