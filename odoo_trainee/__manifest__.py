@@ -14,6 +14,7 @@
         'data/sequence.xml',
         'security/ir.model.access.csv',
         'report/report_student.xml',
+        'security/security.xml',
     ],
     'application' : True,
 }

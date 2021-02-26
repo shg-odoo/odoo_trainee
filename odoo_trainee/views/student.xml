@@ -126,7 +126,7 @@
                         
                         <group>
                             <field name="name"/>
-                            <field name="contactNo"/>
+                            <field name="contactNo" groups="odoo_trainee.group_gender_male"/>
                             <field name="email"/>
                             <field name="bdate"/>
                             <field name="gender" widget="radio" options="{'vertical':true}"/>

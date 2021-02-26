@@ -9,7 +9,7 @@ class student(models.Model):
     _name = 'student'
     _description = "Student Details"
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    # _order = "id desc"
+     # _order = "id desc"
 
     name = fields.Char(string="Name")
     enrollmentNo = fields.Integer(string="Enrollment No")
@@ -19,7 +19,7 @@ class student(models.Model):
     html = fields.Html()
     bdate = fields.Date(string='Date of birth', track_visibility="always")
     gender = fields.Selection([ ('male', 'Male'),('female', 'Female'),],'Gender', default='male')
-    image = fields.Binary(string='Image')
+    image = fields.Binary(string='Image', attachment=True)
     current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
     percentage = fields.Integer(string="Percentage")
     maths = fields.Integer(string="Maths")
@@ -27,7 +27,7 @@ class student(models.Model):
     chemistry = fields.Integer(string="Chemistry")
     fees = fields.Integer(string="Fees")
     age = fields.Integer(string="age",compute="_get_age",store=True, track_visibility="always")
-    total = fields.Integer(string="total",compute="_get_total")
+    total = fields.Integer(string="total",compute_sudo="_get_total")
     college_id = fields.Many2one("student.college", string="College")
     hobbies_id = fields.Many2many("student.hobby", string="Person hobbies")
     name_seq = fields.Char(string="Student Sequence", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
@@ -38,6 +38,13 @@ class student(models.Model):
             ('cancel','Cancelled'),
     ], string='Staus', readonly=True, default='draft')
     active = fields.Boolean('Active',default=True)
+
+
+
+    # def _search_upper(self, operator, value):
+    #     if operator == 'like':
+    #         operator = 'ilike'
+    #     return [('name', operator, value)]   
 
 
 
