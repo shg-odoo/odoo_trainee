@@ -15,5 +15,20 @@
         <field name="category_id" ref="module_category_student"/>
         <!-- <field name="implied_ids" eval="[(4,ref('group_gender_male'))]"/> -->
     </record>
+    <record id="module_category_user" model="ir.module.category">
+        <field name="name">student_user</field>
+        <field name="description">category for student user</field>
+        <field name="sequence">47</field>
+    </record>
+    <record id="group_user_detail" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_user"/>
+        <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+    </record>
+    <record id="group_admin" model="res.groups">
+        <field name="name">Admin</field>
+        <field name="category_id" ref="module_category_user"/>
+        <field name="implied_ids" eval="[(4,ref('group_user_detail'))]"/>
+    </record>
 
 </odoo>

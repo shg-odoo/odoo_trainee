@@ -38,13 +38,19 @@ class student(models.Model):
             ('cancel','Cancelled'),
     ], string='Staus', readonly=True, default='draft')
     active = fields.Boolean('Active',default=True)
+    p_name= fields.Char(string="p Name",compute="_compute_upper_name", store=True, inverse="_inverse_upper_name")
 
 
 
-    # def _search_upper(self, operator, value):
-    #     if operator == 'like':
-    #         operator = 'ilike'
-    #     return [('name', operator, value)]   
+    @api.depends('name')
+    def _compute_upper_name(self):
+       for rec in self:
+           rec.p_name = rec.name.upper() if rec.name else False
+
+    
+    def _inverse_upper_name(self):
+       for rec in self:
+           rec.name = rec.p_name.lower() if rec.p_name else False
 
 
 

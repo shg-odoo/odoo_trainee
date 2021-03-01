@@ -133,6 +133,7 @@
                             <field name="image" widget="image" class="oe_avatar"/>
                             <field name="current_date"/>
                             <field name="age"/>
+                            <field name="p_name"/>
                         </group>     
                     </page>
                     <page string="College Details">
