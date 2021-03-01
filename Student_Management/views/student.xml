@@ -61,7 +61,7 @@
                             <group >
                                 <field name="image" widget="image" class="oe_avatar" style="float:left;padding-bottom:10px;"/>
                                 <field name="name" style="width:25%;"/>
-                                <field name="defaultName" style="width:25%;" />
+                                <field name="defaultName" style="width:25%;"/>
                                 <field name="enrollmentNo" style="width:25%;"/>
                                 <field name="birthdate" style="width:25%;"/>
                                 <field name="age" style="width:25%;"/>
@@ -277,7 +277,7 @@
         </field>
     </record>
 
-    <record id="add_college_form" model="ir.ui.view">
+    <!-- <record id="add_college_form" model="ir.ui.view">
         <field name="name">addCollege</field>
         <field name="model">add.college</field>
         <field name="arch" type="xml">
@@ -292,7 +292,7 @@
                 </footer>
             </form>
         </field>
-    </record>
+    </record> -->
 
     <record id="student_action" model="ir.actions.act_window">
         <field name="name">student</field>
@@ -308,7 +308,7 @@
     </record>
 
 
-    <record id="add_college_action" model="ir.actions.act_window">
+    <!-- <record id="add_college_action" model="ir.actions.act_window">
         <field name="name">Add College</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">add.college</field>
@@ -316,12 +316,12 @@
         <field name="view_id" ref="add_college_form"/>
         <field name="binding_model_id" ref="model_student"/>
         <field name="target">new</field>
-    </record>
+    </record> -->
 
     <menuitem id="student_menu" name="Student Data" web_icon = "Student_Management,static/description/icon.png"/>
     <menuitem id="student" name="Student Details" sequence="1" action="student_action" parent="student_menu"/>
-    <menuitem id="college" name="College Details" sequence="2" action="college_action" parent="student_menu"/>
-    <menuitem id="Add_College" name="Add College" sequence="3" action="add_college_action" parent="student_menu"/>
+    <menuitem id="college" name="College Details" sequence="2" action="college_action" parent="student_menu" groups="Student_Management.group_college"/>
+    <!-- <menuitem id="Add_College" name="Add College" sequence="3" action="add_college_action" parent="student_menu"/> -->
     
    
 </odoo>

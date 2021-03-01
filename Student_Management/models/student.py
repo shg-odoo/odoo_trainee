@@ -12,7 +12,11 @@ class student(models.Model):
 
     enrollmentNo = fields.Integer(string="Enrollment No")
     contactNo = fields.Char(string="Contact No", size=10, track_visibility='always') 
+
+
     age = fields.Integer(string="Age", compute='cal_age', store=True,)
+
+
     email = fields.Char(string="Email Id")
     branch = fields.Char(string="Branch")
     image = fields.Binary(string = "image")
@@ -114,15 +118,15 @@ class student(models.Model):
     def student_college(self):
         print("Button Clicked")
 
-    def add_college(self):
-        ids = self._context.get('active_ids')
-        self.env['student'].browse(ids).write({'college_ids':self.college_ids})
+    # def add_college(self):
+    #     ids = self._context.get('active_ids')
+    #     self.env['student'].browse(ids).write({'college_ids':self.college_ids})
 
-    def name_get(self):
-        res = []
-        for rec in self:
-            res.append((rec.id, '%s %s' % (rec.sequenceName, rec.name)))
-        return res
+    # def name_get(self):
+    #     res = []
+    #     for rec in self:
+    #         res.append((rec.id, '%s %s' % (rec.sequenceName, rec.name)))
+    #     return res
 
     def test_recordset(self):
         for rec in self:
@@ -154,7 +158,7 @@ class student(models.Model):
 
 
             #Browse
-            students_browse = self.env['student'].browse(101)
+            students_browse = self.env['student'].browse(1)
             print("Student Browse...", students_browse)
 
             #Exists
@@ -163,14 +167,21 @@ class student(models.Model):
             else:
                 print("No Record Found")
 
-            #Copy
-            students_copy = self.env['student'].browse(1)
-            students_copy.copy() 
+            # #Copy
+            # students_copy = self.env['student'].browse(1)
+            # students_copy.copy() 
 
             #Unlink
-            students_unlink = self.env['student'].browse(11)
-            students_unlink.unlink() 
+            # students_unlink = self.env['student'].browse(11)
+            # students_unlink.unlink() 
 
+            # #fields_get
+            # students_get=self.env["student"]
+            # print(students_get.field_get())
+
+            #read
+            students_read=self.env["student"]
+            print(self.read(students_read))
 
 
     
@@ -184,9 +195,6 @@ class college(models.Model):
     collegeCity = fields.Char(string="College City")
 
     student_ids = fields.One2many('student','college_ids',string='Student')
-
-
-
 
 
 
@@ -213,17 +221,17 @@ class admission(models.Model):
                 i.eligible = False
 
 
-class AddCollege(models.TransientModel):
-    _name = "add.college"
-    _description = "Registration of College to Mutiple Student Records"
-    _rec_name = "addCity"
+# class AddCollege(models.TransientModel):
+#     _name = "add.college"
+#     _description = "Registration of College to Mutiple Student Records"
+#     _rec_name = "addCity"
     
 
-    college_ids = fields.Char(string="College")
-    addCity = fields.Char(string="City")
-    def add_college(self):
-        vals={
-            'collegeName': self.college_ids,
-            'collegeCity' : self.addCity
-        }
-        self.env['college'].create(vals)
+#     college_ids = fields.Char(string="College")
+#     addCity = fields.Char(string="City")
+#     def add_college(self):
+#         vals={
+#             'collegeName': self.college_ids,
+#             'collegeCity' : self.addCity
+#         }
+#         self.env['college'].create(vals)

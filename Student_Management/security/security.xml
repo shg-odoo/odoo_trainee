@@ -3,6 +3,7 @@
     <record id="module_category_student" model="ir.module.category">
         <field name="name">Student Management</field>
         <field name="description">Catagory for Student</field>
+        <field name="sequence">45</field>
     </record>
 
     <record id="group_student" model="res.groups">
@@ -13,4 +14,15 @@
         <field name="name">College</field>
         <field name="category_id" ref='module_category_student'/>
     </record>
+    <record id="group_hobbies" model="res.groups">
+        <field name="name">Hobbies</field>
+        <field name="category_id" ref='module_category_student'/>
+    </record>
+
+    <record id="group_student_college" model="res.groups">
+        <field name="name">School for Student</field>
+        <field name="category_id" ref='module_category_student'/>
+    </record>
+
+    
 </odoo>
