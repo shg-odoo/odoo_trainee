@@ -38,10 +38,10 @@ class MyController(http.Controller):
 
 
 
-    @http.route('/students/delete/<model("student"):student>', type='http', auth="public", website=True)
-    def delete_student(self, student, **kw):
+    @http.route('/students/delete/<model("student"):std>', type='http', auth="public", website=True)
+    def delete_student(self, std, **kw):
         
-        student.unlink()
+        std.unlink()
         return http.local_redirect("/student")
 
 

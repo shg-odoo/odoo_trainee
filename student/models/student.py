@@ -12,6 +12,7 @@ class student(models.Model):
     _description = "Student Details"
     _order = "id desc"
     _rec_name = "student_name"
+    # _table = "student_data"
     
     def _default_branch(self):
         return 'computer'
@@ -23,6 +24,7 @@ class student(models.Model):
             print("Mapped studentname...",std.mapped('student_name'))
             print("Sorted student...",std.sorted(lambda o:o.birthdate,reverse=True))
             print("filter student city...",std.filtered(lambda o:o.Address))
+
     def name_get(self):
         res = []
         for rec in self:
@@ -30,25 +32,35 @@ class student(models.Model):
         return res
 
     def email_template1(self):
+        #print(self.env)
         print("send mail")
         mail_data = self.env.ref("student.email_template_studentdata").id
         temp = self.env['mail.template'].browse(mail_data).send_mail(self.id,force_send=True)
         return temp
 
-    @api.depends('student_name')
+    # @api.depends('student_name')
     def _get_upper_name(self):
         for rec in self:
             rec.student_name_up = rec.student_name.upper() if rec.student_name else False
 
     def _get_lower_name(self):
         for rec in self:
-            rec.student_name_up = rec.student_name.lower() if rec.student_name else False
+            rec.student_name = rec.student_name_up.lower() if rec.student_name_up else False
+
+    # def _get_search(self):
+    #     for rec in self:
+    #         if(rec.student_name_up=="HARSH"):
+    #             rec.state = 'bad'
+    #             return True
+    #         else:
+    #             False
+    # , search="_get_search"
     
-    student_name = fields.Char(string="Name" ,required=True)
-    student_name_up = fields.Char(string="Uname" ,compute="_get_upper_name" ,inverse="_get_lower_name")
+    student_name = fields.Char(string="Name" ,required=True, store=True)
+    student_name_up = fields.Char(string="Uname" ,compute="_get_upper_name" ,inverse="_get_lower_name" ,store=True)
     roll_no = fields.Integer(string='Roll No' ,required=True,track_visibility="always")
     birthdate = fields.Date(string='birth date' ,)
-    image = fields.Binary('Image')
+    image = fields.Binary('Image',attachment=False)
     gender = fields.Selection([('male','Male') ,('female','Female')],string='Gender', default="male")
     age = fields.Integer(string='age',compute="_get_age",store=True) 
     html = fields.Html()
