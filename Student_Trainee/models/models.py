@@ -18,19 +18,18 @@ class Student(models.Model):
         default="New",
     )
 
-    image = fields.Binary(string="Image")
+    image = fields.Binary(string="Image",attachment=True)
     student_id = fields.Integer(string="Student ID")
-    name = fields.Char(string="Name", required=True, track_visibility="always")
+    name = fields.Char(string="Name", track_visibility="always")
     gender = fields.Selection(
         [
             ("male", "Male"),
             ("female", "Female"),
         ],
         string="Gender",
-        default="male",
     )
     birthDate = fields.Date(
-        string="Birth Date", required=True, track_visibility="always"
+        string="Birth Date", track_visibility="always"
     )
     age = fields.Integer(string="Age", compute="_get_age", store=True)
     hobby_id = fields.Many2many("student.hobbies", string="Hobbies")
@@ -106,10 +105,10 @@ class Student(models.Model):
             if i.birthDate:
                 i.age = relativedelta(date.today(), i.birthDate).years
 
-    @api.constrains("age")
-    def _ageValidator(self):
-        if self.age < 18:
-            raise ValidationError("Age Must Be 18 Or 18+")
+    # @api.constrains("age")
+    # def _ageValidator(self):
+    #     if self.age < 18:
+    #         raise ValidationError("Age Must Be 18 Or 18+")
 
     @api.onchange("maths", "chemistry", "physics")
     def _calculateResult(self):
@@ -128,6 +127,12 @@ class Student(models.Model):
 
     def student_school(self):
         print("Button Clicked")
+    
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((rec.id, '%s %s' % (rec.nameseq, rec.name)))
+        return res
 
 
 class School(models.Model):

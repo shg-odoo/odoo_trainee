@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_student,access_school_student,model_school_student,Student_Trainee.group_student_trainee_student,1,1,1,1
+access_school,access_student_school,model_student_school,Student_Trainee.group_student_trainee_school,1,1,1,1
+access_hobbies,access_student_hobbies,model_student_hobbies,Student_Trainee.group_student_trainee_hobbies,1,1,1,1
+access_student_school,access_student_school,model_student_school,Student_Trainee.group_student_trainee_student_school,1,0,0,0

@@ -7,7 +7,7 @@
             <tree string="Students" default_order="nameseq">
                 <field name="active" invisible="1" />
                 <field name="nameseq" />
-                <field name="student_id" />
+                <field name="student_id"/>
                 <field name="name" />
                 <field name="gender" />
                 <field name="birthDate" />
@@ -71,7 +71,7 @@
                                     <field name="name" style="width:25%;"/>
                                 </group>
                                 <group>
-                                    <field name="gender" widget="radio" />
+                                    <field name="gender" widget="radio"/>
                                     <field name="birthDate" style="width:25%;" />
                                     <field name="age" style="width:25%;"/>
                                     <field name="hobby_id" widget="many2many_tags"/>
@@ -259,6 +259,7 @@
         <field name="name">Students</field>
         <field name="res_model">school.student</field>
         <field name="view_mode">tree,form,calendar,graph,gantt,search,pivot,kanban</field>
+        <field name="context">{'default_gender':'male'}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create Student Record            </p>
         </field>
@@ -272,6 +273,6 @@
         </field>
     </record>
     <menuitem id="student_menu" name="School Management" sequence="1" web_icon="Student_Trainee,static/description/icon.png"/>
-    <menuitem id="school_student_menu" name="Student" parent="student_menu"        action = "student_menu_action" sequence="1"/>
-    <menuitem id="school_menu" name="School" parent="student_menu"            action = "school_menu_action" sequence="2"/>
+    <menuitem id="school_student_menu" name="Student" parent="student_menu"   action = "student_menu_action" sequence="1"/>
+    <menuitem id="school_menu" name="School" parent="student_menu" groups="Student_Trainee.group_student_trainee_school"  action = "school_menu_action" sequence="2"/>
 </odoo>

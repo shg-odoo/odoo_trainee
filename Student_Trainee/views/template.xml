@@ -7,6 +7,8 @@
                 <strong>
                     <h1>Student List</h1>
                 </strong>
+                <br/>
+                <a type="button" class="btn btn-dark" t-attf-href='/students/create'>Create New Student</a>
             </center>
             <br/>
             <div class="container">
@@ -217,6 +219,127 @@
                     </t>
                 </thread>
             </table>
+        </t>
+    </template>
+    <template id="create_student" name="Create Student">
+        <t t-call="website.layout">
+            <div style="margin:100px 100px 100px 100px">
+                <form action="/submit_student_data">
+                    <fieldset>
+                        <center>
+                            <legend>Personal Details</legend>
+                        </center>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label for="inputImage">Upload Image</label>
+                                <input type="file" class="form-control-file" id="inputImage"  t-att-value="image" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label for="inputID">Student ID</label>
+                                <input type="text" class="form-control" id="inputID" placeholder="Student ID"  t-att-value="student_id" name="student_id"/>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" id="inputName" placeholder="Name"  t-att-value="name"  name="name"/>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputBirthDate">Birth Date</label>
+                                <input class="form-control" type="date" placeholder="Birth Date" id="inputBirthDate"  t-att-value="birthDate" name="birthDate"/>
+                            </div>
+                            <!-- <div class="form-group col-md-1">
+                                <label for="inputAge">Age</label>
+                                <input class="form-control" type="text" id="inputAge" placeholder="Age" readonly="1"/>
+                            </div>  -->
+                        </div>
+
+                        
+                        <center>
+                            <legend>Contact Details</legend>
+                        </center>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label for="inputPhone">Mobile Number</label>
+                                <input type="text" maxlength="10" class="form-control" id="inputPhone" placeholder="Mobile Number" name="mobile_number"  t-att-value="mobile_number" />
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail">Email ID</label>
+                                <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email"  t-att-value="email" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputAddress">Address</label>
+                                <textarea class="form-control" placeholder="Write Your Address Here..." id="inputAddress" rows="3" name="address"  t-att-value="address" ></textarea>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputCity">City</label>
+                                <input type="text" placeholder="City" class="form-control" id="inputCity" name="city" t-att-value="city" />
+                            </div>
+                        </div>
+                        <!-- <center>
+                            <legend>Other Details</legend>
+                        </center>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label class="mr-sm-2" for="inputBloodGroup">Blood Group</label>
+                                <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inputBloodGroup"  t-att-value="bloodGroup" >
+                                    <option selected="">Select Blood Group</option>
+                                    <option value="o+">O+</option>
+                                    <option value="o-">O-</option>
+                                    <option value="b+">B+</option>
+                                    <option value="b-">B-</option>
+                                    <option value="a+">A+</option>
+                                    <option value="a-">A-</option>
+                                    <option value="ab+">AB+-</option>
+                                    <option value="ab-">AB-</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label for="inputHeight">Height</label>
+                                <input type="text" placeholder="Height" class="form-control" id="inputHeight"  t-att-value="height" />
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label for="inputWeight">Weight</label>
+                                <input type="text" placeholder="Weight" class="form-control" id="inputWeight"  t-att-value="weight" />
+                            </div>
+
+                        </div> -->
+                        <!-- <div class="form-row>">
+
+                            <div class="checkbox">
+                                <label for="inputDisabled">Physically Disabled? <input type="checkbox" id="inputDisabled" value="True"  t-att-value="disabled" />
+                                </label>
+                            </div>
+
+                        </div> -->
+                        <!-- <center>
+                            <legend>Academic Details</legend>
+                        </center>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputSchool">School</label>
+                                <input type="text" placeholder="School" class="form-control" id="inputSchool"  t-att-value="school_id" />
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label for="inputMaths">Maths</label>
+                                <input type="text" placeholder="Maths" class="form-control" id="inputMaths"  t-att-value="maths" />
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label for="inputChemistry">Chemistry</label>
+                                <input type="text" placeholder="Chemistry" class="form-control" id="inputChemistry"  t-att-value="chemistry" />
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label for="inputPhysics">Physics</label>
+                                <input type="text" placeholder="Physics" class="form-control" id="inputPhysics"  t-att-value="physics" />
+                            </div>
+                        </div> -->
+                        <center>
+                            <button type="submit" value="submit" class="btn btn-primary btn-lg">Create Student</button>
+                        </center>
+                    </fieldset>
+                </form>
+            </div>
         </t>
     </template>
 </odoo>
