@@ -12,10 +12,13 @@ window.onload = function(event){
   var div_items = document.createElement("div");
   div_items.setAttribute('id', 'divsearch');
   var container = document.getElementById("container");
+  var divcart=document.createElement("div");
   container.appendChild(div);
   div.appendChild(input);
   div.appendChild(button);
   container.appendChild(div_items);
+  container.appendChild(divcart);
+
   // var span = document.createElement("span");
   // var addtocart = document.createElement("button");
   // addtocart.setAttribute('id', 'addtocart');
@@ -70,23 +73,104 @@ window.onload = function(event){
 
             // var search_text =document.getElementById("addtocart").value;
             var payload = {'product-id': event.srcElement.dataset.id};
+            // console.log(payload);
             var z = JSON.stringify(payload);
             var xmlhttp = new XMLHttpRequest();
             var url = "http://localhost:8080/add_to_cart";
             xmlhttp.open("POST", url, true); // set true for async, false for sync request
             xmlhttp.send(z); // or null, if no parameters are passed
-
+            // divcart.replaceChildren();
             xmlhttp.onreadystatechange = function (){
               if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var obj = JSON.parse(xmlhttp.responseText);
-              }
+                console.log(obj);
+
+                zi = event.srcElement.dataset.id;
+                console.log(zi -1);
+                // for (var i=0; i< event.srcElement.dataset.id; i++){
+                  var divcart_in = document.createElement("div");
+                  divcart_in.setAttribute('div_id', `div${zi}`);
+                  var span2 = document.createElement("span");
+                  span2.innerText=obj[zi-1].product_name;
+                  var span3 = document.createElement("span");
+                  span3.innerText=obj[zi-1].quantity;
+                  var span4 = document.createElement("span");
+                  span4.innerText=obj[zi-1].amount;
+                  var remove = document.createElement("button");
+
+                  
+
+                  // console.log(obj[zi-1]);
+
+                  remove.setAttribute('data-id', `${obj[zi-1].product_id}`);
+                  console.log(obj[zi-1])
+                  remove.innerText = 'Remove';
+                  remove.addEventListener("click", function(event){
+                    console.log(event.srcElement.dataset.id)
+                  
+                  var payload = {'data-id': event.srcElement.dataset.id};
+                  // console.log(payload);
+                  var z = JSON.stringify(payload);
+                  // console.log(z);
+                  var xmlhttp = new XMLHttpRequest();
+                  var url = "http://localhost:8080/remove";
+                  xmlhttp.open("POST", url, true); // set true for async, false for sync request
+                  xmlhttp.send(z); // or null, if no parameters are passed
+                  // divcart.replaceChildren();
+                  xmlhttp.onreadystatechange = function (){
+                  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var obj = JSON.parse(xmlhttp.responseText);
+                    console.log(obj);
+                    zii = event.srcElement.dataset.id;
+                   console.log(zii -1);
+                // for (var i=0; i< event.srcElement.dataset.id; i++){
+                  // var divcart_in1 = document.createElement("div");
+                  divcart_in.setAttribute('div_id', `div${zii}`);
+                  // var span21 = document.createElement("span");
+                  span2.innerText=obj[zii-1].product_name;
+                  // var span31 = document.createElement("span");
+                  span3.innerText=obj[zii-1].quantity;
+                  // var span41 = document.createElement("span");
+                  span4.innerText=obj[zii-1].amount;
+                  // var remove1 = document.createElement("button");
+                   // console.log('HI')
+
+                  }
+                  divcart.replaceChild(divcart_in, divcart_in);
+                  divcart_in.replaceChild(span2, span2);
+                  divcart_in.replaceChild(span3, span3);
+                  divcart_in.replaceChild(span4, span4);
+                  divcart_in.replaceChild(remove, remove);
+
+                }
+                  });
+                  
+                // }
+
+                  divcart.appendChild(divcart_in);
+                  divcart_in.appendChild(span2);
+                  divcart_in.appendChild(span3);
+                  divcart_in.appendChild(span4);
+                  divcart_in.appendChild(remove);
+                  // divcart.replaceChild(divcart_in, divcart_in);
+                  // divcart_in.replaceChild(span2, span2);
+                  // divcart_in.replaceChild(span3, span3);
+                  // divcart_in.replaceChild(span4, span4);
+                  // divcart_in.replaceChild(remove, remove);
+                // container.appendChild(divcart);
+                  
+                  // document.getElementById(`div${i}`).replaceChild(document.getElementById(`div${i}`));
+                  console.log(divcart_in);
+                }
+              
             }
           });
           div.appendChild(span);
           div.appendChild(span1);
           div.appendChild(addtocart);
           div_items.appendChild(div);
-          console.log(div);
+          container.appendChild(divcart);
+          // console.log(div);
           
    				// span.insertAdjacentElement("afterend", span);
    			  //document.getElementById('span'+'${i}').innerHTML = "<br><br>"+ "Product Name: " + obj[i].name +"<br>"+ "  Product Price: "+ obj[i].price+ "<br>";
