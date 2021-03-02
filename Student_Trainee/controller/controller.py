@@ -34,7 +34,14 @@ class MyController(http.Controller):
 
     @http.route('/students/create', type='http', auth="public", website=True)
     def create_student(self,**kw):
-        return request.render("Student_Trainee.create_student")
+        schools = request.env['student.school'].sudo().search([])
+        print('\n\n\n\n\n')
+        print(schools)
+        print("\n")
+        for i in schools:
+            print(i.school_name)
+        print("\n")
+        return request.render("Student_Trainee.create_student",{'schools':schools})
     
     @http.route("/submit_student_data", type='http', auth="public", website=True)
     def submit_form(self,**kwargs):

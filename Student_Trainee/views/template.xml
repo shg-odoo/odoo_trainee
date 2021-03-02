@@ -277,13 +277,13 @@
                                 <input type="text" placeholder="City" class="form-control" id="inputCity" name="city" t-att-value="city" />
                             </div>
                         </div>
-                        <!-- <center>
+                         <center>
                             <legend>Other Details</legend>
                         </center>
                         <div class="form-row">
                             <div class="form-group col-md-2">
                                 <label class="mr-sm-2" for="inputBloodGroup">Blood Group</label>
-                                <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inputBloodGroup"  t-att-value="bloodGroup" >
+                                <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inputBloodGroup" name="bloodGroup"  t-att-value="bloodGroup" >
                                     <option selected="">Select Blood Group</option>
                                     <option value="o+">O+</option>
                                     <option value="o-">O-</option>
@@ -297,43 +297,48 @@
                             </div>
                             <div class="form-group col-md-1">
                                 <label for="inputHeight">Height</label>
-                                <input type="text" placeholder="Height" class="form-control" id="inputHeight"  t-att-value="height" />
+                                <input type="text" placeholder="Height" class="form-control" id="inputHeight" name="height" t-att-value="height" />
                             </div>
                             <div class="form-group col-md-1">
                                 <label for="inputWeight">Weight</label>
-                                <input type="text" placeholder="Weight" class="form-control" id="inputWeight"  t-att-value="weight" />
+                                <input type="text" placeholder="Weight" class="form-control" id="inputWeight" name="weight" t-att-value="weight" />
                             </div>
 
-                        </div> -->
-                        <!-- <div class="form-row>">
+                        </div> 
+                        <div class="form-row>">
 
                             <div class="checkbox">
-                                <label for="inputDisabled">Physically Disabled? <input type="checkbox" id="inputDisabled" value="True"  t-att-value="disabled" />
+                                <label for="inputDisabled">Physically Disabled? <input type="checkbox" id="inputDisabled" value="True" name="disabled" t-att-value="disabled" />
                                 </label>
                             </div>
 
-                        </div> -->
-                        <!-- <center>
+                        </div>
+                        <center>
                             <legend>Academic Details</legend>
                         </center>
                         <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="inputSchool">School</label>
-                                <input type="text" placeholder="School" class="form-control" id="inputSchool"  t-att-value="school_id" />
-                            </div>
+                            <!-- <div class="form-group col-md-2">
+                                <label class="mr-sm-2" for="inputBloodGroup">School</label>
+                                <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inputSchool" name="school_id"  t-att-value="school_id" >
+                                    <option selected="">Select Your School</option>
+                                    <t t-foreach="schools" t-as="o">
+                                    <option><span t-field="o.school_name"/></option>
+                                    </t>
+                                </select>
+                            </div> -->
                             <div class="form-group col-md-1">
                                 <label for="inputMaths">Maths</label>
-                                <input type="text" placeholder="Maths" class="form-control" id="inputMaths"  t-att-value="maths" />
+                                <input type="text" placeholder="Maths" class="form-control" id="inputMaths" name="maths" t-att-value="maths" />
                             </div>
                             <div class="form-group col-md-1">
                                 <label for="inputChemistry">Chemistry</label>
-                                <input type="text" placeholder="Chemistry" class="form-control" id="inputChemistry"  t-att-value="chemistry" />
+                                <input type="text" placeholder="Chemistry" class="form-control" id="inputChemistry" name="chemistry" t-att-value="chemistry" />
                             </div>
                             <div class="form-group col-md-1">
                                 <label for="inputPhysics">Physics</label>
-                                <input type="text" placeholder="Physics" class="form-control" id="inputPhysics"  t-att-value="physics" />
+                                <input type="text" placeholder="Physics" class="form-control" id="inputPhysics" name="physics" t-att-value="physics" />
                             </div>
-                        </div> -->
+                        </div>
                         <center>
                             <button type="submit" value="submit" class="btn btn-primary btn-lg">Create Student</button>
                         </center>
