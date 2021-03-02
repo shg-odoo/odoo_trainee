@@ -5,8 +5,9 @@ from dateutil.relativedelta import relativedelta
 class Sales(models.Model):
     _name = 'sales'
     _description = "Sales Details"
+    _rec_name = 'sale_name'
 
-    name = fields.Char(string="Name")
+    sale_name = fields.Char(string="Name")
     partner_id = fields.Integer(string="Partner Id")
     number_seq = fields.Char(string="Number", required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
     customer = fields.Char(string="Customer")
@@ -16,11 +17,7 @@ class Sales(models.Model):
     next_activity = fields.Many2one("sales.activity",string="Next Activity")
     taxt_included = fields.Integer(string="Tax Included")
     total = fields.Integer(string="Total")
-    status = fields.Selection(selection=[
-            ('draft', 'Draft'),
-            ('posted', 'Posted'),
-            ('cancel', 'Cancelled'),
-        ], string='Status')
+    
     payment = fields.Selection([ ('paid', 'Paid'),('not_paid', 'Not Paid'),],'Payment')
     state = fields.Selection([
             ('draft','Draft'),

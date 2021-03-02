@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record model="ir.ui.view" id="sales_id">
+    <record model="ir.ui.view" id="sales_view_tree">
         <field name="name">sales</field>
         <field name="model">sales</field>
         <field name="arch" type="xml">
@@ -14,10 +14,8 @@
                 <field name="taxt_included"/>
                 <field name="total" />
                 <field name="state" options="{'vertical':true}" decoration-success="state == 'confirm' 
-                            or state == 'done' or state == 'draft'" decoration-info="state == 'draft' or state == 'done'"
+                            " decoration-danger="state == 'draft'" decoration-info="state == 'done'"
                             widget="badge" optional="show"/>
-                <field name="status" options="{'vertical':true}" decoration-success="status == 'draft' 
-                            or status == 'posted' or status == 'cancel'" widget="badge" optional="show"/>
                 <field name="payment" widget="badge"/>
             </tree>
         </field>
@@ -59,7 +57,6 @@
                             or state == 'done' or state == 'draft'" decoration-info="state == 'draft' or state == 'done'"
                             widget="badge" optional="show"/>
                             <field name="payment" widget="radio" options="{'vertical':true}"/>
-                            <field name="status" widget="radio" options="{'vertical':true}"/>
                         </group>
                     </page>
                 </notebook>
