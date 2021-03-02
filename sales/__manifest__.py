@@ -4,7 +4,7 @@
     'summary': 'sales odoo',
     'sequence' : 5,
     'category': 'Management',
-    'depends': ['base'],
+    'depends': ['base','mail'],
     'data': [
         'data/sequence.xml',
         'views/sales.xml',

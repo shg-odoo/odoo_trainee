@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id='studentinherit_tree_view' model="ir.ui.view">
+		<field name="name">Student_inherit</field>
+		<field name="model">studentinherit</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="fees"/>	
+				<field name="branch"/>	
+			 <!-- 	<field name="student_id"/> -->
+				<field name="number"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id='studentinherit_form_view' model="ir.ui.view">
+		<field name="name">Student_inherit</field>
+		<field name="model">studentinherit</field>
+		<field name="arch" type="xml">
+			<form>
+				<div class="oe_title">
+                 <h1>
+                   <field name="name"/>
+                 </h1>
+               </div>
+				<!-- <field name="student_id"/> -->
+				<group>
+				 <field name="fees"/>	
+				 <field name="branch"/>	
+				 <field name="number"/>
+			    </group>
+			</form>
+		</field>
+	</record>
+
+	<record id="studentinherit_action" model="ir.actions.act_window">
+		<field name="name">Student_inherit</field>
+        <field name="res_model">studentinherit</field>
+        <field name="view_mode">tree,form</field>
+	</record>
+
+	<menuitem id="student_inherited_menu" name="Student Data" web_icon=""/>
+
+	<menuitem id="student_inherited" name="Details" sequence="1" action="studentinherit_action" parent="student_inherited_menu"/>
+
+
+
+
+</odoo>
