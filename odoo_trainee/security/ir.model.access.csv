@@ -3,3 +3,10 @@ access_student,access.student,model_student,odoo_trainee.group_admin,1,1,1,1
 access_student_college,access.student.college,odoo_trainee.model_student_college,,1,1,1,1
 access_student_hobby,access.student.hobby,odoo_trainee.model_student_hobby,,1,1,1,1
 access_student_wizard,access.student.wizard,odoo_trainee.model_student_wizard,,1,1,1,1
+
+
+access_student,access.student,model_student,odoo_trainee.group_student,1,1,1,1
+access_student_all,access.student,model_student,odoo_trainee.group_student_all,1,1,1,1
+access_college,access.student.college,odoo_trainee.model_student_college,odoo_trainee.group_college,1,1,1,1
+access_hobbies,access.student.hobby,odoo_trainee.model_student_hobby,odoo_trainee.group_hobbies,1,1,1,1
+access_student_college,access.student.college,odoo_trainee.model_student_college,odoo_trainee.group_student_college,1,0,0,0

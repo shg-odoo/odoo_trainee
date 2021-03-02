@@ -163,7 +163,7 @@
                         <label for="exampleFormControlFile1">Image</label>
                         <center><input type="file" t-att-value="image" name="image" id="image" style="margin-left:13em;"/></center>
                     </div> -->
-                   <br/> <button type="submit" value="submit">Submit</button>
+                   <br/> <br/><button type="submit" value="submit">Submit</button>
                 
             </form>
             </div>

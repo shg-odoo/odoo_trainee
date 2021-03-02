@@ -11,7 +11,7 @@ class student(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
      # _order = "id desc"
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Name", translate=True)
     enrollmentNo = fields.Integer(string="Enrollment No")
     contactNo = fields.Char(string="Contact No")
     email = fields.Char(string="Email Id")
