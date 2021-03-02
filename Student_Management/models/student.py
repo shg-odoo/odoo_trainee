@@ -8,7 +8,27 @@ class student(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
-    name = fields.Char(string="Name" )
+    name = fields.Char(string="Name", translate=True)
+
+    nameUpper = fields.Char(string="Name Upper", compute='name_upper', inverse='name_lower')
+
+    
+    @api.depends('name')
+    def name_upper(self):
+        for rec in self:
+            if rec.name:
+                rec.nameUpper = rec.name.upper()
+            else:
+                False
+    
+    def name_lower(self):
+        for rec in self:
+            if rec.nameUpper:
+                rec.name = rec.nameUpper.lower()
+            else:
+                False
+
+    
 
     enrollmentNo = fields.Integer(string="Enrollment No")
     contactNo = fields.Char(string="Contact No", size=10, track_visibility='always') 

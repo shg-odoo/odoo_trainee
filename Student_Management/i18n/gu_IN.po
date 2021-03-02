@@ -1,0 +1,749 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Student_Management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-02 08:40+0000\n"
+"PO-Revision-Date: 2021-03-02 08:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "<b>Academic Details</b>"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "<b>Contact Details</b>"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "<b>Medical Details</b>"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "<b>Personal Details</b>"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "<b>Student Report Card</b>"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_kanban
+msgid "<strong class=\"o_kanban_record_title\"> City: </strong>"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_kanban
+msgid "<strong class=\"o_kanban_record_title\"> Date of Birth: </strong>"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_kanban
+msgid "<strong class=\"o_kanban_record_title\"> Email: </strong>"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_kanban
+msgid "<strong class=\"o_kanban_record_title\"> Name: </strong>"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields.selection,name:Student_Management.selection__college__bloodGroup__ab+
+#: model:ir.model.fields.selection,name:Student_Management.selection__student__bloodGroup__ab+
+msgid "AB+"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields.selection,name:Student_Management.selection__college__bloodGroup__ab-
+#: model:ir.model.fields.selection,name:Student_Management.selection__student__bloodGroup__ab-
+msgid "AB-"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Academic Details"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_needaction
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__active
+#: model:ir.model.fields,field_description:Student_Management.field_student__active
+msgid "Active"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_ids
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_exception_decoration
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_state
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_type_icon
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.actions.act_window,name:Student_Management.add_college_wizard_action
+#: model_terms:ir.ui.view,arch_db:Student_Management.add_college_wizard_view_form
+msgid "Add College"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__address
+#: model:ir.model.fields,field_description:Student_Management.field_student__address
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Address"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__age
+#: model:ir.model.fields,field_description:Student_Management.field_student__age
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Age"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields.selection,name:Student_Management.selection__college__state__applied
+#: model:ir.model.fields.selection,name:Student_Management.selection__student__state__applied
+msgid "Applied"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_search
+msgid "Archived"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_attachment_count
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_kanban
+msgid "Avatar"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__average
+#: model:ir.model.fields,field_description:Student_Management.field_student__average
+msgid "Average"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__bloodGroup
+#: model:ir.model.fields,field_description:Student_Management.field_student__bloodGroup
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Blood Group"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__branch
+#: model:ir.model.fields,field_description:Student_Management.field_student__branch
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_search
+msgid "Branch"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.add_college_wizard_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.module.category,description:Student_Management.module_category_student
+msgid "Catagory for Student"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__chemistry
+#: model:ir.model.fields,field_description:Student_Management.field_student__chemistry
+msgid "Chemistry"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__city
+#: model:ir.model.fields,field_description:Student_Management.field_student__city
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_search
+msgid "City"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_add_college_wizard__college_ids
+#: model:ir.model.fields,field_description:Student_Management.field_college__college_ids
+#: model:ir.model.fields,field_description:Student_Management.field_student__college_ids
+#: model:res.groups,name:Student_Management.group_college
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "College"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__collegeCity
+msgid "College City"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model,name:Student_Management.model_college
+#: model:ir.ui.menu,name:Student_Management.college
+msgid "College Details"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__collegeName
+msgid "College Name"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "College:"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.college_form
+#: model_terms:ir.ui.view,arch_db:Student_Management.college_tree
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Colleges"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Contact Details"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__contactNo
+#: model:ir.model.fields,field_description:Student_Management.field_student__contactNo
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Contact No"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__country
+#: model:ir.model.fields,field_description:Student_Management.field_student__country
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_search
+msgid "Country"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_add_college_wizard__create_uid
+#: model:ir.model.fields,field_description:Student_Management.field_college__create_uid
+#: model:ir.model.fields,field_description:Student_Management.field_hobbies__create_uid
+#: model:ir.model.fields,field_description:Student_Management.field_student__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_add_college_wizard__create_date
+#: model:ir.model.fields,field_description:Student_Management.field_college__create_date
+#: model:ir.model.fields,field_description:Student_Management.field_hobbies__create_date
+#: model:ir.model.fields,field_description:Student_Management.field_student__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__dateTo
+#: model:ir.model.fields,field_description:Student_Management.field_student__dateTo
+msgid "Date"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__birthdate
+#: model:ir.model.fields,field_description:Student_Management.field_student__birthdate
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Date of Birth"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__defaultName
+#: model:ir.model.fields,field_description:Student_Management.field_student__defaultName
+msgid "Default Name"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_add_college_wizard__display_name
+#: model:ir.model.fields,field_description:Student_Management.field_college__display_name
+#: model:ir.model.fields,field_description:Student_Management.field_hobbies__display_name
+#: model:ir.model.fields,field_description:Student_Management.field_student__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Done"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__eligible
+#: model:ir.model.fields,field_description:Student_Management.field_student__eligible
+msgid "Eligible For Admission"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__email
+#: model:ir.model.fields,field_description:Student_Management.field_student__email
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Email Id"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__enrollmentNo
+#: model:ir.model.fields,field_description:Student_Management.field_student__enrollmentNo
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Enrollment No"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields.selection,name:Student_Management.selection__college__gender__female
+#: model:ir.model.fields.selection,name:Student_Management.selection__student__gender__female
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_search
+msgid "Female"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_follower_ids
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_channel_ids
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_partner_ids
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__activity_type_icon
+#: model:ir.model.fields,help:Student_Management.field_student__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__gender
+#: model:ir.model.fields,field_description:Student_Management.field_student__gender
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Gender"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_search
+msgid "Group By"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Height"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__height
+#: model:ir.model.fields,field_description:Student_Management.field_student__height
+msgid "Height (cm)"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report_inherit
+msgid "Hello"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__hobbies_ids
+#: model:ir.model.fields,field_description:Student_Management.field_hobbies__hobbies
+#: model:ir.model.fields,field_description:Student_Management.field_student__hobbies_ids
+#: model:res.groups,name:Student_Management.group_hobbies
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Hobbies"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_add_college_wizard__id
+#: model:ir.model.fields,field_description:Student_Management.field_college__id
+#: model:ir.model.fields,field_description:Student_Management.field_hobbies__id
+#: model:ir.model.fields,field_description:Student_Management.field_student__id
+msgid "ID"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_exception_icon
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__activity_exception_icon
+#: model:ir.model.fields,help:Student_Management.field_student__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__message_needaction
+#: model:ir.model.fields,help:Student_Management.field_college__message_unread
+#: model:ir.model.fields,help:Student_Management.field_student__message_needaction
+#: model:ir.model.fields,help:Student_Management.field_student__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__message_has_error
+#: model:ir.model.fields,help:Student_Management.field_student__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields.selection,name:Student_Management.selection__college__state__inprogress
+#: model:ir.model.fields.selection,name:Student_Management.selection__student__state__inprogress
+msgid "In Progress"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_is_follower
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_add_college_wizard____last_update
+#: model:ir.model.fields,field_description:Student_Management.field_college____last_update
+#: model:ir.model.fields,field_description:Student_Management.field_hobbies____last_update
+#: model:ir.model.fields,field_description:Student_Management.field_student____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_add_college_wizard__write_uid
+#: model:ir.model.fields,field_description:Student_Management.field_college__write_uid
+#: model:ir.model.fields,field_description:Student_Management.field_hobbies__write_uid
+#: model:ir.model.fields,field_description:Student_Management.field_student__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_add_college_wizard__write_date
+#: model:ir.model.fields,field_description:Student_Management.field_college__write_date
+#: model:ir.model.fields,field_description:Student_Management.field_hobbies__write_date
+#: model:ir.model.fields,field_description:Student_Management.field_student__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_main_attachment_id
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields.selection,name:Student_Management.selection__college__gender__male
+#: model:ir.model.fields.selection,name:Student_Management.selection__student__gender__male
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_search
+msgid "Male"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__maths
+#: model:ir.model.fields,field_description:Student_Management.field_student__maths
+msgid "Maths"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Medical Details"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_has_error
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_ids
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__name
+#: model:ir.model.fields,field_description:Student_Management.field_student__name
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Name"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__nameUpper
+#: model:ir.model.fields,field_description:Student_Management.field_student__nameUpper
+msgid "Name Upper"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Next"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_date_deadline
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_summary
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_type_id
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_needaction_counter
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_has_error_counter
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__message_needaction_counter
+#: model:ir.model.fields,help:Student_Management.field_student__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__message_has_error_counter
+#: model:ir.model.fields,help:Student_Management.field_student__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__message_unread_counter
+#: model:ir.model.fields,help:Student_Management.field_student__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Personal Details"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__disabled
+#: model:ir.model.fields,field_description:Student_Management.field_student__disabled
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Physically Disabled?"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__physics
+#: model:ir.model.fields,field_description:Student_Management.field_student__physics
+msgid "Physics"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__pincode
+#: model:ir.model.fields,field_description:Student_Management.field_student__pincode
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Pincode"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Record Set Operation"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model,name:Student_Management.model_add_college_wizard
+msgid "Registration of College to Mutiple Student Records"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__activity_user_id
+#: model:ir.model.fields,field_description:Student_Management.field_student__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_form
+msgid "Restart"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields.selection,name:Student_Management.selection__college__state__result
+#: model:ir.model.fields.selection,name:Student_Management.selection__student__state__result
+msgid "Result"
+msgstr ""
+
+#. module: Student_Management
+#: model:res.groups,name:Student_Management.group_student_college
+msgid "School for Student"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__state
+#: model:ir.model.fields,field_description:Student_Management.field_student__state
+msgid "Status"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__activity_state
+#: model:ir.model.fields,help:Student_Management.field_student__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__student_ids
+#: model:res.groups,name:Student_Management.group_student
+msgid "Student"
+msgstr ""
+
+#. module: Student_Management
+#: model:res.groups,name:Student_Management.group_student_all
+msgid "Student All"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.ui.menu,name:Student_Management.student_menu
+msgid "Student Data"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model,name:Student_Management.model_student
+#: model:ir.ui.menu,name:Student_Management.student
+msgid "Student Details"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model,name:Student_Management.model_hobbies
+msgid "Student Hobbies"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.module.category,name:Student_Management.module_category_student
+msgid "Student Management"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Student Photo"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__sequenceName
+#: model:ir.model.fields,field_description:Student_Management.field_student__sequenceName
+msgid "Student Sequence"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__total
+#: model:ir.model.fields,field_description:Student_Management.field_student__total
+msgid "Total"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,help:Student_Management.field_college__activity_exception_decoration
+#: model:ir.model.fields,help:Student_Management.field_student__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields.selection,name:Student_Management.selection__college__state__underreview
+#: model:ir.model.fields.selection,name:Student_Management.selection__student__state__underreview
+msgid "Under Review"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_unread
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__message_unread_counter
+#: model:ir.model.fields,field_description:Student_Management.field_student__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__weight
+#: model:ir.model.fields,field_description:Student_Management.field_student__weight
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_report
+msgid "Weight"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.actions.act_window,name:Student_Management.college_action
+msgid "college"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.model.fields,field_description:Student_Management.field_college__image
+#: model:ir.model.fields,field_description:Student_Management.field_student__image
+msgid "image"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_tree
+msgid "strings"
+msgstr ""
+
+#. module: Student_Management
+#: model:ir.actions.act_window,name:Student_Management.student_action
+msgid "student"
+msgstr ""
+
+#. module: Student_Management
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_calendar
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_gantt
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_graph
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_pivot
+#: model_terms:ir.ui.view,arch_db:Student_Management.student_search
+msgid "students"
+msgstr ""

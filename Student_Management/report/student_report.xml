@@ -13,11 +13,13 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
-                    <center>
-                        <h1 style="font-size: 30px">
-                            <b>Student Report Card</b>
-                        </h1>
-                    </center>
+                    <div class="page">
+                        <center>
+                            <h1 style="font-size: 30px">
+                                <b>Student Report Card</b>
+                            </h1>
+                        </center>
+                    
                     <br></br>
                     <br></br>
                     <center>
@@ -25,7 +27,7 @@
                             <b>Personal Details</b>
                         </h1>
                     </center>
-                    <table style="width:100%;border: 1px solid black;">
+                    <table style="width:100%;border: 1px solid black;" class="table_personal_detail">
                         <thread>
                             <tr style="background-color:lightgray;">
                                 <th style="border: 1px solid black;text-align: center;">Student Photo</th>
@@ -164,6 +166,8 @@
                             </t>
                         </thread>
                     </table>
+
+                </div>
                 </t>
             </t>
         </t>

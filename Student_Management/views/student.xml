@@ -61,7 +61,7 @@
                             <group >
                                 <field name="image" widget="image" class="oe_avatar" style="float:left;padding-bottom:10px;"/>
                                 <field name="name" style="width:25%;"/>
-                                <field name="defaultName" style="width:25%;"/>
+                                <field name="nameUpper" style="width:25%;"/>
                                 <field name="enrollmentNo" style="width:25%;"/>
                                 <field name="birthdate" style="width:25%;"/>
                                 <field name="age" style="width:25%;"/>
