@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record model="ir.module.category" id="module_category_student_trainee">
         <field name="name">School Management</field>
         <field name="description">Category for Student</field>
         <field name="sequence">10</field>
     </record>
-
+    <record id="group_student_trainee_all" model="res.groups">
+        <field name="name">Student All</field>
+        <field name="category_id" ref="Student_Trainee.module_category_student_trainee"/>
+    </record>
     <record id="group_student_trainee_student" model="res.groups">
         <field name="name">Student</field>
         <field name="category_id" ref="Student_Trainee.module_category_student_trainee"/>
     </record>
-
     <record id="group_student_trainee_school" model="res.groups">
         <field name="name">School</field>
         <field name="category_id" ref="Student_Trainee.module_category_student_trainee"/>
     </record>
-
     <record id="group_student_trainee_student_school" model="res.groups">
         <field name="name">School For Student</field>
         <field name="category_id" ref="Student_Trainee.module_category_student_trainee"/>
     </record>
-
     <record id="group_student_trainee_hobbies" model="res.groups">
         <field name="name">Hobbies</field>
         <field name="category_id" ref="Student_Trainee.module_category_student_trainee"/>
     </record>
-
-    <!-- <record id="only_responsible_can_modify" model="ir.rule">
-        <field name="name">Only Responsible can modify Course</field>
-        <field name="model_id" ref="model_openacademy_course"/>
-        <field name="groups" eval="[(4, ref('open_academy.group_openacademy_manager'))]"/>
-        <field name="perm_read" eval="0"/>
-        <field name="perm_write" eval="1"/>
-        <field name="perm_create" eval="0"/>
-        <field name="perm_unlink" eval="1"/>
-        <field name="domain_force">
-            ['|', ('responsible_id','=',False),
-                  ('responsible_id','=',user.id)]
-        </field>
-    </record> -->
-
-
+    <record id="record_rule_own" model="ir.rule">
+        <field name="name">User's Own Record</field>
+        <field ref="Student_Trainee.model_school_student" name="model_id"/>
+        <field name="domain_force">[('create_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_student_trainee_student'))]"/>
+    </record>
 </odoo>
