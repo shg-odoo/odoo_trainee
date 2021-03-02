@@ -12,20 +12,20 @@
             <field name="email_to">${object.email_id}</field>
             <field name="subject">Email sent to (Ref ${object.student_name or 'n/a'})</field>
             <field name="body_html" type="html">
-<div style="margin: 0px; padding: 0px;">
-    <p style="margin: 0px; padding: 0px; font-size: 13px;">
-        Dear
-        % if object.student_name:
-            ${object.student_name} ,
-        % else:
-            ${object.roll_no},
-        % endif
-        <br /><br />
-        Here is your Data Please find attachment bellow
-        <br /><br />
-        Do not hesitate to contact us if you have any questions.
-    </p>
-</div>
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear
+                        % if object.student_name:
+                            ${object.student_name} ,
+                        % else:
+                            ${object.roll_no},
+                        % endif
+                        <br /><br />
+                        Here is your Data Please find attachment bellow
+                        <br /><br />
+                        Do not hesitate to contact us if you have any questions.
+                    </p>
+                </div>
             </field>
             <field name="report_template" ref="student_report"/>
             <field name="report_name">Data_${(object.student_name or '').replace('/','_')}${object.state == 'Good' and 'bad' or ''}</field>

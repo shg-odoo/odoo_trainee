@@ -10,6 +10,7 @@
         'website','base','mail'
     ],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'wizard/student_wizard_view.xml',
         'views/student_viewtree.xml',
@@ -17,7 +18,6 @@
         'data/sequence.xml',
         'report/student_report.xml',
         'data/mail_temp.xml',
-        'security/security.xml',
         'views/templates.xml',
         'data/website_menu.xml',
     ],

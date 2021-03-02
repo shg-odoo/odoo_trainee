@@ -7,6 +7,7 @@ from odoo.exceptions import ValidationError
 
 class student(models.Model):
     _name = 'student'
+    _register = True
     _inherit = ['mail.thread',
                'mail.activity.mixin']
     _description = "Student Details"
@@ -20,9 +21,9 @@ class student(models.Model):
     def student_sorted(self):
         for rec in self:
             print("odoo ORM:record set operation")
-            std = rec.env['student'].search([])
+            std = self.env['student'].search([])
             print("Mapped studentname...",std.mapped('student_name'))
-            print("Sorted student...",std.sorted(lambda o:o.birthdate,reverse=True))
+            print("Sorted student details..",std.sorted(lambda o: o.birthdate,reverse=True))
             print("filter student city...",std.filtered(lambda o:o.Address))
 
     def name_get(self):
@@ -56,7 +57,8 @@ class student(models.Model):
     #             False
     # , search="_get_search"
     
-    student_name = fields.Char(string="Name" ,required=True, store=True)
+    student_name = fields.Char(string="Name" ,required=True, store=True, translate=True)
+    nickname = fields.Char(related="student_name" ,store=True)
     student_name_up = fields.Char(string="Uname" ,compute="_get_upper_name" ,inverse="_get_lower_name" ,store=True)
     roll_no = fields.Integer(string='Roll No' ,required=True,track_visibility="always")
     birthdate = fields.Date(string='birth date' ,)

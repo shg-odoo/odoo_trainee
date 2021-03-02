@@ -18,10 +18,19 @@
     report_type = "xlsx"
     attachment_use = "False"
     /> -->
+    <report
+        id="report_student_primary"
+        model="student"
+        string="Student Report Primary"
+        name="student.inherit_report_student_view_primary"
+        file="student.report_student"
+        report_type="qweb-pdf" 
+        attachment_use="True"/>
 
     <template id="New_data">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
+            <div class="page">
                 <center>
                     <h2>Student Data</h2>
                 </center>
@@ -69,8 +78,29 @@
                     </tr>
                     </t>
                 </table>
+                </div>
             </t>
         </t>
+    </template>
+    <template id="inherit_report_student_view" inherit_id="New_data">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <h2>Inside</h2>
+        </xpath>
+      <xpath expr="(//th)[1]" position="after">
+        <th scope="col" style="border: 1px solid black;">Branch</th>
+      </xpath>
+      <xpath expr="(//td)[1]" position="after">
+        <td align='center' style="border: 1px solid black;"><span t-field="o.branch"/></td>
+      </xpath>
+    </template>
+
+    <template id="inherit_report_student_view_primary" inherit_id="New_data" primary="True">
+      <xpath expr="(//th)[1]" position="after">
+        <th scope="col" style="border: 1px solid black;">email</th>
+      </xpath>
+      <xpath expr="(//td)[1]" position="after">
+        <td align='center' style="border: 1px solid black;"><span t-field="o.email_id"/></td>
+      </xpath>
     </template>
     
 </odoo>

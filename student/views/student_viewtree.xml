@@ -15,6 +15,7 @@
             <tree>
                 <field name="name_seq"/>
                 <field name="student_name"/>
+                <field name="nickname"/>
                 <field name="student_name_up" groups="base.group_no_one"/>
                 <field name="roll_no"/>
                 <field name="birthdate"/>
@@ -174,8 +175,9 @@
                     <group>
                         <group>
                             <field name="student_name"/>
+                            <field name="nickname"/>
                             <field name="gender" widget="radio"/>
-                            <field name="birthdate" groups="student.group_gender_male"/>
+                            <field name="birthdate"/>
                             <field name="age"/>
                         </group>
                         <group >
