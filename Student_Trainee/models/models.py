@@ -20,7 +20,7 @@ class Student(models.Model):
 
     image = fields.Binary(string="Image",attachment=True)
     student_id = fields.Integer(string="Student ID")
-    name = fields.Char(string="Name", track_visibility="always")
+    name = fields.Char(string="Name", track_visibility="always",translate=True)
     gender = fields.Selection(
         [
             ("male", "Male"),
@@ -159,7 +159,7 @@ class Scholarship(models.Model):
     _inherit = "school.student"
 
     eligible = fields.Boolean(
-        string="Eligible For Scholarship", compute="_Eligible", store=True
+        string="Eligible For Scholarship", compute="_Eligible", store=True,inverse="_inverseEligible"
     )
 
     @api.depends("average")
@@ -169,3 +169,7 @@ class Scholarship(models.Model):
                 i.eligible = True
             else:
                 i.eligible = False
+                
+    def _inverseEligible(self):
+        for i in self:
+            i.eligible=True
