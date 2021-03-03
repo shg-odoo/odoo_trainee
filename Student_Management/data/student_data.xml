@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="s1" model="student">
+    <!-- <record id="s1" model="student">
         <field name="name">Meet</field>
         <field name="enrollmentNo">10</field>
         <field name="contactNo">9876543218</field>
@@ -8,52 +8,7 @@
         <field name="branch">Computer</field>
         <field name="birthdate">1998-06-02</field>
         <field name="city" >Ahmedabad</field>
-    </record>
-    <record id="s2" model="student">
-        <field name="name">Vivek</field>
-        <field name="enrollmentNo">20</field>
-        <field name="contactNo">8764543567</field>
-        <field name="email">odoo@gmail.com</field>
-        <field name="branch">Civil</field>
-        <field name="birthdate">1997-10-08</field>
-        <field name="city" >Jaipur</field>
-    </record>
-    <record id="s3" model="student">
-        <field name="name">Raj</field>
-        <field name="enrollmentNo">30</field>
-        <field name="contactNo">8763512345</field>
-        <field name="email">odoo@gmail.com</field>
-        <field name="branch">Computer</field>
-        <field name="birthdate">1998-02-18</field>
-        <field name="city" >Jaipur</field>
-    </record>
-    <record id="s4" model="student">
-        <field name="name">Rahul</field>
-        <field name="enrollmentNo">40</field>
-        <field name="contactNo">9872345678</field>
-        <field name="email">odoo@gmail.com</field>
-        <field name="branch">Mechanical</field>
-        <field name="birthdate">1999-07-31</field>
-        <field name="city" >Ahmedabad</field>
-    </record>
-    <record id="s5" model="student">
-        <field name="name">Emma</field>
-        <field name="enrollmentNo">50</field>
-        <field name="contactNo">9872376785</field>
-        <field name="email">odoo@gmail.com</field>
-        <field name="branch">Mechanical</field>
-        <field name="birthdate">1999-05-08</field>
-        <field name="city" >Ahmedabad</field>
-    </record>
-    <record id="s6" model="student">
-        <field name="name">Sophia</field>
-        <field name="enrollmentNo">60</field>
-        <field name="contactNo">9872376785</field>
-        <field name="email">odoo@gmail.com</field>
-        <field name="branch">Civil</field>
-        <field name="birthdate">1999-07-31</field>
-        <field name="city" >Jaipur</field>
-    </record>
+    </record> -->
     <record id="c1" model="college">
         <field name="collegeName">SRM</field>
         <field name="collegeCity">Mumbai</field>

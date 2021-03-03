@@ -6,7 +6,7 @@ class student(models.Model):
     _name = 'student'
     _description = "Student Details"
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _order = 'id desc'
+    # _order = 'id desc'
 
     name = fields.Char(string="Name", translate=True)
 
@@ -131,7 +131,7 @@ class student(models.Model):
     @api.onchange("maths", "chemistry", "physics")
     def _result(self):
         for i in self:
-            icollege_ids = fields.Many2one('college', string='College').total = i.maths + i.chemistry + i.physics
+            i.total = i.maths + i.chemistry + i.physics
             i.average = (i.total)/3
     
 

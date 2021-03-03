@@ -167,9 +167,6 @@
                 <separator />
                 <filter name="filter_Archive" string="Archived" domain="[('active', '=', False)]" />
                 <separator />
-                <searchpanel>
-                    <field name="gender" />
-                </searchpanel>
             </search>
         </field>
     </record>
@@ -223,7 +220,7 @@
             </gantt>
         </field>
     </record>
-    <record id="student_form_inherit" model="ir.ui.view">
+    <!-- <record id="student_form_inherit" model="ir.ui.view">
         <field name="name">student_form</field>
         <field name="model">college</field>
         <field name="inherit_id" ref="Student_Management.college_form"/>
@@ -234,7 +231,7 @@
                 </group>
             </xpath>
         </field>
-    </record>
+    </record> -->
     <record id="college_tree" model="ir.ui.view">
         <field name="name">college.tree</field>
         <field name="model">college</field>
@@ -320,7 +317,7 @@
 
     <menuitem id="student_menu" name="Student Data" web_icon = "Student_Management,static/description/icon.png"/>
     <menuitem id="student" name="Student Details" sequence="1" action="student_action" parent="student_menu"/>
-    <menuitem id="college" name="College Details" sequence="2" action="college_action" parent="student_menu" groups="Student_Management.group_college"/>
+    <menuitem id="college" name="College Details" sequence="2" action="college_action" parent="student_menu" />
     <!-- <menuitem id="Add_College" name="Add College" sequence="3" action="add_college_action" parent="student_menu"/> -->
     
    

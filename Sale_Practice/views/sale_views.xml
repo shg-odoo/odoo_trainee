@@ -8,8 +8,15 @@
     <menuitem id="sale_order_menu"
             name="Orders"
             parent="sale_menu_root"
-            sequence="1"/>
+            sequence="1" action="sale_order_action"/>
+
+    <record id="sale_order_action" model="ir.actions.act_window">
+        <field name="name">order</field>
+        <field name="res_model"></field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'default_gender':'male'}</field>
+    </record>
     
-    
+
 
 </odoo>
