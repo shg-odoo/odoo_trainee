@@ -40,8 +40,8 @@ class student(models.Model):
     active = fields.Boolean('Active',default=True)
     p_name= fields.Char(string="p Name",compute="_compute_upper_name", store=True, inverse="_inverse_upper_name")
 
-
-
+    
+    
     @api.depends('name')
     def _compute_upper_name(self):
        for rec in self:
@@ -132,6 +132,7 @@ class college(models.Model):
 
 
 
+
 class hobby(models.Model):
     _name = "student.hobby"
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -146,4 +147,20 @@ class scholarship(models.Model):
     _inherit = "student"
 
     scholarship = fields.Integer(string="Scholarship")
+    scholarship_list = fields.One2many('student', 'college_id', string="Scholarship")
+
+
+    @api.model
+    def name_search(self, name, args=None, operator='iLike', limit=100):
+        args = args or []
+        print('Name', name)
+        print('Args', args)
+        print('operator', operator)
+        print('limit', limit)
+        if name:
+            records = self.search(['|','|',('name', operator, name), ('email', operator, name), ('scholarship', operator, name)])
+            return records.name_get()
+        return self.search([('name',operator,name)]+args, limit=limit).name_get()
+
+
    

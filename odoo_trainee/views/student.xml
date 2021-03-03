@@ -134,6 +134,7 @@
                             <field name="current_date"/>
                             <field name="age"/>
                             <field name="p_name"/>
+                            <field name="scholarship_list" widget="many2many_tags"/>
                         </group>     
                     </page>
                     <page string="College Details">
