@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+	<record model="ir.ui.view" id="tree_view">
+		<field name="name">Employee.Tree</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="dept"/>
+				<field name="profile" widget="image" class="oe_avatar"/>
+				<field name="gender" widget="radio"/>
+				<field name="age"/>
+				<field name="number"/>
+				<field name="address"/>
+				<field name="bday"/>
+				<field name="phy"/>
+				<field name="chem"/>
+				<field name="math"/>
+				<field name="branch"/>
+				<field name="date"/>
+				<field name="email"/>
+				<field name="techmarks"/>
+				<field name="rating"/>
+				<field name="pr"/>
+				<field name="grade"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="form_view">
+		<field name="name">Employee.Form</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<form string="Employee form">
+				<notebook>
+					<page string="Personal Details">
+						<group>
+							<field name="name"/>
+							<field name="profile" widget="image" class="oe_avatar"/>
+							<field name="gender" widget="radio"/>
+							<field name="age"/>
+							<field name="number"/>
+							<field name="address"/>
+							<field name="bday"/>
+						</group>
+					</page>
+					<page string="Technical Details">
+						<group>
+							<field name="dept"/>
+							<field name="branch"/>
+							<field name="date"/>
+							<field name="email"/>
+							<field name="techmarks"/>
+							<field name="rating"/>
+						</group>
+					</page>
+					<page string="Educational Details">
+						<group>
+							<field name="phy"/>
+							<field name="chem"/>
+							<field name="math"/>
+							<field name="pr"/>
+							<field name="grade"/>
+						</group>
+					</page>
+				</notebook>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="calendar_view">
+		<field name="name">Employee.Calendar</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<calendar string="Calendar" date_start="date" date_stop="date">
+				<field name="name"/>
+				<field name="dept"/>
+				<field name="profile" widget="image" class="oe_avatar"/>
+				<field name="gender"/>
+				<field name="age"/>
+				<field name="number"/>
+				<field name="address"/>
+				<field name="date"/>
+				<field name="email"/>
+				<field name="techmarks"/>
+				<field name="rating"/>
+			</calendar>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="graph_view">
+		<field name="name">Employee.Pivot</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<graph string="Pivot">
+				<field name="name"/>
+				<field name="dept"/>
+				<!-- <field name="profile" widget="image" class="oe_avatar"/> -->
+				<field name="gender" widget='radio'/>
+				<field name="age"/>
+				<field name="number"/>
+				<field name="address"/>
+				<field name="date"/>
+				<field name="email"/>
+				<field name="techmarks"/>
+				<field name="pr"/>
+				<field name="grade"/>
+				<field name="rating"/>
+				<field name="bday"/>
+				<field name="phy"/>
+				<field name="chem"/>
+				<field name="math"/>
+			</graph>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="pivot_view">
+		<field name="name">Employee.Pivot</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<pivot string="Pivot">
+				<field name="name"/>
+				<field name="dept"/>
+				<field name="gender" widget='radio'/>
+				<field name="age"/>
+				<field name="number"/>
+				<field name="address"/>
+				<field name="date"/>
+				<field name="email"/>
+				<field name="techmarks"/>
+				<field name="pr"/>
+				<field name="grade"/>
+				<field name="rating"/>
+				<field name="bday"/>
+				<field name="phy"/>
+				<field name="chem"/>
+				<field name="math"/>
+			</pivot>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="gantt_view">
+		<field name="name">Employee.Gantt</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<gantt string="Gantt View"
+				date_start="date" date_stop="date"
+				default_group_by="dept">
+				<field name="name"/>
+				<field name="dept"/>
+				<field name="date"/>
+				<field name="gender" widget='radio'/>
+				<field name="age"/>
+				<field name="number"/>
+				<field name="address"/>
+				<field name="date"/>
+				<field name="email"/>
+				<field name="techmarks"/>
+				<field name="pr"/>
+				<field name="grade"/>
+				<field name="rating"/>
+				<field name="bday"/>
+				<field name="phy"/>
+				<field name="chem"/>
+				<field name="math"/>
+			</gantt>
+		</field>
+	</record>
+	
+	<record model="ir.ui.view" id="employee_search_view">
+		<field name="name">Employee.Search</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<field name="dept"/>
+				<field name='gender'/>
+				<filter string="Male" name='male' domain="[('gender','=','male')]"/>
+				<!-- <seperator/> -->
+				<filter string="Female" name='female' domain="[('gender','=','female')]"/>
+				<filter string="Department" name='dept' context="{'group_by':'dept'}"/>
+				<!-- <seperator/> -->
+				<filter string="Rating" name='rating' context="{'group_by':'rating'}"/>
+			</search>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="kanban_view">
+		<field name="name">Employee.Kanban</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<kanban>
+				<templates>
+					<t t-name="kanban-box">
+						<div t-attf-class="oe_kanban_global_click">
+							<div class="row">
+								<div class="col-8 text-left">
+									<strong><field name="name"/></strong>
+								</div>
+								<div class="col-6 text-right">
+									<field name="profile" widget='image' class='oe_avatar'/>
+								</div>
+								<div class="col-6 text-right">
+									<span>Department: <field name="dept"/></span>
+								</div>
+								<div class="col-6 text-left">
+									<span>Cell: <field name="number"/></span>
+								</div>
+								<div class="col-6 text-right">Rating: <span class="badge badge-pill"><field name="rating"/></span>
+								</div>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="views">
+		<field name="name">Employee Details</field>
+		<field name="res_model">employee</field>
+		<field name="view_mode">tree,form,calendar,graph,pivot,gantt,search,kanban</field>
+	</record>
+
+
+	<menuitem id="Main_menu" name="Employee Details"/>
+
+	<menuitem id="Menu" parent="Main_menu" name="Sub_menu" sequence="1" action="views"/>
+</odoo>
