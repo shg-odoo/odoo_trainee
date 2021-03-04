@@ -147,7 +147,9 @@
                                     <span t-field="o.weight"/>
                                 </td>
                                 <td style="border: 1px solid #ddd;padding: 8px;">
-                                    <span t-field="o.disabled"/>
+                                    <span t-if="o.disabled">Yes</span>
+                                    <span t-else="">No</span>
+
                                 </td>
                             </tr>
                         </t>
@@ -168,7 +170,7 @@
                         </t>
                     </thread>
                 </table>
-                
+
             </t>
         </t>
     </template>

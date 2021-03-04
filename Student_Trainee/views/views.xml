@@ -21,6 +21,7 @@
                 <field name="height" />
                 <field name="weight" />
                 <field name="disabled" />
+                <field name="state" widget="badge" decoration-success="state=='applied'" decoration-info="state=='inProgress'" decoration-warning="state=='underReview'" decoration-danger="state=='decision'"/>
             </tree>
         </field>
     </record>

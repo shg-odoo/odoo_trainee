@@ -8,13 +8,13 @@
                     <h1>Student List</h1>
                 </strong>
                 <br/>
-                <a type="button" class="btn btn-dark" t-attf-href='/students/create'>Create New Student</a>
+                <a type="button" class="btn btn-dark" t-attf-href='/students/create' style="font-size:18px;">Create New Student</a>
             </center>
             <br/>
             <div class="container">
                 <table class="table" style="text-align:center">
                     <thread>
-                        <tr>
+                        <tr style="font-size:18px;font-family:Courier New">
                             <th style="border: 2px solid #ddd;color:white;background-color: #003366;">Student ID</th>
                             <th style="border: 2px solid #ddd;color:white;background-color: #003366;">Name</th>
                             <th style="border: 2px solid #ddd;color:white;background-color: #003366;">City</th>
@@ -24,7 +24,7 @@
                             <th style="border: 2px solid #ddd;color:white;background-color: #003366;"></th>
                         </tr>
                         <t t-foreach="students" t-as="o">
-                            <tr >
+                            <tr style="font-size:18px;">
                                 <td style="border: 1px solid #ddd;vertical-align: middle;">
                                     <span t-field="o.student_id"/>
                                 </td>
@@ -198,7 +198,8 @@
                                 <span t-field="o.weight"/>
                             </td>
                             <td style="border: 1px solid #ddd;vertical-align: middle;">
-                                <span t-field="o.disabled"/>
+                                <span t-if="o.disabled">Yes</span>
+                                <span t-else="">No</span>
                             </td>
                         </tr>
                     </t>
@@ -251,11 +252,11 @@
                             <!-- <div class="form-group col-md-2">
                                 <label for="inputGender">Gender</label>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio"  name="gender" id="inputMale" value="male" t-att-value="gender" />
+                                    <input class="form-check-input" type="radio" name="gender" id="inputMale" value="male" t-att-value="gender" />
                                     <label class="form-check-label" for="inlineMale">Male</label>
                                   </div>
                                   <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio"  name="gender" id="inputFemale" value="female" t-att-value="gender" />
+                                    <input class="form-check-input" type="radio" name="gender" id="inputFemale" value="female" t-att-value="gender" />
                                     <label class="form-check-label" for="inlineFemale">Female</label>
                                   </div>
                             </div> -->
