@@ -178,7 +178,7 @@ class student(models.Model):
 
 
             #Browse
-            students_browse = self.env['student'].browse(1)
+            students_browse = self.env['student'].browse(9)
             print("Student Browse...", students_browse)
 
             #Exists
@@ -199,12 +199,7 @@ class student(models.Model):
             # students_get=self.env["student"]
             # print(students_get.field_get())
 
-            #read
-            students_read=self.env["student"]
-            print(self.read(students_read))
 
-
-    
 class college(models.Model):
     _name = 'college'
     _description = "College Details"
@@ -215,7 +210,6 @@ class college(models.Model):
     collegeCity = fields.Char(string="College City")
 
     student_ids = fields.One2many('student','college_ids',string='Student')
-
 
 
 class hobbies(models.Model):

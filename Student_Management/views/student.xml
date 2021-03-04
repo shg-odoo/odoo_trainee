@@ -13,6 +13,7 @@
                 <field name="gender" />
                 <field name="contactNo"/>
                 <field name="bloodGroup" />
+                <field name="state" widget="badge" decoration-success="state=='applied'" decoration-info="state=='inProgress'" decoration-primary="state=='result'" decoration-warning="state=='underReview'"/>
                 <field name="college_ids"/>
                 <field name="eligible"/>
                 <field name="hobbies_ids" widget="many2many_tags"/>
@@ -252,6 +253,9 @@
                     <group>
                         <div>
                         <field name="collegeName" style="width:25%;"/>
+                        </div>
+                        <br></br>
+                        <div>
                         <field name="collegeCity" style="width:25%;"/>
                         </div>
                     </group>

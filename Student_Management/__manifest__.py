@@ -12,7 +12,7 @@
         'views/student.xml',
         'views/template.xml',
         'wizard/add_college_wizard_view.xml',
-        # 'report/student_report.xml',
+        'report/student_report.xml',
         'report/report_inherit.xml',
         'data/sequence.xml',
 

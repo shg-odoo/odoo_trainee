@@ -26,10 +26,11 @@ class MyController(http.Controller):
         student.unlink()
         return http.local_redirect("/student")
 
-    # @http.route('/student/details/<model("student"):student>', type='http', auth="public", website=True)
-    # def student_detail(self, student, **kw):
-    #     student_details = request.env['student'].search([])
-    #     return request.render("Student_Management.student_details", {'students': student_details})
+    @http.route('/student/details/<model("student"):student>', type='http', auth="public", website=True)
+    def student_detail(self, student, **kw):
+        student_details = request.env['student'].browse(student.id)
+        print(student_details)
+        return request.render("Student_Management.student_details", {'students': student_details})
 
 
 

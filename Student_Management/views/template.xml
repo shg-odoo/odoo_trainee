@@ -7,7 +7,7 @@
                 <strong>
                     <h1 style="font-family:monospace;">Student Data</h1>
                 </strong>
-                <a type="button" name="create_student" class="btn btn-primary" t-attf-href="/create_student" style="background-color: black;">Create New Student</a>
+                
             </center>
             <br/>
             <div class="container">
@@ -36,7 +36,7 @@
                                     <span t-field="o.contactNo"/>
                                 </td>
                                 <td style="border: 2px solid #000000; padding: 8px;">
-                                    <a type="button" class="btn btn-success" t-attf-href='/student/details/#{o.id}' >View Details</a>
+                                    <a type="button" class="btn btn-primary" t-attf-href='/student/details/#{o.id}' >View Details</a>
                                 </td>
                                 <td style="border: 2px solid #000000; padding: 8px;">
                                     <a type="button" class="btn btn-danger" t-attf-href='/student/delete/#{o.id}' >Delete</a>
@@ -46,6 +46,9 @@
                     </thread>
                 </table>
                 <br></br>
+                    <center>
+                        <a type="button" name="create_student" class="btn btn-primary" t-attf-href="/create_student" style="background-color: black;">Create New Student</a>
+                    </center>
                 <br></br>
             </div>
         </t>
@@ -86,159 +89,158 @@
     </template>
     <template id="student_details" name="Student Detail">
         <t t-call="website.layout">
-            <div class="page">
-                <center>
-                    <h1 style="font-size: 30px">
-                        <b>Student Report Card</b>
-                    </h1>
-                </center>
-                <br></br>
-                <br></br>
-                <center>
+            <center>
+                <h1 style="font-size: 30px">
+                    <b>Student Report Card</b>
+                </h1>
+            </center>
+            <br></br>
+            <center>
                     <h3>
                         Personal Details
                     </h3>
-                </center>
-                <table style="width:100%;border: 1px solid black;" class="table_personal_detail">
-                    <thread>
-                        <tr style="background-color:lightgray;">
-                            <th style="border: 1px solid black;text-align: center;">Student Photo</th>
-                            <th style="border: 1px solid black;text-align: center;">Name</th>
-                            <th style="border: 1px solid black;text-align: center;">Enrollment No</th>
-                            <th style="border: 1px solid black;text-align: center;">Date of Birth</th>
-                            <th style="border: 1px solid black;text-align: center;">Age</th>
-                            <th style="border: 1px solid black;text-align: center;">Gender</th>
-                            <th style="border: 1px solid black;text-align: center;">Hobbies</th>
+            </center>
+            <table style="width:80%;border: 1px solid black;margin-left: auto; margin-right: auto;" class="table_personal_detail">
+                <thread>
+                    <tr style="background-color:lightgray;">
+                        <th style="border: 1px solid black;text-align: center;">Student Photo</th>
+                        <th style="border: 1px solid black;text-align: center;">Name</th>
+                        <th style="border: 1px solid black;text-align: center;">Enrollment No</th>
+                        <th style="border: 1px solid black;text-align: center;">Date of Birth</th>
+                        <th style="border: 1px solid black;text-align: center;">Age</th>
+                        <th style="border: 1px solid black;text-align: center;">Gender</th>
+                        <th style="border: 1px solid black;text-align: center;">Hobbies</th>
+                    </tr>
+                    <t t-foreach="students" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid black;text-align: center;padding: 10px;">
+                                <div align="center">
+                                    <img t-attf-src="data:image/*;base64,{{o.image}}" style="width:100px;"/>
+                                </div>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.name"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.enrollmentNo"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.birthdate"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.age"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.gender"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.hobbies_ids"/>
+                            </td>
                         </tr>
-                        <t t-foreach="docs" t-as="o">
-                            <tr>
-                                <td style="border: 1px solid black;text-align: center;padding: 10px;">
-                                    <div align="center">
-                                        <img t-attf-src="data:image/*;base64,{{o.image}}" style="width:100px;"/>
-                                    </div>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.name"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.enrollmentNo"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.birthdate"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.age"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.gender"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.hobbies_ids"/>
-                                </td>
-                            </tr>
-                        </t>
-                    </thread>
-                </table>
-                <br></br>
-                <br></br>
-                <center>
-                    <h3>
-                        Contact Details
-                    </h3>
-                </center>
-                <table style="width:100%;border: 1px solid black;">
-                    <thread>
-                        <tr style="background-color:lightgray;">
-                            <th style="border: 1px solid black;text-align: center;">Contact No</th>
-                            <th style="border: 1px solid black;text-align: center;">Email Id</th>
-                            <th style="border: 1px solid black;text-align: center;">Address</th>
-                            <th style="border: 1px solid black;text-align: center;">City</th>
-                            <th style="border: 1px solid black;text-align: center;">Pincode</th>
-                            <th style="border: 1px solid black;text-align: center;">Country</th>
+                    </t>
+                </thread>
+            </table>
+            <br></br>
+            <br></br>
+            <center>
+                <h3>
+                    Contact Details
+                </h3>
+            </center>
+            <table style="width:80%;border: 1px solid black;margin-left: auto; margin-right: auto;">
+                <thread>
+                    <tr style="background-color:lightgray;">
+                        <th style="border: 1px solid black;text-align: center;">Contact No</th>
+                        <th style="border: 1px solid black;text-align: center;">Email Id</th>
+                        <th style="border: 1px solid black;text-align: center;">Address</th>
+                        <th style="border: 1px solid black;text-align: center;">City</th>
+                        <th style="border: 1px solid black;text-align: center;">Pincode</th>
+                        <th style="border: 1px solid black;text-align: center;">Country</th>
+                    </tr>
+                    <t t-foreach="students" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.contactNo"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.email"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.address"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.city"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.pincode"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.country"/>
+                            </td>
                         </tr>
-                        <t t-foreach="docs" t-as="o">
-                            <tr>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.contactNo"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.email"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.address"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.city"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.pincode"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.country"/>
-                                </td>
-                            </tr>
-                        </t>
-                    </thread>
-                </table>
-                <br></br>
-                <br></br>
-                <center>
-                    <h3>
-                        Medical Details
-                    </h3>
-                </center>
-                <table style="width:100%;border: 1px solid black;">
-                    <thread>
-                        <tr style="background-color:lightgray;">
-                            <th style="border: 1px solid black;text-align: center;">Blood Group</th>
-                            <th style="border: 1px solid black;text-align: center;">Height</th>
-                            <th style="border: 1px solid black;text-align: center;">Weight</th>
-                            <th style="border: 1px solid black;text-align: center;">Physically Disabled?</th>
+                    </t>
+                </thread>
+            </table>
+            <br></br>
+            <br></br>
+            <center>
+                <h3>
+                    Medical Details
+                </h3>
+            </center>
+            <table style="width:80%;border: 1px solid black;margin-left: auto; margin-right: auto;">
+                <thread>
+                    <tr style="background-color:lightgray;">
+                        <th style="border: 1px solid black;text-align: center;">Blood Group</th>
+                        <th style="border: 1px solid black;text-align: center;">Height</th>
+                        <th style="border: 1px solid black;text-align: center;">Weight</th>
+                        <th style="border: 1px solid black;text-align: center;">Physically Disabled?</th>
+                    </tr>
+                    <t t-foreach="students" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.bloodGroup"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.height"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.weight"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.disabled"/>
+                            </td>
                         </tr>
-                        <t t-foreach="docs" t-as="o">
-                            <tr>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.bloodGroup"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.height"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.weight"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.disabled"/>
-                                </td>
-                            </tr>
-                        </t>
-                    </thread>
-                </table>
-                <br></br>
-                <br></br>
-                <center>
-                    <h3>
-                        Academic Details
-                    </h3>
-                </center>
-                <table style="width:100%;border: 1px solid black;">
-                    <thread>
-                        <tr style="background-color:lightgray;">
-                            <th style="border: 1px solid black;text-align: center;">College</th>
-                            <th style="border: 1px solid black;text-align: center;">Branch</th>
+                    </t>
+                </thread>
+            </table>
+            <br></br>
+            <br></br>
+            <center>
+                <h3>
+                    Academic Details
+                </h3>
+            </center>
+            <table style="width:80%;border: 1px solid black;margin-left: auto; margin-right: auto;">
+                <thread>
+                    <tr style="background-color:lightgray;">
+                        <th style="border: 1px solid black;text-align: center;">College</th>
+                        <th style="border: 1px solid black;text-align: center;">Branch</th>
+                    </tr>
+                    <t t-foreach="students" t-as="o">
+                        <tr>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.college_ids"/>
+                            </td>
+                            <td style="border: 1px solid black;text-align: center;">
+                                <span t-field="o.branch"/>
+                            </td>
                         </tr>
-                        <t t-foreach="docs" t-as="o">
-                            <tr>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.college_ids"/>
-                                </td>
-                                <td style="border: 1px solid black;text-align: center;">
-                                    <span t-field="o.branch"/>
-                                </td>
-                            </tr>
-                        </t>
-                    </thread>
-                </table>
-            </div>
+                    </t>
+                </thread>
+            </table>
+            <br></br>
+            <br></br>
         </t>
     </template>
 </odoo>
