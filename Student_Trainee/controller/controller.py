@@ -52,7 +52,7 @@ class MyController(http.Controller):
     def student_details(self, student, **kw):
         student_details = request.env['school.student'].browse(student.id)
         print('\n\n\n\n\n')
-        print(student.id)
+        print(student.id)               
         print('\n\n\n\n\n')
         return request.render("Student_Trainee.student_detail", {'students': student_details})
 
