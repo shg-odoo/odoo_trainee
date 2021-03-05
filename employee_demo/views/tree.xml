@@ -6,11 +6,12 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="company"/>
+                <field name="company_id"/>
                 <field name="dept"/>
                 <field name="gender"/>
                 <field name="age"/>
                 <field name="number"/>
+                <field name="average"/>
                 <field name="address"/>
                 <field name="bday"/>
                 <field name="email"/>
@@ -37,7 +38,7 @@
                     </page>
                     <page string="Technical Details">
                         <group>
-                            <field name="company"/>
+                            <field name="company_id"/>
                             <field name="dept"/>
                             <field name="branch"/>
                             <field name="skills" widget='many2many_tags'/>
@@ -70,7 +71,7 @@
             <calendar string="Calendar" date_start="date" date_stop="date" mode="year" color="name">
                 <field name="name"/>
                 <field name="dept"/>
-                <field name="company"/>
+                <field name="company_id"/>
                 <field name="profile" widget="image" class="oe_avatar"/>
                 <field name="gender"/>
                 <field name="age"/>
@@ -91,7 +92,7 @@
             <graph string="Pivot" type="pie">
                 <field name="name"/>
                 <field name="dept"/>
-                <field name="company"/>
+                <field name="company_id"/>
                 <field name="gender"/>
                 <field name="age"/>
                 <field name="number"/>
@@ -117,7 +118,7 @@
         <field name="arch" type="xml">
             <pivot string="Pivot">
                 <field name="name"/>
-                <field name="company"/>
+                <field name="company_id"/>
                 <field name="dept"/>
                 <field name="gender"/>
                 <field name="age"/>
@@ -146,7 +147,7 @@
                 date_start="date" date_stop="date"
                 default_group_by="dept">
                 <field name="name"/>
-                <field name="company"/>
+                <field name="company_id"/>
                 <field name="dept"/>
                 <field name="date"/>
                 <field name="gender"/>
@@ -224,7 +225,7 @@
             <tree>
                 <field name="company_name"/>
                 <field name="city"/>
-                <field name="emp_record"/>
+                <field name="emp_record_id"/>
             </tree>
         </field>
     </record>

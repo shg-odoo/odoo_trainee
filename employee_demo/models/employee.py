@@ -7,7 +7,7 @@ class Employee(models.Model):
 
     name = fields.Char('Employee Name', required=True)
     dept = fields.Char('Department')
-    average = fields.Float(compute='_compute')
+    average = fields.Float(compute='_compute_average')
     age = fields.Integer('Age')
     number = fields.Char('Phone Number')
     address = fields.Text('Address')
@@ -25,7 +25,7 @@ class Employee(models.Model):
     pr = fields.Float('Percentage')
     grade = fields.Char('Grade')
     total = fields.Integer('Total')    
-    company = fields.Many2one('employee.company', string="Company")
+    company_id = fields.Many2one('employee.company', string="Company")
     skills = fields.Many2many('employee.skills', string='Skills')
 
 
@@ -34,24 +34,25 @@ class Employee(models.Model):
         self.total = self.math + self.phy + self.chem
         self.average = self.total / 3
 
-    @api.depends('math', 'phy', 'chem')
-    def _compute(self):
-        # self.total = self.math + self.phy + self.chem
-        self.average = self.total / 3
+    @api.depends('total')
+    def _compute_average(self):
+        for rec in self:
+            # self.total = self.math + self.phy + self.chem
+            rec.average = rec.total / 3
 
     @api.constrains('age')
     def _age_constraint(self):
         if self.age < 18:
             raise ValidationError("Age should be more than 18")
 
-    
+
 class Company(models.Model):
     _name = 'employee.company'
     _rec_name = "company_name"
 
     company_name = fields.Char("Name")
     city = fields.Char("City")
-    emp_record = fields.One2many('employee', 'company', string="Employee Records")
+    emp_record_id = fields.One2many('employee', 'company_id', string="Employee Records")
 
 
 class Skills(models.Model):

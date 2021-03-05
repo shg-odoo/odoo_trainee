@@ -15,6 +15,8 @@
     'data': [
         'views/tree.xml',
         'data/data.xml',
+        'wizard/employee_add_comp_views.xml',
+        'report/employee_report.xml'
     ],
 
     'application': True
