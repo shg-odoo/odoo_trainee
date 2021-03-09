@@ -15,6 +15,7 @@
                 <field name="address"/>
                 <field name="bday"/>
                 <field name="email"/>
+                <field name="rating"/>
             </tree>
         </field>
     </record>
@@ -225,7 +226,7 @@
             <tree>
                 <field name="company_name"/>
                 <field name="city"/>
-                <field name="emp_record_id"/>
+                <!-- <field name="emp_record_id"/> -->
             </tree>
         </field>
     </record>

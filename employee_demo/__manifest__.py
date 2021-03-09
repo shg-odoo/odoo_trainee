@@ -13,7 +13,7 @@
     'depends': ['base'],
 
     'data': [
-        'views/tree.xml',
+        'views/employee_views.xml',
         'data/data.xml',
         'wizard/employee_add_comp_views.xml',
         'report/employee_report.xml'

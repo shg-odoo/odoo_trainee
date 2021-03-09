@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record model="ir.ui.view" id="manufac_tree_view">
+        <field name="name">Manufacturer.tree</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <!-- <field name="labourers_id"/> -->
+                <field name="manufacturer_name"/>
+                <field name="city"/>
+                <field name="company_address"/>
+                <field name="contact"/>
+                <field name="production"/>
+                <field name="labour"/>
+                <field name="machines"/>
+                <field name="turnover"/>
+                <field name="clothtype_id"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+     <record model="ir.ui.view" id="form_view">
+        <field name="name">Manufacturer.Form</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <form string="Employee form">
+                <notebook>
+                    <page string="Personal Details">
+                        <group>
+                            <!-- <field name="labourers_id"/> -->
+                            <field name="manufacturer_name"/>
+                            <field name="city"/>
+                            <field name="company_address"/>
+                            <field name="contact"/>
+                            <field name="production"/>
+                            <field name="labour"/>
+                            <field name="machines"/>
+                            <field name="turnover"/>
+                            <field name="clothtype_id"/>
+                            <field name="company_id"/>
+                        </group>
+                    </page>
+                    <!-- <page string="Consumption Record">
+                        <group>
+                            <field name="compan_id"/>
+                            <field name="cloth"/>
+                            <field name="color"/>
+                            <field name="electricity"/>
+                            <field name="date"/>
+                        </group>
+                    </page>
+                    <page string="Labourers Details">
+                        <group>
+                            <field name="labourers_id"/>
+                            <field name="role"/>
+                            <field name="skills"/>
+                            <field name="salary"/>
+                            <field name="join_date"/>
+                            <field name="labourer_address"/>
+                        </group>
+                    </page>
+                    <page string="Cloth Type">
+                        <field name="clothtype_id"/>
+                        <field name="type_of_wear"/>
+                        <field name="colors"/>
+                        <field name="price"/>
+
+                    </page> -->
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="calendar_view">
+        <field name="name">Manufacturer.calendar</field>
+        <field name="model">manufacturer.labourers</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendar" date_start="join_date" date_stop="join_date">
+                <field name="labourer_name"/>
+                <field name="role"/>
+                <field name="labourer_address"/>
+                <field name="join_date"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="graph_view">
+        <field name="name">Manufacturer.graph</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <graph string="Graph" type="pie">
+                <!-- <field name="labourers_id"/> -->
+                <field name="manufacturer_name"/>
+                <field name="city"/>
+                <field name="company_address"/>
+                <field name="contact"/>
+                <field name="production"/>
+                <field name="labour"/>
+                <field name="machines"/>
+                <field name="turnover"/>
+                <!-- <field name="clothtype_id"/> -->
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="pivot_view">
+        <field name="name">Manufacturer.pivot</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <pivot string="Pivot">
+                <field name="manufacturer_name"/>
+                <field name="city"/>
+                <field name="company_address"/>
+                <field name="contact"/>
+                <field name="production"/>
+                <field name="labour"/>
+                <field name="machines"/>
+                <field name="turnover"/>
+                <!-- <field name="clothtype_id"/> -->
+                <!-- <field name="labourers_id"/> -->
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="labourers_tree_view">
+        <field name="name">Manufacturer.tree</field>
+        <field name="model">manufacturer.labourers</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="labourers_id"/>
+                <field name="labourers_record"/>
+                <field name="labourer_name"/>
+                <field name="role"/>
+                <field name="salary"/>
+                <field name="skills"/>
+                <field name="salary"/>
+                <field name="join_date"/>
+                <field name="labourer_address"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_tree_view">
+        <field name="name">Manufacturer.pivot</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="consumption_record"/>
+                <field name="cloth"/>
+                <field name="color"/>
+                <field name="electricity"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="main_view">
+        <field name="name">Manufacturer.view</field>
+        <field name="res_model">manufacturer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="labourers_view">
+        <field name="name">Labourers.view</field>
+        <field name="res_model">manufacturer.labourers</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="consumption_view">
+        <field name="name">Consumption.view</field>
+        <field name="res_model">manufacturer.consumption</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="clothtype_view">
+        <field name="name">ClothType.view</field>
+        <field name="res_model">manufacturer.clothtype</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Manufacturer Details" id="manufacturer_main"/>
+
+    <menuitem name="Manufacturer Details" id="manufacturer_details" parent="manufacturer_main" action="main_view"/>
+
+    <menuitem name="Labourers Details" parent="manufacturer_main" id="manufacturer_labourers" action="labourers_view"/>
+
+    <menuitem name="Consumption Details" parent="manufacturer_main" id="manufacturer_consumption" action="consumption_view"/>
+
+</odoo>

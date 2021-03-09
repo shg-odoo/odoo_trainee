@@ -1,6 +1,7 @@
 from odoo import fields, models, api
 from odoo.exceptions import ValidationError
 
+
 class Employee(models.Model):
     _name = 'employee'
     _description = "Employee Details"
@@ -17,7 +18,6 @@ class Employee(models.Model):
     date = fields.Date(default=lambda self: fields.Date.today())
     email = fields.Char('Email')
     techmarks = fields.Integer('Technical Marks')
-    rating = fields.Float(' Rating')
     phy = fields.Integer('Physics')
     chem = fields.Integer('Chem')
     math = fields.Integer('Maths')
@@ -60,3 +60,9 @@ class Skills(models.Model):
     _rec_name="skills"
 
     skills = fields.Char('Skills')
+
+
+class EmployeeSurvey(models.Model):
+    _inherit = 'employee'
+
+    rating = fields.Float('Rating')
