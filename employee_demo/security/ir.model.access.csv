@@ -1,0 +1,7 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_employee,access_employee,model_employee,employee_demo.group_employee_detail,1,1,1,0
+access_employee_company,access_employee_company,model_employee_company,employee_demo.group_company_admin,1,1,1,1
+access_employee,access_employee,model_employee,employee_demo.group_employee_detail,1,1,1,0
+access_employee_company,access_employee_company,model_employee_company,employee_demo.group_employee_detail,1,1,1,0
+access_employee_skills,access_employee_skills,model_employee_skills,employee_demo.group_employee_detail,1,0,0,0
+access_employee_wizard,access_employee_wizard,model_employee_wizard,employee_demo.group_employee_detail,1,1,1,1

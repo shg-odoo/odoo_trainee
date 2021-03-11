@@ -13,7 +13,8 @@
 	'depends': ['base'],
 
 	'data': [
-		'views/cloth_manufacturer_views.xml'
+		'views/cloth_manufacturer_views.xml',
+		'wizard/labourer_add_company_view.xml'
 	],
 
 	'application': True

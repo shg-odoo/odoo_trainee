@@ -19,6 +19,7 @@
 						<div class="page">
 							<h2>Employee Details</h2>
 							<thead>
+								<th scope="col">Photo</th>
 								<th scope="col">Employee Name</th>
 								<th scope="col">Company</th>
 								<th scope="col">Address</th>
@@ -26,11 +27,11 @@
 							</thead>
 							<t t-foreach='docs' t-as='doc'>
 								<tr>
+									<td align="centre"><span t-field="doc.profile" widget='image' class='oe_avatar'/></td>
 									<td align="centre"><span t-field="doc.name"/></td>
 									<td align="centre"><span t-field="doc.company_id"/></td>
 									<td align="centre"><span t-field="doc.address"/></td>
 									<td align="centre"><span t-field="doc.email"/></td>
-									<span t-field="doc"><p style="page-break-before: always"></p></span>
 								</tr>
 							</t>
 						</div>

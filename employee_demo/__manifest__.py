@@ -13,6 +13,8 @@
     'depends': ['base'],
 
     'data': [
+        'security/employee_security.xml',
+        'security/ir.model.access.csv',
         'views/employee_views.xml',
         'data/data.xml',
         'wizard/employee_add_comp_views.xml',

@@ -87,10 +87,10 @@
     </record>
 
     <record model="ir.ui.view" id="graph_view">
-        <field name="name">Employee.Pivot</field>
+        <field name="name">Employee.Graph</field>
         <field name="model">employee</field>
         <field name="arch" type="xml">
-            <graph string="Pivot" type="pie">
+            <graph string="Graph" type="pie">
                 <field name="name"/>
                 <field name="dept"/>
                 <field name="company_id"/>
@@ -169,7 +169,7 @@
             </gantt>
         </field>
     </record>
-    
+
     <record model="ir.ui.view" id="employee_search_view">
         <field name="name">Employee.Search</field>
         <field name="model">employee</field>
