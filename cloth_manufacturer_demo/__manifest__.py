@@ -14,7 +14,7 @@
 
 	'data': [
 		'views/cloth_manufacturer_views.xml',
-		'wizard/labourer_add_company_view.xml'
+		'wizard/labourer_add_wizard_view.xml'
 	],
 
 	'application': True

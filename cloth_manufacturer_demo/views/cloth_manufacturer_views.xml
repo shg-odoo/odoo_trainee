@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <odoo>
-    <record model="ir.ui.view" id="manufac_tree_view">
+    <record model="ir.ui.view" id="manufacturer_tree_view">
         <field name="name">Manufacturer.tree</field>
         <field name="model">manufacturer</field>
         <field name="arch" type="xml">
@@ -12,14 +12,15 @@
                 <field name="company_address"/>
                 <field name="contact"/>
                 <field name="production"/>
-                <field name="labourers_record"/>
                 <field name="machines"/>
                 <field name="turnover"/>
+                <field name="labourers_record"/>
+                <field name="consumption_record"/>
             </tree>
         </field>
     </record>
 
-     <record model="ir.ui.view" id="form_view">
+     <record model="ir.ui.view" id="manufacturer_form_view">
         <field name="name">Manufacturer.Form</field>
         <field name="model">manufacturer</field>
         <field name="arch" type="xml">
@@ -34,6 +35,8 @@
                             <field name="production"/>
                             <field name="machines"/>
                             <field name="turnover"/>
+                            <field name="labourers_record"/>
+                            <field name="consumption_record"/>
                         </group>
                     </page>
                 </notebook>
@@ -41,21 +44,7 @@
         </field>
     </record>
     
-
-    <record model="ir.ui.view" id="calendar_view">
-        <field name="name">Manufacturer.calendar</field>
-        <field name="model">manufacturer.labourers</field>
-        <field name="arch" type="xml">
-            <calendar string="Calendar" date_start="join_date" date_stop="join_date">
-                <field name="labourer_name"/>
-                <field name="role"/>
-                <field name="labourer_address"/>
-                <field name="join_date"/>
-            </calendar>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="graph_view">
+    <record model="ir.ui.view" id="manufacturer_graph_view">
         <field name="name">Manufacturer.graph</field>
         <field name="model">manufacturer</field>
         <field name="arch" type="xml">
@@ -64,15 +53,15 @@
                 <field name="city"/>
                 <field name="company_address"/>
                 <field name="contact"/>
-                <field name="production"/>
-                <field name="labourers_record"/>
+                <field name="production" type="measure"/>
+                <!-- <field name="labourers_record"/> -->
                 <field name="machines"/>
-                <field name="turnover"/>
+                <field name="turnover" type="measure"/>
             </graph>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="pivot_view">
+    <record model="ir.ui.view" id="manufacturer_pivot_view">
         <field name="name">Manufacturer.pivot</field>
         <field name="model">manufacturer</field>
         <field name="arch" type="xml">
@@ -81,11 +70,39 @@
                 <field name="city"/>
                 <field name="company_address"/>
                 <field name="contact"/>
-                <field name="production"/>
+                <field name="production" type="measure"/>
                 <field name="labourers_record"/>
                 <field name="machines"/>
-                <field name="turnover"/>
+                <field name="turnover" type="measure"/>
             </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="manufacturer_search_view">
+        <field name="name">Manufacturer.search</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="manufacturer_name"/>
+                <field name="city"/>
+                <!-- <filter name="manufacturer_name" context="[{'group_by': 'manufacturer_name'}]"/> -->
+                <filter name="production" string="Production>1 lakh mts" domain="[('production', '>=', 1000000)]"/>
+                <filter name="city" context="{'group_by': 'city'}"/>
+            </search>
+        </field>
+    </record>
+    
+
+    <record model="ir.ui.view" id="labourers_calendar_view">
+        <field name="name">Manufacturer.calendar</field>
+        <field name="model">manufacturer.labourers</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendar" date_start="join_date" date_stop="join_date" mode="year">
+                <field name="labourer_name"/>
+                <field name="role_id"/>
+                <field name="labourer_address"/>
+                <field name="join_date"/>
+            </calendar>
         </field>
     </record>
 
@@ -94,9 +111,9 @@
         <field name="model">manufacturer.labourers</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="manufacturer_id"/>
                 <field name="labourer_name"/>
-                <field name="role"/>
+                <field name="labourer_id"/>
+                <field name="role_id"/>
                 <field name="join_date"/>
                 <field name="labourer_address"/>
             </tree>
@@ -110,9 +127,9 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="manufacturer_id"/>
                         <field name="labourer_name"/>
-                        <field name="role"/>
+                        <field name="labourer_id"/>
+                        <field name="role_id"/>
                         <field name="salary"/>
                         <field name="salary"/>
                         <field name="join_date"/>
@@ -128,8 +145,9 @@
         <field name="model">manufacturer.consumption</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="date"/>
                 <field name="consumption_id"/>
-                <field name="clothtype_id"/>
+                <field name="clothtype"/>
                 <field name="cloth"/>
                 <field name="color"/>
                 <field name="electricity"/>
@@ -145,7 +163,7 @@
                 <sheet>
                     <group>
                         <field name="consumption_id"/>
-                        <field name="clothtype_id"/>
+                        <field name="clothtype"/>
                         <!-- <field name="manufacturer_name"/> -->
                         <field name="cloth"/>
                         <field name="color"/>
@@ -157,13 +175,30 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="manufacturer_gantt_view">
+        <field name="name">Manufacturer.gantt</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <gantt default_group_by="consumption_id" 
+                date_start="date" date_stop="date" 
+                default_scale="year">
+                <field name="consumption_id"/>
+                <field name="date"/>
+                <field name="clothtype"/>
+                <field name="cloth"/>
+                <field name="color"/>
+                <field name="electricity"/>
+            </gantt>
+        </field>
+    </record>
+
     <record model="ir.ui.view" id="clothtype_tree_view">
         <field name="name">Clothtype.Tree</field>
         <field name="model">manufacturer.clothtype</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="clothtype_quality"/>
-                <field name="type_of_wear"/>
+                <!-- <field name="type_of_wear"/> -->
                 <field name="colors" widget='many2many_tags'/>
                 <field name="price"/>
             </tree>
@@ -178,7 +213,7 @@
                 <sheet>
                     <group>
                         <field name="clothtype_quality"/>
-                        <field name="type_of_wear"/>
+                        <!-- <field name="type_of_wear"/> -->
                         <field name="colors" widget='many2many_tags'/>
                         <field name="price"/>
                     </group>
@@ -187,22 +222,46 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="role_tree">
+        <field name="name">Role.Tree</field>
+        <field name="model">labourers.roles</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="role"/>
+                <field name="role_rec"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="role_form">
+        <field name="name">Role.Form</field>
+        <field name="model">labourers.roles</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="role"/>
+                    <field name="role_rec"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window" id="main_view">
         <field name="name">Manufacturer Details</field>
         <field name="res_model">manufacturer</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,graph,pivot,search</field>
     </record>
 
     <record model="ir.actions.act_window" id="labourers_view">
         <field name="name">Labourers Details</field>
         <field name="res_model">manufacturer.labourers</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar</field>
     </record>
 
     <record model="ir.actions.act_window" id="consumption_view">
         <field name="name">Consumption Details</field>
         <field name="res_model">manufacturer.consumption</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,gantt</field>
     </record>
 
     <record model="ir.actions.act_window" id="clothtype_view">
@@ -217,6 +276,12 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record model="ir.actions.act_window" id="role_view">
+        <field name="name">Role Records</field>
+        <field name="res_model">labourers.roles</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <menuitem name="Manufacturer Details" id="manufacturer_main"/>
 
     <menuitem name="Manufacturer Details" id="manufacturer_details" parent="manufacturer_main" action="main_view"/>
@@ -228,5 +293,7 @@
     <menuitem name="Cloth Type Details" parent="manufacturer_main" id="manufacturer_clothtype" action="clothtype_view"/>
 
     <menuitem name="Color List" parent="manufacturer_main" id="colors" action="colors_view"/>
+
+    <menuitem name="Role Records" parent="manufacturer_main" id="roles" action="role_view"/>
 
 </odoo>

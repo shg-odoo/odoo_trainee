@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <odoo>
-	<record model="ir.ui.view" id="wizard_view_add">
-		<field name="name">CompanyAdd.Tree</field>
-		<field name="model">employee.wizard</field>
-		<field name="arch" type="xml">
-			<form string="Company">
-				<group>
-					<field name="company_id"/>
-				</group>
-				<footer>
-					<button name="add_company" type="object" string="Add Company" class="btn btn-primary"/>
-				</footer>
-			</form>
-		</field>
-	</record>
+    <record model="ir.ui.view" id="wizard_view_add">
+        <field name="name">CompanyAdd.Tree</field>
+        <field name="model">employee.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Company">
+                <group>
+                    <field name="company_id"/>
+                </group>
+                <footer>
+                    <button name="add_company" type="object" string="Add Company" class="btn btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
 
-	<record model="ir.actions.act_window" id="add_company">
-		<field name="name">Add Company</field>
-		<field name="type">ir.actions.act_window</field>
-		<!-- <field name="src_model">employee</field> -->
-		<field name="res_model">employee.wizard</field>
-		<field name="view_mode">form</field>
-		<field name="view_id" ref="wizard_view_add"/>
-		<field name="binding_model_id" ref="model_employee"/>
-		<field name="target">new</field>
-	</record>
+    <record model="ir.actions.act_window" id="add_company">
+        <field name="name">Add Company</field>
+        <field name="type">ir.actions.act_window</field>
+        <!-- <field name="src_model">employee</field> -->
+        <field name="res_model">employee.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wizard_view_add"/>
+        <field name="binding_model_id" ref="model_employee"/>
+        <field name="target">new</field>
+    </record>
 
 
 </odoo>

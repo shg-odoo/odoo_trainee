@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <template id="employee_details">
+        <t t-call="website.layout">
+            <h1>Employee Portal</h1>
+            <div class="container">
+                <table>
+                    <thead>
+                       <tr>
+                            <a href="/create_employee" class="btn btn-primary">Create Employee</a>
+                            <th scope="col">Name</th>
+                            <th scope="col">Company Name</th>
+                            <th scope="col">Company Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Email</th>
+                        </tr>
+                    </thead>
+                    <tr t-foreach="employee_det" t-as="emp">
+                        <td><span t-field="emp.name"/></td>
+                        <td><span t-field="emp.company_id"/></td>
+                        <td><span t-field="emp.dept"/></td>
+                        <td><span t-field="emp.gender"/></td>
+                        <td><span t-field="emp.number"/></td>
+                        <td><span t-field="emp.email"/></td>
+                        <td><a class="btn" t-att-href="'/delete/%s' % emp.id">Delete</a></td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="create_employee">
+        <t t-call="website.layout">
+            <div class="col">
+            <form action="/submit_form">
+                    <div>Name: <input type="text" t-att-value="name" name="name"/></div><br/>
+                    <div>Company Name: <input type="text" t-att-value="company_id" name="company_id"/></div><br/>
+                    <div>Department: <input type="text" t-att-value="dept" name="dept"/></div><br/>
+                    <div>Gender: <input type="radio" id="male" name="gender" value="male"/>
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="female"/>
+                    <label for="female">Female</label>
+                    </div>
+                    <br/>
+                    <div>Phone Number: <input type="text" t-att-value="number" name="number"/></div><br/>
+                    <div>Email: <input type="text" t-att-value="email" name="email"/></div><br/>
+                    <div><button type="submit" value="submit">Submit</button></div>    
+            </form>
+            </div>
+        </t>
+    </template>
+</odoo>

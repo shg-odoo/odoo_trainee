@@ -1,1 +1,1 @@
-from .  import labourer_add_company
+from .  import labourer_add_wizard

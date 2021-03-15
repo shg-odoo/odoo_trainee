@@ -17,6 +17,21 @@
 		</field>
 	</record>
 
+	<record model="ir.ui.view" id="add_role_to_labourer_view">
+		<field name="name">Add Role</field>
+		<field name="model">manufacturer.labourers.wizard</field>
+		<field name="arch" type="xml">
+			<form>
+				<group>
+					<field name="role_id"/>
+				</group>
+				<footer>
+					<button name="add_role" type="object" string="Add Role" class="btn btn-primary"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
 	<record model="ir.actions.act_window" id="action_add_manufac">
 		<field name="name">Add Manufacturer</field>
 		<field name="type">ir.actions.act_window</field>
@@ -26,4 +41,15 @@
 		<field name="binding_model_id" ref="model_manufacturer_labourers"/>
 		<field name="target">new</field>
 	</record>
+
+	<record model="ir.actions.act_window" id="action_add_role">
+		<field name="name">Add Role</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">manufacturer.labourers.wizard</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="add_role_to_labourer_view"/>
+		<field name="binding_model_id" ref="model_manufacturer_labourers"/>
+		<field name="target">new</field>
+	</record>
+
 </odoo>
