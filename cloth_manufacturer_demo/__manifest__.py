@@ -10,10 +10,13 @@
 	'category': 'Test',
 	'version': '0.1',
 
-	'depends': ['base'],
+	'depends': ['base', 'website'],
 
 	'data': [
 		'views/cloth_manufacturer_views.xml',
+		'views/cloth_manufacturer_web_view.xml',
+		'report/manufacturer_report_view.xml',
+		'report/labourers_report_view.xml',
 		'wizard/labourer_add_wizard_view.xml'
 	],
 

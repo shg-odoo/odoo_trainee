@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<report
+		id="labourers_report"
+		model="manufacturer.labourers"
+		string="Labourers Report"
+		report_type="qweb-pdf"
+		name="cloth_manufacturer_demo.labourers_report_view"
+		file="cloth_manufacturer_demo.labourers_report"
+		attachment_use='True'/>
+
+	<template id="labourers_report_view">
+		<t t-call="web.html_container">
+			<t t-call="web.external_layout">
+				<centre>
+					<div class="page">
+						<h1 style="font-size: 15pt; align: center;">Labourers Details</h1>
+						<table style="height:auto">
+							<thead>
+								<th scope="col"><strong style="font-size: 13pt; margin:15pt">Name</strong></th>
+								<th scope="col"><strong style="font-size: 13pt; margin:15pt">Company Name</strong></th>
+								<th scope="col"><strong style="font-size: 13pt; margin:15pt">Role</strong></th>
+								<th scope="col"><strong style="font-size: 13pt; margin:15pt">Joining Date</strong></th>
+								<th scope="col"><strong style="font-size: 13pt; margin:15pt">Address</strong></th>
+								<th scope="col"><strong style="font-size: 13pt; margin:15pt">Salary(Rs.)</strong></th>
+							</thead>
+							<t t-foreach="docs" t-as="labourers">
+								<tr>
+									<td align="center" style="font-size: 13pt;">	<!-- <td align="center" valign="center"> -->
+										<span t-field="labourers.labourer_name"/><br/>
+									</td>
+									<td align="center" style="font-size: 13pt;">
+										<span t-field="labourers.labourer_id"/><br/>
+									</td>
+									<td align="center" style="font-size: 13pt;">
+										<span t-field="labourers.role_id"/><br/>
+									</td>
+									<td align="center" style="font-size: 13pt;">
+										<span t-field="labourers.join_date"/><br/>
+									</td>
+									<td align="center" style="font-size: 13pt;">
+										<span t-field="labourers.labourer_address"/><br/>
+									</td>
+									<td align="center" style="font-size: 13pt;">
+										<span t-field="labourers.salary"/><br/>
+									</td>
+								</tr>
+							</t>	
+							<!-- </td> -->
+						</table>
+					</div>
+				</centre>
+			</t>
+		</t>
+	</template>
+
+</odoo>

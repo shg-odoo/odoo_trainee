@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<template id="manufacturer_details">
+		<t t-call="website.layout">
+			<h1>Manufacturer Portal</h1>
+			<div class="container">
+                <table>
+                    <thead>
+                       <tr style="border:1px solid;">
+                            <a href="/create_manufacturer" class="btn btn-primary">Create Manufacturer</a>
+                            <th scope="col" style="border:1px solid;">Name</th>
+                            <th scope="col" style="border:1px solid;">City</th>
+                            <th scope="col" style="border:1px solid;">Address</th>
+                            <th scope="col" style="border:1px;">Contact Number</th>
+                        </tr>
+                    </thead>
+                    <tr t-foreach="manufacturer_det" t-as="man" style="border:2px solid;">
+                        <td style="border:2px solid;"><span t-field="man.manufacturer_name"/></td>
+                        <td style="border:2px solid;"><span t-field="man.city"/></td>
+                        <td style="border:2px solid;"><span t-field="man.company_address"/></td>
+                        <td style="border:2px solid;"><span t-field="man.contact"/></td>
+                        <td style="border:2px solid;"><a class="btn" t-att-href="'/delete/%s' % man.id">Delete</a></td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+</odoo>

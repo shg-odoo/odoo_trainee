@@ -8,7 +8,6 @@ class Employee(models.Model):
     _description = "Employee Details"
     _order = 'name'
 
-
     emp_seq = fields.Char(string='Employee Reference', required=True, copy=False, readonly=True, index=True, default="New")
     name = fields.Char('Employee Name', required=True)
     dept = fields.Char('Department')
@@ -32,18 +31,44 @@ class Employee(models.Model):
     company_id = fields.Many2one('employee.company', string="Company", track_visibility="always")
     skills = fields.Many2many('employee.skills', string='Skills')
     active = fields.Boolean('Active', default=True)
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('confirm', 'Confirm'),
+        ('pending', 'Pending'),
+        ('cancel', 'Cancelled')
+        ], string="Status", index=True, readonly=True, default='draft')
 
     def test_record(self):
         for rec in self:
             search = self.env['employee'].search([])
             print(search.mapped('name'))
-            print(search.sorted(lambda a: a.write_date))
+            print(search.sorted(lambda a: a.write_date, reverse=True))
+            # print(search.mapped('gender'))
+            print(search.filtered(lambda o: o.gender == 'male'))
+            print(search.filtered(lambda z: z.gender == 'female'))
+            # record_to_copy = self.env['employee'].browse(self._context.get('active_ids'))
+            # record_to_copy.copy()
     # @api.multi
     # def name_get(self):
     #     ref = []
     #     for a in self:
     #         ref.append((a.id, '%s - %s' % (a.name, a.company_id)))
     #     return ref
+
+    # @api.multi
+    def company_details(self):
+        # print(self.id)
+        # print(self.company_id.id)
+        # print(self.company_name)
+        return{
+            'name':('Company Details'),
+            'domain': [('id', '=', self.company_id.id)],
+            'view_type': 'form',
+            'res_model': 'employee.company',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'type': 'ir.actions.act_window',
+        }
 
     @api.onchange('math', 'phy', 'chem')
     def _calculate_total(self):
@@ -76,6 +101,23 @@ class Company(models.Model):
     company_name = fields.Char("Name")
     city = fields.Char("City")
     emp_record_id = fields.One2many('employee', 'company_id', string="Employee Records")
+    employee_count = fields.Integer(string="Employee Count", compute='emp_count')
+
+    def emp_count(self):
+        search = self.env['employee'].search([('company_id.id', '=', self.id)])
+        count = self.env['employee'].search_count([('company_id.id', '=', self.id)])
+        self.employee_count = count
+
+        # return{
+        #     'name':('Employee Details'),
+        #     'domain': [('id', '=', self.company_id.id)],
+        #     'view_type': 'form',
+        #     'res_model': 'employee.company',
+        #     'view_id': False,
+        #     'view_mode': 'tree,form',
+        #     'type': 'ir.actions.act_window',
+        # }
+
 
 
 class Skills(models.Model):
