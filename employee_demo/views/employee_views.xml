@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <odoo>
+
     <record model="ir.ui.view" id="tree_view">
         <field name="name">Employee.Tree</field>
         <field name="model">employee</field>

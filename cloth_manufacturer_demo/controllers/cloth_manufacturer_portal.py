@@ -14,3 +14,11 @@ class ManufacturerPortal(http.Controller):
         request.env['manufacturer'].create(kwargs)
         return request.redirect('/manufacturer')
 
+    @http.route('/createmanufacturer', type="http", auth="public", website=True)
+    def createmanufacturer(self, **kwargs):
+        return request.render('cloth_manufacturer_demo.create_manufacturer')
+
+    @http.route('/delete/<model("manufacturer"):std>', type="http", website=True)
+    def delete(self, std, **kwargs):
+        std.unlink()
+        return request.redirect('/manufacturer')

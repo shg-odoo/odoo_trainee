@@ -21,6 +21,7 @@ class Manufacturer(models.Model):
     consumption_record = fields.One2many('manufacturer.consumption', 'consumption_id', string="Consumption Record")
     employee_count = fields.Integer(string="Employee Count", compute='emp_count')
     consumption_days_count = fields.Integer(string="Cloth Consumption", compute='consumption_days')
+    active = fields.Boolean('Active', default=True)
     # clothtype_id = fields.Many2one('manufacturer.clothtype', string="Cloth Type ID")
 
     def emp_count(self):

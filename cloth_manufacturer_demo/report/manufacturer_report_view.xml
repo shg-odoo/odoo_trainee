@@ -16,30 +16,30 @@
 			<t t-call="web.external_layout">
 				<centre>
 					<div class="page">
-						<h1 style="font-size: 20pt;">Manufacturer Details</h1>
+						<h1 style="font-size: 21pt;">Manufacturer Details</h1>
 						<t t-foreach="docs" t-as="manufacturer">
 							<div class="col-md-6">
-								<table style="height:auto; border: 1pt solid black; border-collapse:separate; border-radius:8pt; margin:10pt; margin-bottom:10pt;margin-top:10pt;">
+								<table style="height:auto; border: 1pt solid black; border-collapse:separate; border-radius:8pt; margin:10pt;width:600pt; margin-bottom:10pt;margin-top:10pt;">
 									<td valign="center">
-										<table style="height:auto">
+										<table style="height:auto;width:200pt;">
 											<tr style="margin:10pt">
 												<!-- <td align="center" valign="center"> -->
-												<strong style="font-size: 13pt; margin:15pt">Manufacturer Name: </strong><span style="font-size: 13pt;" t-field="manufacturer.manufacturer_name"/><br/>
+												<strong style="font-size: 14pt; margin:15pt">Manufacturer Name: </strong><span style="font-size: 14pt;" t-field="manufacturer.manufacturer_name"/><br/>
 											</tr>
 											<tr>
-												<strong style="font-size: 13pt; margin:15pt">Manufacturer Name: </strong><span style="font-size: 13pt;" t-field="manufacturer.city"/><br/>
+												<strong style="font-size: 14pt; margin:15pt">Manufacturer Name: </strong><span style="font-size: 14pt;" t-field="manufacturer.city"/><br/>
 											</tr>
 											<tr>
-												<strong style="font-size: 13pt; margin:15pt">Address: </strong><span style="font-size: 13pt;" t-field="manufacturer.company_address"/><br/>
+												<strong style="font-size: 14pt; margin:15pt">Address: </strong><span style="font-size: 14pt;" t-field="manufacturer.company_address"/><br/>
 											</tr>
 											<tr>
-												<strong style="font-size: 13pt; margin:15pt">Contact Number: </strong><span style="font-size: 13pt;" t-field="manufacturer.contact"/><br/>
+												<strong style="font-size: 14pt; margin:15pt">Contact Number: </strong><span style="font-size: 14pt;" t-field="manufacturer.contact"/><br/>
 											</tr>
 											<tr>
-												<strong style="font-size: 13pt; margin:15pt">Number of machines: </strong><span style="font-size: 13pt;" t-field="manufacturer.machines"/><br/>
+												<strong style="font-size: 14pt; margin:15pt">Number of machines: </strong><span style="font-size: 14pt;" t-field="manufacturer.machines"/><br/>
 											</tr>
 											<tr>	
-												<strong style="font-size: 13pt; margin:15pt">Turnover(Rs.): </strong><span style="font-size: 13pt;" t-field="manufacturer.turnover"/><br/>
+												<strong style="font-size: 14pt; margin:15pt">Turnover(Rs.): </strong><span style="font-size: 14pt;" t-field="manufacturer.turnover"/><br/>
 											</tr>	
 												<!-- </td> -->
 										</table>

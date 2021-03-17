@@ -13,8 +13,11 @@
 	'depends': ['base', 'website'],
 
 	'data': [
+		'security/manufacturer_security.xml',
+		'security/ir.model.access.csv',
 		'views/cloth_manufacturer_views.xml',
 		'views/cloth_manufacturer_web_view.xml',
+		'views/labourers_web_view.xml',
 		'report/manufacturer_report_view.xml',
 		'report/labourers_report_view.xml',
 		'wizard/labourer_add_wizard_view.xml'

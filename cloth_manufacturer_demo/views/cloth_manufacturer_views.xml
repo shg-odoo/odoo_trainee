@@ -20,7 +20,7 @@
         </field>
     </record>
 
-     <record model="ir.ui.view" id="manufacturer_form_view">
+    <record model="ir.ui.view" id="manufacturer_form_view">
         <field name="name">Manufacturer.Form</field>
         <field name="model">manufacturer</field>
         <field name="arch" type="xml">
@@ -101,12 +101,39 @@
                 <field name="manufacturer_name"/>
                 <field name="city"/>
                 <!-- <filter name="manufacturer_name" context="[{'group_by': 'manufacturer_name'}]"/> -->
-                <filter name="production" string="Production>1 lakh mts" domain="[('production', '>=', 1000000)]"/>
+                <filter name="production" string="Production > 1 lakh mts" domain="[('production', '&gt;', 1000000)]"/>
+                <filter name="production" string="Production &lt; 1 lakh mts" domain="[('production', '&lt;', 1000000)]"/>
                 <filter name="city" context="{'group_by': 'city'}"/>
             </search>
         </field>
     </record>
     
+    <record model="ir.ui.view" id="manufacturer_kanban_view">
+        <field name="name">Manufacturer.kanban</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-8 text-left">
+                                    <strong><field name="manufacturer_name"/></strong>
+                                </div>
+                                <div class="col-6 text-left">
+                                    <field name="company_address"/><br/>
+                                    <field name="city"/>
+                                </div>
+                                <div class="col-6 text-left">
+                                    <span>Contact: <field name="contact"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
 
     <record model="ir.ui.view" id="labourers_calendar_view">
         <field name="name">Manufacturer.calendar</field>
@@ -225,11 +252,40 @@
                 <filter name="clothtype" string="Cloth type" context="{'group_by': 'clothtype'}"/>
                 <filter name="cloth" string="Cloth >= 10 thousand" domain="[('cloth', '>=', 10000)]"/>
                 <filter name="cloth" string="Cloth >= 20 thousand" domain="[('cloth', '>=', 20000)]"/>
+                <filter name="cloth" string="Cloth &lt; 10 thousand" domain="[('cloth', '&lt;', 10000)]"/>
             </search>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="manufacturer_gantt_view">
+    <record model="ir.ui.view" id="consumption_graph_view">
+        <field name="name">Consumption.graph</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <graph string="Graph" type="pie">
+                <field name="consumption_id"/>
+                <field name="clothtype"/>
+                <field name="cloth" type="measure"/>
+                <field name="color" type="measure"/>
+                <field name="electricity" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_pivot_view">
+        <field name="name">Consumption.pivot</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <pivot string="Pivot">
+                <field name="consumption_id"/>
+                <field name="clothtype"/>
+                <field name="cloth" type="measure"/>
+                <field name="color" type="measure"/>
+                <field name="electricity" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_gantt_view">
         <field name="name">Manufacturer.gantt</field>
         <field name="model">manufacturer.consumption</field>
         <field name="arch" type="xml">
@@ -259,7 +315,7 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="clothtype_form">
+    <record model="ir.ui.view" id="clothtype_form_view">
         <field name="name">ClothType.Form</field>
         <field name="model">manufacturer.clothtype</field>
         <field name="arch" type="xml">
@@ -308,19 +364,19 @@
     <record model="ir.actions.act_window" id="main_view">
         <field name="name">Manufacturer Details</field>
         <field name="res_model">manufacturer</field>
-        <field name="view_mode">tree,form,graph,pivot,search</field>
+        <field name="view_mode">tree,form,graph,pivot,search,kanban</field>
     </record>
 
     <record model="ir.actions.act_window" id="labourers_view">
         <field name="name">Labourers Details</field>
         <field name="res_model">manufacturer.labourers</field>
-        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_mode">tree,form,calendar,search</field>
     </record>
 
     <record model="ir.actions.act_window" id="consumption_view">
         <field name="name">Consumption Details</field>
         <field name="res_model">manufacturer.consumption</field>
-        <field name="view_mode">tree,form,gantt</field>
+        <field name="view_mode">tree,form,gantt,graph,pivot,search</field>
     </record>
 
     <record model="ir.actions.act_window" id="clothtype_view">

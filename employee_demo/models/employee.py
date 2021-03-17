@@ -39,16 +39,19 @@ class Employee(models.Model):
         ], string="Status", index=True, readonly=True, default='draft')
 
     def test_record(self):
+        # print(self.id)
+        # print(self.name)
         for rec in self:
             search = self.env['employee'].search([])
             print(search.mapped('name'))
             print(search.sorted(lambda a: a.write_date, reverse=True))
             # print(search.mapped('gender'))
+            # search_a = self.env['employee'].search([self.id])
             print(search.filtered(lambda o: o.gender == 'male'))
             print(search.filtered(lambda z: z.gender == 'female'))
-            # record_to_copy = self.env['employee'].browse(self._context.get('active_ids'))
-            # record_to_copy.copy()
-    # @api.multi
+            # record_to_copy = self.env['employee'].browse(self._context.get('self.id'))
+            # print(search_a)
+
     # def name_get(self):
     #     ref = []
     #     for a in self:
@@ -88,7 +91,7 @@ class Employee(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('emp_seq',"New" ) == "New":
+        if vals.get('emp_seq',"New") == "New":
             vals['emp_seq'] = self.env['ir.sequence'].next_by_code('employee.empseq') or "New"
         result = super(Employee, self).create(vals)
         return result
@@ -107,7 +110,6 @@ class Company(models.Model):
         search = self.env['employee'].search([('company_id.id', '=', self.id)])
         count = self.env['employee'].search_count([('company_id.id', '=', self.id)])
         self.employee_count = count
-
         # return{
         #     'name':('Employee Details'),
         #     'domain': [('id', '=', self.company_id.id)],
@@ -117,7 +119,6 @@ class Company(models.Model):
         #     'view_mode': 'tree,form',
         #     'type': 'ir.actions.act_window',
         # }
-
 
 
 class Skills(models.Model):
@@ -131,4 +132,3 @@ class EmployeeSurvey(models.Model):
     _inherit = 'employee'
 
     rating = fields.Float('Rating')
-
