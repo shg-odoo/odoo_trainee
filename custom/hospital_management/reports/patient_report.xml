@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<report
+        id="patient_details_report"
+        model="hospital_management.patient"
+        string="Print Details"
+        name="hospital_management.patient_card"
+        file="hospital_management.patient_card"
+        report_type="qweb-pdf"
+        attachment_use="True"
+    />
+    
+    <template id="patient_card">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+          <center>
+                <h1>Patient Details</h1>
+            </center><br/>
+                    <!-- table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
+                       <thread>
+                       <tr>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Name</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Roll NO</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">College</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Date of Birth</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Contact</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Email</th>
+                       </tr>
+                       <t t-foreach="docs" t-as="o">
+                       <tr  style="border: 2px solid #ddd;padding: 8px;">
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.name"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;"> 
+                       <span t-field="o.enrollmentNo"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;"> 
+                       <span t-field="o.college_id"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.bdate"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.contactNo"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;">
+                       <span t-field="o.email"/>
+                       </td>
+                       </tr>
+                       </t>
+                       </thread>
+                    </table>
+ -->           
+
+   <!--           name = fields.Char(String="Name")
+	email = fields.Char(String="Email")
+	
+	phone = fields.Char(String="Phone",size=10)
+	gender = fields.Selection([('male', 'Male'), ('female', 'Female'), ('other', 'Other')])
+	blood_group = fields.Selection([('a+', 'A+'), ('a-', 'A-'), ('b+', 'B+'), ('b-', 'B-'),('o+', 'O+'), ('o-', 'O-'),('ab+', 'AB+'), ('ab-', 'AB-')],String="Blood Group")
+	address = fields.Text(String="Address")
+	date_of_birth = fields.Date(String="Date Of Birth")
+	current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
+	age = fields.Integer(String="Age",compute='_get_age_data',store=True)
+	image = fields.Binary(String="Image", attachment=True)
+	appointment_count = fields.Integer(String='Appointment', compute='get_appointment_count')
+	doctor_id = fields.Many2one('hospital_management.doctor',String="Doctor")
+
+ -->
+
+                    <table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">Name</th>
+					      <th scope="col">Email</th>
+					      <th scope="col">Phone</th>
+					      <th scope="col">Gender</th>
+					      <th scope="col">Blood Group</th>
+					      <th scope="col">Age</th>
+					      <th scope="col">Date Of Birth</th>
+					      <th scope="col">Address</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					  	<t>
+						    <tr t-foreach="docs" t-as="doc">
+						      
+						      <td> 
+						      	<p>
+						      	  <t t-esc="doc.name"/>
+						      </p>
+						     </td>
+
+						      <td> 
+						      	<p>
+						      	  <t t-esc="doc.email"/>
+						      </p>
+						     </td>
+
+						      <td> 
+						      	<p>
+						      	  <t t-esc="doc.phone"/>
+						      </p>
+						     </td>
+                            
+                             <td> 
+						      	<p>
+						      	  <t t-esc="doc.gender"/>
+						      </p>
+						     </td>
+
+						     <td> 
+						      	<p>
+						      	  <t t-esc="doc.blood_group"/>
+						      </p>
+						     </td>
+
+						     <td> 
+						      	<p>
+						      	  <t t-esc="doc.age"/>
+						      </p>
+						     </td>
+
+						     <td> 
+						      	<p>
+						      	  <t t-esc="doc.date_of_birth"/>
+						      </p>
+						     </td>
+
+						     <td> 
+						      	<p>
+						      	  <t t-esc="doc.address"/>
+						      </p>
+						     </td>
+
+						    </tr>
+					    </t>
+					    
+					  </tbody>
+				</table>
+
+        </t>
+
+
+        </t>
+    </template>
+
+
+
+
+</odoo>

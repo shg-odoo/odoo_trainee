@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	   
+
+
+       <!-- <record model="ir.ui.view" id="course_form_view">
+            <field name="name">course.form</field>
+            <field name="model">openacademy.course</field>
+            <field name="arch" type="xml">
+                <form string="Course Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record> -->
+  
+    <record model="ir.actions.act_window" id="hospital_management_patient_action">
+      <field name="name">Patient</field>
+      <field name="res_model">hospital_management.patient</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+       
+
+	<menuitem name="hospital management" id="hospital_management_menu_root"/>
+	<menuitem name="Patient" 
+		id="hospital_management.patient_menu" 
+		parent="hospital_management.menu_root" 
+		actions='hospital_management_patient_action'/>
+
+
+		
+    <record model="ir.ui.view" id="hospital_management_patient_list">
+      <field name="name">Patient</field>
+      <field name="model">hospital_management.patient</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          
+        </tree>
+      </field>
+
+    </record>
+
+
+
+    <record model="ir.ui.view" id="hospital_management_patient_form">
+      <field name="name">Patient</field>
+      <field name="model">hospital_management.patient</field>
+      <field name="arch" type="xml">
+        <form string="Patient Form">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="age"/>
+                        <field name="phone"/>
+                        <field name="gender"/>
+                        <field name="blood_group"/>
+                        <field name="address"/>
+                        <field name="date_of_birth"/>
+                    </group>
+                </sheet>
+            </form>
+      </field>
+    </record>
+   
+
+</odoo>
