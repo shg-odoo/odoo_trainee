@@ -189,3 +189,4 @@
   <menuitem name="Patient" id="hospital_management_patient_menu" parent="hospital_management_menu_root" action="hospital_management_patient_action"/>   
 
 </odoo>
+

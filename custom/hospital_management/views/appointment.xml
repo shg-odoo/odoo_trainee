@@ -46,6 +46,7 @@
       </graph>
     </field>
   </record>
+  
    
     <!-- Appointment form view -->
   <record model="ir.ui.view" id="hospital_management_appointment_form">

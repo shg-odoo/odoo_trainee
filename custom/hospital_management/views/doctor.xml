@@ -70,7 +70,6 @@
   </record>
    
 
-
     <!-- Doctor kanban view -->
   <record model="ir.ui.view" id="hospital_management_doctor_kanban">
     <field name="name">Doctor.kanban</field>
