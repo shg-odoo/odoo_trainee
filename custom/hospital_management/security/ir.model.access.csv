@@ -1,11 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
-
 access_hospital_management_patient,hospital_management.patient,model_hospital_management_patient,group_hospital_doctor,1,1,1,1
 
-
 access_hospital_management_doctor,hospital_management.doctor,model_hospital_management_doctor,group_hospital_manager,1,1,1,1
-
-
 
 access_hospital_management_appointment,hospital_management.appointment,model_hospital_management_appointment,group_hospital_manager,1,1,1,1

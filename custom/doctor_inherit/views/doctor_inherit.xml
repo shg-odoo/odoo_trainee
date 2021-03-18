@@ -17,9 +17,9 @@
 	          <field name="name"/>
 	          <field name="email"/>
 	          <field name="phone"/>
-            <field name="gender"/>
-            <field name="patient_id"/>
-	        </tree>
+              <field name="gender"/>
+              <field name="patient_id"/>
+    	    </tree>
 	      </field>
 
     </record>
@@ -63,16 +63,8 @@
 	      </field>
     </record>
    
-
-
-    
-
-
-       
     <!-- Doctor Inherit menu -->
-   
    <menuitem name="DoctorInherit" id="doctor_inherit_main_menu" />
-
     <menuitem name="DoctorInherit Menu" id="doctor_inherit_second_menu" parent="doctor_inherit_main_menu" action="doctor_inherit_action"/>
 
 </odoo>

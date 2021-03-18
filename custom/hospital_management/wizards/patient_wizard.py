@@ -6,27 +6,31 @@ class PatientWizard(models.TransientModel):
 
 	doctor_id = fields.Many2one('hospital_management.doctor',String="Doctor")
 
-
 	def add_doctor(self):
 
 		ids = self._context.get('active_ids')
-		vals = {
-         'doctor_id' : self.doctor_id
-
-		}
+		vals = {'doctor_id' : self.doctor_id }
 		self.env['hospital_management.patient'].browse(ids).write(vals)
 
 
-  
+class CreateAppointment(models.TransientModel):
+	_name = 'create_appointment.wizard'
 
-# class Student(models.TransientModel):
-#     _name = 'student.wizard'
+	patient_id = fields.Many2one('hospital_management.patient',string='Patient')
+	appointment_datetime = fields.Datetime(string ='Appointment Datetime')
 
-#     college_id = fields.Many2one('student.college')
+	def create_appointment(self):
+		
+		vals = {
+          'patient_id' : self.patient_id.id,
+          'appointment_datetime' : self.appointment_datetime
 
-#     def add_college(self):
-#         ids = self._context.get('active_ids')
-#         self.env['student'].browse(ids).write({'college_id': self.college_id})
+		}
+
+		new_appointment = self.env['hospital_management.appointment'].create(vals)
+
+
+
 
 
    

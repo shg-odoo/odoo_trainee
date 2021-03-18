@@ -8,9 +8,8 @@ class Patient(models.Model):
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 	_description = 'hospital_management.patient'
 
-	name = fields.Char(String="Name")
+	name = fields.Char(String="Name",track_visibility="always")
 	email = fields.Char(String="Email")
-	review = fields.text('Review')
 	phone = fields.Char(String="Phone",size=10)
 	gender = fields.Selection([('male', 'Male'), ('female', 'Female'), ('other', 'Other')])
 	blood_group = fields.Selection([('a+', 'A+'), ('a-', 'A-'), ('b+', 'B+'), ('b-', 'B-'),('o+', 'O+'), ('o-', 'O-'),('ab+', 'AB+'), ('ab-', 'AB-')],String="Blood Group")
@@ -21,18 +20,29 @@ class Patient(models.Model):
 	image = fields.Binary(String="Image", attachment=True)
 	appointment_count = fields.Integer(String='Appointment', compute='get_appointment_count')
 	doctor_id = fields.Many2one('hospital_management.doctor',String="Doctor")
-	# gender_count = fields.Integer('Gender Count', compute='get_gender_count',store=True)
+	active = fields.Boolean('Active',default=True)
+	
 
 	@api.depends('date_of_birth')
 	def _get_age_data(self):
-
 		for rec in self:
 			rec.age = relativedelta(date.today(),rec.date_of_birth).years
 
 
+	def open_patient_appointments(self):
+		return {
+			'name': _('Appointment'),
+			'domain': [('patient_id', '=', self.id)],
+			'view_type': 'form',
+			'res_model': 'hospital_management.appointment',
+			'view_id': False,
+			'view_mode': 'tree,form',
+			'type': 'ir.actions.act_window',
+		}
+
+
 	def get_appointment_count(self):
 		count = self.env['hospital_management.appointment'].search_count([('patient_id', '=', self.id)])
-
 		self.appointment_count = count
 
 	
@@ -45,26 +55,24 @@ class Patient(models.Model):
 
 	def copy(self,default=None):
 		default = {}
+		copied_count = self.search_count([('name', '=like', u"Copy of {}%".format(self.name))])
 
-		copied_count = self.search_count(
-			[('name', '=like', u"Copy of {}%".format(self.name))])
 		if not copied_count:
 			new_name = u"Copy of {}".format(self.name)
 		else:
-			new_name = u"Copy of {} ({})".format(self.name, copied_count)
+			new_name = u"Copy of {} ({})".format(self.name, copied_count)	
 
-			
 		default['name'] = new_name
 		res = super(Patient, self).copy(default)
 		return res
 
 
 	def name_get(self):
-		
 		res = []
 		for rec in self:
 			res.append((rec.id, '%s - %s' % (rec.id, rec.name)))
 		return res
+
 
 	@api.model
 	def name_search(self,name='', args=None, operator='ilike', limit=100):
@@ -72,12 +80,7 @@ class Patient(models.Model):
 			args = []
 		domain = args + ['|', ('id', operator, name), ('name', operator, name)]
 		return super(Patient, self).search(domain, limit=limit).name_get()
-
-
-
-
 	
-
 
 
 class PatientInherit(models.Model):
