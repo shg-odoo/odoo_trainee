@@ -22,8 +22,8 @@ class CreateAppointment(models.TransientModel):
 	def create_appointment(self):
 		
 		vals = {
-          'patient_id' : self.patient_id.id,
-          'appointment_datetime' : self.appointment_datetime
+		  'patient_id' : self.patient_id.id,
+		  'appointment_datetime' : self.appointment_datetime
 
 		}
 

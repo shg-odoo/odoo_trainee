@@ -1,75 +1,75 @@
 <odoo>
   <template id="patient_page">
-    <t t-call="website.layout"> 
-      <div class="oe_structure">
-        <div class="container">
-          <br/>
-            <center><h3>Patient</h3></center>
-          <br/>
+	<t t-call="website.layout">
+	  <div class="oe_structure">
+		<div class="container">
+		  <br/>
+			<center><h3>Patient</h3></center>
+		  <br/>
 
-          <div>
-            <a t-attf-href="/hospital_management/patient_add" class="btn btn-primary">Create</a>
-          </div>
-             
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Blood Group</th>
-                <th scope="col">Age</th>
-                <th scope="col">Date Of Birth</th>
-                <th scope="col">Address</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <t>
-                <tr t-foreach="patient" t-as="doc">
-                  
-                  <td> 
-                    <p><t t-esc="doc.name"/></p>
-                  </td>
+		  <div>
+			<a t-attf-href="/hospital_management/patient_add" class="btn btn-primary">Create</a>
+		  </div>
 
-                  <td> 
-                    <p><t t-esc="doc.email"/></p>
-                  </td>
+		  <table class="table">
+			<thead>
+			  <tr>
+				<th scope="col">Name</th>
+				<th scope="col">Email</th>
+				<th scope="col">Phone</th>
+				<th scope="col">Gender</th>
+				<th scope="col">Blood Group</th>
+				<th scope="col">Age</th>
+				<th scope="col">Date Of Birth</th>
+				<th scope="col">Address</th>
+				<th scope="col">Action</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <t>
+				<tr t-foreach="patient" t-as="doc">
 
-                  <td> 
-                    <p><t t-esc="doc.phone"/></p>
-                  </td>
-                
-                  <td> 
-                    <p><t t-esc="doc.gender"/></p>
-                  </td>
+				  <td>
+					<p><t t-esc="doc.name"/></p>
+				  </td>
 
-                  <td> 
-                    <p><t t-esc="doc.blood_group"/></p>
-                  </td>
+				  <td>
+					<p><t t-esc="doc.email"/></p>
+				  </td>
 
-                  <td> 
-                    <p><t t-esc="doc.age"/></p>
-                  </td>
+				  <td>
+					<p><t t-esc="doc.phone"/></p>
+				  </td>
 
-                  <td> 
-                    <p><t t-esc="doc.date_of_birth"/></p>
-                  </td>
+				  <td>
+					<p><t t-esc="doc.gender"/></p>
+				  </td>
 
-                  <td> 
-                    <p><t t-esc="doc.address"/></p>
-                  </td>
+				  <td>
+					<p><t t-esc="doc.blood_group"/></p>
+				  </td>
 
-                  <td> 
-                    <p><a t-attf-href="/hospital_management/patient_delete/{{doc.id}}" class="btn btn-danger">Delete</a></p>
-                  </td>
-                </tr>
-              </t>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </t>
+				  <td>
+					<p><t t-esc="doc.age"/></p>
+				  </td>
+
+				  <td>
+					<p><t t-esc="doc.date_of_birth"/></p>
+				  </td>
+
+				  <td>
+					<p><t t-esc="doc.address"/></p>
+				  </td>
+
+				  <td>
+					<p><a t-attf-href="/hospital_management/patient_delete/{{doc.id}}" class="btn btn-danger">Delete</a></p>
+				  </td>
+				</tr>
+			  </t>
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	</t>
   </template>
 </odoo>

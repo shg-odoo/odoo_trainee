@@ -1,192 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-	<record model="ir.actions.act_window" id="hospital_management_patient_action">
-    <field name="name">Patient</field>
-    <field name="res_model">hospital_management.patient</field>
-    <field name="view_mode">tree,form,kanban,search,calendar,graph,pivot</field>
+  <record model="ir.actions.act_window" id="hospital_management_patient_action">
+	<field name="name">Patient</field>
+	<field name="res_model">hospital_management.patient</field>
+	<field name="view_mode">tree,form,kanban,search,calendar,graph,pivot</field>
   </record>
-    
+
    <!-- patient tree view -->
   <record model="ir.ui.view" id="hospital_management_patient_list">
-    <field name="name">Patient.tree</field>
-    <field name="model">hospital_management.patient</field>
-    <field name="arch" type="xml">
-      <tree>
-        <!-- <field name="image" widget="image" class="oe_avatar" style="width: 50;"/> -->
-        <field name="name"/>
-        <field name="email"/>
-        <field name="date_of_birth"/>
-        <field name="age"/>
-        <field name="phone"/>
-        <field name="gender"/>
-        <field name="blood_group"/>
-        <field name="address"/>
-        <field name="doctor_id"/>
-        <field name="extra_details"/>
-      </tree>
-    </field>
-  </record>   
-   
+	<field name="name">Patient.tree</field>
+	<field name="model">hospital_management.patient</field>
+	<field name="arch" type="xml">
+	  <tree>
+		<!-- <field name="image" widget="image" class="oe_avatar" style="width: 50;"/> -->
+		<field name="name"/>
+		<field name="email"/>
+		<field name="date_of_birth"/>
+		<field name="age"/>
+		<field name="phone"/>
+		<field name="gender"/>
+		<field name="blood_group"/>
+		<field name="address"/>
+		<field name="doctor_id"/>
+		<field name="extra_details"/>
+	  </tree>
+	</field>
+  </record>
+
 
   <!-- patient search view -->
   <record model="ir.ui.view" id="hospital_management_patient_search">
-    <field name="name">Patient.search</field>
-    <field name="model">hospital_management.patient</field>
-    <field name="arch" type="xml">
-      <search string="Search Patient">
-        <field name="name"/>
-        <field name="age"/>
-        <filter string="Male" name="male" domain="[('gender','=','male')]"/>
-        <separator/>
-        <filter string="Female" name="female" domain="[('gender','=','female')]"/>
-        <!-- <field name="gender"/> -->
-        <group string="Group By">
-          <filter string="Gender" name="gender" context="{'group_by':'gender'}"/>
-        </group>
-      </search>
-    </field>
-  </record>   
-
-	
-    <!-- patient form view -->
-  <record model="ir.ui.view" id="hospital_management_patient_form">
-    <field name="name">Patient.form</field>
-    <field name="model">hospital_management.patient</field>
-    <field name="arch" type="xml">
-      <form string="Patient Form">
-        <header>
-          <button name="%(hospital_management.create_appointment_wizard_action)d" string="Create Appointment" type="action"
-          class="oe_highlight" context="{'default_patient_id': active_id}"/>
-
-        </header>
-
-        <sheet>
-
-        	<div class="oe_button_box" name="button_box">
-        		<button name="open_patient_appointments" class="oe_stat_button" type="object" icon="fa-calendar">
-            	<field string="Appointments" name="appointment_count" widget="statinfo"/>
-            </button>     
-          </div>
-
-           <field name="image" widget="image" class="oe_avatar"/>
-
-          <!--  <widget name="web_ribbon" text="Male" bg_color="bg_danger" attrs="{'invisible':[('gender','=','female')]}" />
-
-           <widget name="web_ribbon" text="Female" bg_color="bg_danger" attrs="{'invisible':[('gender','=','male')]} "/> -->
-
-        	<div class="oe_title">
-            <label for="name" class="oe_edit_only"/>
-            <h1><field name="name" /></h1>
-			    </div>
-
-          <group>
-          	<group>
-          		<field name="date_of_birth"/>
-          		<field name="age"/>
-          		<field name="gender"/>
-              <field name="blood_group"/>
-          	</group>
-
-          	<group>
-          		<field name="email"/>
-                  <field name="phone"/>
-                  <field name="address"/>
-                  <field name="doctor_id"/>
-          	</group> 
-          </group>
-          <group>
-            <field name="extra_details"/>      
-          </group>  
-        </sheet>
-
-        <div class="oe_chatter">
-            <field name="message_follower_ids" widget="mail_followers"/>
-            <field name="activity_ids" widget="mail_activity"/>
-            <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
-        </div>      
-      </form>
-    </field>
+	<field name="name">Patient.search</field>
+	<field name="model">hospital_management.patient</field>
+	<field name="arch" type="xml">
+	  <search string="Search Patient">
+		<field name="name"/>
+		<field name="age"/>
+		<filter string="Male" name="male" domain="[('gender','=','male')]"/>
+		<separator/>
+		<filter string="Female" name="female" domain="[('gender','=','female')]"/>
+		<!-- <field name="gender"/> -->
+		<group string="Group By">
+		  <filter string="Gender" name="gender" context="{'group_by':'gender'}"/>
+		</group>
+	  </search>
+	</field>
   </record>
-    
+
+	<!-- patient form view -->
+  <record model="ir.ui.view" id="hospital_management_patient_form">
+	<field name="name">Patient.form</field>
+	<field name="model">hospital_management.patient</field>
+	<field name="arch" type="xml">
+	  <form string="Patient Form">
+		<header>
+		  <button name="%(hospital_management.create_appointment_wizard_action)d" string="Create Appointment" type="action"
+		  class="oe_highlight" context="{'default_patient_id': active_id}"/>
+
+		</header>
+
+		<sheet>
+
+		  <div class="oe_button_box" name="button_box">
+			<button name="open_patient_appointments" class="oe_stat_button" type="object" icon="fa-calendar">
+			  <field string="Appointments" name="appointment_count" widget="statinfo"/>
+			</button>
+		  </div>
+
+		   <field name="image" widget="image" class="oe_avatar"/>
+
+		  <!--  <widget name="web_ribbon" text="Male" bg_color="bg_danger" attrs="{'invisible':[('gender','=','female')]}" />
+
+		   <widget name="web_ribbon" text="Female" bg_color="bg_danger" attrs="{'invisible':[('gender','=','male')]} "/> -->
+
+		  <div class="oe_title">
+			<label for="name" class="oe_edit_only"/>
+			<h1><field name="name" /></h1>
+		  </div>
+
+		  <group>
+			<group>
+			  <field name="date_of_birth"/>
+			  <field name="age"/>
+			  <field name="gender"/>
+			  <field name="blood_group"/>
+			</group>
+
+			<group>
+			  <field name="email"/>
+				  <field name="phone"/>
+				  <field name="address"/>
+				  <field name="doctor_id"/>
+			</group>
+		  </group>
+		  <group>
+			<field name="extra_details"/>  
+		  </group>
+		</sheet>
+
+		<div class="oe_chatter">
+			<field name="message_follower_ids" widget="mail_followers"/>
+			<field name="activity_ids" widget="mail_activity"/>
+			<field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+		</div>
+	  </form>
+	</field>
+  </record>
+
    <!-- patient graph view -->
   <record model="ir.ui.view" id="hospital_management_patient_graph">
-    <field name="name">Patient.graph</field>
-    <field name="model">hospital_management.patient</field>
-    <field name="arch" type="xml">
-        <graph string="Patient Graph">
-          <field name="gender"/>
-        </graph>
-    </field>
+	<field name="name">Patient.graph</field>
+	<field name="model">hospital_management.patient</field>
+	<field name="arch" type="xml">
+		<graph string="Patient Graph">
+		  <field name="gender"/>
+		</graph>
+	</field>
   </record>
 
 
   <!-- patient calender view -->
   <record model="ir.ui.view" id="hospital_management_patient_calendar">
-    <field name="name">Patient.calendar</field>
-    <field name="model">hospital_management.patient</field>
-    <field name="arch" type="xml">
-      <calendar string="Patient Calendar" color="name" date_start="date_of_birth">
-          <field name="name" filters="1"/>
-          <field name="email"/>
-          <field name="date_of_birth"/>
-          <field name="current_date"/>
-          <!-- <field name="patient_id" filters="1"/> -->
-      </calendar>
-    </field>
+	<field name="name">Patient.calendar</field>
+	<field name="model">hospital_management.patient</field>
+	<field name="arch" type="xml">
+	  <calendar string="Patient Calendar" color="name" date_start="date_of_birth">
+		  <field name="name" filters="1"/>
+		  <field name="email"/>
+		  <field name="date_of_birth"/>
+		  <field name="current_date"/>
+		  <!-- <field name="patient_id" filters="1"/> -->
+	  </calendar>
+	</field>
   </record>
 
-    
-    <!-- patient pivot view -->
+
+	<!-- patient pivot view -->
   <record model="ir.ui.view" id="hospital_management_patient_pivot">
-    <field name="name">Patient.pivot</field>
-    <field name="model">hospital_management.patient</field>
-    <field name="arch" type="xml">
-      <pivot string="Patient Pivot">
-         <field name="blood_group" type="row"/>
-         <field name="gender" type="col"/>   
-      </pivot>
-    </field>
+	<field name="name">Patient.pivot</field>
+	<field name="model">hospital_management.patient</field>
+	<field name="arch" type="xml">
+	  <pivot string="Patient Pivot">
+		 <field name="blood_group" type="row"/>
+		 <field name="gender" type="col"/>
+	  </pivot>
+	</field>
   </record>
 
-    <!-- patient kanban view -->
+	<!-- patient kanban view -->
   <record model="ir.ui.view" id="hospital_management_patient_kanban">
-    <field name="name">Patient.kanban</field>
-    <field name="model">hospital_management.patient</field>
-    <field name="arch" type="xml">
-      <kanban>
-          <field name="name"/>
-          <field name="email"/>
-          <field name="age"/>
-          <field name="phone"/>
-          <field name="gender"/>
-          <field name="image"/>
-          <field name="id"/>
-          <templates>
-                <t t-name="kanban-box">    
-                  <div t-attf-class="oe_kanban_global_click"> 
-                    <div class="o_kanban_image">
-                      <img t-att-src="kanban_image('hospital_management.patient', 'image', record.id.raw_value)"  alt="Avatar"/>
-                    </div>
+	<field name="name">Patient.kanban</field>
+	<field name="model">hospital_management.patient</field>
+	<field name="arch" type="xml">
+	  <kanban>
+		  <field name="name"/>
+		  <field name="email"/>
+		  <field name="age"/>
+		  <field name="phone"/>
+		  <field name="gender"/>
+		  <field name="image"/>
+		  <field name="id"/>
+		  <templates>
+				<t t-name="kanban-box">
+				  <div t-attf-class="oe_kanban_global_click">
+					<div class="o_kanban_image">
+					  <img t-att-src="kanban_image('hospital_management.patient', 'image', record.id.raw_value)"  alt="Avatar"/>
+					</div>
 
-                    <div class="oe_kanban_details">
-                        <strong class="o_kanban_record_title"><field name="name"/></strong>
-                        <ul>
-                          <li><field name="email"/></li>
-                          <li><field name="phone"/></li>
-                          <li><field name="gender"/></li>
-                        </ul>
-                    </div>  
-                  </div>
-                </t>
-          </templates>
-      </kanban>
-	  </field>
-	</record>
+					<div class="oe_kanban_details">
+						<strong class="o_kanban_record_title"><field name="name"/></strong>
+						<ul>
+						  <li><field name="email"/></li>
+						  <li><field name="phone"/></li>
+						  <li><field name="gender"/></li>
+						</ul>
+					</div>
+				  </div>
+				</t>
+		  </templates>
+	  </kanban>
+	</field>
+  </record>
 
-  <!-- patient menu -->  
+  <!-- patient menu -->
   <menuitem name="Hospital Management" id="hospital_management_menu_root"/>
-  <menuitem name="Patient" id="hospital_management_patient_menu" parent="hospital_management_menu_root" action="hospital_management_patient_action"/>   
+  <menuitem name="Patient" id="hospital_management_patient_menu" parent="hospital_management_menu_root" action="hospital_management_patient_action"/>
 
 </odoo>
 

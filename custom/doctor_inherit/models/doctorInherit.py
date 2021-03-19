@@ -3,7 +3,6 @@ from odoo import models, fields, api
 
 class DoctorInherit(models.Model):
 	_name = "doctor.inherit"
-
 	_inherit = "hospital_management.doctor"
 
 
