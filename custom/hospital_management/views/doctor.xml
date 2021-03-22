@@ -101,6 +101,7 @@
   </record>
 
 	<!-- Doctor menu -->
-	<menuitem name="Doctor" id="hospital_management_doctor_menu" parent="hospital_management_menu_root"action="hospital_management_doctor_action"/>
+	<menuitem name="Doctor" id="hospital_management_doctor_menu" parent="hospital_management_menu_root"
+		action="hospital_management_doctor_action"/>
 
 </odoo>

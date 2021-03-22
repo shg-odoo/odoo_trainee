@@ -22,3 +22,14 @@ class Doctor(models.Model):
 		res = super(Doctor, self).default_get(fields)
 		res['name_of_clinic'] = "Xyz Hospital"
 		return res
+
+	@api.model
+	def name_create(self,name):
+		res = self.create({'name':name,'email':'dyu@Zsa.com'})
+		return res.name_get()[0]
+
+	# def write(self, vals):
+	# 	vals['phone'] = '7894561236'
+	# 	res = super(Doctor,self).write(vals)
+	# 	print("\n write method..")
+	# 	return res
