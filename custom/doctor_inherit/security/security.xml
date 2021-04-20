@@ -1,0 +1,7 @@
+<odoo>
+
+	<record id="DoctorInherit_group" model="res.groups">
+		<field name="name">Doctor Inherit Manager</field>
+	</record>
+
+</odoo>

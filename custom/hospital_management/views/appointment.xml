@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <record model="ir.actions.act_window" id="hospital_management_appointment_action">
+	<field name="name">Appointment</field>
+	<field name="res_model">hospital_management.appointment</field>
+	<field name="view_mode">tree,form,calendar,graph</field>
+  </record>
+
+
+   <!-- Appointment tree view -->
+  <record model="ir.ui.view" id="hospital_management_appointment_list">
+	<field name="name">Appointment.tree</field>
+	<field name="model">hospital_management.appointment</field>
+	<field name="arch" type="xml">
+	  <tree>
+		<field name="name_seq" readonly="1"/>
+		<field name="patient_id"/>
+		<field name="doctor_id"/>
+		<field name="appointment_datetime"/>
+	  </tree>
+	</field>
+  </record>
+
+	<!-- Appointment calender view -->
+  <record model="ir.ui.view" id="hospital_management_appointment_calendar">
+	<field name="name">Appointment.calendar</field>
+	<field name="model">hospital_management.appointment</field>
+	<field name="arch" type="xml">
+		<calendar string="Appointment Calendar" color="patient_id" date_start="appointment_datetime">
+		  <field name="name_seq"/>
+		  <field name="patient_id" filters="1"/>
+		</calendar>
+	</field>
+  </record>
+
+	<!-- Appointment graph view -->
+  <record model="ir.ui.view" id="hospital_management_appointment_graph">
+	<field name="name">Appointment.graph</field>
+	<field name="model">hospital_management.appointment</field>
+	<field name="arch" type="xml">
+	  <graph string="Appointment Graph">
+		<field name="doctor_id"/>
+		<field name="patient_count" type="measure"/>
+	  </graph>
+	</field>
+  </record>
+
+   
+	<!-- Appointment form view -->
+  <record model="ir.ui.view" id="hospital_management_appointment_form">
+	<field name="name">Appointment.form</field>
+	<field name="model">hospital_management.appointment</field>
+	<field name="arch" type="xml">
+	  <form string="Appointment Form">
+	   <header>
+		<button name="test_recordset" type="object" string="Test Operation" class="oe_highlight"/>
+		<button name="action_confirm" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+		<button name="action_done" type="object" string="Done" class="oe_highlight" states="confirm"/>
+		<field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+	   </header>
+
+		<sheet>
+		  <div class="oe_title">
+			<h1><field name="name_seq" readonly="1"/></h1>
+		  </div>
+		  <group>
+			<group>
+			  <field name="patient_id"/>
+			  <field name="patient_age"/>
+			  <field name="patient_phone"/>
+			  <field name="patient_email"/>
+			</group>
+
+			<group>
+				<field name="doctor_id"/>
+				<field name="doctor_specilization"/>
+				<field name="appointment_reason"/>
+				<field name="appointment_datetime"/>
+			</group>
+		  </group>
+		</sheet>
+	  </form>
+	</field>
+  </record>
+
+  <menuitem name="Appointment" id="hospital_management_appointment_menu" parent="hospital_management_menu_root" action="hospital_management_appointment_action"/>
+
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+	<template id="patient_add_page">
+		<t t-call="website.layout">  
+			<div class="oe_structure">
+				<div class="container">
+					<form action="/hospital_management/patient_add/submit">
+					   <div class="form-group">
+							<label for="name">Name:</label>
+							<input type="text" class="form-control" name="name" id="name" required="true" />
+						</div>
+						<div class="form-group">
+							<label for="email">Email address:</label>
+							<input type="email" class="form-control" name="email" id="email" required="true" />
+						</div>
+						<div class="form-group">
+							<label for="name">Phone:</label>
+							<input type="text" class="form-control" name="phone" id="phone" required="true" maxlength = "10" />
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
+			</div>
+		</t>
+	</template>
+</odoo>
