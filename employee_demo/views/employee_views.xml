@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record model="ir.ui.view" id="tree_view">
+        <field name="name">Employee.Tree</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="emp_seq" readonly="1"/>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="dept"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="number"/>
+                <field name="average"/>
+                <field name="address"/>
+                <field name="bday"/>
+                <field name="email"/>
+                <field name="rating"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="form_view">
+        <field name="name">Employee.Form</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <form string="Employee form">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,cancel,confirm"/>
+                </header>
+                <sheet>
+                    <button name="test_record" type="object" string="Test Recordset" class="oe_highlight"/>
+                    <widget name="web_ribbon" text="Restricted" bg_color="bg-danger" attrs='{"invisible": [("gender", "=", "female")]}'/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="company_details" string="Company Details" type="object" class="oe_stat_button" icon="fa-archive">
+                        </button>
+                    </div>
+                    <notebook>
+                        <page string="Personal Details">
+                            <group>
+                                <field name="profile" widget="image" class="oe_avatar"/>
+                                <div class="oe_title">
+                                    <field name="emp_seq" readonly="1"/>
+                                </div>
+                                <field name="name"/>
+                                <field name="gender" widget="radio"/>
+                                <field name="age"/>
+                                <field name="number"/>
+                                <field name="address"/>
+                                <field name="bday"/>
+                            </group>
+                        </page>
+                        <page string="Technical Details">
+                            <group>
+                                <field name="company_id"/>
+                                <!-- <field name="dept" groups="employee_demo.group_company_admin"/> -->
+                                <field name="dept"/>
+                                <field name="branch"/>
+                                <field name="skills" widget='many2many_tags'/>
+                                <field name="date"/>
+                                <field name="email"/>
+                                <field name="techmarks"/>
+                                <field name="rating"/>
+                            </group>
+                        </page>
+                        <page string="Educational Details">
+                            <group>
+                                <field name="phy"/>
+                                <field name="chem"/>
+                                <field name="math"/>
+                                <!-- <field name="pr"/> -->
+                                <field name="grade"/>
+                                <field name="total"/>
+                                <field name="average"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="calendar_view">
+        <field name="name">Employee.Calendar</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendar" date_start="date" date_stop="date" mode="year" color="name">
+                <field name="name"/>
+                <field name="dept"/>
+                <field name="company_id"/>
+                <field name="profile" widget="image" class="oe_avatar"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="number"/>
+                <field name="address"/>
+                <field name="date"/>
+                <field name="email"/>
+                <field name="techmarks"/>
+                <field name="rating"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="graph_view">
+        <field name="name">Employee.Graph</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <graph string="Graph" type="pie">
+                <field name="name"/>
+                <field name="dept"/>
+                <field name="company_id"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="number"/>
+                <field name="address"/>
+                <field name="date"/>
+                <field name="email"/>
+                <field name="techmarks"/>
+                <!-- <field name="pr"/> -->
+                <field name="grade"/>
+                <field name="rating"/>
+                <field name="bday"/>
+                <field name="phy"/>
+                <field name="chem"/>
+                <field name="math"/>
+                <field name="total"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="pivot_view">
+        <field name="name">Employee.Pivot</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <pivot string="Pivot">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="dept"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="number"/>
+                <field name="address"/>
+                <field name="date"/>
+                <field name="email"/>
+                <field name="techmarks"/>
+                <!-- <field name="pr"/> -->
+                <field name="grade"/>
+                <field name="rating"/>
+                <field name="bday"/>
+                <field name="phy"/>
+                <field name="chem"/>
+                <field name="math"/>
+                <field name="total"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="gantt_view">
+        <field name="name">Employee.Gantt</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <gantt string="Gantt View" default_scale="year"
+                date_start="date" date_stop="date"
+                default_group_by="dept">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="dept"/>
+                <field name="date"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="number"/>
+                <field name="address"/>
+                <field name="date"/>
+                <field name="email"/>
+                <field name="techmarks"/>
+                <!-- <field name="pr"/> -->
+                <field name="grade"/>
+                <field name="rating"/>
+                <field name="bday"/>
+                <field name="phy"/>
+                <field name="chem"/>
+                <field name="math"/>
+                <field name="total"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="employee_search_view">
+        <field name="name">Employee.Search</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="dept"/>
+                <field name='gender'/>
+                <filter string="Male" name='male' domain="[('gender','=','male')]"/>
+                <!-- <seperator/> -->
+                <filter string="Female" name='female' domain="[('gender','=','female')]"/>
+                <filter string="Department" name='dept' context="{'group_by':'dept'}"/>
+                <!-- <seperator/> -->
+                <filter string="Rating" name='rating' context="{'group_by':'rating'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="kanban_view">
+        <field name="name">Employee.Kanban</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-8 text-left">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <field name="profile" widget='image' class='oe_avatar'/>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <span>Department: <field name="dept"/></span>
+                                </div>
+                                <div class="col-6 text-left">
+                                    <span>Cell: <field name="number"/></span>
+                                </div>
+                                <div class="col-6 text-right">Rating: <span class="badge badge-pill"><field name="rating"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="company_menu_tree">
+        <field name="name">Company.Tree</field>
+        <field name="model">employee.company</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_name"/>
+                <field name="city"/>
+                <!-- <field name="emp_record_id"/> -->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="company_menu_form">
+        <field name="name">Company.Form</field>
+        <field name="model">employee.company</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="emp_count" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="employee_count" string="Employee(s)" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="company_name"/>
+                        <field name="city"/>
+                        <!-- <field name="emp_record_id"/> -->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="views">
+        <field name="name">Employee Details</field>
+        <field name="res_model">employee</field>
+        <field name="view_mode">tree,form,calendar,graph,pivot,gantt,search,kanban</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="company_menu">
+        <field name="name">Company</field>
+        <field name="res_model">employee.company</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="Main_menu" name="Employee Details" web_icon="employee_demo,static/description/icon.png"/>
+
+    <menuitem id="Menu" parent="Main_menu" name="Employee" sequence="1" action="views"/>
+
+    <menuitem id="Company_menu" parent="Main_menu" name="Company" sequence="1" action="company_menu"/>
+
+</odoo>

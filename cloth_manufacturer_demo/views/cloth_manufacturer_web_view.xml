@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <template id="manufacturer_details">
+        <t t-call="website.layout">
+            <h1>Manufacturer Portal</h1>
+            <div class="container">
+                <table>
+                    <thead>
+                       <tr style="border:1px solid;">
+                            <a href="/createmanufacturer" class="btn btn-primary" style="background-color: #33345d;border-color: #4c7372;">Create Manufacturer</a>
+                            <a href="/labourers" class="btn btn-primary" style="background-color: #33345d;border-color: #4c7372;">Go to Labourer Details</a>
+                            <th scope="col" style="border:2px solid;">Name</th>
+                            <th scope="col" style="border:2px solid;">City</th>
+                            <th scope="col" style="border:2px solid;">Address</th>
+                            <th scope="col" style="border:2px solid;">Contact Number</th>
+                        </tr>
+                    </thead>
+                    <tr t-foreach="manufacturer_det" t-as="man" style="border:2px solid;">
+                        <td style="border:2px solid;"><span t-field="man.manufacturer_name"/></td>
+                        <td style="border:2px solid;"><span t-field="man.city"/></td>
+                        <td style="border:2px solid;"><span t-field="man.company_address"/></td>
+                        <td style="border:2px solid;"><span t-field="man.contact"/></td>
+                        <td style="border:2px solid;"><a class="btn" t-att-href="'/delete/%s' % man.id" style="color: #1f1f3e;text-decoration:underline;border-radius: 4px;background-color: #b39d9d;border: none;text-align: center;">Delete</a></td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="create_manufacturer">
+        <t t-call="website.layout">
+            <h1>Create Manufacturer</h1>
+            <div class="container">
+                <form action="/submit_form">
+                    <table>
+                        <tr><td>Name: </td><td><input type="text" name="manufacturer_name"/></td></tr>
+                        <tr><td>City: </td><td><input type="text" name="city"/></td></tr>
+                        <tr><td>Address: </td><td><input type="text" name="company_address"/></td></tr>
+                        <tr><td>Contact Number: </td><td><input type="text" name="contact"/></td></tr>
+                        <tr><td><button value="submit" type="submit">Submit</button></td></tr>
+                        <br/>
+                    </table>
+                </form>
+            </div>
+        </t>
+    </template>
+
+</odoo>

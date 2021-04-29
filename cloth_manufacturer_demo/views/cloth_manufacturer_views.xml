@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record model="ir.ui.view" id="manufacturer_tree_view">
+        <field name="name">Manufacturer.tree</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <!-- <field name="labourers_id"/> -->
+                <field name="manufacturer_name"/>
+                <field name="city"/>
+                <field name="company_address"/>
+                <field name="contact"/>
+                <field name="production"/>
+                <field name="machines"/>
+                <field name="turnover"/>
+                <field name="labourers_record"/>
+                <field name="consumption_record"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="manufacturer_form_view">
+        <field name="name">Manufacturer.Form</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <form string="Employee form">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="emp_count" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="employee_count" string="Employee(s)" widget="statinfo"/>
+                        </button>
+                        <button name="consumption_days" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="consumption_days_count" string="Active Days" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <notebook>
+                        <page string="Personal Details">
+                            <group>
+                                <field name="manufacturer_name"/>
+                                <field name="city"/>
+                                <field name="company_address"/>
+                                <field name="contact"/>
+                                <field name="production"/>
+                                <field name="machines"/>
+                                <field name="turnover"/>
+                                <field name="labourers_record"/>
+                                <field name="consumption_record"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="manufacturer_graph_view">
+        <field name="name">Manufacturer.graph</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <graph string="Graph" type="pie">
+                <field name="manufacturer_name"/>
+                <field name="city"/>
+                <field name="company_address"/>
+                <field name="contact"/>
+                <field name="production" type="measure"/>
+                <!-- <field name="labourers_record"/> -->
+                <field name="machines"/>
+                <field name="turnover" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="manufacturer_pivot_view">
+        <field name="name">Manufacturer.pivot</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <pivot string="Pivot">
+                <field name="manufacturer_name"/>
+                <field name="city"/>
+                <field name="company_address"/>
+                <field name="contact"/>
+                <field name="production" type="measure"/>
+                <field name="labourers_record"/>
+                <field name="machines"/>
+                <field name="turnover" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="manufacturer_search_view">
+        <field name="name">Manufacturer.search</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="manufacturer_name"/>
+                <field name="city"/>
+                <!-- <filter name="manufacturer_name" context="[{'group_by': 'manufacturer_name'}]"/> -->
+                <filter name="production" string="Production > 1 lakh mts" domain="[('production', '&gt;', 1000000)]"/>
+                <filter name="production" string="Production &lt; 1 lakh mts" domain="[('production', '&lt;', 1000000)]"/>
+                <filter name="city" context="{'group_by': 'city'}"/>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="manufacturer_kanban_view">
+        <field name="name">Manufacturer.kanban</field>
+        <field name="model">manufacturer</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-8 text-left">
+                                    <strong><field name="manufacturer_name"/></strong>
+                                </div>
+                                <div class="col-6 text-left">
+                                    <field name="company_address"/><br/>
+                                    <field name="city"/>
+                                </div>
+                                <div class="col-6 text-left">
+                                    <span>Contact: <field name="contact"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="labourers_calendar_view">
+        <field name="name">Manufacturer.calendar</field>
+        <field name="model">manufacturer.labourers</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendar" date_start="join_date" date_stop="join_date" mode="year">
+                <field name="labourer_name"/>
+                <field name="role_id"/>
+                <field name="labourer_address"/>
+                <field name="join_date"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="labourers_tree_view">
+        <field name="name">Labourers.tree</field>
+        <field name="model">manufacturer.labourers</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="labourer_name"/>
+                <field name="labourer_id"/>
+                <field name="role_id"/>
+                <field name="join_date"/>
+                <field name="labourer_address"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="labourers_form_view">
+        <field name="name">Labourers.form</field>
+        <field name="model">manufacturer.labourers</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="labourer_name"/>
+                        <field name="labourer_id"/>
+                        <field name="role_id"/>
+                        <field name="salary"/>
+                        <field name="skills" widget="many2many_tags"/>
+                        <field name="join_date"/>
+                        <field name="labourer_address"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="labourers_search_view">
+        <field name="name">Labourers.search</field>
+        <field name="model">manufacturer.labourers</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="labourer_name"/>
+                <field name="labourer_id"/>
+                <field name="role_id"/>
+                <filter name="role_id" string="Role" context="{'group_by': 'role_id'}"/>
+                <filter name="labourer_id" string="Company" context="{'group_by': 'labourer_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_tree_view">
+        <field name="name">Consumption.tree</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="consumption_id"/>
+                <field name="clothtype"/>
+                <field name="cloth"/>
+                <field name="color"/>
+                <field name="electricity"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_form_view">
+        <field name="name">Consumption.form</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="consumption_id"/>
+                        <field name="clothtype"/>
+                        <!-- <field name="manufacturer_name"/> -->
+                        <field name="cloth"/>
+                        <field name="color"/>
+                        <field name="electricity"/>
+                        <field name="date"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_search_view">
+        <field name="name">Consumption.search</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="consumption_id"/>
+                <field name="clothtype"/>
+                <filter name="consumption_id" string="Company" context="{'group_by': 'consumption_id'}"/>
+                <filter name="clothtype" string="Cloth type" context="{'group_by': 'clothtype'}"/>
+                <filter name="cloth" string="Cloth >= 10 thousand" domain="[('cloth', '>=', 10000)]"/>
+                <filter name="cloth" string="Cloth >= 20 thousand" domain="[('cloth', '>=', 20000)]"/>
+                <filter name="cloth" string="Cloth &lt; 10 thousand" domain="[('cloth', '&lt;', 10000)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_graph_view">
+        <field name="name">Consumption.graph</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <graph string="Graph" type="pie">
+                <field name="consumption_id"/>
+                <field name="clothtype"/>
+                <field name="cloth" type="measure"/>
+                <field name="color" type="measure"/>
+                <field name="electricity" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_pivot_view">
+        <field name="name">Consumption.pivot</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <pivot string="Pivot">
+                <field name="consumption_id"/>
+                <field name="clothtype"/>
+                <field name="cloth" type="measure"/>
+                <field name="color" type="measure"/>
+                <field name="electricity" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="consumption_gantt_view">
+        <field name="name">Manufacturer.gantt</field>
+        <field name="model">manufacturer.consumption</field>
+        <field name="arch" type="xml">
+            <gantt default_group_by="consumption_id" 
+                date_start="date" date_stop="date" 
+                default_scale="year">
+                <field name="consumption_id"/>
+                <field name="date"/>
+                <field name="clothtype"/>
+                <field name="cloth"/>
+                <field name="color"/>
+                <field name="electricity"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="clothtype_tree_view">
+        <field name="name">Clothtype.Tree</field>
+        <field name="model">manufacturer.clothtype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="clothtype_quality"/>
+                <!-- <field name="type_of_wear"/> -->
+                <field name="colors" widget='many2many_tags'/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="clothtype_form_view">
+        <field name="name">ClothType.Form</field>
+        <field name="model">manufacturer.clothtype</field>
+        <field name="arch" type="xml">
+            <form string="Cloth Type">
+                <sheet>
+                    <group>
+                        <field name="clothtype_quality"/>
+                        <!-- <field name="type_of_wear"/> -->
+                        <field name="colors" widget='many2many_tags'/>
+                        <field name="price"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="role_tree">
+        <field name="name">Role.Tree</field>
+        <field name="model">labourers.roles</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="role"/>
+                <field name="role_rec"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="role_form">
+        <field name="name">Role.Form</field>
+        <field name="model">labourers.roles</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="role"/>
+                    <field name="role_rec"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="main_view">
+        <field name="name">Manufacturer Details</field>
+        <field name="res_model">manufacturer</field>
+        <field name="view_mode">tree,form,graph,pivot,search,kanban</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="labourers_view">
+        <field name="name">Labourers Details</field>
+        <field name="res_model">manufacturer.labourers</field>
+        <field name="view_mode">tree,form,calendar,search</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="consumption_view">
+        <field name="name">Consumption Details</field>
+        <field name="res_model">manufacturer.consumption</field>
+        <field name="view_mode">tree,form,gantt,graph,pivot,search</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="clothtype_view">
+        <field name="name">Cloth Details</field>
+        <field name="res_model">manufacturer.clothtype</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="colors_view">
+        <field name="name">Colors</field>
+        <field name="res_model">manufacturer.colors</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="role_view">
+        <field name="name">Role Records</field>
+        <field name="res_model">labourers.roles</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Manufacturer Details" id="manufacturer_main" web_icon="cloth_manufacturer_demo,static/description/icon.png"/>
+
+    <menuitem name="Manufacturer Details" id="manufacturer_details" parent="manufacturer_main" action="main_view" />
+
+    <menuitem name="Labourers Details" parent="manufacturer_main" id="manufacturer_labourers" action="labourers_view"/>
+
+    <menuitem name="Consumption Details" parent="manufacturer_main" id="manufacturer_consumption" action="consumption_view"/>
+
+    <menuitem name="Cloth Type Details" parent="manufacturer_main" id="manufacturer_clothtype" action="clothtype_view"/>
+
+    <menuitem name="Color List" parent="manufacturer_main" id="colors" action="colors_view"/>
+
+    <menuitem name="Role Records" parent="manufacturer_main" id="roles" action="role_view"/>
+
+</odoo>

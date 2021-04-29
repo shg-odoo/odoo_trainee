@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <report
+        id="emp_report"
+        model="employee"
+        string="Employee Report"
+        report_type="qweb-pdf"
+        name="employee_demo.report_view"
+        file="employee_demo.emp_report"
+        attachment_use="True"/>
+
+    <template id="report_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <table class="table">
+                    <centre>
+                        <div class="page">
+                            <h2>Employee Details</h2>
+                            <thead>
+                                <!-- <th scope="col">Photo</th> -->
+                                <th scope="col">Employee Name</th>
+                                <th scope="col">Company</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Email</th>
+                            </thead>
+                            <t t-foreach='docs' t-as='doc'>
+                                <tr>
+                                    <!-- <td align="centre"><span t-field="doc.profile" widget='image' class='oe_avatar'/></td> -->
+                                    <td align="centre"><span t-field="doc.name"/></td>
+                                    <td align="centre"><span t-field="doc.company_id"/></td>
+                                    <td align="centre"><span t-field="doc.address"/></td>
+                                    <td align="centre"><span t-field="doc.email"/></td>
+                                </tr>
+                            </t>
+                        </div>
+                    </centre>
+                </table>
+            </t>
+        </t>
+    </template>
+
+</odoo>
