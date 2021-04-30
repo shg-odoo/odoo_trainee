@@ -7,8 +7,8 @@ from werkzeug.exceptions import HTTPException, NotFound
 import json
 from werkzeug.utils import redirect
 
-cart_file = "/home/gautami/Desktop/shopping_app/Shooping/static/json_file/cart.json"
-items_file = "/home/gautami/Desktop/shopping_app/Shooping/static/json_file/items.json"
+cart_file = "/home/gautami/odoo_trainee/shopping_app/Shooping/static/json_file/cart.json"
+items_file = "/home/gautami/odoo_trainee/shopping_app/Shooping/static/json_file/items.json"
 
 class ShoppingApp:
     def __init__(self):
@@ -24,7 +24,7 @@ class ShoppingApp:
         Rule('/update',endpoint='update',methods=['GET','POST']),
         Rule('/delete',endpoint='delete',methods=['GET','POST']),
         Rule('/save_update', endpoint='save_update', methods=['GET', 'POST']),
-
+        Rule('/new_user_form', endpoint='new_user_form', methods=['GET', 'POST']),
         ])
 
     def dispatch_request(self, request):
@@ -61,6 +61,8 @@ class ShoppingApp:
 
         if fun_type == "cart" and qty!= None:
             item_list["quantity"] = qty
+            total_price = int(price) * int(qty)
+            item_list["total_price"] = str(total_price)
             temp = self.read_json(request,file_path=cart_file)
             if temp == "empty":
                 data = [item_list]
@@ -111,24 +113,32 @@ class ShoppingApp:
 
     def add_items(self, request):
         if request.method == 'POST':
-            self.write_json(request, id=request.form['idnum'], name=request.form['name'], price=request.form['price'],
+            self.write_json(request, id=request.form['id'], name=request.form['name'], price=request.form['price'],
                             fun_type="add_items")
+                            
             return self.render_template('add_items.html')
         else:
             return self.render_template('add_items.html')
 
     def cart(self,request):
+        def total(data):
+            total= sum(int(item['total_price']) for item in data)
+            return total
+
         if request.method == 'POST':
             self.write_json(request,id=request.form['id'],name=request.form['name'],price=request.form['price'],fun_type="cart",qty=request.form['Quantity'])
             temp = self.read_json(request, file_path=cart_file)
-            return self.render_template('cart.html', data=temp)
+            total_amt = total(temp)
+            return self.render_template('cart.html', data=temp,total=total_amt)
         else:
             temp = self.read_json(request, file_path=cart_file)
             if temp == 'empty':
                 msg = "Sorry your cart is empty"
-                return self.render_template('cart.html', msg=msg)
+                total_amt = total(temp)
+                return self.render_template('cart.html', msg=msg,total=total_amt)
             else:
-                return self.render_template('cart.html', data=temp)
+                total_amt = total(temp)
+                return self.render_template('cart.html', data=temp,total=total_amt)
 
     def update(self,request):
         if request.method == 'POST':
@@ -147,6 +157,13 @@ class ShoppingApp:
         self.write_json(request, id=request.form['idnum'], name=request.form['name'], price=request.form['price'],
                             fun_type="delete", qty=request.form['qty'])
         return redirect('/cart')
+
+    def new_user_form(self,request):
+        if request.method == 'POST':
+            name = request.form['id']
+            price = request.form['name']
+            idnum = request.form['price']
+            print(name,"-----",price,"----",idnum)
 
     def wsgi_app(self, environ, start_response):
         request = Request(environ)
