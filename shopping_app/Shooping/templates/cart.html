@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/static/css/style.css" type="text/css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
 </head>
 <body>
     <div class="jumbotron j1">
@@ -24,8 +25,8 @@
     {% if msg %}
     <h3>{{ msg }}</h3>
     {% endif %}
-    <div class="container">
-        <table class="table" border="1" align="center">
+    <div class="container" id="con1">
+        <table class="table" border="1" align="center" id="table_data">
             <thead class="thead-dark">
                 <tr>
                   <th scope="col">ID</th>
@@ -70,14 +71,12 @@
             </table>
         </div>
     </div>
-
     {% endif %}
-
     {% if total %}
           <div class="container c3">
               <h3> Total Bill : {{ total }}</h3>
           </div>
-
     {% endif %}
 </body>
+<!-- <script type="text/javascript" src="/static/javascript/ajax_code.js"></script> -->
 </html>

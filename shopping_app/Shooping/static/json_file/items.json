@@ -26,12 +26,37 @@
     },
     {
         "id": "6",
+        "name": "Watch",
+        "price": "500"
+    },
+    {
+        "id": "7",
         "name": "Fan",
         "price": "1000"
     },
     {
-        "id": "7",
-        "name": "Books",
-        "price": "1500"
+        "id": "8",
+        "name": " Books",
+        "price": "1000"
+    },
+    {
+        "id": "9",
+        "name": "Notebooks",
+        "price": "900"
+    },
+    {
+        "id": "10",
+        "name": "Cloths",
+        "price": "500"
+    },
+    {
+        "id": "11",
+        "name": "Tops",
+        "price": "500"
+    },
+    {
+        "id": "12",
+        "name": "Foods",
+        "price": "800"
     }
 ]

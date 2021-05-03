@@ -90,7 +90,8 @@ class ShoppingApp:
             if fun_type == 'update':
                 for x in temp:
                     if x['id'] == idnum and x['name'] == name and x['price'] == price and x['quantity'] == qty:
-                        new_data.append({"id": idnum, "name": name, "price": price, "quantity": newqty})
+                        total_price = int(price) * int(newqty)
+                        new_data.append({"id": idnum, "name": name, "price": price, "quantity": newqty,"total_price":str(total_price)})
                     else:
                         new_data.append(x)
                 write_append_data(cart_file, new_data)
@@ -102,7 +103,6 @@ class ShoppingApp:
                         new_data.append(x)
                 write_append_data(cart_file, new_data)
 
-
     def index(self, request):
         d1 = self.read_json(request,file_path=items_file)
         if d1 == 'empty':
@@ -111,11 +111,12 @@ class ShoppingApp:
         else:
             return self.render_template('base.html',data=d1)
 
-    def add_items(self, request):
+    def add_items(self, request): 
         if request.method == 'POST':
             self.write_json(request, id=request.form['id'], name=request.form['name'], price=request.form['price'],
                             fun_type="add_items")
-                            
+            return self.render_template('add_items.html')
+        elif request.method == 'GET':
             return self.render_template('add_items.html')
         else:
             return self.render_template('add_items.html')
@@ -124,19 +125,18 @@ class ShoppingApp:
         def total(data):
             total= sum(int(item['total_price']) for item in data)
             return total
-
+        temp = self.read_json(request, file_path=cart_file)
         if request.method == 'POST':
             self.write_json(request,id=request.form['id'],name=request.form['name'],price=request.form['price'],fun_type="cart",qty=request.form['Quantity'])
             temp = self.read_json(request, file_path=cart_file)
             total_amt = total(temp)
             return self.render_template('cart.html', data=temp,total=total_amt)
         else:
-            temp = self.read_json(request, file_path=cart_file)
             if temp == 'empty':
                 msg = "Sorry your cart is empty"
-                total_amt = total(temp)
                 return self.render_template('cart.html', msg=msg,total=total_amt)
             else:
+                temp = self.read_json(request, file_path=cart_file)
                 total_amt = total(temp)
                 return self.render_template('cart.html', data=temp,total=total_amt)
 
@@ -159,11 +159,16 @@ class ShoppingApp:
         return redirect('/cart')
 
     def new_user_form(self,request):
-        if request.method == 'POST':
-            name = request.form['id']
-            price = request.form['name']
-            idnum = request.form['price']
-            print(name,"-----",price,"----",idnum)
+        if request.method == 'GET':
+            d1 = self.read_json(request,file_path=items_file)
+            contents = json.dumps(d1, sort_keys=True)
+            return Response(contents,content_type="application/json")
+        else:
+            self.write_json(request, id=request.form['id'], name=request.form['name'], price=request.form['price'],
+                            fun_type="add_items")
+            d1 = self.read_json(request,file_path=items_file)
+            contents = json.dumps(d1, sort_keys=True)
+            return Response(contents,content_type="application/json")
 
     def wsgi_app(self, environ, start_response):
         request = Request(environ)
