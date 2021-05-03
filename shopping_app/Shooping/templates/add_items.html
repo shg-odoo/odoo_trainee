@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Werkzeug Movie App</title>
+    <!-- CSS file for styling the application -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
+</head>
+<script src="/static/javascript/ajax_code.js"></script>
+<body>
+<div class="container">    
+    <div class="row">
+        <div class="col-4">
+            <div class="container-sm c1" max-width=50% >
+                <h1 class="title">Add Items</h1>
+                <form id="form1" method="POST">
+                    <div class="mb-3">
+                    <label for="id" class="form-label" width=500> ID</label>
+                    <input type="text" id="id" name="idnum" class="form-control" required width=500/>
+                    </div>
+            
+                    <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required/>
+                    </div>
+            
+                    <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" id="price" name="price" class="form-control" required/>
+                    </div>
+            
+                    <button type="submit" class="btn btn-outline-success" id="sub1">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-8">
+            <div class="container-sm">
+                <h1 class="title">Item list</h1>
+                <table class="table" border="1" align="center" id="items">
+                    <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Price</th>
+                        </tr>
+                      </thead>
+                    </table>
+                </div>
+        </div>
+      </div>
+    </div>   
+</body>    
+</html>

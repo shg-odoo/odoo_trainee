@@ -1,0 +1,23 @@
+[
+    {
+        "id": "6",
+        "name": "Books",
+        "price": "1500",
+        "quantity": "1",
+        "total_price": "1500"
+    },
+    {
+        "id": "5",
+        "name": "Mobile",
+        "price": "20000",
+        "quantity": "1",
+        "total_price": "20000"
+    },
+    {
+        "id": "7",
+        "name": "Fan",
+        "price": "1000",
+        "quantity": "1",
+        "total_price": "1000"
+    }
+]
