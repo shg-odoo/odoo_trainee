@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <record id="student_info" model="student.details">
+        <field name="student_name">Gautami</field>
+        <field name="student_age">23</field>
+        <field name="student_percentage">73.5</field>
+        <field name="student_birthdate">1998-01-01</field>
+        <field name="current_date">2020-05-04</field>
+        <field name="gender">Female</field>
+        <field name="branch">Computer</field>
+    </record>
+    </data>
+    <data>
+    <record id="student_info1" model="student.details">
+        <field name="student_name">Rutuja</field>
+        <field name="student_age">16</field>
+        <field name="student_percentage">84.5</field>
+        <field name="student_birthdate">2005-02-01</field>
+        <field name="current_date">2020-05-04</field>
+        <field name="gender">Female</field>
+        <field name="branch">Commerce</field>
+    </record>
+    </data>
+</odoo>
