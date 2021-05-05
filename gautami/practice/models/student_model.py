@@ -9,5 +9,15 @@ class StudentDetails(models.Model):
     student_percentage = fields.Float()
     student_birthdate = fields.Date()
     current_date = fields.Date()
-    gender = fields.Char()
     branch = fields.Char()
+    gender = fields.Selection([('male','Male'),('female','Female'),],string="Gender",default='male')
+    image = fields.Binary(string="Profile",attachment=True)
+    college_id = fields.Many2one('college.details',string="College")
+
+class CollegeDetails(models.Model):
+    _name = 'college.details'
+    _description = 'College information is stored here'
+    _rec_name = 'college_name'
+    
+    college_name = fields.Char(string="College Name")
+    college_city = fields.Char(string="City")

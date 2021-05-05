@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+<!-- student details -->
     <record id="student_view_tree" model="ir.ui.view">
         <field name="name">Student.tree</field>
         <field name="model">student.details</field>
@@ -10,8 +11,10 @@
                 <field name="student_percentage"/>
                 <field name="student_birthdate"/>
                 <field name="current_date"/>
-                <field name="gender"/>
+                <field name="gender" widget="radio"/>
                 <field name="branch"/>
+                <field name="college_id"/>
+                <field name="image" widget="image" class="oe_avatar"/>
             </tree>
         </field>
     </record>
@@ -84,6 +87,7 @@
                         <div t-attf-class="oe_kanban_global_click">
                             <div class="row">
                                 <div class="col-6">
+                                    <field name="image" widget="image" class="oe_avatar"/>
                                     <strong><field name="student_name"/></strong>
                                 </div>
                                 <div class="col-6 text-right">
@@ -110,10 +114,12 @@
                     <group>
                         <field name="student_name"/>
                         <field name="branch"/>
-                        <field name="gender"/>
+                        <field name="gender" widget="radio"/>
                         <field name="student_percentage"/>
                     </group>
                     <group>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <field name="college_id"/>
                         <field name="student_birthdate"/>
                         <field name="current_date"/>
                         <field name="student_age"/>
@@ -123,11 +129,50 @@
             </form>
         </field>
     </record>
+    <!-- College details -->
+    <record id="college_view_tree" model="ir.ui.view">
+        <field name="name">College.tree</field>
+        <field name="model">college.details</field>
+        <field name="arch" type="xml">
+            <tree string="College List">
+                <field name="college_name"/>
+                <field name="college_city"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="college_form" model="ir.ui.view">
+        <field name="name">college.form</field>
+        <field name="model">college.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                    <group>
+                        <field name="college_name"/>
+                    </group>
+                    <group>
+                        <field name="college_city"/>
+                    </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="student_action" model="ir.actions.act_window" >
         <field name="name">Student</field>
         <field name="res_model">student.details</field>
         <field name="view_mode">tree,form,kanban,graph,pivot,gantt,calendar,search</field>
     </record>
+
+    <record id="college_action" model="ir.actions.act_window" >
+        <field name="name">College</field>
+        <field name="res_model">college.details</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <menuitem id="student_menu" name="Student" sequence="0" />
-    <menuitem id="student_details" name="Details" parent="student_menu" action="student_action"/>
+    <menuitem id="student_details" name="Student" parent="student_menu" action="student_action" sequence="1"/>
+    <menuitem id="college_details" name="College" parent="student_menu" action="college_action"/>
 </odoo>
