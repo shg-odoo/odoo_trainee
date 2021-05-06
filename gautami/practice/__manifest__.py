@@ -4,12 +4,12 @@
 
     'summary': """Student Model First Application""",
 
-    'description': """
-        Open Academy module for managing trainings:
-            - training courses
-            - training sessions
-            - attendees registration
-    """,
+    # 'description': """
+    #     Open Academy module for managing trainings:
+    #         - training courses
+    #         - training sessions
+    #         - attendees registration
+    # """,
 
     'author': "My Company",
     'website': "http://www.yourcompany.com",
@@ -26,9 +26,8 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
         'views/student_view.xml',
-        # 'data/student_data.xml',
+        'data/student_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [],
