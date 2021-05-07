@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- <data> -->
-    <!-- <record id="student_info" model="student.details">
-        <field name="student_name">Gautami</field>
-        <field name="student_age">23</field>
-        <field name="student_percentage">73.5</field>
-        <field name="gender" >Female</field>
-    </record> -->
     <record id="student_info1" model="student.details">
         <field name="student_name">Rutuja</field>
         <field name="student_age">16</field>
@@ -16,14 +9,4 @@
         <field name="college_name">SP</field>
         <field name="college_city">Mumbai</field>
     </record>
-
-    <!-- </data> -->
-    <!-- <data>
-    <record id="student_info1" model="student.details">
-        <field name="student_name">Rutuja</field>
-        <field name="student_age">16</field>
-        <field name="student_percentage">84.5</field>
-        <field name="gender">Female</field>
-    </record>
-    </data> -->
 </odoo>

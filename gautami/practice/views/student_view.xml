@@ -128,8 +128,16 @@
                         <page string="College Details">
                             <group>
                                 <field name="branch"/>
-                                <field name="student_percentage"/>
                                 <field name="college_id"/>
+                            </group>
+                        </page>
+                        <page string="Marks">
+                            <group>
+                                <field name="fy_marks"/>
+                                <field name="sy_marks"/>
+                                <field name="ty_marks"/>
+                                <field name="total_marks" readonly="1" />
+                                <field name="student_percentage"/>
                             </group>
                         </page>
                     </notebook>

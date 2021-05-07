@@ -1,0 +1,43 @@
+<odoo>
+    <report
+        id="report_student"
+        model="student.details"
+        string ="Student Report"
+        name = "practice.report_students_view"
+        file = "practice.report_student"
+        report_type = "qweb-pdf"
+        attachment_use ="True" 
+    />
+
+    <template id="report_students_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center><h1><b>Student Details </b></h1></center>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Percentage</th>
+                                <th scope="col">Birthdate</th>
+                                <th scope="col">College</th>
+                                <th scope="col">Branch</th>
+                            </tr>
+                        </thead>    
+                        <tbody>
+                        <t t-foreach="docs" t-as="doc">
+                        <tr>
+                            <td><h3 t-field="doc.student_name"></h3></td>
+                            <td><h3 t-field="doc.student_percentage"></h3></td>
+                            <td><h3 t-field="doc.student_birthdate"></h3></td>
+                            <td><h3 t-field="doc.college_id"></h3></td>
+                            <td><h3 t-field="doc.branch"></h3></td>
+                        </tr>
+                        </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
