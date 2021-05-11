@@ -22,12 +22,10 @@ class StudentDetails(models.Model):
     @api.onchange('fy_marks','sy_marks','ty_marks')
     def _onchange_total(self):
         self.total_marks = self.fy_marks + self.sy_marks + self.ty_marks
-        print(self.total_marks)
-
+        
     @api.depends('fy_marks','sy_marks','ty_marks')
     def _compute_pname(self):
         self.student_percentage = ((self.fy_marks + self.sy_marks + self.ty_marks)/300)*100
-
 
 class CollegeDetails(models.Model):
     _name = 'college.details'
@@ -42,3 +40,8 @@ class StudentHobbies(models.Model):
     _name = 'student.hobbies'
 
     name = fields.Char(string="Hobbies")
+
+class StudentEmail(models.Model):
+    _inherit = 'student.details'
+
+    email = fields.Char(string="Email")
