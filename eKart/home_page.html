@@ -1,50 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Online Shopping</title>
+
+    <style>
+        #cart{
+            text-align: center;
+            display: inline-block;
+            gap: 2px;
+        }
+
+        ul{
+            list-style: none;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            align-items: center;
+            padding-left: 0;
+        }
+    </style>
+
 </head>
 <body>
-    <div id="main">
-        <h1><p style="text-align:center;">Amazing Shop</p></h1>
-        <h4><p style="text-align:center;">Get free home delivery in 24 hour on order above 1000INR</p></h4>
+<div id="main">
+    <input type="text" name="search" id="search" onkeyup="searchFunction()" placeholder="Search"/>
+    <br>
+    <h1><p style="text-align:center;">Amazing Shop</p></h1>
+    <h4><p style="text-align:center;">Get free home delivery in 24 hour on order above 1000INR</p></h4>
+    <ul>
+        <div id="myData"></div>
+    </ul>
 
-        <script>
+    <h3><p style="text-align:center;">My Cart</p></h3>
+    <ul>
+        <div id="cart">
+        </div>
+    </ul>
+    <script>
             function createProduct(data) {
+
                 let product = document.createElement('h4');
                 product.className = "cards";
-                product.style = "float: left;
-                                 width: 160px";
+                product.style = "float: left; width: 160px";
+
+                let index = document.createElement('div');
+                index.style = "text-align: center;"
+                index.innerText = data.id;
 
                 let title = document.createElement('div');
-                title.innerText = data.product_name;
+                title.innerText = data.product;
 
                 let price = document.createElement('div');
-                price.innerHTML = "Price: " + data.price;
+                price.innerText = "Price: " + data.price;
 
                 let a = document.createElement('a');
-                a.href = "" + data.id;
-                a.innerText = "Add to Cart";
+                a.href = "/add_to_my_cart/" + data.id;
+                a.innerText = "Cart Item";
 
+                product.appendChild(index);
                 product.appendChild(title);
                 product.appendChild(price);
                 product.appendChild(a);
+
+                console.log(product)
 
                 return product
             }
 
             data = %(data)s
-            shopping_cart_data = %(shopping_cart_data)s
+            cartData = %(cartData)s
 
             var dataContainer = document.getElementById("myData");
-            var dataContainer = document.getElementById("cart");
+            var myCartContainer = document.getElementById("");
+            console.log(data.length);
 
             for (var i=0; i<data.length; i++) {
-                let product = this.createCard(data[i])
-                dataContainer.appendChild(product);
-            }
 
-        </script>
-    </div>
+                let product = this.createProduct(data[i])
+                dataContainer.appendChild(product);
+
+
+            }
+    </script>
+</div>
 </body>
 </html>

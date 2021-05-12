@@ -8,26 +8,39 @@ from werkzeug.routing import Map, Rule
 
 
 def home_page(request):
+    """
+    return a home_page of eKart web application.
+    """
     html = open('home_page.html', 'r').read()
     data = open('products.json', 'r').read()
 
-    shopping_cart_data = 'false'
+    cartData = 'false'
     if bool(int(request.session.__len__())):
-        shopping_cart_data = request.session['product_ids']
+        cartData = request.session['product_ids']
     response = Response(html % {'data': str(json.loads(data)),
-                                'shopping_cat_data': shopping_cart_data})
+                                'cartData': cartData})
     response.status = '200 OK'
     response.headers['content-type'] = 'text/html'
     return response
 
 
+def my_cart(request, product_id=None):
+    if product_id and not bool(int(request.session.__len__())):
+        request.session['product_ids'] = {product_id: product_id}
+    else:
+        request.session['product_ids'].update({product_id: product_id})
+    return home_page(request)
+
+
 # Map stores a bunch of URL rules.
 url_map = Map([
-    Rule("/", endpoint="home_page")
+    Rule("/", endpoint="home_page"),
+    Rule("/add_to_my_cart/<int:product_id>", endpoint="my_cart")
 ])
 
 views = {
-    "home_page": home_page
+    "home_page": home_page,
+    "my_cart": my_cart,
 }
 
 session_store = FilesystemSessionStore(path=gettempdir())
