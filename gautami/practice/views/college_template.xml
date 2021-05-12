@@ -1,0 +1,30 @@
+<odoo>
+    
+    <template id="college">
+    <title>College Details</title>
+    <center><h1>College Details</h1></center>
+    <div class="container">
+        <table class="table-secondary" border="1">
+            <thead>
+                <tr>
+                    <th scope="col">College Name</th>
+                    <th scope="col">College City </th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="college" t-as="col">
+                    <tr>
+                        <td scope="row">
+                            <t t-esc="col.college_name"/> 
+                        </td>
+                        <td scope="row">
+                            <t t-esc="col.college_city"/>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+    </div>    
+    </template>
+</odoo>

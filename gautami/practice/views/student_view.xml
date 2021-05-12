@@ -146,7 +146,9 @@
             </form>
         </field>
     </record>
+    
     <!-- College details -->
+
     <record id="college_view_tree" model="ir.ui.view">
         <field name="name">College.tree</field>
         <field name="model">college.details</field>
@@ -154,8 +156,18 @@
             <tree string="College List">
                 <field name="college_name"/>
                 <field name="college_city"/>
-                <field name="stud_record"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="collge_form_inherite" model="ir.ui.view">
+        <field name="name">college.form.inherit</field>
+        <field name="model">college.details</field>
+        <field name="inherit_id" ref="practice.college_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='college_city']" position="after">
+              <field name="stud_record"/>
+            </xpath>
         </field>
     </record>
 
