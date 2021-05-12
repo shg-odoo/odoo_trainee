@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "product": "Gaming Laptop",
+        "price": "200000"
+    },
+    {
+        "id": "2",
+        "product": "xbox",
+        "price": "36500"
+    },
+    {
+        "id": "4",
+        "product": "Play Station",
+        "price": "49000"
+    },
+    {
+        "id": "4",
+        "product": "Smart TV",
+        "price": "30000"
+    },
+    {
+        "id": "5",
+        "product": "iPhone",
+        "price": "92000"
+    },
+    {
+        "id": "6",
+        "product": "Headphones",
+        "price": "5500"
+    }
+]

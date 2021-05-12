@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Shopping</title>
+</head>
+<body>
+    <div id="main">
+        <h1><p style="text-align:center;">Amazing Shop</p></h1>
+        <h4><p style="text-align:center;">Get free home delivery in 24 hour on order above 1000INR</p></h4>
+
+        <script>
+            function createProduct(data) {
+                let product = document.createElement('h4');
+                product.className = "cards";
+                product.style = "float: left;
+                                 width: 160px";
+
+                let title = document.createElement('div');
+                title.innerText = data.product_name;
+
+                let price = document.createElement('div');
+                price.innerHTML = "Price: " + data.price;
+
+                let a = document.createElement('a');
+                a.href = "" + data.id;
+                a.innerText = "Add to Cart";
+
+                product.appendChild(title);
+                product.appendChild(price);
+                product.appendChild(a);
+
+                return product
+            }
+
+            data = %(data)s
+            shopping_cart_data = %(shopping_cart_data)s
+
+            var dataContainer = document.getElementById("myData");
+            var dataContainer = document.getElementById("cart");
+
+            for (var i=0; i<data.length; i++) {
+                let product = this.createCard(data[i])
+                dataContainer.appendChild(product);
+            }
+
+        </script>
+    </div>
+</body>
+</html>

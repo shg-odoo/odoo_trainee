@@ -1,0 +1,73 @@
+import os
+import json  # JavaScript Object Notation, data-interchange lan
+from werkzeug.wrappers import Request, Response
+from werkzeug.middleware.shared_data import SharedDataMiddleware
+from tempfile import gettempdir
+from werkzeug.contrib.sessions import FilesystemSessionStore
+from werkzeug.routing import Map, Rule
+
+
+def home_page(request):
+    html = open('home_page.html', 'r').read()
+    data = open('products.json', 'r').read()
+
+    shopping_cart_data = 'false'
+    if bool(int(request.session.__len__())):
+        shopping_cart_data = request.session['product_ids']
+    response = Response(html % {'data': str(json.loads(data)),
+                                'shopping_cat_data': shopping_cart_data})
+    response.status = '200 OK'
+    response.headers['content-type'] = 'text/html'
+    return response
+
+
+# Map stores a bunch of URL rules.
+url_map = Map([
+    Rule("/", endpoint="home_page")
+])
+
+views = {
+    "home_page": home_page
+}
+
+session_store = FilesystemSessionStore(path=gettempdir())
+
+
+@Request.application
+def application(request):
+    """
+    WSGI application
+    """
+    ses_id = request.cookies.get("session_id")
+    if ses_id is None:
+        request.session = session_store.new()
+    else:
+        request.session = session_store.get(ses_id)
+
+    url_adapter = url_map.bind_to_environ(request.environ)  # bind the url_map to the current request(request.environ)
+    # which will return a new MapAdapter, This url_map adapter can then be used to match or build domains for
+    # the current request.
+
+    endpoint, values = url_adapter.match()  # match() method can then either return a tuple in the form (endpoint, args)
+    # or raise one of the three exceptions NotFound, MethodNotAllowed, or RequestRedirect
+
+    response = views[endpoint](request, **values)
+    session_store.save(request.session)
+    response.set_cookie("session_id", request.session.sid)
+    return response
+
+
+def create_app():
+    app = SharedDataMiddleware(application, {
+        '/static': os.path.join(os.path.dirname(__file__), 'static')
+    })
+    return app
+
+
+if __name__ == "__main__":
+    from werkzeug.serving import run_simple
+
+    app = create_app()
+    run_simple('localhost', 5000, application,  # start a WSGI application
+               use_reloader=True,
+               use_debugger=True)
