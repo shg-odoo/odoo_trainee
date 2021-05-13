@@ -2,12 +2,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Online Shopping</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <style>
+        .cards{
+            text-align: center;
+        }
+
         #cart{
             text-align: center;
             display: inline-block;
-            gap: 2px;
+            gap: 1000px;
         }
 
         ul{
@@ -19,25 +24,28 @@
             align-items: center;
             padding-left: 0;
         }
+
     </style>
 
 </head>
 <body>
 <div id="main">
-    <input type="text" name="search" id="search" onkeyup="searchFunction()" placeholder="Search"/>
-    <br>
-    <h1><p style="text-align:center;">Amazing Shop</p></h1>
-    <h4><p style="text-align:center;">Get free home delivery in 24 hour on order above 1000INR</p></h4>
+    <h1><p style="text-align:center;">Amazing Shop<i class='fab fa-cc-amazon-pay' style='font-size:48px;color:red'></i>
+    </p></h1>
+    <h4><p style="text-align:center;">Get free home delivery in 24 hour on order above 10000INR</p></h4>
     <ul>
         <div id="myData"></div>
     </ul>
 
-    <h3><p style="text-align:center;">My Cart</p></h3>
+    <h3><p style="text-align:center;">My Cart<i class="fa fa-shopping-cart" style="font-size:24px"></i></p></h3>
+
     <ul>
         <div id="cart">
         </div>
     </ul>
-    <script>
+</div>
+</body>
+<script>
             function createProduct(data) {
 
                 let product = document.createElement('h4');
@@ -55,7 +63,7 @@
                 price.innerText = "Price: " + data.price;
 
                 let a = document.createElement('a');
-                a.href = "/add_to_my_cart/" + data.id;
+                a.href = "/add/" + data.id;
                 a.innerText = "Cart Item";
 
                 product.appendChild(index);
@@ -72,7 +80,7 @@
             cartData = %(cartData)s
 
             var dataContainer = document.getElementById("myData");
-            var myCartContainer = document.getElementById("");
+            var myCartContainer = document.getElementById("cart");
             console.log(data.length);
 
             for (var i=0; i<data.length; i++) {
@@ -80,9 +88,18 @@
                 let product = this.createProduct(data[i])
                 dataContainer.appendChild(product);
 
+                if (cartData && data[i].id in cartData) {
+                    let div = document.createElement('div');
+                    div.innerText = data[i].product + "\n Price:" + data[i].price
 
+                    let a = document.createElement('a');
+                    a.href = "/remove/" + data[i].id
+                    a.innerHTML = "<button>Remove from Cart</button><br><br>"
+
+                    myCartContainer.appendChild(div);
+                    myCartContainer.appendChild(a);
+                }
             }
-    </script>
-</div>
-</body>
+
+</script>
 </html>

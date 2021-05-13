@@ -1,7 +1,7 @@
 import os
 import json  # JavaScript Object Notation, data-interchange lan
 from werkzeug.wrappers import Request, Response
-from werkzeug.middleware.shared_data import SharedDataMiddleware
+from werkzeug.middleware.shared_data import SharedDataMiddleware  # serving static files to web server
 from tempfile import gettempdir
 from werkzeug.contrib.sessions import FilesystemSessionStore
 from werkzeug.routing import Map, Rule
@@ -25,6 +25,9 @@ def home_page(request):
 
 
 def my_cart(request, product_id=None):
+    """
+    Add selected product to cart and return home_page.
+    """
     if product_id and not bool(int(request.session.__len__())):
         request.session['product_ids'] = {product_id: product_id}
     else:
@@ -32,15 +35,26 @@ def my_cart(request, product_id=None):
     return home_page(request)
 
 
+def remove_from_cart(request, product_id=None):
+    """
+    Remove product from my_cart and return home_page.
+    """
+    if product_id and bool(int(request.session.__len__())):
+        request.session['product_ids'].pop(product_id)
+    return home_page(request)
+
+
 # Map stores a bunch of URL rules.
 url_map = Map([
     Rule("/", endpoint="home_page"),
-    Rule("/add_to_my_cart/<int:product_id>", endpoint="my_cart")
+    Rule("/add/<int:product_id>", endpoint="my_cart"),
+    Rule("/remove/<int:product_id>", endpoint="remove_from_cart")
 ])
 
 views = {
     "home_page": home_page,
     "my_cart": my_cart,
+    "remove_from_cart": remove_from_cart,
 }
 
 session_store = FilesystemSessionStore(path=gettempdir())
@@ -71,16 +85,16 @@ def application(request):
 
 
 def create_app():
-    app = SharedDataMiddleware(application, {
+    my_app = SharedDataMiddleware(application, {
         '/static': os.path.join(os.path.dirname(__file__), 'static')
     })
-    return app
+    return my_app
 
 
 if __name__ == "__main__":
     from werkzeug.serving import run_simple
 
     app = create_app()
-    run_simple('localhost', 5000, application,  # start a WSGI application
+    run_simple('localhost', 8000, application,  # start a WSGI application
                use_reloader=True,
                use_debugger=True)
