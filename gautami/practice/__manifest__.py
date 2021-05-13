@@ -4,6 +4,7 @@
     'category': 'Test',
     'version': '0.1',
     'depends': ['base'],
+    # ,'website'],
     'data': [
         'views/student_view.xml',
         'views/template.xml',

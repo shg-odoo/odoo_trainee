@@ -38,6 +38,7 @@ class CollegeDetails(models.Model):
 
 class StudentHobbies(models.Model):
     _name = 'student.hobbies'
+    _description = 'Students Hobbies list'
 
     name = fields.Char(string="Hobbies")
 

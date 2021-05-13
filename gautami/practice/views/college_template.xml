@@ -1,30 +1,98 @@
 <odoo>
     
-    <template id="college">
-    <title>College Details</title>
-    <center><h1>College Details</h1></center>
-    <div class="container">
-        <table class="table-secondary" border="1">
-            <thead>
-                <tr>
-                    <th scope="col">College Name</th>
-                    <th scope="col">College City </th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <t t-foreach="college" t-as="col">
+    <template id="my_template">
+            <!-- <t t-call="practice.show_colleges"> -->
+            <h1>My Page</h1>
+            <h2>Student Information</h2>
+            <a href="/add_college" class="btn btn-primary">Create</a>
+            <!-- </t> -->
+    </template>
+
+    <template id="show_colleges">
+        <!-- <t t-call="website.layout"> -->
+        <title>College Details</title>
+        <div class="container">
+            <h1>College Details</h1>
+            <a href="/add_college" class="btn btn-primary">Add new College</a>
+            
+            <table class="table-secondary" border="1">
+                <thead>
                     <tr>
-                        <td scope="row">
-                            <t t-esc="col.college_name"/> 
-                        </td>
-                        <td scope="row">
-                            <t t-esc="col.college_city"/>
-                        </td>
+                        <th scope="col">College Name</th>
+                        <th scope="col">College City </th>
+                        <th scope="col">Delete</th>
+                        <th scope="col">Update</th>
                     </tr>
-                </t>
-            </tbody>
-        </table>
-    </div>    
+                </thead>
+                <tbody>
+                    <t t-foreach="college" t-as="col">
+                        <tr>
+                            <td scope="row">
+                                <t t-esc="col.college_name"/> 
+                            </td>
+                            <td scope="row">
+                                <t t-esc="col.college_city"/>
+                            </td>
+                            <td scope="row">
+                                <a t-attf-href="/delete/{{ col.id }}">Delete</a>
+                            </td>
+                            <td scope="row">
+                                <a t-attf-href="/update/{{ col.id }}">Update</a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+        <!-- </t> -->
+    </template>
+
+    <template id="create">
+        <title>Create College</title>
+        <center><h3>Enter College Details</h3></center>
+        <!-- <t t-call="website.layout">  -->
+            <form action="/save_data">
+                <div>
+                    <table>
+                        <tr>
+                            <td>College Name :</td>
+                            <td><input type="text" name="college_name" /></td>
+                        </tr>
+                        <tr>
+                            <td>College City :</td>
+                            <td><input type="text" name="college_city" /></td>
+                        </tr>
+                        <tr>
+                            <td><button type="submit">Submit</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        <!-- </t>         -->
+    </template>
+
+    <template id="update_college">
+        <title>Update College</title>
+        <center><h3>Update College Details</h3></center>
+        <!-- <t t-call="website.layout">  -->
+            <form action="/update_data">
+                <div>
+                    <table>
+                        <tr>
+                            <td>College Name :</td>
+                            <td><input type="text" name="college_name"/></td>
+                        </tr>
+                        <tr>
+                            <td>College City :</td>
+                            <td><input type="text" name="college_city" /></td>
+                        </tr>
+                        <input type="text" name="id" />
+                        <tr>
+                            <td><button type="submit">Submit</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        <!-- </t>         -->
     </template>
 </odoo>
