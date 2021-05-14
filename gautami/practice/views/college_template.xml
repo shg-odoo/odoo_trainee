@@ -6,6 +6,7 @@
             <h2>Student Information</h2>
             <a href="/add_college" class="btn btn-primary">Create</a>
             <!-- </t> -->
+            <t t-call="show_colleges"/>
     </template>
 
     <template id="show_colleges">
@@ -78,18 +79,21 @@
             <form action="/update_data">
                 <div>
                     <table>
+                    <t t-foreach="college" t-as="col">
                         <tr>
                             <td>College Name :</td>
-                            <td><input type="text" name="college_name"/></td>
+                            <td><input type="text" name="college_name" t-att-value="col.college_name"/></td>
                         </tr>
                         <tr>
                             <td>College City :</td>
-                            <td><input type="text" name="college_city" /></td>
+                            <td><input type="text" name="college_city" t-att-value="col.college_city" /></td>
                         </tr>
-                        <input type="text" name="id" />
+                         <input type="text" name="id" t-att-value="col.id" hidden="1" />
                         <tr>
                             <td><button type="submit">Submit</button></td>
                         </tr>
+
+                    </t>
                     </table>
                 </div>
             </form>

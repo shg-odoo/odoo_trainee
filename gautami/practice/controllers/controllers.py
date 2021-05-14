@@ -28,33 +28,23 @@ class Colleges(http.Controller):
     
     @http.route('/save_data/', auth='public', type="http", website=True)
     def save_data(self, **kw):
-        print("save data",kw)
         request.env['college.details'].create(kw)
-        college = request.env['college.details'].sudo().search([])
-        return http.request.render('practice.show_colleges', {
-            'college': college,
-        })
-    
+        return request.redirect('/show_colleges')
+
     @http.route('/delete/<model("college.details"):cid>/', auth='public', type="http", website=True)
     def delete(self,cid, **kw):
         cid.unlink()
-        college = request.env['college.details'].sudo().search([])
-        return http.request.render('practice.show_colleges', {
-            'college': college,
-        })
-    
+        return request.redirect('/show_colleges')
+
     @http.route('/update/<model("college.details"):cid>/', auth='public', type="http", website=True)
     def update(self,cid, **kw):
-        college1 = request.env['college.details'].search([('id','=',cid.id)])
         return http.request.render('practice.update_college', {
-            'college': college1,
+            'college': request.env['college.details'].search([('id','=',cid.id)])
         })
 
     @http.route('/update_data/', auth='public', type="http", website=True)
     def update_data(self, **kw):
-        print(kw)
-        college1 = request.env['college.details'].search([])
-        return http.request.render('practice.show_colleges', {
-            'college': college1,
-        })
-    
+        college2 = request.env['college.details'].browse(kw["id"])
+        college2.write(kw)
+        return request.redirect('/show_colleges')
+        
