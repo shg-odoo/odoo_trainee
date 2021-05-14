@@ -1,12 +1,23 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Online Shopping</title>
+    <title>Amazing Shope</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <style>
+
         .cards{
             text-align: center;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            background-color: #9dff85;
+            border: double green;
+            border-radius: 25px;
+            padding: 10px;
+        }
+
+        .cards:hover {
+               box-shadow: 0 8px 26px 0 rgba(0,0,0,0.9);
         }
 
         #cart{
@@ -37,7 +48,12 @@
         <div id="myData"></div>
     </ul>
 
-    <h3><p style="text-align:center;">My Cart<i class="fa fa-shopping-cart" style="font-size:24px"></i></p></h3>
+    <h3><p style="text-align:center;">My Cart
+        <marquee behavior="scroll" direction="right" scrollamount="15">
+            <i class="fa fa-shopping-cart" style="font-size:24px">
+        </marquee>
+        </i>
+    </p></h3>
 
     <ul>
         <div id="cart">
@@ -71,7 +87,7 @@
                 product.appendChild(price);
                 product.appendChild(a);
 
-                console.log(product)
+                console.log("total product card:" + product)
 
                 return product
             }
@@ -81,14 +97,13 @@
 
             var dataContainer = document.getElementById("myData");
             var myCartContainer = document.getElementById("cart");
-            console.log(data.length);
+            console.log("cartData:", cartData);
 
             for (var i=0; i<data.length; i++) {
+                let product = createProduct(data[i])
+                dataContainer.appendChild(product)
 
-                let product = this.createProduct(data[i])
-                dataContainer.appendChild(product);
-
-                if (cartData && data[i].id in cartData) {
+                if (data[i].id in cartData) {
                     let div = document.createElement('div');
                     div.innerText = data[i].product + "\n Price:" + data[i].price
 
@@ -101,5 +116,22 @@
                 }
             }
 
+            // cartData !== undefined
+
+            if (Object.keys(cartData).length === 0) {
+                console.log("empty!")
+                // console.log(Object.keys(cartData)) // []
+
+                let div = document.createElement('div');
+                div.innerText = "Your cart is Empty!"
+
+                myCartContainer.appendChild(div);
+            }
+            else {
+                let div = document.createElement('div');
+                div.innerText = "Product added in your cart!"
+
+                myCartContainer.appendChild(div);
+            }
 </script>
 </html>
