@@ -6,6 +6,8 @@
     'depends': ['base'],
     # ,'website'],
     'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
         'views/student_view.xml',
         'views/template.xml',
         'views/college_template.xml',

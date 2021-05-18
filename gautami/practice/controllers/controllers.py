@@ -17,7 +17,7 @@ class Basic2(http.Controller):
 class Colleges(http.Controller):
     @http.route('/show_colleges/', auth='public', type="http", website=True)
     def show_colleges(self, **kw):
-        college = request.env['college.details'].sudo().search([])
+        college = request.env['college.details'].search([])
         return http.request.render('practice.show_colleges', {
             'college': college,
         })
