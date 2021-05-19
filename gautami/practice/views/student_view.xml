@@ -110,6 +110,10 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_confirm" type="object" class="oe_stat_button">
+                        Action Confirm</button>
+                    </div>
                     <h1><field name="student_name"/></h1>
                     <notebook>
                         <page string="Personal Details">
