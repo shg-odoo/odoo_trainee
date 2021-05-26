@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <!-- Tree view student -->
+    <record id="tree_student" model="ir.ui.view">
+        <field name="name">tree.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="gender" />
+                <field name="enroll_num" />
+                <field name="std" />
+                <field name="dob" />
+                <field name="current_date" />
+                <field name="contact" />
+                <field name="contact" widget="phone" />
+                <field name="email" widget="email" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view student -->
+    <record id="form_student" model="ir.ui.view">
+        <field name="name">form.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="grp_detail" string="Student Details" colsapn="4" col="4">
+                        <field name="name" />
+                        <field name="image" widget="image" class="oe_avatar" />
+                        <field name="gender" widget="radio" options="{'horizontal': true}" />
+                        <field name="enroll_num" />
+                        <field name="std" />
+                        <field name="dob" />
+                        <field name="current_date" />
+                        <field name="contact" widget="phone" />
+                        <field name="email" widget="email" />
+                        <field name="fees" />
+                    </group>
+                    <seprator>
+                        <group>
+                            <field name="ab_me" help="Tell something about yourself" />
+                        </group>
+                    </seprator>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Calendar view student -->
+    <record id="calendar_student" model="ir.ui.view">
+        <field name="name">calendar.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <calendar date_start="dob" color="name">
+                <field name="name" />
+                <field name="dob" />
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Kanban view student -->
+    <record id="kanban_view_student" model="ir.ui.view">
+        <field name="name">kanban.view.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p>
+                                        <strong>Name:</strong>
+                                        <field name="name" />
+                                        <br />
+                                        <strong>Standard:</strong>
+                                        <field name="std" />
+                                        <br />
+                                        <strong>DOB:</strong>
+                                        <field name="dob" />
+                                        <br />
+                                        <strong>Phone:</strong>
+                                        <field name="contact" />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Search view for student -->
+    <record id="search_view_student" model="ir.ui.view">
+        <field name="name">search.view.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <filter name="male_stu" string="Male Students" domain="[('gender', '=', 'male')]" />
+                <filter name="female_stu" string="Female Students" domain="[('gender', '=', 'female')]" />
+                <filter name="10_std" string="10th std" domain="[('std', '=', '10')]" />
+                <filter name="grp_by_std" string="Standard" context="{'group_by': 'std'}" />
+                <filter name="grp_by_gender" string="Gender" context="{'group_by': 'gender'}" />
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for student -->
+    <record id="action_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student</field>
+        <field name="view_mode">tree,form,calendar,kanban,search</field>
+    </record>
+
+    <!-- Menu for student -->
+    <menuitem id="menu_student" name="Student" />
+    <menuitem id="menu_student_child" name="Students" action="action_student" parent="menu_student" />
+</odoo>
