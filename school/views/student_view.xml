@@ -34,16 +34,34 @@
                         <field name="enroll_num" />
                         <field name="std" />
                         <field name="dob" />
+                        <field name="age" />
                         <field name="current_date" />
                         <field name="contact" widget="phone" />
                         <field name="email" widget="email" />
                         <field name="fees" />
                     </group>
-                    <seprator>
-                        <group>
-                            <field name="ab_me" help="Tell something about yourself" />
-                        </group>
-                    </seprator>
+                    <notebook>
+                        <page name="pg_abt_me" string="About Myself">
+                            <group name="grp_abt">
+                                <field name="ab_me" help="Tell something about yourself" />
+                            </group>
+                        </page>
+                        <page name="pg_emrgnc" string="Emergency Contact">
+                            <group name="emrgnc_contact">
+                                <field name="parent_name"/>
+                            </group>
+                        </page>
+                        <page name="pg_marks" string="Result">
+                            <group name="grp result">
+                                <field name="maths"/>
+                                <field name="physics"/>
+                                <field name="chemistry"/>
+                                <field name="computer"/>
+                                <field name="total_marks" readonly="1" />
+                                <field name="avg" />
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
