@@ -10,12 +10,18 @@
                 <field name="name" />
                 <field name="gender" />
                 <field name="enroll_num" />
+                <field name="school_id" />
                 <field name="std" />
+                <field name="skill_ids" widget="many2many_tags" />
                 <field name="dob" />
+                <field name="blood_grp"/>
                 <field name="current_date" />
                 <field name="contact" />
                 <field name="contact" widget="phone" />
                 <field name="email" widget="email" />
+                <field name="image" widget="image" options="{'size': [90, 90]}" />
+                <!-- Sometimes when image size is not corrected by using class then we can 
+                     ues `options={'size': [90, 90]}` for image size-->
             </tree>
         </field>
     </record>
@@ -28,12 +34,18 @@
             <form>
                 <sheet>
                     <group name="grp_detail" string="Student Details" colsapn="4" col="4">
-                        <field name="name" />
-                        <field name="image" widget="image" class="oe_avatar" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                        <field name="image" widget="image" class="oe_avatar" nolabel="1" />
+                    </group>
+                    <group colsapn="4" col="4">
                         <field name="gender" widget="radio" options="{'horizontal': true}" />
                         <field name="enroll_num" />
+                        <field name="school_id" />
                         <field name="std" />
                         <field name="dob" />
+                        <field name="blood_grp"/>
                         <field name="age" />
                         <field name="current_date" />
                         <field name="contact" widget="phone" />
@@ -48,17 +60,22 @@
                         </page>
                         <page name="pg_emrgnc" string="Emergency Contact">
                             <group name="emrgnc_contact">
-                                <field name="parent_name"/>
+                                <field name="parent_name" />
                             </group>
                         </page>
                         <page name="pg_marks" string="Result">
                             <group name="grp result">
-                                <field name="maths"/>
-                                <field name="physics"/>
-                                <field name="chemistry"/>
-                                <field name="computer"/>
+                                <field name="maths" />
+                                <field name="physics" />
+                                <field name="chemistry" />
+                                <field name="computer" />
                                 <field name="total_marks" readonly="1" />
                                 <field name="avg" />
+                            </group>
+                        </page>
+                        <page name="pg_skill" string="Student Skills">
+                            <group name="grp_skills">
+                                <field name="skill_ids" widget="many2many_tags" />
                             </group>
                         </page>
                     </notebook>
@@ -85,9 +102,16 @@
         <field name="model">student</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile">
+                <field name="id" />
+                <field name="image" />
                 <templates>
                     <t t-name="kanban-box">
-                        <div>
+                        <!-- creating card-->
+                        <div class="oe_kanban_global_click">
+                            <!--  click card to open record  -->
+                            <div class="o_kanban_image">
+                                <img alt="Image" class="oe_avatar" t-att-src="kanban_image('student', 'image', record.id.raw_value)" />
+                            </div>
                             <div class="row">
                                 <div class="col-12">
                                     <p>
@@ -102,6 +126,9 @@
                                         <br />
                                         <strong>Phone:</strong>
                                         <field name="contact" />
+                                        <br />
+                                        <strong>Student's Skills:</strong>
+                                        <field name="skill_ids" widget="many2many_tags" />
                                     </p>
                                 </div>
                             </div>
@@ -121,6 +148,7 @@
                 <field name="name" />
                 <filter name="male_stu" string="Male Students" domain="[('gender', '=', 'male')]" />
                 <filter name="female_stu" string="Female Students" domain="[('gender', '=', 'female')]" />
+                <separator />
                 <filter name="10_std" string="10th std" domain="[('std', '=', '10')]" />
                 <filter name="grp_by_std" string="Standard" context="{'group_by': 'std'}" />
                 <filter name="grp_by_gender" string="Gender" context="{'group_by': 'gender'}" />
@@ -128,14 +156,146 @@
         </field>
     </record>
 
+    <!-- Graph view for students total marks -->
+    <record id="graph_view_student" model="ir.ui.view">
+        <field name="name">graph.view.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <graph>
+                <!-- by default type is bar graph -->
+                <field name="name" /> <!-- Default type is row-->
+                <field name="total_marks" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot view for student -->
+    <record id="pivot_view_student" model="ir.ui.view">
+        <field name="name">pivot.viiew.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="name" type="col" />
+                <field name="avg" type="measure" />
+                <field name="total_marks" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Activity view for student -->
+    <record id="activity_view_student" model="ir.ui.view">
+        <field name="name">activity.view.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <activity string="Data">
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="name" />
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <!-- Gantt view for student -->
+    <record id="student_gantt_view" model="ir.ui.view">
+        <field name="name">gantt.view.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <gantt date_stop="current_date" date_start="dob" string="Session Gantt" default_group_by="std"></gantt>
+        </field>
+    </record>
+
     <!-- Action for student -->
     <record id="action_student" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">student</field>
-        <field name="view_mode">tree,form,calendar,kanban,search</field>
+        <field name="view_mode">tree,form,calendar,kanban,search,graph,pivot,activity,gantt</field>
     </record>
 
     <!-- Menu for student -->
-    <menuitem id="menu_student" name="Student" />
+    <menuitem id="menu_student" name="Student" />  <!-- This name is shown as application name-->
     <menuitem id="menu_student_child" name="Students" action="action_student" parent="menu_student" />
+
+    <!-- Tree view for student.school -->
+    <record id="tree_view_school" model="ir.ui.view">
+        <field name="name">tree.view.school</field>
+        <field name="model">student.school</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="student_ids" widget="many2many_tags" />
+                <field name="city" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- form view for student.school -->
+    <record id="form_view_school" model="ir.ui.view">
+        <field name="name">form.view.school</field>
+        <field name="model">student.school</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="student_ids" widget="many2many_tags" />
+                        <!-- with using many2many_tags we can see only names of the students
+                             who's school is that perticular school, without this widget we
+                             see all the recrds of that student which is not a proper view -->
+                        <field name="city" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- action view for student.school -->
+    <record id="action_school" model="ir.actions.act_window">
+        <field name="name">Schools</field>
+        <field name="res_model">student.school</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- menu for school -->
+    <menuitem id="menu_school_child" name="School" action="action_school" parent="menu_student" />
+
+    <!-- Tree view for student's skill -->
+    <record id="tree_view_skill" model="ir.ui.view">
+        <field name="name">tree.view.skill</field>
+        <field name="model">student.skill</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="skill" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view for student skills -->
+    <record id="form_view_skill" model="ir.ui.view">
+        <field name="name">form.view.skill</field>
+        <field name="model">student.skill</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="grp_skill">
+                        <field name="skill" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for skill -->
+    <record id="action_skill" model="ir.actions.act_window">
+        <field name="name">Skill</field>
+        <field name="res_model">student.skill</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu for skill -->
+    <menuitem id="menu_skill" name="Skill" action="action_skill" parent="menu_student" />
+
 </odoo>
