@@ -32,7 +32,7 @@ class Student(models.Model):
     computer = fields.Integer('Computer')
     # total marks
     total_marks = fields.Float(string='Total')
-    avg = fields.Float(string="Avg", compute="_get_avg", store=True)
+    avg = fields.Float(string="Avg", compute="_get_avg", store=True, default=20)
 
     @api.depends('maths', 'physics', 'chemistry', 'computer')
     def _get_avg(self):

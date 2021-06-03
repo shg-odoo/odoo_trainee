@@ -14,7 +14,7 @@
                 <field name="std" />
                 <field name="skill_ids" widget="many2many_tags" />
                 <field name="dob" />
-                <field name="blood_grp"/>
+                <!-- <field name="blood_grp"/> -->
                 <field name="current_date" />
                 <field name="contact" />
                 <field name="contact" widget="phone" />

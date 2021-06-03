@@ -46,4 +46,17 @@
     <menuitem id="menu_stu_plus" name="Students Plus" />
     <menuitem id="menu_stu_plus_child" name="Students" action="action_stu_plus" parent="menu_stu_plus"/>
 
+    
+    <!-- Inheritance of tree view of student model -->
+    <record id="inher_tree_student" model="ir.ui.view">
+        <field name="name">inher.tree.student</field>
+        <field name="model">student</field>
+        <field name="inherit_id" ref="school.tree_student"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='dob']" position="after">
+                <field name="blood_grp"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

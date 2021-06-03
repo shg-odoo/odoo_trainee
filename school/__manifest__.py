@@ -2,13 +2,14 @@
     'name': 'School & Student',
     'version': '1.0',
     'description': 'Details of students and their school',
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'website'],
     'data': [
         'security/student_security.xml',
         'security/ir.model.access.csv',
         'views/student_view.xml',
         'wizard/school_wizard_view.xml',
         'reports/student_report.xml',
+        'views/web_controller_template.xml',
     ],
     'application': True,
 }

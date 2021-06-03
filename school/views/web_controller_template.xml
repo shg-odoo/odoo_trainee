@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- template for home -->
+    <template id="my_template">
+        <t t-call="website.layout">
+            <center>
+                <h1>RECORDS</h1>
+                <h2>Student Information</h2>
+                <a href="/create_student" class="btn btn-primary">Create</a>
+            </center>
+            <t t-call="school.student_table" /> <!-- This will call below template  -->
+        </t>
+    </template>
+
+    <!-- template for student_table -->
+    <template id="student_table">
+        <br />
+        <center>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>School</th>
+                </tr>
+                <tr t-foreach="stu" t-as="s">
+                    <td align="left">
+                        <t t-esc="s.name" />
+                    </td>
+                    <td align="right">
+                        <t t-esc="s.school_id.name" />
+                    </td> <!-- We can use field of m2o field using `.` notation-->
+                    <td>
+                        <a t-att-href="'/delete_student/%s' % s.id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </template>
+
+    <!-- template form for creating new student on button click create -->
+    <template id="create_student">
+        <t t-call="website.layout">
+            <form action="/submit_form">
+                <div>
+                    <center>
+                        <h1>New Entry</h1>
+                        <br/>
+                        <div>
+                            Name:
+                            <input type="text" name="name" />
+                        </div>
+                        <br />
+                        <div>
+                            School:
+                            <input type="text" name="school_id" />
+                        </div>
+                        <br />
+                        <div><button class="btn btn-success" type="submit">Submit</button></div>
+                    </center>
+                </div>
+            </form>
+        </t>
+    </template>
+</odoo>

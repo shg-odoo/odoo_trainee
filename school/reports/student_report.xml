@@ -3,52 +3,99 @@
 <odoo>
 
     <!-- pdf report for student model -->
-    <report id="pdf_report_student" 
-            model="student"
-            string="Student PDF Report"
-            name="school.pdf_report_view_stu"
-            file="school.pdf_report_student"
-            report_type="qweb-pdf"
-            attachment_use="True" />
+    <report 
+        id="pdf_report_student" 
+        model="student" 
+        string="Student PDF Report" 
+        name="school.pdf_report_view_stu" 
+        file="school.pdf_report_student" 
+        report_type="qweb-pdf" 
+        attachment_use="True" />
 
-            <!-- name="<module_name>.<template_id>" 
-                 file="<module_name>.<report_id>"
-                 for reporting we need to use report tag and for it's stucture we
-                 need to use template tag.  -->
+        <!-- name="<module_name>.<template_id>" 
+            file="<module_name>.<report_id>"
+            for reporting we need to use report tag and for it's stucture we
+            need to use template tag.  -->
 
     <!-- template or stucture for report design -->
-    <template id="pdf_report_view_stu">  <!-- id must be same as report tag name attribute-->
+    <template id="pdf_report_view_stu">
+        <!-- id must be same as report tag name attribute-->
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <div>
-                        <center>
-                            <strong><h1>Student Details</h1></strong>
-                            <br />
-                        </center>
-                    </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Enrollment No</th>
-                                <th scope="col">School</th>
-                                <th scope="col">DOB</th>
-                            </tr>
-                        </thead>
-                        <t t-foreach="docs" t-as="student">
-                            <tbody>
+                    <center>
+                        <strong>
+                            <h2>Student Details</h2>
+                        </strong>
+                        <br />
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td><span t-field="student.name"/></td>
-                                    <td><span t-field="student.enroll_num"/></td>
-                                    <td><span t-field="student.school_id"/></td>
-                                    <td><span t-field="student.dob"/></td>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Enrollment No</th>
+                                    <th scope="col">School</th>
+                                    <th scope="col">DOB</th>
                                 </tr>
-                            </tbody>
-                        </t>
-                    </table>
+                            </thead>
+                            <t t-foreach="docs" t-as="student">
+                                <tbody>
+                                    <tr>
+                                        <td align="left">
+                                            <span t-field="student.name" />
+                                        </td>
+                                        <td align="center">
+                                            <span t-field="student.enroll_num" />
+                                        </td>
+                                        <td align="center">
+                                            <span t-field="student.school_id" />
+                                        </td>
+                                        <td align="center">
+                                            <span t-field="student.dob" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </t>
+                        </table>
+                    </center>
                 </div>
             </t>
         </t>
     </template>
+
+    <!-- Inherit pdf report for student model -->
+    <template id="inher_pdf_report_view_stu" inherit_id="pdf_report_view_stu">
+        <xpath expr="//div[hasclass('page')]" position="before">
+            <center><h1>Report Card</h1></center>
+        </xpath>
+        <xpath expr="(//th)[4]" position="after">
+            <th scope="col">Blood Group</th>
+        </xpath>
+        <xpath expr="(//td)[4]" position="after">
+            <td align="center"><span t-field="student.blood_grp"/></td>
+        </xpath>
+    </template>
+
+    <!-- primary inherit pdf report for student model -->
+    <report 
+        id="pdf_report_student_primary" 
+        model="student" 
+        string="Student PDF Report Primary" 
+        name="school.inher_pdf_report_view_stu_primary" 
+        file="school.pdf_report_student_primary" 
+        report_type="qweb-pdf"
+        attachment_use="True" />
+
+    <!-- Inherit report template for primary report -->
+    <template id="inher_pdf_report_view_stu_primary"
+              inherit_id="pdf_report_view_stu"
+              primary="True"> <!-- using primary attribute we can have seprate
+                                    report so it will not affect the existing one by default it is False-->
+        <xpath expr="(//th)[5]" position="after">
+            <th scope="col">Email</th>
+        </xpath>
+        <xpath expr="(//td)[5]" position="after">
+            <td align="right"><span t-field="student.email"/></td>
+        </xpath>
+    </template>
+
 </odoo>
