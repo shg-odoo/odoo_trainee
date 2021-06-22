@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="student_inherit_treeview">
+        <field name="model">inherit.student</field>
+        <field name="arch" type="xml">
+          <tree>
+            <field name="mentor"/>
+            <field name="name"/>
+            <field name="ages"/>
+            <!-- <field name="age_group"/> -->
+            <field name="phone"/>
+            <field name="course"/>
+            <field name="gender"/>
+            <field name="hobb_id" widget="many2many_tags"/>
+            <field name="join_date"/>
+          </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="student_inherit_formview">
+        <field name="model">inherit.student</field>
+        <field name="arch" type="xml">
+          <form> 
+            <sheet>
+             <group>
+                <field name="name"/>
+                <field name="mentor"/>
+              </group>  
+              <group>
+              <field name="ages"/>
+              <field name="phone"/>
+              <field name="course"/>
+              </group>
+              <group>
+              <field name="gender"/>
+              </group>
+              <group>
+              <field name="join_date"/>
+              </group>
+            </sheet>  
+          </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="student_action">
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">inherit.student</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="inherited_data" name="Student Data"  action="student_action" sequence="5"/>
+    <menuitem id="student_inherited_menu" name=" Data" parent="inherited_data" action="student_action"/>
+  
+</odoo>

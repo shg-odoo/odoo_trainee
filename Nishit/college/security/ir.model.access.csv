@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_college_student,access.college.student,college.model_college_student,college.group_college_admin,1,1,1,1
+access_college_student,access.college.student,college.model_college_student,college.group_college_admin,1,1,1,1
+access_college_student,access.college.student,college.model_colleges,college.group_college_admin,1,1,1,1
+access_college_student,access.college.student,college.model_college_student,college.group_student_detail,1,0,1,0
+access_student_hobbies,access_student_hobbies,model_student_hobbies,college.group_student_detail,1,1,0,0

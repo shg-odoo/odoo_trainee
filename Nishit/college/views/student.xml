@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <record id="parent_inherit" model="ir.ui.view">
+      <field name="name">parent.inherit</field>
+      <field name="model">college.student</field>
+      <field name="inherit_id" ref="college.student_formview"/>
+      <field name="arch" type="xml">
+              <xpath expr="//field[@name='name']" position="after">
+                  <field name="surname"/>
+              </xpath>
+      </field>
+    </record>           
+        -->
+    <record model="ir.ui.view" id="student_treeview">
+        <field name="model">college.student</field>
+        <field name="arch" type="xml">
+          <tree>
+            <field name="name"/>
+            <field name="age"/>
+            <field name="phone"/>
+            <field name="clg_name"/>
+            <field name="course"/>
+            <field name="hobb_id" widget="many2many_tags"/>
+            <field name="image" widget="image" class="oe_avatar"  options="{ 'size': [50, 0]}" />
+            <field name="gender"/>
+            <field name="age_group"/>
+            <field name="join_date"/>
+            <!-- <field name="s_id"/> -->
+          </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="student_formview">
+        <field name="model">college.student</field>
+        <field name="arch" type="xml">
+            <form>
+              <header>
+                <button name="%(college.student_wizard_action)d" string="complain" type="action" class="oe_highlight" />
+              </header>
+              <sheet>
+              <div class="oe_title">
+                <field name="name"/>
+              </div>  
+              <field name="image" widget="image" class="oe_avatar"/>
+              <notebook>
+                <page string="Personal Details">
+                 <group>
+
+                   <field name="name"/>
+                   <field name="age"/>
+                   <field name="phone"/>
+                   <field name="gender"/>
+                   <field name="hobb_id" widget="many2many_tags"/>
+                  </group>
+                </page>
+                
+                <page string="College details">
+                  <group> 
+                   <field name="clg_name"/>
+                   <field name="course"/>
+                   <field name="join_date"/>
+                  </group> 
+                </page>
+
+                <page string="Marks">
+                  <group>
+                   <field name="physics"/>
+                   <field name="chemistry"/>
+                   <field name="math"/>
+                   <field name="total"/>
+                   <field name="average"/>
+                   <field name="total_comp"/>
+                  </group> 
+                </page>
+              </notebook>
+             
+             </sheet> 
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="student_searchview">
+        <field name="model">college.student</field>
+        <field name="arch" type="xml">
+          <search string="Students">
+            <field name="name"/>
+            <field name="course"/>
+            <field name="gender"/>
+          </search>
+        </field>
+    </record>
+
+     <record model="ir.ui.view" id="student_kanbanview">
+        <field name="model">college.student</field>
+        <field name="arch" type="xml">
+          <kanban>
+            <field name="name"/>
+            <field name="age"/>
+            <field name="phone"/>
+            <field name="course"/>
+            <field name="gender"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div t-attf-class="oe_kanban_global_click">
+                      <div class ="oe_kanban_details">
+                       <ul>
+                          <li><field name="name"/></li>
+                          <li><field name="age"/></li>
+                          <li><field name="phone"/></li>
+                       </ul>
+                       <ul>
+                        <li><field name="course"/></li>
+                        <li><field name="join_date"/></li>
+                        <li><field name="gender"/></li>
+                       </ul>
+                      </div>
+                    </div>  
+                </t>
+            </templates>
+          </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="student_calendarview ">
+        <field name="model">college.student</field>
+        <field name="arch" type="xml">
+          <calendar string="calendar" date_start="join_date">
+            <field name="name"/>
+            <field name="age"/>
+          </calendar>
+        </field>
+    </record>
+
+   <record model="ir.ui.view" id="student_graphview">
+        <field name="model">college.student</field>
+        <field name="arch" type="xml">
+          <graph>
+            <field name="join_date"/>
+          </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="student_pivotview">
+        <field name="model">college.student</field>
+        <field name="arch" type="xml">
+          <pivot>
+            <field name="name"/>
+            <field name="age"/>
+          </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="teacherstree_view">
+        <field name="model">college.teacher</field>
+        <field name="arch" type="xml">
+          <tree>
+            <field name="name"/>
+            <field name="age"/>
+          </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="collegetree_view">
+        <field name="model">colleges</field>
+        <field name="arch" type="xml">
+          <tree>
+            <!-- <field name="student_id"/> -->
+            <field name="clg_name"/>
+          </tree>
+        </field>
+    </record>
+     
+    <record model="ir.ui.view" id="collegesforms_view">
+        <field name="model">colleges</field>
+        <field name="arch" type="xml">
+          <form>
+           <group>
+            <field name="clg_name"/>
+           </group> 
+            <field name="student_id"> 
+                <group>
+                  <field name="clg_id" invisible="1"/>
+                  <field name="clg_name"/>
+                </group>    
+            </field>  
+          </form>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="teachers_action">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">college.teacher</field>
+        <field name="view_mode">tree</field>
+    </record>
+     <record model="ir.actions.act_window" id="collegedata_action">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">colleges</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+      
+    <record model="ir.actions.act_window" id="college_action">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">college.student</field>
+        <field name="view_mode">tree,form,search,kanban,calendar,graph,pivot</field>
+    </record>
+
+    <menuitem id="college_menu" name="college"
+     web_icon= "college,static/description/icon.png"
+     sequence="5"/>
+    <menuitem id="student_menu" name="Student" parent="college_menu" action="college_action"/>
+    <menuitem id="teacher_menu" name="teacher" parent="college_menu" action="teachers_action"/>
+    <menuitem id="alldata_menu" name="All" parent="college_menu" action="collegedata_action"/>
+
+</odoo>

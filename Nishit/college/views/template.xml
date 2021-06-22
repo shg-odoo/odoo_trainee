@@ -1,0 +1,38 @@
+<odoo>
+
+    <template id="student_id" name="student details">
+            <h1>Details</h1>
+            <h2>student form</h2>
+            <t t-call="college.student_table"/>
+            <a href="create" class="btn btn-primary">Create</a>
+    </template>
+    
+    <template id="student_table">
+        <table>
+         <tr>
+            <th>Name:</th>
+            <th>age:</th>
+            <th>Number:</th>
+         </tr>
+
+         <tr t-foreach="students" t-as="student">
+            <td><t t-esc ="student.name"/></td>
+            <td><t t-esc="student.age"/></td>
+            <td><t t-esc="student.phone"/></td>
+            <td><a class="btn" t-att-href="'/delete/%s' % student.id">Delete</a></td>
+         </tr>
+        </table>
+    </template>
+    
+    <template id="create_id">
+      <form action="/submit_form">
+        <div>
+          <div>Name: <input type="text" name="name"/></div><br/>
+          <div>Age: <input type="text" name="age"/></div><br/>
+          <div>Number: <input type="text" name="phone"/></div><br/>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </template>
+    
+</odoo>
