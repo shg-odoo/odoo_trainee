@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- everything comes into data tag for security purposes -->
+    <data>
+        <!-- Creating catagory for school mmosule using `ir.module.category` model -->
+        <record id="cat_student" model="ir.module.category">
+            <field name="name">Student</field>
+            <field name="description">Set access rights for School module</field>
+        </record>
+
+        <!-- Creating group as user for limited access rights using `res.groups` model -->
+        <record id="grp_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="cat_student" />  <!-- id should be the one for which category we want to use this group -->
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <!-- here we have already base.group_user id so we can't use that id 
+                 again as a id of our group in above, id should be unique for all  records-->
+        </record>
+
+        <!-- creating group as admin for full access rights -->
+        <record id="grp_admin" model="res.groups" >
+            <field name="name">Admin</field>
+            <field name="category_id" ref="cat_student" />
+            <field name="implied_ids" eval="[(4, ref('grp_user'))]" />
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- Record rule -->
+        <record id="student_rule" model="ir.rule">
+            <field name="name">Student</field>
+            <field name="model_id" ref="school.model_student"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        </record>
+    </data>
+
+</odoo>

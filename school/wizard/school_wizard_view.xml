@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    
+    <!-- Form view for school wizard -->
+    <record id="form_school_wizard" model="ir.ui.view">
+        <field name="name">form.school.wizard</field>
+        <field name="model">school.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="school_id"/>
+                </group>
+                <footer>
+                    <button name="add_school" string="Add School" type="object" 
+                            class="btn btn-primary"/>
+                    <button special="cancel" string="cancel" />
+                    <!-- type="object" means it calls mathod mention in name="" attribute  -->
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for the school wizard -->
+    <record id="action_school_wizard" model="ir.actions.act_window">
+        <field name="name">Add School</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="form_school_wizard" />  <!-- ref is xml id of the view-->
+        <field name="binding_model_id" ref="model_student"/>  <!-- to which model we want to bind this view/action-->
+        <field name="target">new</field>  <!-- To open new pop-up window  -->
+    </record>
+</odoo>

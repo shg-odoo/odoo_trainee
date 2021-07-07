@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <!-- tree view for student_plus -->
+    <record id="tree_student_plus" model="ir.ui.view">
+        <field name="name">tree.student.plus</field>
+        <field name="model">student.plus</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="school_id"/>
+                <field name="address"/>
+                <field name="dob"/>
+                <field name="blood_grp"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- form view for student_plus -->
+    <record id="form_student_plus" model="ir.ui.view">
+        <field name="name">form.student.plus</field>
+        <field name="model">student.plus</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group colsapn="4" col="4">
+                        <field name="name"/>
+                        <field name="school_id"/>
+                        <field name="address"/>
+                        <field name="dob"/>
+                        <field name="blood_grp"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for student_plus -->
+    <record id="action_stu_plus" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student.plus</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- menu for student_plus -->
+    <menuitem id="menu_stu_plus" name="Students Plus" />
+    <menuitem id="menu_stu_plus_child" name="Students" action="action_stu_plus" parent="menu_stu_plus"/>
+
+    
+    <!-- Inheritance of tree view of student model -->
+    <record id="inher_tree_student" model="ir.ui.view">
+        <field name="name">inher.tree.student</field>
+        <field name="model">student</field>
+        <field name="inherit_id" ref="school.tree_student"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='dob']" position="after">
+                <field name="blood_grp"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
