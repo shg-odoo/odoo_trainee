@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="student_info1" model="student.details">
+        <field name="student_name">Rutuja</field>
+        <field name="student_age">16</field>
+        <field name="student_percentage">84.5</field>
+    </record>
+    <record id="college" model="college.details">
+        <field name="college_name">SP</field>
+        <field name="college_city">Mumbai</field>
+    </record>
+</odoo>

@@ -1,0 +1,1 @@
+from . import new_student_model
