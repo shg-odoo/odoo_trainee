@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="car_rental_report"
+            string="Car Rental Report"
+            model="car.rental"
+            report_type="qweb-pdf"
+            file="car_rental.report_rental"
+            name="car_rental.report_rental"/>
+
+         <report
+            id="car_rental_report_xls"
+            string="Car Rental Excel Report"
+            model="car.rental"
+            report_type="xlsx"
+            file="car_rental.report_rental_xls"
+            name="car_rental.report_rental_xls"/>
+    </data>
+</odoo>

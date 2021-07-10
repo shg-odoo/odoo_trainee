@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="car_rental_form_view" model="ir.ui.view">
+        <field name="name">Car.Renatal.form.view</field>
+        <field name="model">car.rental</field>
+        <field name="arch" type="xml">
+            <form string="Car Rental">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name_seq" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="car_id"/>
+                        </group>
+                        <group>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Car Rental Line">
+                            <group>
+                                <field name="rental_lines">
+                                    <tree editable="bottom">
+                                        <field name="seat"/>
+                                        <field name="total_hour"/>
+                                        <field name="amount_per"/>
+                                        <field name="sub_total" widget="monetary"
+                                               options="{'currency_field':'currency_id'}"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="add_car_form_view" model="ir.ui.view">
+        <field name="name">car.car.form.view</field>
+        <field name="model">car.car</field>
+        <field name="arch" type="xml">
+            <form string="Add Car">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="image" widget="image"/>
+                            <field name="car_name"/>
+                            <field name="number_of_seats"/>
+                            <field name="amount_per_hour" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="car_rental_tree_view" model="ir.ui.view">
+        <field name="name">Car.Renatal.tree.view</field>
+        <field name="model">car.rental</field>
+        <field name="arch" type="xml">
+            <tree string="Car Rental">
+                <field name="partner_id"/>
+                <field name="car_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="add_car_tree_view" model="ir.ui.view">
+        <field name="name">Car.car.tree.view</field>
+        <field name="model">car.car</field>
+        <field name="arch" type="xml">
+            <tree string="Add Car">
+                <field name="car_name"/>
+                <field name="number_of_seats"/>
+                <field name="amount_per_hour"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_rent_car" model="ir.actions.act_window">
+        <field name="name">Car Rental</field>
+        <field name="res_model">car.rental</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">tree,form,search</field>
+    </record>
+
+    <record id="action_add_car" model="ir.actions.act_window">
+        <field name="name">Add Car</field>
+        <field name="res_model">car.car</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">tree,form,search</field>
+    </record>
+
+    <menuitem id="menu_car_rental"
+              name="Car Rental"
+    />
+    <menuitem id="car_rental_rent_menu"
+              name="Rent a car"
+              parent="menu_car_rental"
+              sequence="1"
+              action="action_rent_car"
+    />
+    <menuitem id="car_menu"
+              name="Car"
+              parent="menu_car_rental"
+              sequence="2"
+              action="action_add_car"
+    />
+</odoo>

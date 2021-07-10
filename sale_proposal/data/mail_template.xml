@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mail_proposal_template" model="mail.template">
+            <field name="name">Proposal: Send by email</field>
+            <field name="model_id" ref="sale_proposal.model_sale_proposal"/>
+            <field name="email_from">${object.partner_id.email |safe}</field>
+            <field name="email_to">${object.partner_id.email}</field>
+            <field name="subject">Proposal (Ref ${object.name_seq})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.partner_id.name}
+                        <br/>
+                        <br/>
+                        Here is your proposal with reference ${object.name_seq}
+                        <a href="${object.get_portal_url() | safe}">Click Here To View Your Proposal</a>
+                        <br/>
+                        <br/>
+                        Thank You And Stay Safe
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

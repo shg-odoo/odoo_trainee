@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="sale_proposal_form_view" model="ir.ui.view">
+        <field name="name">sale.proposal.form.view</field>
+        <field name="model">sale.proposal</field>
+        <field name="arch" type="xml">
+            <form string="Sale Proposal">
+                <header>
+                     <button name="action_send_mail" id="action_send"
+                        string="Send" class="btn-primary" type="object"
+                             states="draft"
+                       />
+                    <button name="action_confirm" id="action_confirm"
+                        string="Confirm" class="btn-primary" type="object"
+                       />
+                      <button name="action_cancell" id="action_cancel"
+                        string="Cancel" class="btn-primary" type="object"
+                       />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,cancel"/>
+                </header>
+
+                <sheet>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name_seq" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+
+                            <field name="partner_id"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="date_proposal"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Proposal Lines"
+                                >
+                            <group>
+                                <field name="proposal_line_ids" nolabel="1">
+                                    <tree editable="bottom" nolabel="1">
+
+                                        <field name="product_id"/>
+                                        <field name="label"/>
+                                        <field name="qty_proposed"/>
+                                        <field name="qty_accepted"/>
+                                        <field name="price_proposed" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                                        <field name="price_accepted" widget="monetary" options="{'currency_field':'currency_id'}" />
+                                        <field name="amt_total_proposed" widget="monetary" options="{'currency_field':'currency_id'}" />
+                                        <field name="amt_total_accepted" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+
+                                     <group class="oe_subtotal_footer oe_right" colspan="2" name="proposal_total">
+                                                                                 <field name="currency_id" invisible="1"/>
+
+                                    <field name="proposed_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="accepted_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="total" />
+                                    </div>
+                                    <field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+
+
+                            </group>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+        <record id="sale_proposal_tree_view" model="ir.ui.view">
+        <field name="name">sale.proposal.tree.view</field>
+        <field name="model">sale.proposal</field>
+        <field name="arch" type="xml">
+            <tree string="Sale Proposal">
+                <field name="name_seq"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="date_proposal"/>
+                <field name="state"/>
+                <field name="proposal_status"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="action_sale_proposal" model="ir.actions.act_window">
+        <field name="name">Sale Proposal</field>
+        <field name="res_model">sale.proposal</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form,search</field>
+    </record>
+
+
+     <menuitem id="proposal_menu"
+              name="Proposal"
+              parent="sale.sale_menu_root"
+              sequence="2"
+              action="action_sale_proposal"
+    />
+
+</odoo>

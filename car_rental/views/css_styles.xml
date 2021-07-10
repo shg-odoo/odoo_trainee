@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="car_rental_web_style" name="Car Rental Web Style" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/car_rental/src/css/style.css"/>
+            <link rel="stylesheet" href="/car_rental/src/css/form.style.css"/>
+        </xpath>
+    </template>
+</odoo>

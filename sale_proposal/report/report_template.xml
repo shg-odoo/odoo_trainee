@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sale_proposal_informations">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <b>
+                            <h1 t-field="doc.name_seq"/>
+                        </b>
+                        <div>
+                            <h2>
+                                Proposal Date:
+                                <span t-field="doc.date_proposal"/>
+                            </h2>
+                        </div>
+                        <div>
+                            <h2>
+                                Customer:
+                                <span t-field="doc.partner_id"/>
+                            </h2>
+                        </div>
+                        <div>
+                            <h2>
+                                Salesman:
+                                <span t-field="doc.user_id"/>
+                            </h2>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <h3>Product Details:</h3>
+                    <table class="table table-sm o_main_table">
+                        <tr allign="center">
+                            <th class="text-left">Product Name</th>
+                            <th class="text-left">Description</th>
+                            <th class="text-left">Proposed QTY</th>
+                            <th class="text-left">Proposed Price</th>
+                            <th class="text-left">Accepted QTY</th>
+                            <th class="text-left">Accepted Price</th>
+                        </tr>
+                        <tr t-foreach="doc.proposal_line_ids" t-as="o">
+                            <td class="text-left">
+                                <span t-field="o.product_id.name"/>
+                            </td>
+                            <td class="text-left">
+                                <span t-field="o.label"/>
+                            </td>
+                            <td>
+                                <span t-field="o.qty_proposed"/>
+                            </td>
+                            <td>
+                                <span t-field="o.price_proposed"/>
+                            </td>
+                            <td>
+                                <span t-field="o.qty_accepted"/>
+                            </td>
+                            <td>
+                                <span t-field="o.price_accepted"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-sm">
+                        <tr>
+                            <td class="text-right">
+                                <strong>Proposed Total</strong>
+                            </td>
+                            <td class="text-left" width="20%">
+                                <strong>
+                                    <span data-id="total_amount_11" t-field="doc.proposed_total"/>
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">
+                                <strong>Accepted Total</strong>
+                            </td>
+                            <td class="text-left" width="20%">
+                                <strong>
+                                    <span data-id="total_amount_12" t-field="doc.accepted_total"/>
+                                </strong>
+                            </td>
+                        </tr>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_proposal">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="sale_proposal.sale_proposal_informations" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

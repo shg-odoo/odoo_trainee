@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="car_rental_page_template">
+        <t t-call="website.layout">
+            <div class="oe_structure oe_empty"/>
+            <div class="site-wrap" id="home-section">
+                <div class="site-section bg-light">
+                    <div class="container" style="background-color: #c8c5c5;">
+                        <div class="row">
+                            <t t-foreach="car_details" t-as="o">
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <div class="item-1">
+                                        <a href="#">
+                                            <img class="img-fluid"
+                                                 t-attf-src="data:image/png;base64,#{o.get('car_image')}"/>
+                                        </a>
+                                        <div class="item-1-contents">
+                                            <div class="text-center">
+                                                <h3>
+                                                    <a href="#">
+                                                        <t t-esc="o.get('name')"/>
+                                                    </a>
+                                                </h3>
+                                                <div class="rent-price">
+                                                    <span><t t-esc="o.get('car_rent')"/>/
+                                                    </span>
+                                                    Hour
+                                                </div>
+                                            </div>
+                                            <ul class="specs">
+
+                                                <li>
+                                                    <span>Seats</span>
+                                                    <span class="spec">
+                                                        <t t-esc="o.get('car_seats')"/>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                            <div class="d-flex action">
+                                                <a t-attf-href="/CarRental/#{o.get('car_id')}/booking"
+                                                   class="btn btn-primary">Rent Now
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+
+    </template>
+
+
+    <template id="car_rentnow_template">
+        <t t-call="website.layout">
+            <div class="oe_structure oe_empty"/>
+            <t t-foreach="car_details" t-as="o">
+                <div id="booking" style="height: 800px;background-color: #373755;" class="section">
+                    <div class="section-center">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-7 col-md-push-5">
+                                    <div class="booking-cta">
+                                        <h1>Make your reservation</h1>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-md-pull-7">
+                                    <div class="booking-form">
+                                        <form action="/Carrental/booking_sumitted" method="post"
+                                              enctype="multipart/form-data">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <div class="form-group">
+                                                <span class="form-label">Your Name</span>
+                                                <input name="partner_name" class="form-control" type="text"
+                                                       placeholder="Enter your name"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="form-label">Your Car</span>
+                                                <input name="car" class="form-control" type="text"
+                                                       t-attf-value="#{o.get('name')}" readonly="1"/>
+                                                <input name="car_id" class="form-control" type="hidden"
+                                                       t-attf-value="#{o.get('car_id')}" readonly="1"/>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="form-label">Rate Per Hour</span>
+                                                <input name="rate" class="form-control" type="text"
+                                                       t-attf-value="#{o.get('car_rent')}" readonly="1"/>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="form-label">Number Of Seats</span>
+                                                <input name="seats" class="form-control" type="text"
+                                                       t-attf-value="#{o.get('car_seats')}" readonly="1"/>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <span class="form-label">Booking From</span>
+                                                        <input name="from" class="form-control" type="date"
+                                                               required="1"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <span class="form-label">Booking To</span>
+                                                        <input name="to" class="form-control" type="date" required="1"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-btn">
+                                                <button class="submit-btn" type="submit">Book Now</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="booking_done">
+        <t t-call="website.layout">
+            <div class="oe_structure oe_empty"/>
+            <div id="booking" style="height: 800px;margin-top:-80px" class="section">
+                <div class="col-md-7 col-md-push-5">
+                    <div class="booking-cta" style="padding-top: 29%;margin-left: 4%;">
+                        <h1>Your booking is Done</h1>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="car_rental_page" model="website.page">
+        <field name="name">Car Rental Page</field>
+        <field name="website_published">True</field>
+        <field name="url">/CarRental</field>
+        <field name="view_id" ref="car_rental_page_template"/>
+    </record>
+
+    <record id="car_rental_main_menu" model="website.menu">
+        <field name="name">Car Rental</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="page_id" ref="car_rental_page"/>
+        <field name="sequence" type="int">99</field>
+    </record>
+</odoo>
