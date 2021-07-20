@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="student_view_tree" model="ir.ui.view">
+        <field name="name">Student.tree</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <tree string="Students List">
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="branch"/>
+                <field name="birthday"/>
+                <!-- <field name="age"/> -->
+                <field name="email"/>
+                <field name="enrollment_no"/>
+                <field name="contact_no" />
+                <field name="address"/>
+            </tree>
+        </field>
+    </record>
+    <record id="student_view_graph" model="ir.ui.view">
+        <field name="name">student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <graph string="Students">
+                <field name="name"/>
+                <field name="gender"/>                
+                <field name="branch" />
+                <field name="birthday"/>
+                <!-- <field name="age"/> -->
+                <field name="email"/>
+                <field name="enrollment_no"/>
+                <field name="contact_no" />
+                <field name="address"/>
+            </graph>
+        </field>
+    </record>
+    <record id="student_view_calendar" model="ir.ui.view">
+        <field name="name">student </field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <calendar color="name" date_start="birthday" string="Student calendar" mode="month" >
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="branch" />
+                <field name="birthday"/>
+                <!-- <field name="age"/> -->
+                <field name="email"/>
+                <field name="enrollment_no"/>
+                <field name="contact_no" />
+                <field name="address"/>
+            </calendar>
+        </field>
+    </record>
+    <record id="student_action" model="ir.actions.act_window" >
+            <field name="name">Student</field>
+            <field name="res_model">student</field>
+            <field name="view_mode">tree,graph,calendar</field>
+    </record>
+    <menuitem id="student_menu" name="Student Data"/>
+
+    <menuitem id="student" name="Details" sequence="1" action="student_action" parent="student_menu"/>
+</odoo>

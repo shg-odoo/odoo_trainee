@@ -1,0 +1,64 @@
+select * from cd.facilities
+
+git@github.com:nla-odoo/odoo_trainee.git
+
+select name,membercost from cd.facilities;
+
+select * from cd.facilities where membercost > 0;
+
+select facid,name,membercost,monthlymaintenance from cd.facilities where monthlymaintenance/50 > membercost and membercost > 0;
+
+select * from cd.facilities where name like '%Tennis%';
+
+select * from cd.facilities where facid in (1,5);
+
+select name,
+		case when (monthlymaintenance > 100) then
+			'expensive'
+		else 
+			'cheap'
+		end as cost 
+		from cd.facilities;
+		
+select DISTINCT surname from cd.members  ORDER BY surname LIMIT  10 ;
+
+select surname from cd.members
+union
+select name from cd.facilities
+select max(joindate) as latest  from cd.members;
+
+select firstname,surname,joindate from cd.members order by joindate desc limit 1;
+
+select bk.starttime from cd.bookings as bk inner join cd.members as mb
+	on mb.memid = bk.memid where
+	mb.firstname = 'David' and mb.surname = 'Farrell'; 
+	
+select bk.starttime as start, fc.name as name from 
+	cd.bookings as bk inner join cd.facilities as fc 
+	on bk.facid = fc.facid 
+	where fc.name in ('Tennis Court 1','Tennis Court 2') and 
+	bk.starttime >= '2012-09-21' and
+	bk.starttime < '2012-09-22'
+	order by bk.starttime;
+	
+select distinct mb.firstname,mb.surname from cd.members as mb 
+	inner join cd.members as reg on
+	mb.memid = reg.recommendedby
+	order by surname,firstname;
+	
+select mb.firstname as memfname, mb.surname as memsname, 
+reg.firstname as recfname, reg.surname as recsname
+	from 
+		cd.members mb
+		left outer join cd.members reg
+			on reg.memid = mb.recommendedby
+order by memsname, memfname;  
+ 
+select mb.firstname as memfname, mb.surname as memsname, 
+reg.firstname as recfname, reg.surname as recsname
+	from 
+		cd.members mb
+		left outer join cd.members reg
+			on reg.memid = mb.recommendedby
+order by memsname, memfname; 
+  

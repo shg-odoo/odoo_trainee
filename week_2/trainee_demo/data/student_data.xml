@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="student_data1" model="student">
+        <field name="name">Shweta Goltar</field>
+        <field name="gender">female</field>
+        <field name="branch">EC</field>
+        <field name="birthday">1996-09-22</field>
+        <field name="email">bhumi@gmail.com</field>
+        <field name="enrollment_no">132</field>
+        <field name="contact_no">92558</field>
+        <field name="address">Ahmedabad</field>
+    </record>
+    <record id="student_data" model="student">
+        <field name="name">Dhwani Patel</field>
+        <field name="gender">female</field>
+        <field name="branch">Computer</field>
+        <field name="birthday">1996-09-22</field>
+        <field name="email">dhwani@gmail.com</field>
+        <field name="enrollment_no">1302</field>
+        <field name="contact_no">9253</field>
+        <field name="address">Ahmedabad</field>
+    </record>
+    <record id="student_data" model="student">
+        <field name="name"> Vishal  </field>
+        <field name="gender">male</field>
+        <field name="branch">Computer</field>
+        <field name="birthday">1996-09-22</field>
+        <field name="email">dhwani@gmail.com</field>
+        <field name="enrollment_no">1302</field>
+        <field name="contact_no">9253</field>
+        <field name="address">Ahmedabad</field>
+    </record>
+</odoo>
