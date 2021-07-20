@@ -39,7 +39,7 @@
         <field name="name">student </field>
         <field name="model">student</field>
         <field name="arch" type="xml">
-            <calendar color="name" date_start="birthday" string="Student calendar" mode="month" >
+            <calendar color="name"  date_start="birthday"  string="Student calendar" mode="month" >
                 <field name="name"/>
                 <field name="gender"/>
                 <field name="branch" />
@@ -52,10 +52,35 @@
             </calendar>
         </field>
     </record>
+    <record id="student_kanban" model="ir.ui.view">
+            <field name="name">student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <span class="badge badge-pill"><field name="branch"/></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong>Email: </strong><field name="email"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+    </record>    
     <record id="student_action" model="ir.actions.act_window" >
             <field name="name">Student</field>
             <field name="res_model">student</field>
-            <field name="view_mode">tree,graph,calendar</field>
+            <field name="view_mode">tree,graph,calendar,kanban</field>
     </record>
     <menuitem id="student_menu" name="Student Data"/>
 

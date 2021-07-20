@@ -5,6 +5,7 @@ class Student(models.Model):
     _description = "Student Details"
 
     name = fields.Char(string="name")
+    # image = fields.Binary(string='image')
     gender = fields.Selection([ ('male', 'Male'),('female', 'Female'),],'Gender', default='male')
     branch = fields.Char(string="branch")
     birthday = fields.Date(string="birthday")
