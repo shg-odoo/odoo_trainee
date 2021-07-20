@@ -1,0 +1,2 @@
+First  create a virtual Environment and install the requirments.txt file using the "pip install -r requirments.txt "
+After wrting the required code set the Environment variable using "export FLASK_APP=blog.py ( main_file_name )"
