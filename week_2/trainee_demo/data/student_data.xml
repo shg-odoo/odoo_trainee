@@ -2,33 +2,33 @@
 
 <odoo>
     <record id="student_data1" model="student">
-        <field name="name">Shweta Goltar</field>
-        <field name="gender">female</field>
-        <field name="branch">EC</field>
-        <field name="birthday">1996-06-22</field>
-        <field name="email">bhumi@gmail.com</field>
-        <field name="enrollment_no">132</field>
-        <field name="contact_no">92558</field>
-        <field name="address">Ahmedabad</field>
+                <field name="name">Vishal Sindham</field>
+                <field name="dob">2021-01-20</field>
+                <field name="governmentID">0123456</field>
+                <field name="contactNo">987654</field>
+                <field name="email">abc@mymail.com</field>
+                <field name="occupation">tool maker</field>
+                <field name="gender">male</field>                                                        
+                <field name="address">Surat,India</field>
     </record>
     <record id="student_data2" model="student">
-        <field name="name">Dhwani Patel</field>
-        <field name="gender">female</field>
-        <field name="branch">Computer</field>
-        <field name="birthday">1996-07-22</field>
-        <field name="email">dhwani@gmail.com</field>
-        <field name="enrollment_no">1302</field>
-        <field name="contact_no">9253</field>
-        <field name="address">Ahmedabad</field>
+                <field name="name">Akhil CH</field>
+                <field name="dob">2021-03-20</field>
+                <field name="governmentID">69875</field>
+                <field name="contactNo">987654</field>
+                <field name="email">akhil@mymail.com</field>
+                <field name="occupation">tool dealer</field>
+                <field name="gender">male</field>                                                        
+                <field name="address">Dubai</field>
     </record>
     <record id="student_data" model="student">
-        <field name="name"> Vishal  </field>
-        <field name="gender">male</field>
-        <field name="branch">Computer</field>
-        <field name="birthday">1996-08-22</field>
-        <field name="email">dhwani@gmail.com</field>
-        <field name="enrollment_no">1302</field>
-        <field name="contact_no">9253</field>
-        <field name="address">Ahmedabad</field>
+                <field name="name">Nancy geroge</field>
+                <field name="dob">2021-02-20</field>
+                <field name="governmentID">025863</field>
+                <field name="contactNo">753156</field>
+                <field name="email">geroge@mymail.com</field>
+                <field name="occupation">Principal</field>
+                <field name="gender">female</field>                                                        
+                <field name="address">Telagana,India</field>
     </record>
 </odoo>
