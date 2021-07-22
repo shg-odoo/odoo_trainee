@@ -113,10 +113,26 @@
             </form>
         </field>
     </record>
+    <record id="student_pivot" model="ir.ui.view">
+        <field name="name">student.pivot</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <pivot string="student">
+                <field name="name" />
+                <field name="dob"/>
+                <field name="governmentID"/>
+                <field name="contactNo"/>
+                <field name="email"/>
+                <field name="occupation"/>
+                <field name="address"/>
+            </pivot>
+        </field>
+
+    </record>
     <record id="student_action" model="ir.actions.act_window" >
             <field name="name">Student</field>
             <field name="res_model">student</field>
-            <field name="view_mode">tree,graph,calendar,gantt,kanban,form</field>
+            <field name="view_mode">tree,graph,calendar,gantt,kanban,form,pivot</field>
     </record>
     <menuitem id="student_menu" name="Student Data"/>
 

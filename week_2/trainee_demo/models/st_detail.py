@@ -14,4 +14,5 @@ class Student(models.Model):
     gender                  = fields.Selection([('male','Male'),('female','Female'),],'Gender',default='male')
     image                   = fields.Binary(string="Image")
     address                 = fields.Char(string="Address")
+    
 
