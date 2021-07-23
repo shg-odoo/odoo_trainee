@@ -7,14 +7,16 @@
         <field name="arch" type="xml">
             <tree string="Students List">
                 <field name="name" />
-                <field name="dob"/>
-                <field name="governmentID"/>
+                <field name="birthday"/>
+                <field name="enrollmentNo"/>
                 <field name="contactNo"/>
                 <field name="email"/>
-                <field name="occupation"/>
-                <field name="gender" widget="radio" options="{'vertical':true}"/>                                    
-                <!-- <field name="image" widget="image" class="oe_avatar"/>                     -->
+                <field name="branch"/>
+                <field name="gender" widget="radio" options="{'vertical':true}"/> 
                 <field name="address"/>
+                <field name="age"/>
+                <field name="college_id"/>
+                <field name="hobbies"/>
             </tree>
         </field>
     </record>
@@ -24,11 +26,11 @@
         <field name="arch" type="xml">
             <graph string="Students">
                 <field name="name" />
-                <field name="dob"/>
-                <field name="governmentID" type="measure"/>
+                <field name="birthday"/>
+                <field name="enrollmentNo" type="measure"/>
                 <field name="contactNo"/>
                 <field name="email"/>
-                <field name="occupation" />
+                <field name="branch" />
                 <field name="gender"  />                     
                 <field name="address"/>
             </graph>
@@ -38,14 +40,14 @@
         <field name="name">student </field>
         <field name="model">student</field>
         <field name="arch" type="xml">
-            <calendar color="name"  date_start="dob"  string="Student calendar" mode="month" >
+            <calendar color="name"  date_start="birthday"  string="Student calendar" mode="month" >
                 <field name="name" />
-                <field name="dob"/>
-                <field name="governmentID"/>
+                <field name="birthday"/>
+                <field name="enrollmentNo"/>
                 <field name="contactNo"/>
                 <field name="email"/>
-                <field name="occupation"/>
-                <field name="gender" widget="radio" options="{'vertical':true}"/>            
+                <field name="branch"/>
+                <field name="gender" widget="radio" options="{'vertical':true}"/> 
                 <field name="address"/>
             </calendar>
         </field>
@@ -54,7 +56,7 @@
             <field name="name">student.gantt</field>
             <field name="model">student</field>
             <field name="arch" type="xml">
-                <gantt date_stop="dob" date_start="dob" string="Session Gantt" default_group_by="occupation">
+                <gantt date_stop="birthday" date_start="birthday" string="Session Gantt" default_group_by="branch">
                 </gantt>
             </field>
     </record>
@@ -75,7 +77,7 @@
                                         <strong><field name="name"/></strong>
                                     </div>
                                     <div class="col-6 text-right">
-                                        <span class="badge badge-pill"><field name="occupation"/></span>
+                                        <span class="badge badge-pill"><field name="branch"/></span>
                                     </div>
                                 </div>
                                 <div>
@@ -99,13 +101,28 @@
                     <page string="Personal Details">
                         <group>
                             <field name="image" widget="image" class="oe_avatar"/>
-                            <field name="occupation"/>
+                            <field name="branch"/>
                         </group>
                         <group>
-                            <field name="dob" required='1'/>
+                            <field name="birthday" required='1'/>
                             <field name="gender" widget="radio"/>
                             <field name="email"/>
                             <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="college_id" />
+                            <field name="hobbies" />
+                        </group>
+                    </page>
+                    <page string="Subjects Score">
+                        <group>
+                            <field name="maths"/>
+                            <field name="physics"/>
+                            <field name="chemistry"/>
+                        </group>
+                        <group string="Summary">
+                            <field name="total"/>
+                            <field name="average" />
                         </group>
                     </page>
                 </notebook>
@@ -119,11 +136,11 @@
         <field name="arch" type="xml">
             <pivot string="student">
                 <field name="name" />
-                <field name="dob"/>
-                <field name="governmentID"/>
+                <field name="birthday"/>
+                <field name="enrollmentNo"/>
                 <field name="contactNo"/>
                 <field name="email"/>
-                <field name="occupation"/>
+                <field name="branch"/>
                 <field name="address"/>
             </pivot>
         </field>
