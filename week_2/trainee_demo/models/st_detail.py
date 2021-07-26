@@ -49,7 +49,7 @@ class College(models.Model):
 
     college_id   = fields.Char(string="College Name")
     college_city = fields.Char(string="College city")
-    id1          = fields.One2many("student","college_id",string="College Id")
+    # id1          = fields.One2many("student","college_id",string="College Id")
 
 class Hobby(models.Model):
     _name     = "student.hobby"

@@ -16,7 +16,7 @@
                 <field name="address"/>
                 <field name="age"/>
                 <field name="college_id"/>
-                <field name="hobbies"/>
+                <field name="hobbies" widget="many2many_tags"/>
             </tree>
         </field>
     </record>
@@ -89,7 +89,16 @@
                 </kanban>
             </field>
     </record>    
-
+    <record id="college_view_tree" model="ir.ui.view">
+        <field name="name">College.tree</field>
+        <field name="model">student.college</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="college_id"/>
+                <field name="college_city"/>
+            </tree>
+        </field>
+    </record>
     <record id="student_view_form" model="ir.ui.view">
         <field name="name">Student.form</field>
         <field name="model">student</field>
@@ -151,7 +160,16 @@
             <field name="res_model">student</field>
             <field name="view_mode">tree,graph,calendar,gantt,kanban,form,pivot</field>
     </record>
+    <record id="college_action" model="ir.actions.act_window" >
+        <field name="name">student</field>
+        <field name="res_model">student.college</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <menuitem id="student_menu" name="Student Data"/>
 
     <menuitem id="student" name="Details" sequence="1" action="student_action" parent="student_menu"/>
+
+    <menuitem id="student_college" name="College Data" sequence="2" action="college_action"  parent="student_menu"/>
+
 </odoo>

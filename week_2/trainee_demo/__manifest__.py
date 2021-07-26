@@ -13,6 +13,8 @@
     'data' : [
         'data/student_data.xml',
         'views/st_view.xml',
+        'wizard/student_wizards.xml',
+        'report/report_student.xml',
     ],
     'installable'          : 'True',
     'application'          : 'True',
