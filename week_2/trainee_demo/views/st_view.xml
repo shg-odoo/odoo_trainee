@@ -17,6 +17,7 @@
                 <field name="age"/>
                 <field name="college_id"/>
                 <field name="hobbies" widget="many2many_tags"/>
+                <field name="scholarship" widget="radio" options="{'vertical':true}" />
             </tree>
         </field>
     </record>

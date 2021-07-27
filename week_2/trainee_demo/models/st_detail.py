@@ -59,6 +59,10 @@ class Hobby(models.Model):
 
 
 
+class Scholarship(models.Model):
+    _inherit = "student"
+
+    scholarship =  fields.Selection([('eligible','Eligible'),('not-eligible','Not-eligible'),],'scholarship',default='Eligible')
 
 
 
