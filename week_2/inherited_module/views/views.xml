@@ -1,60 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="inherited_module.list">
-      <field name="name">inherited_module list</field>
-      <field name="model">inherited_module.inherited_module</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
+    <record id="student_view_tree" model="ir.ui.view">
+        <field name="name">Student.tree</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <tree string="Students List">
+                <field name="name" />
+                <field name="birthday"/>
+                <field name="enrollmentNo"/>
+                <field name="contactNo"/>
+                <field name="email"/>
+                <field name="branch"/>
+                <field name="gender" widget="radio" options="{'vertical':true}"/> 
+                <field name="address"/>
+                <field name="age"/>
+                <field name="college_id"/>
+                <field name="hobbies" widget="many2many_tags"/>
+                <field name="scholarship" widget="radio" options="{'vertical':true}" />
+                <field name="status" widget="radio" options="{'vertical':true}" />
+            </tree>
+        </field>
     </record>
--->
-
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="inherited_module.action_window">
-      <field name="name">inherited_module window</field>
-      <field name="res_model">inherited_module.inherited_module</field>
-      <field name="view_mode">tree,form</field>
+    <record id="student_view_graph" model="ir.ui.view">
+        <field name="name">student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <graph string="Students">
+                <field name="name" />
+                <field name="birthday"/>
+                <field name="enrollmentNo" type="measure"/>
+                <field name="contactNo"/>
+                <field name="email"/>
+                <field name="branch" />
+                <field name="gender"  />                     
+                <field name="address"/>
+            </graph>
+        </field>
     </record>
--->
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="inherited_module.action_server">
-      <field name="name">inherited_module server</field>
-      <field name="model_id" ref="model_inherited_module_inherited_module"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
+    <record id="student_view_calendar" model="ir.ui.view">
+        <field name="name">student </field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <calendar color="name"  date_start="birthday"  string="Student calendar" mode="month" >
+                <field name="name" />
+                <field name="birthday"/>
+                <field name="enrollmentNo"/>
+                <field name="contactNo"/>
+                <field name="email"/>
+                <field name="branch"/>
+                <field name="gender" widget="radio" options="{'vertical':true}"/> 
+                <field name="address"/>
+            </calendar>
+        </field>
     </record>
--->
+    <record model="ir.ui.view" id="student_gantt_view">
+            <field name="name">student.gantt</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <gantt date_stop="birthday" date_start="birthday" string="Session Gantt" default_group_by="branch">
+                </gantt>
+            </field>
+    </record>
 
-    <!-- Top menu item -->
-<!--
-    <menuitem name="inherited_module" id="inherited_module.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="inherited_module.menu_1" parent="inherited_module.menu_root"/>
-    <menuitem name="Menu 2" id="inherited_module.menu_2" parent="inherited_module.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="inherited_module.menu_1_list" parent="inherited_module.menu_1"
-              action="inherited_module.action_window"/>
-    <menuitem name="Server to list" id="inherited_module" parent="inherited_module.menu_2"
-              action="inherited_module.action_server"/>
--->
-  </data>
+    <record id="student_kanban" model="ir.ui.view">
+            <field name="name">student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_image"> 
+                                       <img t-att-src="kanban_image('student', 'image')"  alt="Avatar"/>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <span class="badge badge-pill"><field name="branch"/></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong>Email: </strong><field name="email"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+    </record>    
+    <record id="college_view_tree" model="ir.ui.view">
+        <field name="name">College.tree</field>
+        <field name="model">student.college</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="college_id"/>
+                <field name="college_city"/>
+            </tree>
+        </field>
+    </record>
+    <record id="student_view_form" model="ir.ui.view">
+        <field name="name">Student.form</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                <notebook>
+                    <page string="Personal Details">
+                        <group>
+                            <field name="image" widget="image" class="oe_avatar"/>
+                            <field name="branch"/>
+                        </group>
+                        <group>
+                            <field name="birthday" required='1'/>
+                            <field name="gender" widget="radio"/>
+                            <field name="email"/>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="college_id" />
+                            <field name="hobbies" />
+                        </group>
+                    </page>
+                    <page string="Subjects Score">
+                        <group>
+                            <field name="maths"/>
+                            <field name="physics"/>
+                            <field name="chemistry"/>
+                        </group>
+                        <group string="Summary">
+                            <field name="total"/>
+                            <field name="average" />
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="student_pivot" model="ir.ui.view">
+        <field name="name">student.pivot</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <pivot string="student">
+                <field name="name" />
+                <field name="birthday"/>
+                <field name="enrollmentNo"/>
+                <field name="contactNo"/>
+                <field name="email"/>
+                <field name="branch"/>
+                <field name="address"/>
+            </pivot>
+        </field>
+
+    </record>
+    <record id="student_action" model="ir.actions.act_window" >
+            <field name="name">Student</field>
+            <field name="res_model">student</field>
+            <field name="view_mode">tree,graph,calendar,gantt,kanban,form,pivot</field>
+    </record>
+    <record id="college_action" model="ir.actions.act_window" >
+        <field name="name">student</field>
+        <field name="res_model">student.college</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="student_menu" name="Student Data"/>
+
+    <menuitem id="student" name="Details" sequence="1" action="student_action" parent="student_menu"/>
+
+    <menuitem id="student_college" name="College Data" sequence="2" action="college_action"  parent="student_menu"/>
+
 </odoo>

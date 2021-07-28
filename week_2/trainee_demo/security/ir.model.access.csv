@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_student_college,access_student_college,trainee_demo.model_student_college,trainee_demo.group_college_admin,1,1,1,1
+access_student_college,access_student_college,trainee_demo.model_student_college,trainee_demo.group_college_admin,1,1,1,1
+access_student,access_student,model_student,trainee_demo.group_student_detail,1,1,1,0
+access_student_college,access_student_college,trainee_demo.model_student_college,trainee_demo.group_student_detail,1,1,1,1 
+access_student_hobbies,access_student_hobbies,model_student_hobbies,trainee_demo.group_student_detail,1,0,0,0

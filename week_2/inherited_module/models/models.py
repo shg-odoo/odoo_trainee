@@ -7,4 +7,6 @@ class  Inherited_Student(models.Model):
 
 	_inherit = "student"
 
+	status =  fields.Selection([('learning','Learning'),('graduate','Graduate'),],'status',default='learning')
+
 	
