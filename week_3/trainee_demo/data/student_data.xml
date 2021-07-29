@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="student_data1" model="student">
+                <field name="name">Vishal Sindham</field>
+                <field name="birthday">2021-01-20</field>
+                <field name="enrollmentNo">0123456</field>
+                <field name="contactNo">987654</field>
+                <field name="email">abc@mymail.com</field>
+                <field name="branch">tool maker</field>
+                <field name="gender">male</field>
+                <field name="address">Surat,Gujarat,India</field>
+                <field name="scholarship">eligible</field>
+    </record>
+    <record id="student_data2" model="student">
+                <field name="name">Rick Sanchez</field>
+                <field name="birthday">1990-01-20</field>
+                <field name="enrollmentNo">9543216</field>
+                <field name="contactNo">7865432</field>
+                <field name="email">cba@mymail.com</field>
+                <field name="branch">Adventurer</field>
+                <field name="gender">male</field>                                      
+                <field name="address">Earth C-137</field>
+                <field name="scholarship">not-eligible</field>                
+    </record>
+    <record id="student_data" model="student">
+                <field name="name">Morty Smith</field>
+                <field name="birthday">2018-06-20</field>
+                <field name="enrollmentNo">025863</field>
+                <field name="contactNo">753156</field>
+                <field name="email">sidekick@mymail.com</field>
+                <field name="branch">partner</field>
+                <field name="gender">male</field>                             
+                <field name="address">Jerry Smith's house</field>
+                <field name="scholarship">eligible</field>
+    </record>
+</odoo>
