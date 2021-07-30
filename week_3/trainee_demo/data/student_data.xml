@@ -34,4 +34,15 @@
                 <field name="address">Jerry Smith's house</field>
                 <field name="scholarship">eligible</field>
     </record>
+    <record id="student_data_3" model="student">
+                <field name="name">Shweta Goltar </field>
+                <field name="birthday">2018-06-20</field>
+                <field name="enrollmentNo">025863</field>
+                <field name="contactNo">753156</field>
+                <field name="email">Shweta@mymail.com</field>
+                <field name="branch">EC</field>
+                <field name="gender">female</field>                             
+                <field name="address">Jerry Smith's house</field>
+                <field name="scholarship">eligible</field>
+    </record>    
 </odoo>

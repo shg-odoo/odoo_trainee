@@ -4,7 +4,7 @@
     'category': 'Trainee Demo',
     'sequence': 5,
     'summary': 'Trainee demo module',
-    'depends': ['base'],
+    'depends': ['base',],#'website'],
 
     'description': """
             module for trainee demo
@@ -15,6 +15,7 @@
         'views/st_view.xml',
         'wizard/student_wizards.xml',
         'report/report_student.xml',
+        'views/my_template.xml',
     ],
     'installable'          : 'True',
     'application'          : 'True',

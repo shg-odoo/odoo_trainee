@@ -61,7 +61,24 @@
                 </gantt>
             </field>
     </record>
-
+        <record model="ir.ui.view" id="student_search_view">
+            <field name="name">student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="branch"/>
+                    <field name="address"/>
+                    <filter string="Male" name="male" domain="[('gender','=','male')]" />
+                    <separator/>
+                    <filter string="Female" name="female" domain="[('gender','=','female')]" />
+                    <group string="Group By">
+                         <filter string="Branch" name="branch" context="{'group_by':'branch'}" />
+                         <filter string="Gender" name="gender" context="{'group_by':'gender'}" />
+                    </group>
+                </search>
+            </field>
+        </record> 
     <record id="student_kanban" model="ir.ui.view">
             <field name="name">student</field>
             <field name="model">student</field>
@@ -159,7 +176,7 @@
     <record id="student_action" model="ir.actions.act_window" >
             <field name="name">Student</field>
             <field name="res_model">student</field>
-            <field name="view_mode">tree,graph,calendar,gantt,kanban,form,pivot</field>
+            <field name="view_mode">tree,graph,calendar,gantt,kanban,form,pivot,search</field>
     </record>
     <record id="college_action" model="ir.actions.act_window" >
         <field name="name">student</field>
