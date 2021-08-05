@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record model="Student">
+		<field name="Name">shivam</field>
+    	<field name="Id">01</field>
+        <field name="Percentage">80.00</field>
+
+    </record>   
+
+</odoo>
