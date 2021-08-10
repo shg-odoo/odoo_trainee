@@ -1,28 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-        <record model="ir.ui.view" id="tree">
-            <field name="name">Student</field>
-            
-                <field name="name"/>name</field>
-                <field name="model">student</field>
-                <field name="arch" type="xml">
-                    
-                <tree>
-                    <field name="name_seq" readonly="1"/>
-                    <field name="Name"/>
-                    <field name="Id"/>
-                    <field name="Percentage"/>
+    
+    <!-- Tree view -->
+    <record model="ir.ui.view" id="tree">           
+        <field name="name">name</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">                    
+        <tree>
+            <field name="name"/>
+            <field name="percentage"/>
+            <field name="place"/>
+            <field name="image" widget="image" options="{'size': [90, 90]}" class="oe_avatar" />
+            <field name="gender"/>
+            <field name="birth_date"/>
+            <field name="maths"/>
+            <field name="science"/>
+            <field name="english"/>
+            <field name="total"/>
+            <field name="start_date"/>
+            <field name="end_date"/>
+        </tree>
+        </field>
+    </record>
 
-                </tree>
-                </field>
-        </record>
+    <!-- form view -->
+    <record model="ir.ui.view" id="form">           
+        <field name="name">name</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+        <form string="student">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="image"/>
+                    </group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="percentage"/>
+                    </group>
+                    <group>
+                        <field name="place"/>
+                    </group>
+                    <group>
+                        <field name="gender"/>
+                    </group>
+                    <group>
+                        <field name="birth_date"/>
+                    </group>
+                    <group>
+                        <field name="maths"/>
+                    </group>
+                    <group>
+                        <field name="science"/>
+                    </group>
+                    <group>
+                        <field name="english"/>
+                    </group>
+                    <group>
+                        <field name="total"/>
+                    </group>
+                    <group>
+                        <field name="start_date"/>
+                    </group>
+                    <group>
+                        <field name="end_date"/>
+                    </group>
+                </group>
+            </sheet>t
+        </form>
+        </field>
+    </record>           
+
+     <!-- calendar view -->
+    <record id="calendar" model="ir.ui.view">
+        <field name="name">name</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <calendar date_start="birth_date" color="name">
+                <field name="name"/>
+                <field name="percentage"/>
+                <field name="place"/>
+                <field name="image" widget="image" options="{'size': [90, 90]}" class="oe_avatar" />
+                <field name="gender"/>
+                <field name="maths"/>
+                <field name="science"/>
+                <field name="english"/>
+                <field name="total"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- graph view -->
+    <record id="graph" model="ir.ui.view">           
+        <field name="name">name</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">  
+            <graph string="student_garph">
+                <!-- <field name="name"/>
+                <field name="percentage"/>
+                <field name="place"/>
+                <field name="image" widget="image" options="{'size': [90, 90]}" class="oe_avatar" />
+                <field name="gender"/> -->
+                <field name="maths"/>
+                <field name="science"/>
+                <field name="english"/>
+                <!-- <field name="total"/> -->
+            </graph>
+        </field>
+    </record> 
+
+    <!-- Pivot view -->
+    <record id="pivot" model="ir.ui.view">
+        <field name="name">name</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">  
+            <pivot string="Timesheet">
+                <field name="name" type="row"/>
+                <field name="start_date" interval="month" type="col"/>
+                <field name="total" type="measure" widget="float_time"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Gantt  view -->
+    <record id="gantt" model="ir.ui.view">
+        <field name="name">name</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">  
+            <gantt
+                date_start="start_date"
+                date_stop="end_date"
+                thumbnails="{'name': 'image'}"
+            >
+            </gantt>
+        </field>
+    </record>
+
+    <!-- kanban view -->
+    <record id="kanban" model="ir.ui.view">
+        <field name="name">name</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <kanban >
+                  <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-2">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <span class="badge badge-pill"><field name="place"/></span>
+                                </div>
+                            </div>
+                            <div>
+                                <strong>Percentage: </strong><field name="percentage"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>  
+
+    <!-- search view -->
+    <record id="search" model="ir.ui.view">
+        <field name="name">name</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+        <search>
+            <field name="name"/>
+            <field name="place"/>
+            <field name="gender"/>
+            <filter string="Male" name="male" domain="[('gender','=','male')]"/>
+            <separator/>
+            <filter string="Female" name="female" domain="[('gender','=','female')]"/>
+            <group>
+                <filter string="place" name='place' context="{'group_by':'place'}"/>
+            </group>
+        </search>
+        </field>
+    </record>
 
 
+    <record model="ir.actions.act_window" id="test_action">
+        <field name="name">student</field>
+        <field name="res_model">student</field>
+        <field name="view_mode">tree,form,calendar,graph,pivot,gantt,kanban,search</field>
+    </record>
 
-        <record model="ir.actions.act_window" id="test_action">
-            <field name="name">student</field>
-            <field name="res_model">student</field>
-            <field name="view_mode">tree</field>
-        </record>
-        
+    <menuitem id="student_menu" name="Student Data"/>
+
+    <menuitem id="student" name="Details" sequence="1" action="test_action" parent="student_menu"/>
 </odoo>

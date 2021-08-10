@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<record model="Student">
-		<field name="Name">shivam</field>
-    	<field name="Id">01</field>
-        <field name="Percentage">80.00</field>
-
+    <record model="student" id="std_data">
+        <field name="name">abc</field>
+        <field name="percentage">80.00</field>
+        <field name="place">india</field>
+        <field name="maths">50</field>
+        <field name="science">60</field>
+        <field name="english">70</field>
+        <field name="total">180</field>
     </record>   
-
 </odoo>
