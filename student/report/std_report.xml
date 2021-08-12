@@ -1,0 +1,40 @@
+<odoo>
+    <report 
+        id="report_st" 
+        model="student" 
+        string="Print" 
+        name="student.demo_report_view"
+        file="student.report_st" 
+        report_type="qweb-pdf" 
+        attachment_use="True"/>
+
+    <template id="demo_report_view">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <center>
+                            <h1>Student Data</h1>
+                        </center>
+                        <table class="table" style="border:1 px, width:100%;">
+                        <thead> 
+                            <tr>
+                                <th>name</th>
+                                <th>average</th>
+                                <th>gender</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><span t-field="o.name"/></td>
+                            <td><span t-field="o.average"/></td>
+                            <td><span t-field="o.gender"/></td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo> 

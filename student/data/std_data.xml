@@ -2,11 +2,11 @@
 <odoo>
     <record model="student" id="std_data">
         <field name="name">abc</field>
-        <field name="percentage">80.00</field>
-        <field name="place">india</field>
+        <field name="average">80.00</field>
+        <field name="country">india</field>
         <field name="maths">50</field>
         <field name="science">60</field>
         <field name="english">70</field>
-        <field name="total">180</field>
-    </record>   
+        <field name="gender">male</field>
+    </record>  
 </odoo>
