@@ -46,4 +46,9 @@ class college(models.Model):
 
     name = fields.Char(string="name")
     city = fields.Char(string="city")
-    std_record = fields.One2many('student','college_id',string="student_data")
+    std_record = fields.One2many('student','college_id',string="student_data") 
+
+class contact_detail(models.Model):
+    _inherit = 'student'
+
+    address = fields.Char(string="Address")
