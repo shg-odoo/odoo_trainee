@@ -7,8 +7,8 @@
 
 
     'data': [
-        'security/sec.xml',
         'security/ir.model.access.csv',
+        'security/sec.xml',
         'data/std_data.xml',
         'views/student.xml',
         'wizard/std_wizard.xml',

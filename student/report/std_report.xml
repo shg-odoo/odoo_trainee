@@ -1,10 +1,19 @@
 <odoo>
+
     <report 
         id="report_st" 
         model="student" 
         string="Print" 
         name="student.demo_report_view"
         file="student.report_st" 
+        report_type="qweb-pdf" 
+        attachment_use="True"/>    
+    <report
+        id="report_student_primary"
+        model="student"
+        string="Report Primary"
+        name="student.inherit_report_student_view_primary"
+        file="student.report_student"
         report_type="qweb-pdf" 
         attachment_use="True"/>
 
@@ -21,14 +30,12 @@
                             <tr>
                                 <th>name</th>
                                 <th>average</th>
-                                <th>gender</th> 
                             </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td><span t-field="o.name"/></td>
                             <td><span t-field="o.average"/></td>
-                            <td><span t-field="o.gender"/></td>
                         </tr>
                         </tbody>
                         </table>
@@ -37,4 +44,26 @@
             </t>
         </t>
     </template>
-</odoo> 
+
+    <template id="inherit_demo_report_view" inherit_id="demo_report_view">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+        </xpath>
+      <xpath expr="(//th)[1]" position="after">
+        <th scope="col">Gender</th>
+      </xpath>
+      <xpath expr="(//td)[1]" position="after">
+        <td><span t-field="o.gender"/></td>
+      </xpath>
+    </template>
+
+
+    <template id="inherit_report_student_view_primary" inherit_id="demo_report_view" primary="True">
+      <xpath expr="(//th)[1]" position="after">
+        <th scope="col">country</th>
+      </xpath>
+      <xpath expr="(//td)[1]" position="after">
+        <td><span t-field="o.country"/></td>
+      </xpath>
+    </template>
+
+</odoo>
