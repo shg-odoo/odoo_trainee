@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<div id="myData"></div>
+
+<script type="text/javascript">
+	
+	fetch("items.json")
+
+		.then(function(response){
+			retuen response.json();
+		})
+		.then(function(data){
+			appendData(data);
+		})
+		.catch(function(err){
+			consol.log("error : "+ err)
+		})
+
+	function appendData(data){
+		var mainContainer = document.getElementById('myData');
+		for (var i=0;i<data.length;i++){
+			var div = document.createElement("div");
+			div.innerHTML = "id" +data[i].name+"  "+data[i].price;
+			mainContainer.appendChild(div);
+		}
+	}
+
+</script>
+</body>
+</html>

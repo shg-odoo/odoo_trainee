@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<h1>hello</h1>
+	<p id="demo"></p>
+	<form>
+		<input type="text" name=" hello" id="name">
+
+		<input type="submit" name="save" id="save" value="save">
+</form>
+	<script type="text/javascript">
+		
+var description = "";
+var person = {fname:"Paul", lname:"Ken", age:18};
+for (var x in person){
+    description += person[x] + " ";
+} 
+
+
+document.getElementById('demo').innerHTML=description;
+
+function sayHelloInFiveSeconds(a){
+    var prompt = prompt("hello doo you want to visit odoo web then click ok");
+    // Inner functions are put in the local scope by default, as if they were
+    // declared with `var`.
+    function inner(){
+        alert(prompt);
+    }
+    setTimeout(inner, 5000);
+    // setTimeout is asynchronous, so the sayHelloInFiveSeconds function will
+    // exit immediately, and setTimeout will call inner afterwards. However,
+    // because inner is "closed over" sayHelloInFiveSeconds, inner still has
+    // access to the `prompt` variable when it is finally called.
+}
+var a = document.getElementById('name').value;
+sayHelloInFiveSeconds(a); // will open a popup with "Hello, Adam!" in 5s
+
+
+	</script>
+
+</body>
+</html>
