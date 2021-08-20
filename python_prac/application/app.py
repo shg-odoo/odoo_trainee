@@ -32,7 +32,8 @@ def remove_from_cart(request,product_id=None):
     if product_id and bool(int(request.session.__len__())):
         request.session['product_ids'].pop(product_id)
     return home_page(request)
-Hint Help Save Run Query
+
+    
 
 
 
