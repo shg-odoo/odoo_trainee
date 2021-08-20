@@ -1,35 +1,28 @@
-{
-	"items":
-	
-	[{
+[
+		{
 		"id":1,
 		"name":"shirt",
-		"price": 550,
-		"av_quantity":18
+		"price": 550
 	},
 	{
 		"id":2,
 		"name":"t-shirt",
-		"price":400,
-		"av_quantity":10
+		"price":400
 	},
 	{
 		"id":3,
 		"name":"dress",
-		"price":500,
-		"av_quantity":20
+		"price":500
 	},
 	{
 		"id":4,
 		"name":"jeans",
-		"price":700,
-		"av_quantity":14
+		"price":700
 
 	},
 	{
 		"id":5,
 		"name":"suit",
-		"price":1000,
-		"av_quantity":15
+		"price":1000
 	}
-]}
+]
