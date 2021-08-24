@@ -1,0 +1,83 @@
+<odoo>
+
+	<record model='ir.ui.view' id= 'student_id1'>
+
+		<field name='name'>student.tree</field>
+		<field name='model'>student</field>
+		<field name='arch' type='xml'>
+
+		    <tree>
+				<field name ='name'/>
+				<field name = 'email'/>
+				<field name = 'address'/>
+				<field name = 'age'/>
+				<field name = 'enrollment_no'/>
+				<field name = 'gender'/>
+				<field name = 'note'/>
+
+			</tree>
+
+		</field>
+	</record>
+
+	<record model = 'ir.ui.view' id = 'student_form_id1'>
+
+		<field name='name'>student.form</field>
+		<field name='model'>student</field>
+		<field name='arch' type='xml'>
+			<form>
+				<sheet>
+				<group>
+					<separator string="General detail" colspan="2"/>
+				    <field name = 'name'/>
+				    <field name = 'age'/>
+				    <field name = 'gender'/>
+				    <field name = 'note'/>
+				</group>
+				<group>
+					<separator string="enroll detail" colspan="2"/>
+					
+				    <field name = 'enrollment_no'/>
+				</group>
+				<group>
+					<separator string="Contact Detail" colspan="2"/>
+					 <field name = 'email'/>
+					 <field name = 'address'/>
+					 
+				</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record model = 'ir.ui.view' id = 'studennt_graph_id1'>
+		<field name='name'>student.graph</field>
+		<field name='model'>student</field>
+		<field name='arch' type='xml'>
+			<graph string="age sore">
+				<field name = 'name'/>
+				<field name = 'age' type="measure"/>
+
+
+			</graph>
+		</field>
+	</record> 
+
+	<record id='hobbies_action' model = 'ir.actions.act_window'>
+			<field name='name'>Student</field>
+		    <field name="res_model">student</field>
+			<field name='view_mode'>tree,form,graph</field>
+	</record>
+	<record id='enroll_action' model= 'ir.actions.act_window'>
+		<field name='name'>e_student</field>
+		 <field name="res_model">student</field>
+		<field name='view_mode'>tree,form,graph</field>
+	</record>
+
+
+		<menuitem id="student_menu" name = "Student Portal"/>
+		<menuitem id = 'student' name = 's_detail' sequence = '1' action='hobbies_action' parent="student_menu"/>
+		<menuitem id='s_enroll_id' name = 'enrollment' sequence='1' action='enroll_action' parent='student'/>
+		
+
+
+</odoo>

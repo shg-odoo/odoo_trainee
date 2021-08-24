@@ -1,0 +1,29 @@
+<odoo>
+	<record id='s1' model='student'>
+		<field name='name'>Jinal Dod</field>
+		<field name='email'>jido@odoo.com</field>
+		<field name='address'>Badarkha,Ahmedabad</field>
+		<field name='age'>23</field>
+		<field name='enrollment_no'>101</field>
+		<field name='note'>software developer</field>
+		
+	</record>
+	<record id='s2' model='student'>
+		<field name='name'>Shweta Goltar</field>
+		<field name='email'>shg@odoo.com</field>
+		<field name='address'>infocity,Gandhinagar</field>
+		<field name='age'>24</field>
+		<field name='enrollment_no'>102</field>
+		<field name='note'>Software developer</field>
+		
+	</record>
+	<record id='s3' model='student'>
+		<field name='name'>Dipanjali Sharma</field>
+		<field name='email'>dipu@gmail.com</field>
+		<field name='address'>Bopal,Ahmedabad</field>
+		<field name='age'>25</field>
+		<field name='enrollment_no'>103</field>
+		<field name='note'>testing</field>
+	</record>
+
+</odoo> 
