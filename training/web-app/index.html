@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My Shop</title>
+    
+    <style>
+        *{
+            font-family: Sawasdee;
+
+        }
+        .cards{
+            
+            text-align: center;
+
+            box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
+            transition: 0.5s;
+            background-color: #b4cfec;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .cards:hover {
+               box-shadow: 0 8px 8px 0 rgba(0,0,0,0.4);
+        }
+        
+
+
+   
+        #cart{
+            text-align: center;
+            /*display: inline-block;*/
+            gap: 1000px;
+        }
+
+        ul{
+        
+            
+            
+            padding-left: 100px;
+            padding-right: 100px;
+        }
+        button{
+            background-color: #e7e9da; 
+            border: 1px  dotted  ;
+
+            color: black;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            
+        }
+        span{
+            float: left;
+            
+            padding: 10px;
+            }
+        
+    </style>
+
+</head>
+<body >
+    <h1 ><p style="text-align:center;"> Do your shopping here </p> </h1>
+    
+    <ul>
+        
+    <span id="myData" >
+        
+    
+    </span>     
+    </ul>
+
+        <h2><p style="text-align:center;">E-Cart</p></h2>
+
+    
+        
+    <ul>
+        <span style="margin-left:475px" id="try">
+        <span id="cart" style="margin-left:4px">
+        
+        </span>
+    </span>
+    </ul>
+
+    
+
+    
+
+<script>
+            function createProduct(data) {
+
+                let product = document.createElement('h4');
+                product.className = "cards";
+                product.style = " width: 500px";
+
+                let index = document.createElement('span');
+                index.style = "text-align: left;"
+                index.innerText = data.id+".";
+
+                let title = document.createElement('span');
+                title.innerText = data.name;
+
+                let price = document.createElement('span');
+                price.innerText = " Price: " + data.price;
+
+                let a = document.createElement('a');
+                a.href = "/add/" + data.id;
+                
+                a.innerHTML  = "<button>buy item</button><br><br>";
+
+                product.appendChild(index);
+                product.appendChild(title);
+                product.appendChild(price);
+                product.appendChild(a);
+
+                
+
+                return product
+            }
+
+            data = %(data)s
+            cartData = %(cartData)s
+
+            var dataContainer = document.getElementById("myData");
+            var myCartContainer = document.getElementById("cart");
+            
+
+
+            for (var i=0; i<data.length; i++) {
+                let product = createProduct(data[i])
+                dataContainer.appendChild(product)
+                
+
+                if (data[i].id in cartData) {
+
+                    let span = document.createElement('span');                  
+                    span.innerHTML = "<h3>"+data[i].name+"\n Price:"+ data[i].price,",</h3>"
+
+
+                    let a = document.createElement('a');
+                    a.href = "/remove/" + data[i].id
+                    
+                    a.innerHTML = "<button>Remove Item</button><br><br>"
+
+                    myCartContainer.appendChild(span);
+                    myCartContainer.appendChild(a);
+                    
+
+                }
+            }
+
+            
+
+            if (Object.keys(cartData).length === 0) {
+                
+
+                let span = document.createElement('span');
+                span.innerHTML = "<h3>Your cart is Empty!</h3>  "
+
+                myCartContainer.appendChild(span);
+            }
+            else {
+                let span = document.createElement('span');
+                span.innerHTML = "<h3>Enjoy Shopping!!</h3>"
+                
+
+                trycard.appendChild(span);
+            }
+</script>
+
+</body>
+</html>
