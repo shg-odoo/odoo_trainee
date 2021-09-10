@@ -21,7 +21,7 @@
     			<field name="age"/>
     			<field name="total"/>
     			<field name="state"/>
-    			<field name="image" widget="image"/>
+    			<field name="image" widget="image" class="oe_avatar"/>
 
 
 			</tree>
@@ -74,10 +74,103 @@
             </form>
         </field>
     </record>
+
+
+<record model="ir.ui.view" id="student_calendar_view">
+    <field name="name">student</field>
+    <field name="model">student</field>
+    <field name="arch" type="xml">
+        <calendar color="name" date_start="bdate" string="Student Calendar" mode="month">
+            <field name="name"/>
+            <field name="contactNo"/>
+        </calendar>
+    </field>
+</record>
+
+<record model="ir.ui.view" id="student_search_view">
+    <field name="name">student</field>
+    <field name="model">student</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="name"/>
+            <field name="branch"/>
+            <filter string="Male" name="male" domain="[('gender','=','male')]" />
+            <separator/>
+            <filter string="Female" name="female" domain="[('gender','=','female')]" />
+            <group string="Group By">
+                <filter string="Branch" name="branch" context="{'group_by':'branch'}" />
+                <filter string="Gender" name="gender" context="{'group_by':'gender'}" />
+            </group>
+        </search>
+    </field>
+</record> 
+
+        <record id="student_kanban" model="ir.ui.view">
+            <field name="name">student.kanban.view</field>
+            <field name="model">student</field> 
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="image" widget="image"/>
+                    <field name="id"/>
+                       <templates>  
+                           <t t-name="kanban-box">
+                                <div class="container">
+                                    <div class="o_kanban_image"> 
+                                       <img t-att-src="kanban_image('student', 'image', record.id.raw_value)"  alt="Avatar"/>
+                                    </div>
+                                 <div class="row">
+                                   <div class="col-6">
+                                        <div class="oe_kanban_details">
+                                           <strong class="o_kanban_record_title"> 
+                                           <field name="name"/>
+                                           </strong>
+                                       </div>
+                                       <div class="oe_kanban_details">
+                                           <strong   class="o_kanban_record_title">Email: </strong>
+                                           <field name="email"/>
+                                       </div>
+                                        <div class="oe_kanban_details">
+                                           <strong  class="o_kanban_record_title">Contact: </strong>
+                                           <field name="contactNo"/>
+                                       </div>
+                                   </div>
+
+                                   <div class="col-2">
+                                         <a type="button" class="col-sm-12 text-center">
+                                             <h3><button name="button_name" type="button_type" class="badge badge-pill badge-success">
+                                                 <span><field name="branch" /></span>
+                                             </button></h3>
+                                         </a>
+                                   </div>
+                                 </div>
+                               </div>
+                           </t>          
+                       </templates>       
+                </kanban>   
+            </field>
+        </record>   
+                         
+        <record model="ir.ui.view" id="student_session_graph_view">
+            <field name="name">student.search</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <graph string="Student by percentage">
+                    <field name="name"/>
+                    
+                    <field name="fees" type="measure"/>
+                </graph>
+            </field>
+        </record>
+   
+
+
+
+
 	<record model="ir.actions.act_window" id="student_action">
     <field name="name">Student data</field>
     <field name="res_model">student</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree,form,calendar,search,kanban,graph</field>
 </record>
 <menuitem id="student_data"  name="Student Data" />
 <menuitem id="students" parent="student_data" name="Details" action="student_action"/>
