@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="s1" model="student" >
-        <field name="name">A</field>
+        <field name="name">abc</field>
         <field name="enrollmentNo">1</field>
         <field name="contactNo">1111111111</field>
         <field name="email">a-odoo@gmail.com</field>
         <field name="branch">CSE</field>
         
-        <field name="bdate">1111-11-11</field>
+        <field name="bdate">2000-01-01</field>
         <field name="gender">female</field>
         <field name="fees">1000</field>
     </record>
 
     <record id="s2" model="student">
-        <field name="name">B</field>
+        <field name="name">abd</field>
         <field name="enrollmentNo">2</field>
         <field name="contactNo">2222222222</field>
         <field name="email">b-odoo@gmail.com</field>
         <field name="branch">CSE</field> 
-        <field name="bdate">1111-11-11</field>
+        <field name="bdate">2000-02-02</field>
         <field name="gender">male</field>
         <field name="fees">2000</field>
     </record>
@@ -29,7 +29,7 @@
         <field name="contactNo">3333333333</field>
         <field name="email">c-odoo@gmail.com</field>
         <field name="branch">CSE</field> 
-        <field name="bdate">1111-11-11</field>
+        <field name="bdate">2000-03-03</field>
         <field name="gender">female</field>
         <field name="fees">3000</field>
     </record>
@@ -38,9 +38,9 @@
         <field name="name">D</field>
         <field name="enrollmentNo">4</field>
         <field name="contactNo">4444444444</field>
-        <field name="email">e-odoo@gmail.com</field>
+        <field name="email">d-odoo@gmail.com</field>
         <field name="branch">IT</field> 
-        <field name="bdate">1111-11-11</field>
+        <field name="bdate">2000-04-04</field>
         <field name="gender">male</field>
         <field name="fees">4000</field>
     </record>
@@ -51,7 +51,7 @@
         <field name="contactNo">5555555555</field>
         <field name="email">e-odoo@gmail.com</field>
         <field name="branch">IT</field> 
-        <field name="bdate">1111-11-11</field>
+        <field name="bdate">2000-05-05</field>
         <field name="gender">female</field>
         <field name="fees">5000</field>
     </record>
