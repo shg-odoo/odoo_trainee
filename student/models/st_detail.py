@@ -26,6 +26,7 @@ class st_detail(models.Model):
 	total = fields.Integer(string="total",compute="_get_total")
 	college_id = fields.Many2one("student.college", string="College_id")
 	hobbies = fields.Many2many("student.hobby", string="Hobbies")
+
 	state = fields.Selection([
 		('draft','Draft'),
 		('confirm','Confirm'),
@@ -81,10 +82,6 @@ class college(models.Model):
     college_city = fields.Char(string="College city")
     nested = fields.One2many("student", "college_id", string="College Id")
 
-
-
-
-
 class hobby(models.Model):
     _name = "student.hobby"
     
@@ -92,3 +89,9 @@ class hobby(models.Model):
 
     hobbies = fields.Char(string="Hobbies")
     id1 = fields.Many2many("student", string="Hobbies")
+
+
+class StudentPersonalInformation(models.Model):
+    _inherit = 'student'
+
+    review = fields.Char('Review')

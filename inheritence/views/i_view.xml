@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="i_view_tree">
+       <field name="name">i.tree</field>
+       <field name="model">i_model</field>
+       <field name="arch" type="xml">
+           <tree string="i list">
+             <field name="name"/>
+             <field name="enrollmentNo"/>
+             <field name="total_sub"/>
+             <field name="branch"/>
+            </tree>
+        </field>
+  </record>
+</odoo>
