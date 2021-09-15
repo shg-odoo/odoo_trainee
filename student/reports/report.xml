@@ -1,60 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
 
+    <report
+        id="report_student"
+        model="student"
+        string="Student Report"
+        name="student.report_student_view"
+        file="student.report_student"
+        report_type="qweb-pdf" 
+        attachment_use="True"/>
+    <report
+        id="report_student_primary"
+        model="student"
+        string="Student Report Primary"
+        name="student.inherit_report_student_view_primary"
+        file="student.report_student"
+        report_type="qweb-pdf" 
+        attachment_use="True"/>
 
-    <record id="student_report_card" model="ir.actions.report">
-   <field name="name">report</field>
-   <field name="model">student</field>
-   <field name="report_type">qweb-pdf</field>
-   
-   <field name="binding_model_id" ref="model_student"/>
-   <field name="binding_type">report</field>
-   <field name="attachment_use">true</field>
-   
-</record>
-
-
-    <template id="student.student_report">
+    <template id="report_student_view">
         <t t-call="web.html_container">
-        <t t-call="web.external_layout">
-          <center>
-                <h1>student Data</h1>
-            </center><br/>
-                    <table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
-                       <tr>
-                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Name</th>
-                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Roll NO</th>
-                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">College</th>
-                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Date of Birth</th>
-                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Contact</th>
-                       <th style="border: 2px solid #ddd;padding: 8px;background-color: #4CAF50;">Email</th>
-                       </tr>
-                       <t t-foreach="docs" t-as="o">
-                       <tr  style="border: 2px solid #ddd;padding: 8px;">
-                       <td style="border: 2px solid #ddd;padding: 8px;">
-                       <span t-field="o.name"/>
-                       </td>
-                       <td style="border: 2px solid #ddd;padding: 8px;"> 
-                       <span t-field="o.enrollmentNo"/>
-                       </td>
-                       <td style="border: 2px solid #ddd;padding: 8px;"> 
-                       <span t-field="o.college_id"/>
-                       </td>
-                       <td style="border: 2px solid #ddd;padding: 8px;">
-                       <span t-field="o.bdate"/>
-                       </td>
-                       <td style="border: 2px solid #ddd;padding: 8px;">
-                       <span t-field="o.contactNo"/>
-                       </td>
-                       <td style="border: 2px solid #ddd;padding: 8px;">
-                       <span t-field="o.email"/>
-                       </td>
-                       </tr>
-                       </t>
-                       
-                    </table>
-        </t>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                       <center>
+                        <h2>Student Details</h2>
+                    <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Branch</th>
+                        <th scope="col">Age</th>
+                        <!-- <th scope="col">provide</th>
+                        <th scope="col">Available balance</th> -->
+                      </tr>
+                    </thead>
+                    <t t-foreach="docs" t-as="doc">  
+                    <tbody>
+                    <tr>
+                      <td align='center'><span t-field="doc.name"/></td>
+                      <td align='center'><span t-field="doc.branch"/></td>
+                      <td align='center'><span t-field="doc.age"/></td>
+                      <!-- <td align='center'><span t-field="doc.provide"/></td>
+                      <td align='center'><span t-field="doc.balance"/></td> -->
+                    </tr>
+                    </tbody>
+                 </t>
+             </table>
+         </center>
+                    </div>
+            </t>
         </t>
     </template>
+
+    <template id="inherit_report_student_view" inherit_id="report_student_view">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <h2>Inside</h2>
+        </xpath>
+      <xpath expr="(//th)[1]" position="after">
+        <th scope="col">Gender</th>
+      </xpath>
+      <xpath expr="(//td)[1]" position="after">
+        <td align='center'><span t-field="doc.gender"/></td>
+      </xpath>
+    </template>
+
+    <template id="inherit_report_student_view_primary" inherit_id="report_student_view" primary="True">
+      <xpath expr="(//th)[1]" position="after">
+        <th scope="col">email</th>
+      </xpath>
+      <xpath expr="(//td)[1]" position="after">
+        <td align='center'><span t-field="doc.email"/></td>
+      </xpath>
+    </template>
+
 </odoo>

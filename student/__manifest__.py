@@ -8,7 +8,8 @@
     'data': [
     		'views/st_view.xml',
     		'data/st_data.xml',
-            'reports/report.xml'
+            'wizard/student_wizard.xml',
+            'reports/report.xml',
     ],
     'application' : True,
 }

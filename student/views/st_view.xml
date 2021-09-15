@@ -22,7 +22,6 @@
              <field name="age"/>
              <field name="total"/>
              <field name="state"/>
-             <field name="review"/>
              <field name="college_id"/>
              <field name="hobbies" widget="many2many_tags"/>
              <field name="image" widget="image" class="oe_avatar"/>
@@ -76,8 +75,8 @@
                         <field name="maths"/>
                         <field name="physics"/>
                         <field name="chemistry"/>
-                        <field name="percentage"/>
-                        <field name="review"/>
+                        <field name="percentage" readonly="1"/>
+                        
                     </group>     
                 </page>
             </notebook>
@@ -85,7 +84,16 @@
     </field>
 </record>
 
-
+<record id="student_view_inherit" model="ir.ui.view">
+    <field name="name"></field>
+    <field name="model">student</field>
+    <field name="inherit_id" ref="student.student_view_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="before">
+            <field name="review" string="review"/>
+        </xpath>
+    </field>
+</record>
 <record model="ir.ui.view" id="student_calendar_view">
     <field name="name">student</field>
     <field name="model">student</field>

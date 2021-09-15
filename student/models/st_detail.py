@@ -91,7 +91,7 @@ class hobby(models.Model):
     id1 = fields.Many2many("student", string="Hobbies")
 
 
-class StudentPersonalInformation(models.Model):
+class S_inherit(models.Model):
     _inherit = 'student'
 
     review = fields.Char('Review')
