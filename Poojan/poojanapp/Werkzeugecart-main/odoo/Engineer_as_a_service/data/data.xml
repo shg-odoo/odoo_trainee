@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="user_list" model="user.list">
+        <field name="user_id">1</field>
+        <field name="role">engineer</field>
+        <field name="email">kishan@gmail.Com</field>
+        <field name="name">kishan Rathod</field>
+       <!--  <field name="mobile_no">9685274185</field>
+        <field name="password">12345</field>
+        <field name="address">Botad</field>
+        <field name="session">164654462345</field>
+        <field name="specialist">mobile Repairing</field>   
+        <field name="experience">3 years</field>    -->
+    </record>
+</odoo>

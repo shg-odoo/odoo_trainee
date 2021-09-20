@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <title>JSON Test</title>
+        <style src="style.css">
+            .cards
+            {
+                background-color:cyan;
+                border:5px solid black;
+                width:200px;
+               height:200px;
+              
+            }
+            #cart
+            {
+              text-align: center;
+              position:absolute;
+              width:1800px;
+              height:240px;
+              padding:10px;
+              float:right;
+            }
+            #cart > div{
+              float:left;
+              margin:10px;
+              align-content: center;
+            }
+            #displayProduct{
+                font: italic small-caps bold 12px/30px Georgia, serif;
+                font-size: 20px;
+            }
+            #displayProduct::after{
+                content: "\a";
+                white-space:pre-wrap;
+            }       
+        </style>
+    </head>
+    <body> 
+        <h1 style="text-align:center;">Shop.com</h1>
+        <div style="border:5px solid black; width: 200px; background:cyan; margin-left:20px;" id="main">     
+            <h1 style="text-decoration-color:bold ">Cart</h1> 
+            <div id="card"></div>    
+        </div>
+            <div id="cart"></div>
+        <script>
+                
+                function createCard(data){    
+                        let card = document.createElement("div");
+                        card.id='displayProduct'
+                        card.className='cards';
+                        card.innerHTML = data.pro+"<br>"+data.price;
+
+                        let box = document.createElement("input");
+                        box.id=data.id;
+                        box.classname="que";
+                        
+                        
+                  
+
+                        let a = document.createElement("a")
+                        a.href = "/add/to/cart/" + data.id;
+                        a.innerText = "Add to Cart";
+                        a.classname = "input";
+                        
+                        card.appendChild(box);
+                        card.appendChild(a);
+
+                        return card;
+               }
+               data = %(data)s
+               cartData = %(cartData)s
+
+                var mainContainer = document.getElementById("main");
+                var dataContainer = document.getElementById("cart");
+                var cartContainer = document.getElementById("card");
+
+                for (var i = 0; i < data.length; i++) {
+                    let card = this.createCard(data[i])
+                    dataContainer.appendChild(card);
+                    if (cartData && parseInt(data[i].id) in cartData) {
+
+                        let div = document.createElement('div');
+                        div.innerText = data[i].pro + " " + data[i].price
+                        let a = document.createElement('a');
+                        a.href = "/remove/" + data[i].id;
+                        a.innerText = "Remove";
+                        cartContainer.appendChild(div);
+                        cartContainer.appendChild(a);
+                    }
+                }
+
+                
+
+                // function pro(){
+                //     alert("pro call");
+                //     data.forEach(function(products) {
+                //         console.log(products.pro);
+                //         var quantity = document.getElementById('que').value;
+                //         document.getElementById('proDisp').innerHTML= products.pro+"  : " + products.price*quantity+"<input type='button' id='remove' value='Remove' onclick='remove()'><br><br>";
+                //     });
+                // }   
+                    
+                // function remove()
+                // {
+                //       var quantity = document.getElementById('que').value;
+                //         document.getElementById('proDisp').innerHTML="";
+                //       document.getElementById('que').value="";
+                // }
+            </script>
+    </body>
+</html>

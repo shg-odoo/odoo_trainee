@@ -1,0 +1,12 @@
+data=[
+               {
+                  "id": "1",
+                  "Product_name": "Hoddies",
+                  "price": "600"
+              },
+              {
+                  "id": "2",
+                  "Product_name": "Jacket",
+                  "price": "1500"
+              },
+  ];

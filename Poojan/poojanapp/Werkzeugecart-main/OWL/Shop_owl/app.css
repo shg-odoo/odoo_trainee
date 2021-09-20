@@ -1,0 +1,57 @@
+.task-list {
+  width: 80%;
+  background: #bcc79c;
+  float: left;
+  height: 640px;
+  text-align: center;
+
+}
+
+.task {
+  font-size: 18px;
+  color: #111111;
+  padding: 10px;
+  text-align: center;
+  margin-left: 60px;
+}
+
+.addtocart{
+	margin-left: 80px;
+}
+.cartProductName{
+	margin-left: 3px;
+}
+.buttonheading{
+	margin-left: 80px;	
+}
+.pricetag{
+	margin-left: 50px;
+}
+.split2{
+	margin-left: 80%;
+	width: 20%;
+	height: 620px;
+	text-align: center;
+	background-color: aliceblue;
+}
+#nav{
+	background-color: green;
+	text-align: center;
+	 padding: 15px;
+	height: 50px;
+}
+
+#search{
+	margin-top:20px;
+	width: 30%;
+	height: 30px;
+}
+#tbl{
+	margin-left: 25%;
+}
+#sp{
+	padding: 30px;
+}	
+#sp1{
+	padding: 70px;
+}

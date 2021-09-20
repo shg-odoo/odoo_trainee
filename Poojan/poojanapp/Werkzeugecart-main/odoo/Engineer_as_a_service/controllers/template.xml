@@ -1,0 +1,42 @@
+<odoo>
+    <template id="my_template">
+            <h1>My Page</h1>
+            <h2>Engineer Information</h2>
+            <a href="/create_student" class="btn btn-primary">Create</a>
+            <t t-call="Engineer_as_a_service.student_table"/>
+    </template>
+
+    <template id="student_table">
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Name</th>
+            </tr>
+            <tr t-foreach="students" t-as="student">
+                <td><t t-esc="student.user_id"/></td>
+                <td><t t-esc="student.role"/></td>
+                <td><t t-esc="student.email"/></td>
+                <td><t t-esc="student.name"/></td>
+                <!-- <td><t t-esc="student.mobile_no"/></td>
+                <td><t t-esc="student.address"/></td>
+                <td><t t-esc="student.specialist"/></td>
+                <td><t t-esc="student.experience"/></td> -->
+                <td><a class="btn" t-att-href="'/delete/%s' % student.id">Delete</a></td>
+            </tr>
+        </table>
+    </template>
+
+    <template id="create_student">
+            <form action="/submit_form">
+                <div>
+                    <div>id: <input type="text" name="user_id"/></div><br/>
+                    <div>Role: <input type="text" name="role"/></div><br/>
+                    <div>Email Id: <input type="email" name="email"/></div><br/>
+                    <div>name: <input type="text" name="name"/></div><br/>
+                    <div><button type="submit">submit</button></div>
+                </div>
+            </form>
+    </template>
+</odoo>
