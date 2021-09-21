@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="s1" model="employee" >
+        <field name="fname">Poojan</field>
+        <field name="lname">Patel</field>
+    </record>
+
+    <record id="s2" model="employee">
+        <field name="fname">Rajesh</field>
+        <field name="lname">Rao</field>
+    </record>
+
+    <record id="s3" model="employee">
+        <field name="fname">Rohan</field>
+        <field name="lname">shah</field>
+    </record>
+
+    <record id="s4" model="employee">
+        <field name="fname">Harsh</field>
+        <field name="lname">Patel</field>
+    </record>
+
+      <record id="s5" model="employee">
+        <field name="fname">Jeet</field>
+        <field name="lname">Desai</field>
+    </record>
+</odoo>

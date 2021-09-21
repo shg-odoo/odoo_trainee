@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record model="ir.ui.view" id="employee_id">
+            <field name="name">Employee</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="fname"/>
+                    <field name="lname"/>
+                </tree>
+            </field>
+        </record>
+
+</odoo>
