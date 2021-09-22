@@ -7,8 +7,92 @@
                 <tree>
                     <field name="fname"/>
                     <field name="lname"/>
+                    <field name="employmentNo"/>
+                    <field name="contactNo"/>
+                    <field name="email"/>
+                    <field name="branch"/>
+                    <field name="bdate"/>
+                    <field name="gender" widget="radio" options="{'vertical':true}"/>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <field name="current_date"/>
+                    <field name="maths"/>
+                    <field name="physics"/>
+                    <field name="chemistry"/>
+                    <field name="percentage"/>
+                    <field name="income"/>
+                    <field name="age"/>
+                    <field name="total"/>
+                    <field name="working"/>
+                    <field name="college_id" />
+                    <field name="country_id" />
                 </tree>
             </field>
         </record>
 
+
+
+        
+
+        <record model="ir.ui.view" id="fname_tree_view">
+            <field name="name">fname.tree</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <tree string="fname Data">
+                    <field name="fname"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record model="ir.ui.view" id="course_tree_view">
+            <field name="name">college.tree</field>
+            <field name="model">employee.college</field>
+            <field name="arch" type="xml">
+                <tree string="College Data">
+                    <field name="college_name"/>
+                    <field name="college_city"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="course_form_view1">
+            <field name="name">College.form</field>
+            <field name="model">employee.college</field>
+            <field name="arch" type="xml">
+                 <form string="Course Form">
+                    <sheet>
+                        <group>
+                            <field name="college_name"/>
+                            <field name="college_city"/>
+                            <field name="id1">
+                                <tree>
+                                    <field name="branch"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form> 
+            </field>
+        </record>
+
+
+
+        <record id="college_action" model="ir.actions.act_window" >
+            <field name="name">employee</field>
+            <field name="res_model">employee.college</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="employee_action" model="ir.actions.act_window" >
+            <field name="name">employee</field>
+            <field name="res_model">employee</field>
+            <field name="view_mode">tree</field>
+        </record>
+        
+        <menuitem id="employee-all" name="Employee Data" />
+        <menuitem id="emp-name" name="Employeefname" sequence="1" action="employee_action" parent="employee-all"/>
+
 </odoo>
+
+

@@ -3,25 +3,65 @@
     <record id="s1" model="employee" >
         <field name="fname">Poojan</field>
         <field name="lname">Patel</field>
+
+        <field name="contactNo">8154893434</field>
+        <field name="email">papo-odoo@gmail.com</field>
+        <field name="branch">RND</field>
+        
+        <field name="bdate">1997-09-03</field>
+        <field name="gender">male</field>
+        <field name="income">15000</field>
     </record>
 
     <record id="s2" model="employee">
         <field name="fname">Rajesh</field>
         <field name="lname">Rao</field>
+
+        <field name="contactNo">1111111111</field>
+        <field name="email">abcd-odoo@gmail.com</field>
+        <field name="branch">RND</field>
+        
+        <field name="bdate">1997-10-03</field>
+        <field name="gender">male</field>
+        <field name="income">25000</field>
     </record>
 
     <record id="s3" model="employee">
         <field name="fname">Rohan</field>
         <field name="lname">shah</field>
+
+        <field name="contactNo">2222222222</field>
+        <field name="email">defg-odoo@gmail.com</field>
+        <field name="branch">sales</field>
+        
+        <field name="bdate">1997-11-12</field>
+        <field name="gender">male</field>
+        <field name="income">20000</field>
     </record>
 
     <record id="s4" model="employee">
         <field name="fname">Harsh</field>
         <field name="lname">Patel</field>
+
+        <field name="contactNo">3333333333</field>
+        <field name="email">hrsh-odoo@gmail.com</field>
+        <field name="branch">marketing</field>
+        
+        <field name="bdate">1993-06-22</field>
+        <field name="gender">male</field>
+        <field name="income">30000</field>
     </record>
 
       <record id="s5" model="employee">
         <field name="fname">Jeet</field>
         <field name="lname">Desai</field>
+
+        <field name="contactNo">4444444444</field>
+        <field name="email">jeet-odoo@gmail.com</field>
+        <field name="branch">RND</field>
+        
+        <field name="bdate">1996-10-10</field>
+        <field name="gender">male</field>
+        <field name="income">15000</field>
     </record>
 </odoo>
