@@ -22,7 +22,7 @@ class st_detail(models.Model):
 	physics = fields.Integer(string="Physics")
 	chemistry = fields.Integer(string="Chemistry")
 	fees = fields.Integer(string="Fees")
-	age = fields.Integer(string="age",compute="_get_age",store=True)
+	age = fields.Integer(string="age",compute="_get_age",store=True, default="30")
 	total = fields.Integer(string="total",compute="_get_total")
 	college_id = fields.Many2one("student.college", string="College_id")
 	hobbies = fields.Many2many("student.hobby", string="Hobbies")
@@ -32,7 +32,7 @@ class st_detail(models.Model):
 		('confirm','Confirm'),
 		('done','Done'),
 		('cancel','Cancelled'),
-		], string='Staus', readonly=True, default='draft')
+		], string='Status', readonly=True, default='draft')
 
 	@api.onchange('maths','physics','chemistry')
 	def _get_percentage(self):

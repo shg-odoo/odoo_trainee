@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="my_template">
+        <t t-call="website.layout">
+            <h1>My Page</h1>
+            <h2>Student Information</h2>
+            <a href="/create_student" class="btn-primary">Create</a>
+            <t t-call="student.student_table"/>
+        </t>
+    </template>
+
+    <template id="student_table">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Maths</th>
+                <th>total</th>
+            </tr>
+            <tr t-foreach="students" t-as="student">
+                <td><t t-esc="student.name"/></td>
+                <td><t t-esc="student.maths"/></td>
+                <td><t t-esc="student.total"/></td>
+                <td><a class="btn" t-att-href="'/delete/%s' % student.id">Delete</a></td>
+            </tr>
+        </table>
+    </template>
+
+    <template id="create_student">
+        <t t-call="website.layout">
+            <form action="/submit_form">
+                <div>
+                    <div>Name: <input type="text" name="name"/></div><br/>
+                    <div>Maths: <input type="text" name="maths"/></div><br/>
+                    <div><button type="submit">submit</button></div>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    
+</odoo>

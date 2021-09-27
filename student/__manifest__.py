@@ -4,7 +4,7 @@
     'summary': 'practice odoo',
     'sequence' : 1,
     'category': 'Management',
-    'depends': ['base'],
+    'depends': ['base','website'],
     'data': [
             'security/ir.model.access.csv',
             'security/sequence.xml',
@@ -12,8 +12,7 @@
     		'data/st_data.xml',
             'wizard/student_wizard.xml',
             'reports/report.xml',
+            'views/cont.xml',
     ],
     'application' : True,
 }
-
-
