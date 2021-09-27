@@ -26,10 +26,7 @@ class Employee(models.Model):
     working = fields.Boolean(string="Working",default=True)
     country_id = fields.Many2one('res.country', string='Country')
     college_id = fields.Many2one("student.college", string="College")
-
-
-
-
+    name_seq = fields.Char(string="Student Sequence", required=True, copy=False, readonly=True, index=True, default=lambda self:('New'))
 
 
 

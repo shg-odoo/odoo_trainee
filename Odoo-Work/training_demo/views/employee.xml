@@ -5,8 +5,8 @@
             <field name="model">employee</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="fname"/>
                     <field name="lname"/>
+                    <field name="fname"/>
                     <field name="employmentNo"/>
                     <field name="contactNo"/>
                     <field name="email"/>
@@ -29,19 +29,64 @@
             </field>
         </record>
 
-
-
         
-
-        <record model="ir.ui.view" id="fname_tree_view">
-            <field name="name">fname.tree</field>
+        <record model="ir.ui.view" id="employee_calendar_view">
+            <field name="name">employee</field>
             <field name="model">employee</field>
             <field name="arch" type="xml">
-                <tree string="fname Data">
-                    <field name="fname"/>
-                </tree>
+                <calendar color="lname" date_start="bdate" string="Employee Calendar" mode="month">
+                    <field name="lname"/>
+                    <field name="contactNo"/>
+                </calendar>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="employee_search_view">
+            <field name="name">Employee</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="fname"/>
+                    <field name="branch"/>
+                    <filter string="Male" name="male" domain="[('gender','=','male')]" />
+                    <separator/>
+                    <filter string="Female" name="female" domain="[('gender','=','female')]" />
+                    <separator/>
+                    <filter string="Income" name="income" domain="[('income','>','15000')]" />
+                    <group string="Group By">
+                         <filter string="Branch" name="branch" context="{'group_by':'branch'}" />
+                         <filter string="Gender" name="gender" context="{'group_by':'gender'}" />
+                         <filter string="Income" name="income" context="{'group_by':'income'}" />
+                         <filter string="Last Name" name="lname" context="{'group_by':'lname'}" />
+                    </group>
+                </search>
+            </field>
+        </record> 
+
+
+         <record model="ir.ui.view" id="employee_gantt_view">
+            <field name="name">Employee.gantt</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <gantt date_stop="current_date" date_start="bdate" string="Session Gantt" default_group_by="gender">
+                </gantt>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="employee_session_graph_view">
+            <field name="name">employee.search</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <graph string="Employee by percentage">
+                    <field name="fname"/>
+                    <field name="percentage" type="measure"/>
+                    <field name="income" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+
 
 
 
@@ -53,6 +98,17 @@
                     <field name="college_name"/>
                     <field name="college_city"/>
                 </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="college_calendar_view">
+            <field name="name">College</field>
+            <field name="model">employee.college</field>
+            <field name="arch" type="xml">
+                <calendar color="college_name" string="College Calendar" mode="month">
+                    <field name="college_name"/>
+                    <field name="college_city"/>
+                </calendar>
             </field>
         </record>
 
@@ -77,22 +133,39 @@
         </record>
 
 
+        <record model="ir.ui.view" id="fname_tree_view">
+            <field name="name">fname.tree</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <tree string="fname Data">
+                    <field name="fname"/>
+                </tree>
+            </field>
+        </record>
+
+
+       
+       <record id="employee_details_action" model="ir.actions.act_window" >
+            <field name="name">employee</field>
+            <field name="res_model">employee</field>
+            <field name="view_mode">tree,form,calendar,graph,gantt,kanban</field>
+        </record>
 
         <record id="college_action" model="ir.actions.act_window" >
             <field name="name">employee</field>
             <field name="res_model">employee.college</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,calendar</field>
         </record>
 
         <record id="employee_action" model="ir.actions.act_window" >
             <field name="name">employee</field>
             <field name="res_model">employee</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
         </record>
-        
+
         <menuitem id="employee-all" name="Employee Data" />
-        <menuitem id="emp-name" name="Employeefname" sequence="1" action="employee_action" parent="employee-all"/>
+        <menuitem id="emp-details" name="EmployeeDetails" sequence="1" action="employee_details_action" parent="employee-all"/>
+        <menuitem id="emp-name" name="Employeefname" sequence="2" action="employee_action" parent="employee-all"/>
+        <menuitem id="clg-name" name="CollegeName" sequence="3" action="college_action" parent="employee-all"/>
 
 </odoo>
-
-
