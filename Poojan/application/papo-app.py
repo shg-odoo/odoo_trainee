@@ -1,4 +1,4 @@
-import os
+import  os
 import json  
 from werkzeug.wrappers import Request, Response
 from werkzeug.middleware.shared_data import SharedDataMiddleware  
@@ -28,41 +28,63 @@ def my_cart(request,product_id=None):
     return home_page(request)
 
 def remove_from_cart(request,product_id=None):
-    
+    print("dsdsk")
     if product_id and bool(int(request.session.__len__())):
         request.session['product_ids'].pop(product_id)
     return home_page(request)
     
 
-def add_item_cart(request,product_id=None):
+def add_in_cart(request,product_id=None):
     if product_id and not bool(int(request.session.__len__())):
         request.session['product_ids'] = {product_id: product_id}
     else:
+        temp=open('items.json','r+').read()
+        print(temp,"--------------------------------1")
+        dataTemp=json.loads(temp)
+        # product_id['quantity'] += 1
+        for i in dataTemp:
+            print(i,"-------------------------------2")
+            if i['id']==product_id:
+                i['quantity']+= 1
+                jsonFile = open("items.json", "w")
+                json.dump(dataTemp, jsonFile)
+                jsonFile.close()
         request.session['product_ids'].update({product_id: product_id})
     return home_page(request)
 
-# def add_item(self, product, price):
-#         """Add product to the cart."""
-#         for products in product:
-#             if not products in self.items_in_cart:
-#                 self.items_in_cart[products] = price
-#                 print "added."
-#             else:
-#                 print "Product is already in the cart."
-
-
+def remove_in_cart(request,product_id=None):
+    if product_id and not bool(int(request.session.__len__())):
+        request.session['product_ids'] = {product_id: product_id}
+    else:
+        temp=open('items.json','r+').read()
+        print(temp,"--------------------------------1")
+        dataTemp=json.loads(temp)
+        # product_id['quantity'] += 1
+        for i in dataTemp:
+            print(i,"-------------------------------2")
+            if i['id']==product_id:
+                i['quantity']-= 1
+                jsonFile = open("items.json", "w")
+                json.dump(dataTemp, jsonFile)
+                jsonFile.close()
+        request.session['product_ids'].update({product_id: product_id})
+    return home_page(request)
 
 
 url_map = Map([
     Rule("/", endpoint="home_page"),
     Rule("/add/<int:product_id>", endpoint="my_cart"),
-    Rule("/remove/<int:product_id>", endpoint="remove_from_cart")
+    Rule("/remove/<int:product_id>", endpoint="remove_from_cart"),
+    Rule("/addin/<int:product_id>", endpoint="add_in_cart"),
+    Rule("/removein/<int:product_id>", endpoint="remove_in_cart"),
 ])
 
 views = {
     "home_page": home_page,
     "my_cart": my_cart,
     "remove_from_cart": remove_from_cart,
+    "add_in_cart": add_in_cart,
+    "remove_in_cart":remove_in_cart
 }
 
 session_store = FilesystemSessionStore(path=gettempdir())

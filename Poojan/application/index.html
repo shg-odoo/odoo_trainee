@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>My Shop-Poojan-PAPO</title>
+	<title>Shop-Poojan-PAPO</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <style>
@@ -67,6 +67,10 @@
                 index.style = "text-align: center;"
                 index.innerText = data.id;
 
+                let quan = document.createElement('div');
+                quan.style = "text-align:center"
+                quan.innerText = "quantity:" + data.quantity;
+
                 let title = document.createElement('div');
                 title.innerText = data.name;
 
@@ -81,6 +85,7 @@
                 product.appendChild(title);
                 product.appendChild(price);
                 product.appendChild(a);
+                product.appendChild(quan);
 
                 // console.log("total product card:" + product)
 
@@ -100,22 +105,46 @@
 
                 if (data[i].id in cartData) {
                     let div = document.createElement('div');
-                    div.innerText = data[i].name + "\n Price:" + data[i].price
+                    div.innerText = data[i].name + "\n Price:" + data[i].price + "\n Quantity:" + data[i].quantity +
+                    "\n Total Price:=" + (data[i].price * data[i].quantity)  
+
+
+                    // // var abab = 0
+                    // for (var i in data[i].price:)
+                    //     // var abab = 0 
+                    //     abab = i + abab
+
 
                     let a = document.createElement('a');
                     a.href = "/remove/" + data[i].id
                     a.innerHTML = "<button>Remove from Cart</button><br><br>"
 
+                    let b = document.createElement('a');
+                    b.href = "/addin/" + data[i].id
+                    console.log("_______________________");
+                    b.innerHTML = "<button> +Quantity</button><br>"
+
+
+                    let c = document.createElement('a');
+                    c.href = "/removein/" + data[i].id
+                    console.log("_______________________");
+                    c.innerHTML = "<button> -Quantity</button><br>"
+                    
+
                     myCartContainer.appendChild(div);
+                    myCartContainer.appendChild(b);
+                    myCartContainer.appendChild(c);
                     myCartContainer.appendChild(a);
+                    
+
                 }
             }
 
-            // // cartData !== undefined
+            // cartData !== undefined
 
             if (Object.keys(cartData).length === 0) {
                 console.log("nothng is here!")
-                console.log("some data",Object.keys(cartData)) // []
+                console.log("some data",Object.keys(cartData))
 
                 let div = document.createElement('div');
                 div.innerText = "Your cart is Empty!"
@@ -123,11 +152,16 @@
                 myCartContainer.appendChild(div);
             }
             else {
+                // let abcd = document.createElement('div')
+                // abcd.innerText = (cartData) + "\n" + "\n"
+
+
                 let div = document.createElement('div');
                 div.innerText = "Product added in your cart!"
 
                 myCartContainer.appendChild(div);
-            }
+                // myCartContainer.appendChild(abcd);
+                }
 </script>
 
 </body>
