@@ -14,7 +14,7 @@
                     <field name="bdate"/>
                     <field name="gender" widget="radio" options="{'vertical':true}"/>
                     <field name="image" widget="image" class="oe_avatar"/>
-                    <field name="current_date"/>
+                    <!-- <field name="current_date"/> -->
                     <field name="maths"/>
                     <field name="physics"/>
                     <field name="chemistry"/>
@@ -23,31 +23,91 @@
                     <field name="age"/>
                     <field name="total"/>
                     <field name="working"/>
-                    <field name="college_id" />
-                    <field name="country_id" />
+                    <field name ="hobbies_id" widget="many2many_tags" />
+                    <field name="company_id" widget="one2many_tags"/>
+                    <field name="country_id" widget="one2many_tags"/>
                 </tree>
             </field>
         </record>
 
-        
+<!-- Employee CALENDAR view  START-->
         <record model="ir.ui.view" id="employee_calendar_view">
             <field name="name">employee</field>
             <field name="model">employee</field>
             <field name="arch" type="xml">
-                <calendar color="lname" date_start="bdate" string="Employee Calendar" mode="month">
+                <calendar color="employmentNo" date_start="bdate" string="Employee Calendar" mode="month">
                     <field name="lname"/>
                     <field name="contactNo"/>
                 </calendar>
             </field>
         </record>
+<!-- Employee CALENDAR view END END-->
 
+<!-- form view for detail-->
+    <record model = 'ir.ui.view' id = 'employee_form_id1'>
+        <field name='name'>Employee.form</field>
+        <field name='model'>employee</field>
+        <field name='arch' type='xml'>
+        <form>
+            <sheet>
+                <h1>First Name:<field name="fname"/></h1>
+                    <notebook>
+                        <page string="Employee Personal Details">
+                            <group>
+                                <field name="image" widget="image" class="oe_avatar"/>
+                                <field name="hobbies_id" widget="Many2many_tags"/>
+                                <field name="country_id" widget="one2many_tags"/>
+                                <field name="company_id" widget="one2many_tags"/> 
+                            </group>
+                            <group> 
+                                <field name = 'lname'/>
+                                <field name = 'bdate'/>
+                                <field name = 'gender' widget="radio" options='{"horizontal":true}'/>  
+                                <field name = 'contactNo'/>
+                                <field name = 'email'/>
+                                <field name = 'html'/>
+                            </group>
+                        </page>
+                        <page string='Employee Others detail'>
+                            <group>
+                                
+                                <field name = 'employmentNo'/>
+                                <field name="branch"/>
+                                <field name="income"/>
+                                <field name = 'current_date'/>   
+                            </group>
+                        </page>
+                        <page string="Employee Marks Detail"> 
+                            <group>
+                                <field name = 'maths'/>                 
+                                <field name = 'physics'/>
+                                <field name = 'chemistry'/>
+                                <field name = 'total'/>
+                                <field name = 'percentage'/>
+                            </group>
+                        </page>
+                    </notebook>
+            </sheet>
+        </form>
+        </field>
+    </record>
+    
+
+
+
+
+
+<!-- Employee SEARCH view  START-->
         <record model="ir.ui.view" id="employee_search_view">
             <field name="name">Employee</field>
             <field name="model">employee</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="fname"/>
+                    <field name="lname"/>
                     <field name="branch"/>
+                    <field name="income"/>
+                    <field name="email"/>
                     <filter string="Male" name="male" domain="[('gender','=','male')]" />
                     <separator/>
                     <filter string="Female" name="female" domain="[('gender','=','female')]" />
@@ -62,65 +122,163 @@
                 </search>
             </field>
         </record> 
+<!-- Employee SEARCH view END END-->
 
 
-         <record model="ir.ui.view" id="employee_gantt_view">
+<!-- Employee kanban  view -->
+        <record model="ir.ui.view"  id="employee_kanban">
+            <field name="name">Employee.kanban</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong> Name: <field name="fname"/></strong>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <span class="badge badge-pill"><strong>E_id:-<field name="employmentNo"/></strong></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong>Email: </strong><field name="email"/>
+                                </div>
+                                <div>
+                                    <strong>Branch: </strong><field name="branch"/>
+                                </div>
+                                <div>
+                                    <strong>Contact Number: </strong><field name="contactNo"/>
+                                </div>
+                                <div>
+                                    <strong>Gender: </strong><field name="gender"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+<!-- Employee kanban  view END END -->
+
+<!-- Employee GANTT view  START-->
+
+        <record model="ir.ui.view" id="employee_gantt_view">
             <field name="name">Employee.gantt</field>
             <field name="model">employee</field>
             <field name="arch" type="xml">
-                <gantt date_stop="current_date" date_start="bdate" string="Session Gantt" default_group_by="gender">
+                <gantt string="Session Gantt" date_stop="current_date" date_start="bdate" default_group_by="gender">
                 </gantt>
             </field>
         </record>
+<!-- Employee GANTT view END END-->
 
 
+<!-- Employee GRAPH view  START-->
         <record model="ir.ui.view" id="employee_session_graph_view">
             <field name="name">employee.search</field>
             <field name="model">employee</field>
             <field name="arch" type="xml">
-                <graph string="Employee by percentage">
+                <graph string="Employee by income">
                     <field name="fname"/>
-                    <field name="percentage" type="measure"/>
+                    <!-- <field name="percentage" type="measure"/> -->
                     <field name="income" type="measure"/>
                 </graph>
             </field>
         </record>
+<!-- Employee GRAPH view END END-->
         
+<!-- Employee pivot view START -->
+<record model="ir.ui.view" id="employee_pivot_id1">
+        <field name="name">Employee.pivot</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <pivot string='Pivot View'>
+                <field name='fname' type='row'/>
+                <!-- <field name='lname' type='row'/> -->
+                <field name='percentage' type='measure'/>
+            </pivot>
+        </field>
+    </record>
+<!-- Employee pivot view END-END -->
 
 
 
 
+
+
+
+
+
+
+
+<!--HOBBIES ALL view  START-->
+
+
+<!--HOBBIES TREE/LIST view  START-->
         <record model="ir.ui.view" id="course_tree_view">
-            <field name="name">college.tree</field>
-            <field name="model">employee.college</field>
+            <field name="name">Employee.hobbies.tree</field>
+            <field name="model">employee.hobbies</field>
             <field name="arch" type="xml">
-                <tree string="College Data">
-                    <field name="college_name"/>
-                    <field name="college_city"/>
+                <tree string="Hobbies Data">
+                    <field name="name"/>
                 </tree>
             </field>
         </record>
+<!--HOBBIES TREE/LIST view END-END-->
 
-        <record model="ir.ui.view" id="college_calendar_view">
-            <field name="name">College</field>
-            <field name="model">employee.college</field>
-            <field name="arch" type="xml">
-                <calendar color="college_name" string="College Calendar" mode="month">
-                    <field name="college_name"/>
-                    <field name="college_city"/>
-                </calendar>
-            </field>
-        </record>
-
+<!--HOBBIES FORM view START START-->
         <record model="ir.ui.view" id="course_form_view1">
-            <field name="name">College.form</field>
-            <field name="model">employee.college</field>
+            <field name="name">Hobbies.form</field>
+            <field name="model">employee.hobbies</field>
             <field name="arch" type="xml">
-                 <form string="Course Form">
+                 <form string="Hobbies Form">
                     <sheet>
                         <group>
-                            <field name="college_name"/>
-                            <field name="college_city"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form> 
+            </field>
+        </record>
+<!--HOBBIES FORM view END-END-->
+
+
+<!--HOBBIES ALL view  END - END -->
+
+
+
+
+
+
+<!--COMPANY ALL view  START-->
+
+
+<!--COMPANY TREE/LIST view  START-->
+        <record model="ir.ui.view" id="course_tree_view">
+            <field name="name">Employee.company.tree</field>
+            <field name="model">employee.company</field>
+            <field name="arch" type="xml">
+                <tree string="Company Data">
+                    <field name="company_name"/>
+                    <field name="company_city"/>
+                </tree>
+            </field>
+        </record>
+<!--COMPANY TREE/LIST view END-END-->
+
+
+<!--COMPANY FORM view START START-->
+        <record model="ir.ui.view" id="company_form_view1">
+            <field name="name">Company.form</field>
+            <field name="model">employee.company</field>
+            <field name="arch" type="xml">
+                 <form string="Company Form">
+                    <sheet>
+                        <group>
+                            <field name="company_name"/>
+                            <field name="company_city"/>
                             <field name="id1">
                                 <tree>
                                     <field name="branch"/>
@@ -131,41 +289,108 @@
                 </form> 
             </field>
         </record>
+<!--COMPANY FORM view END-END-->
 
-
-        <record model="ir.ui.view" id="fname_tree_view">
-            <field name="name">fname.tree</field>
-            <field name="model">employee</field>
+<!--COMPANY FILTER/SEARCH view START -->
+    
+    <record model="ir.ui.view" id="company_search_view">
+            <field name="name">Employee.company.search</field>
+            <field name="model">employee.company</field>
             <field name="arch" type="xml">
-                <tree string="fname Data">
-                    <field name="fname"/>
+                <search>
+                    <field name='company_name'/>
+                    <field name ='company_city'/>
+                    <group string="Group By">
+                        <filter string="Location" name="company_city" context="{'group_by':'company_city'}" />
+                    </group>
+                </search>
+            </field>
+     </record>
+
+<!--COMPANY FILTER/SEARCH view END-END -->
+
+
+
+<!-- COMPANY ALL view END END-->
+
+
+<!-- VIEW of COUNTRY All START-START -->
+
+<!-- tree view COUNTRY START START -->
+        <record model="ir.ui.view" id="country_tree_view">
+            <field name="name">Employee.country.tree</field>
+            <field name="model">employee.country</field>
+            <field name="arch" type="xml">
+                <tree string="Country Data">
+                    <field name="current_city"/>
+                    <!-- <field name="current_state"/> -->
+                    <field name="country_name"/>
                 </tree>
             </field>
         </record>
+<!-- tree view COUNTRY END-END -->
+
+<!-- form view for COUNTRY START -->
+    <record model = 'ir.ui.view' id = 'employee_hform_id1'>
+        <field name='name'>Employee.country.form</field>
+        <field name='model'>employee.country</field>
+        <field name='arch' type='xml'>
+            <form>
+                <sheet>
+                <group>
+                    <field name = 'current_city'/>
+                    <!-- <field name = 'current_states'/> -->
+                    <field name = 'country_name'/>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!-- form view for COUNTRY START -->
 
 
-       
+<!-- _____________ VIEW of COUNTRY All END-END -->       
+
+
+
+<!-- ACTION OF ALL VIEW START -->
+
        <record id="employee_details_action" model="ir.actions.act_window" >
             <field name="name">employee</field>
             <field name="res_model">employee</field>
-            <field name="view_mode">tree,form,calendar,graph,gantt,kanban</field>
+            <field name="view_mode">tree,form,calendar,graph,kanban,pivot,search,gantt</field>
         </record>
 
-        <record id="college_action" model="ir.actions.act_window" >
+        <record id="company_action" model="ir.actions.act_window" >
             <field name="name">employee</field>
-            <field name="res_model">employee.college</field>
-            <field name="view_mode">tree,form,calendar</field>
+            <field name="res_model">employee.company</field>
+            <field name="view_mode">tree,form,search</field>
         </record>
 
-        <record id="employee_action" model="ir.actions.act_window" >
+        <record id="country_action" model="ir.actions.act_window" >
             <field name="name">employee</field>
-            <field name="res_model">employee</field>
+            <field name="res_model">employee.country</field>
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record id="hobbies_action" model="ir.actions.act_window" >
+            <field name="name">employee</field>
+            <field name="res_model">employee.hobbies</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+<!-- ACTION OF ALL VIEW END-END -->
+
+
+
+
         <menuitem id="employee-all" name="Employee Data" />
         <menuitem id="emp-details" name="EmployeeDetails" sequence="1" action="employee_details_action" parent="employee-all"/>
-        <menuitem id="emp-name" name="Employeefname" sequence="2" action="employee_action" parent="employee-all"/>
-        <menuitem id="clg-name" name="CollegeName" sequence="3" action="college_action" parent="employee-all"/>
+        <menuitem id="company-name" name="CompanyName" sequence="2" action="company_action" parent="employee-all"/>
+        
+        <menuitem id="emp-hobbies" name="EmployeeHobbies" sequence="3" action="hobbies_action" parent="employee-all"/>
+
+        <menuitem id="emp-country" name="EmployeeCountry" sequence="4" action="country_action" parent="employee-all"/>
+        
 
 </odoo>

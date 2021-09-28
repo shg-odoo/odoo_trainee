@@ -25,19 +25,19 @@ class Employee(models.Model):
     total = fields.Integer(string="total")
     working = fields.Boolean(string="Working",default=True)
     country_id = fields.Many2one('res.country', string='Country')
-    college_id = fields.Many2one("student.college", string="College")
+    company_id = fields.Many2one("employee.company", string="Company")
+    hobbies_id = fields.Many2many("employee.hobbies", string="Hobbies")
     name_seq = fields.Char(string="Student Sequence", required=True, copy=False, readonly=True, index=True, default=lambda self:('New'))
 
 
 
-class college(models.Model):
-    _name = "employee.college"
-    _rec_name = "college_name"
+class Company(models.Model):
+    _name = "employee.company"
+    _rec_name = "company_name"
 
-    college_name = fields.Char(string="College Name")
-    college_city = fields.Char(string="College city")
-    id1 = fields.One2many("employee", "college_id", string="College Id")
-
+    company_name = fields.Char(string="Company Name")
+    company_city = fields.Char(string="Company city")
+    id1 = fields.One2many("employee", "company_id", string="Company Id")
 
 
 class country(models.Model):
@@ -46,4 +46,10 @@ class country(models.Model):
 
     country_name = fields.Char(string="Country Name")
     current_city = fields.Char(string="Current city")
+    # current_state = fields.Char(string="Current State")
     id1 = fields.One2many("employee", "country_id", string="Country Id")
+
+class Hobbies(models.Model):
+    _name = "employee.hobbies"
+
+    name = fields.Char(string="Hobbies Name")
