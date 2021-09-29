@@ -30,7 +30,7 @@
     'depends': ['base'],
     'data': [
         'data/employee_staticData.xml',
-        # 'wizard/student_wizards.xml',
+        'wizard/employee_wizards.xml',
         'views/employee.xml'
         # 'data/sequence.xml',
         # 'security/ir.model.access.csv',

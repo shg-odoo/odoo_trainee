@@ -1,4 +1,7 @@
-from odoo import models, fields
+from odoo import models, fields ,api,_
+from datetime import datetime,date
+from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError
 
 class Employee(models.Model):
     _name = 'employee'
@@ -16,19 +19,37 @@ class Employee(models.Model):
     gender = fields.Selection([ ('male', 'Male'),('female', 'Female'),],'Gender', default='male')
     image = fields.Binary(string='Image')
     current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
-    percentage = fields.Integer(string="Percentage")
+    percentage = fields.Integer(string="Percentage",compute="_get_percentage", store=True)
     maths = fields.Integer(string="Maths")
     physics = fields.Integer(string="Physics")
     chemistry = fields.Integer(string="Chemistry")
     income = fields.Integer(string="Income")
-    age = fields.Integer(string="age",store=True)
-    total = fields.Integer(string="total")
+    age = fields.Integer(string="age")
+    total = fields.Integer(string="total",compute="_compute_total", store=True)
     working = fields.Boolean(string="Working",default=True)
     country_id = fields.Many2one('res.country', string='Country')
     company_id = fields.Many2one("employee.company", string="Company")
     hobbies_id = fields.Many2many("employee.hobbies", string="Hobbies")
     name_seq = fields.Char(string="Student Sequence", required=True, copy=False, readonly=True, index=True, default=lambda self:('New'))
 
+
+@api.depends('maths','physics','chemistry')
+def _compute_total(self):
+    print("\n\n\n",self)
+    for i in self:
+        i.total = i.maths + i.physics + i.chemistry      
+    # self.total = self.maths + self.physics + self.chemistry
+
+@api.onchange('maths','physics','chemistry')
+def _get_percentage(self):
+    # print("\n\n\n",self)
+    self.percentage = (self.maths + self.chemistry + self.physics)/3
+
+@api.constrains('age')
+def _constraints_age(self):
+    for rec in self:
+        if(rec.age < 18):
+            raise ValidationError("age must above 18")
 
 
 class Company(models.Model):
@@ -53,3 +74,8 @@ class Hobbies(models.Model):
     _name = "employee.hobbies"
 
     name = fields.Char(string="Hobbies Name")
+
+
+
+
+

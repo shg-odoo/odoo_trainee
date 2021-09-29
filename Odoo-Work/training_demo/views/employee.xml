@@ -18,7 +18,7 @@
                     <field name="maths"/>
                     <field name="physics"/>
                     <field name="chemistry"/>
-                    <field name="percentage"/>
+                    <field name="percentage" />
                     <field name="income"/>
                     <field name="age"/>
                     <field name="total"/>
@@ -55,7 +55,7 @@
                         <page string="Employee Personal Details">
                             <group>
                                 <field name="image" widget="image" class="oe_avatar"/>
-                                <field name="hobbies_id" widget="Many2many_tags"/>
+                                <field name="hobbies_id" widget="many2many_tags"/>
                                 <field name="country_id" widget="one2many_tags"/>
                                 <field name="company_id" widget="one2many_tags"/> 
                             </group>
@@ -65,6 +65,7 @@
                                 <field name = 'gender' widget="radio" options='{"horizontal":true}'/>  
                                 <field name = 'contactNo'/>
                                 <field name = 'email'/>
+                                <field name = 'age'/>
                                 <field name = 'html'/>
                             </group>
                         </page>
@@ -256,8 +257,8 @@
 
 
 <!--COMPANY TREE/LIST view  START-->
-        <record model="ir.ui.view" id="course_tree_view">
-            <field name="name">Employee.company.tree</field>
+        <!-- <record model="ir.ui.view" id="course_tree_view">
+            <field name="name">company.tree</field>
             <field name="model">employee.company</field>
             <field name="arch" type="xml">
                 <tree string="Company Data">
@@ -265,13 +266,13 @@
                     <field name="company_city"/>
                 </tree>
             </field>
-        </record>
+        </record> -->
 <!--COMPANY TREE/LIST view END-END-->
 
 
 <!--COMPANY FORM view START START-->
         <record model="ir.ui.view" id="company_form_view1">
-            <field name="name">Company.form</field>
+            <field name="name">company.form</field>
             <field name="model">employee.company</field>
             <field name="arch" type="xml">
                  <form string="Company Form">
@@ -386,11 +387,10 @@
 
         <menuitem id="employee-all" name="Employee Data" />
         <menuitem id="emp-details" name="EmployeeDetails" sequence="1" action="employee_details_action" parent="employee-all"/>
-        <menuitem id="company-name" name="CompanyName" sequence="2" action="company_action" parent="employee-all"/>
         
-        <menuitem id="emp-hobbies" name="EmployeeHobbies" sequence="3" action="hobbies_action" parent="employee-all"/>
-
-        <menuitem id="emp-country" name="EmployeeCountry" sequence="4" action="country_action" parent="employee-all"/>
+        <menuitem id="emp-hobbies" name="Employee-Hobbies" sequence="2" action="hobbies_action" parent="employee-all"/>
+        <menuitem id="company-name" name="Company-Name" sequence="3" action="company_action" parent="employee-all"/>
+        <menuitem id="emp-country" name="Employee-Country" sequence="4" action="country_action" parent="employee-all"/>
         
 
 </odoo>

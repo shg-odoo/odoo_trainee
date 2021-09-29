@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="employee_wizard_form" model="ir.ui.view">
+        <field name="name">Employee.form.wizard</field>
+        <field name="model">employee.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="company_id"/>
+                </group>
+                <footer>
+                    <button name="add_employee_company" string="Add-Company" type="object" class="oe_inline oe_stat_button" icon="fa-star" />
+                    <!-- <button name="add_employee_hobbies" string="Add-hobbies" type="object" class="btn btn-primary"/> -->
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add Company</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="employee_wizard_form"/>
+        <field name="binding_model_id" ref="model_employee"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- <record id="employee_wizard_form_hobbies" model="ir.ui.view">
+        <field name="name">Employee.form.wizard</field>
+        <field name="model">employee.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="hobbies_id"/>
+                </group>
+                <footer>
+                    <button name="add_employee_hobbies" string="Add-Hobbies" type="object" class="btn btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add Hobbies</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="employee_wizard_form_hobbies"/>
+        <field name="binding_model_id" ref="model_employee"/>
+        <field name="target">new</field>
+    </record> -->
+
+    
+
+</odoo>
