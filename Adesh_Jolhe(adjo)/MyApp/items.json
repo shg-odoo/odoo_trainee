@@ -1,0 +1,55 @@
+[
+		{
+		"id":1,
+		"name":"T-Shirt",
+		"price": 789
+		
+	},
+	{
+		"id":2,
+		"name":"Shirt",
+		"price":1456
+	},
+	{
+		"id":3,
+		"name":"Formal Pant",
+		"price":1345
+	},
+	{
+		"id":4,
+		"name":"Jeans",
+		"price":1456
+
+	},
+	{
+		"id":5,
+		"name":"Sport Shoes",
+		"price":2345
+	},
+	{
+		"id":6,
+		"name":"Formal Shoes",
+		"price":1234
+	},
+	{
+		"id":7,
+		"name":"Casual Shoes",
+		"price":1356
+	},
+	{
+		"id":8,
+		"name":"Lofers",
+		"price":700
+	},
+	{
+		"id":9,
+		"name":"Flip Flop",
+		"price":500
+	},
+	{
+		"id":10,
+		"name":"Slides",
+		"price":700
+	}
+
+]

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>My Shop</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    ul li {
+        list-style: none;
+        background-color: #a3a3a39e;
+        padding: 20px;
+        padding-top: 3px;
+        width: 300px;
+        margin-top: 50px;
+        font-size: 30px;
+        border-radius: 10px;
+    }
+
+    ul li:hover {
+        box-shadow: 0 0 10px;
+    }
+
+    button {
+        border: none;
+        font-size: 25px;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        box-shadow: 0 0 10px;
+    }
+
+    #items button {
+        background-color: #10AA99;
+    }
+
+    #cart button {
+        background-color: #ff8484;
+    }
+
+    p {
+        margin: 0px;
+    }
+</style>
+
+<body>
+    <div class="container">
+
+        <div>
+            <center>
+                <h1>Items</h1>
+            </center>
+            <ul id="items">
+                <li>
+                    Item <br />
+                    300 <br />
+                    <button> Add Item </button>
+                </li>
+                <li>
+                    Item <br />
+                    300 <br />
+                    <button> Add Item </button>
+                </li>
+                <li>
+                    Item <br />
+                    300 <br />
+                    <button> Add Item </button>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <center>
+                <h1> Cart</h1>
+            </center>
+            <ul id="cart">
+
+            </ul>
+        </div>
+    </div>
+    <script>
+        data = %(data)s;
+        cartData = %(cartData)s;
+        let cart = Object.keys(%(cart)s);
+
+        cart = cart.map(id => {
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].id == id) return data[i];
+            }
+        });
+        fillCart()
+        function fillCart() {
+            let cartItems = '';
+            for (let i = 0; i < cart.length; i++) {
+                cartItems += `
+                    <li>
+                        <p>${cart[i].name}</p>
+                        Price: <b>${cart[i].price}</b> <br />
+                        <button onclick='removeFromCart(${cart[i].id})'> Remove Item </button>
+                    </li>
+                `;
+            }
+            $('#cart').html(cartItems);
+        }
+        function initShopingItems() {
+            let itemsHtml = '';
+            const cartArray = cart.map(item => item.id);
+            for (let i = 0; i < data.length; i++) {
+                if (!cartArray.includes(data[i].id)) {
+                    // console.log(data[i], cartArray, data[i].id, !cartArray.includes(data[i].id));
+                    itemsHtml += `
+                            <li>
+                                <p>${data[i].name}</p>
+                                Price: <b>${data[i].price}</b> <br />
+                                <button onclick='addToCart(${JSON.stringify(data[i])})'> Add Item </button>
+                            </li>
+                        `;
+                }
+            }
+
+            $('#items').html(itemsHtml);
+        }
+
+        function addToCart(item) {
+            cart.push(item);
+            fillCart();
+            initShopingItems();
+            $.ajax({
+                url: `http://localhost:5000/add/${item.id}`
+            });
+        }
+        function removeFromCart(id) {
+            cart = cart.filter(cartItem => cartItem.id != id);
+            fillCart();
+            initShopingItems();
+            $.ajax({
+                url: `http://localhost:5000/remove/${id}`
+            });
+        }
+        $(document).ready(function () {
+            initShopingItems();
+        });
+
+    </script>
+</body>
+
+</html>
