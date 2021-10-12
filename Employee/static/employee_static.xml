@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="employee_data1" model="employee">
+        <field name = "empcode">101</field>
         <field name="first_name">Aman</field>
         <field name="middle_name">Shriram</field>
         <field name="last_name">Jolhe</field>
+        <field name = "Gender">male</field>
+        <field name = "dob">1997-04-03</field>
+        <field name = "Salary">17662.76</field>
     </record>
-
     <record id="employee_data2" model="employee">
+        <field name = "empcode">102</field>
         <field name="first_name">Adesh</field>
         <field name="middle_name">Shriram</field>
         <field name="last_name">Jolhe</field>
+        <field name = "Gender">male</field>
+        <field name = "dob">1997-04-03</field>
+        <field name = "Salary">21339.9</field>
     </record>
 </odoo>

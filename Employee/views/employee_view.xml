@@ -6,22 +6,26 @@
 		<field name = "model">employee</field>
 		<field name="arch" type="xml">
 			<tree>
+				<field name = "empcode"/>
 				<field name = "first_name"/>
 				<field name = "middle_name"/>
 				<field name = "last_name"/>
+				<field name = "Gender"/>
+				<field name = "dob"/>
+				<field name = "Salary"/>
 			</tree>
 		</field>
 	</record>
 	  <!-- Action for Employee -->
 
     <record id="employee_action" model="ir.actions.act_window">
-        <field name="name">Employees</field>
+        <field name="name">Employee</field>
         <field name="res_model">employee</field>
         <field name="view_mode">tree</field>
     </record>
     <!-- Menu for student -->
-    <menuitem id="employee_menu" name="Employee Data"/>  <!-- This name is shown as application name-->
+    <menuitem id="employee_menu" name="Employee Information" />  <!-- This name is shown as application name-->
  
-    <menuitem id="menu_employee_child1" name="Attendance" action="employee_action" parent="employee_menu"/>
-    <menuitem id="menu_employee_child2" name="Time Off" action="employee_action" parent="employee_menu"/>
+    <menuitem id="menu_employee_child" name="Directory" action="employee_action" parent="employee_menu"/>
+    
 </odoo>
