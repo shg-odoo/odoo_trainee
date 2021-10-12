@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="employee_data1" model="employee">
+        <field name="first_name">Aman</field>
+        <field name="middle_name">Shriram</field>
+        <field name="last_name">Jolhe</field>
+    </record>
+
+    <record id="employee_data2" model="employee">
+        <field name="first_name">Adesh</field>
+        <field name="middle_name">Shriram</field>
+        <field name="last_name">Jolhe</field>
+    </record>
+</odoo>
