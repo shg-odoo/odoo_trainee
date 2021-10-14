@@ -1,0 +1,115 @@
+<html>
+	<head>
+		<title>Product Details</title>
+		<style src="style.css">
+			.cards
+			{
+				border : 3px solid black;
+				width : 200px;
+				height :200px;
+				box-shadow: 5px 10px 10px 10px;
+
+			}
+			h1
+			{
+				color : white;
+				text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+			}
+			#displayProduct{
+				font : italic small-caps bold 12px/30px Georgia, serif;
+				font-size: 20px;
+				text-align: center;
+			}
+			#displayProduct::after{
+				content: "\a";
+				white-space: pre-wrap;
+			} 
+			#cart{
+				text-align: center;
+				position: absolute;
+				width: 800px;
+				height: 240px;
+				padding: 10px;
+				float: left;
+				align: center;
+
+			}
+			#cart > div{
+				float: left;
+				margin: 10px;
+				align-content: center;
+
+			}
+			#link{
+				color: red;
+			}
+			#link:hover{
+				color: green;
+
+			}
+			#link:active{
+				color: cyan;
+			}
+			#removelink{
+				color: red;
+			}
+			#removelink:hover {
+				color: green;
+			}
+
+		</style>
+	</head>
+	<body>
+		<h1 style="text-align:center;color:white;">Product</h2>
+		<div id="main">
+			<h1>My Cart</h1>
+			<div id="card"></div>
+			<section id="mysection"></section>
+		</div>
+		<div id="cart"></div>
+		<script>
+			function createCard(data){
+				let card = document.createElement("div");
+                    card.id='displayProduct'
+                    card.className='cards';
+                    card.innerHTML = "<b>"+"Proudct:-"+"</b>"+data.pro+"<br>"+"<b>"+"Price:-"+"</b>"+data.price+"<br/>";
+
+                    let box = document.createElement("input");
+                    box.id=data.id;
+                    box.classname="que";
+                    let a = document.createElement("a")
+                    a.id = "link"
+                    a.href = "/add/to/cart/" + data.id;
+                    a.innerText = "Add to Cart";
+                    a.classname = "input";
+                    /*card.appendChild(box);*/
+                    card.appendChild(a);
+                    return card;
+			}
+			data = %(data)s
+			cartData = %(cartData)s
+
+			var mainContainer = document.getElementById("main");
+            var dataContainer = document.getElementById("cart");
+            var cartContainer = document.getElementById("card");
+
+			for (var i = 0; i < data.length; i++) {
+                    let card = this.createCard(data[i])
+                    dataContainer.appendChild(card);
+                    if (cartData && parseInt(data[i].id) in cartData) {
+                    	console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                        let div = document.createElement('div');
+                        div.innerHTML = "<b>"+"Product:-"+"</b>"+data[i].pro + "<br>" +"<b>"+"Price:-"+"</b>" +data[i].price
+                        let a = document.createElement('a');
+                        a.id = "removelink"
+                        a.href = "/remove/" + data[i].id;
+                        a.innerText = "Remove";
+                        cartContainer.appendChild(div);
+                        cartContainer.appendChild(a);
+                    }
+                }
+
+
+		</script>
+	</body>
+</html>
