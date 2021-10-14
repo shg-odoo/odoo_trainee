@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<!-- Tree view student -->
+	<!-- Tree view employee -->
 	<record model="ir.ui.view" id="tree_view_employee">
 		<field name = "name">Employee</field>
 		<field name = "model">employee</field>
@@ -12,9 +12,11 @@
 				<field name = "last_name"/>
 				<field name = "Gender"/>
 				<field name = "dob"/>
-				<field name = "current_date"/>
+				<field name = "hire_date"/>
+				<field name = "age"/>
 				<field name = "contact"/>
 				<field name="indian"/>
+				<field name = "branch"/>
 				<field name = "Salary"/>
 				<field name = "experiance"/>
 			</tree>
@@ -36,34 +38,141 @@
 	
 
     <!-- gantt View -->
-	<record model="ir.ui.view" id="student_gantt_view">
+	<record model="ir.ui.view" id="employee_gantt_view">
 		<field name="name">employee.gantt</field>
 		<field name="model">employee</field>
 		<field name="arch" type="xml">
-			<gantt date_stop="current_date" date_start="dob" string="Session Gantt" default_group_by="Gender">
+			<gantt date_stop="current_date" date_start="dob" string="Session Gantt" default_group_by="experiance">
 			</gantt>
 		</field>
 	</record>
 
-	<!-- Student Graph view based on salary and Experiance -->
-	<record model="ir.ui.view" id="student_session_graph_view">
-		<field name="name">employee.search</field>
+	<!-- Graph View -->
+	<record model="ir.ui.view" id="employee_session_graph_view">
+		<field name="name">employee.graph</field>
 		<field name="model">employee</field>
 		<field name="arch" type="xml">
-			<graph string="Student by percentage">
+			<graph string="Employee by percentage">
 				<field name="first_name"/>
 				<field name="Salary" type="measure"/>
 				<field name = "experiance" type = "measure"/>
+				<field name = "branch" type = "measure"/>
 			</graph>
 		</field>
 	</record>
 
+	<!-- Employee Serach View -->
+    <record model="ir.ui.view" id="employee_search_view">
+        <field name="name">employee</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="first_name"/>
+                <field name="middle_name"/>
+                <field name="last_name"/>
+                <field name = "branch"/>
+                <filter string="Male" name="male" domain="[('Gender','=','male')]" />
+                <separator/>
+                <filter string="Female" name="female" domain="[('Gender','=','female')]" />
+                <group string="Group By">
+                     <filter string="Gender" name="Gender" context="{'group_by':'Gender'}" />
+                     <filter string="Department" name = "branch" context="{'group_by':'branch'}"/>
+                </group>
+            </search>
+        </field>
+    </record> 
 
+	<!-- Form View -->
+    <record id="employee_view_form" model="ir.ui.view" >
+	    <field name="name">employee.form</field>
+	    <field name="model">employee</field>
+	    <field name="arch" type="xml">
+	        <form>
+	            <notebook>
+	                <page string="Personal Details">
+	                    <group>
+	                        <field name="empcode"/>
+	                        <field name="first_name"/>
+	                        <field name="middle_name"/>
+	                        <field name="last_name"/>
+	                        <field name="contact"/>
+	                        <field name="dob"/>
+	                        <field name="Gender" widget="radio" options="{'vertical':true}"/>
+	                        <field name = "indian"/>
+	                        <field name="hire_date"/>
+	                    </group>     
+	                </page>
+	                <page string="Skills And Experiance">
+	                    <group>
+	                        <field name="empcode"/>
+	                        <field name="branch"/>
+	                        <field name="Salary"/>
+	                        <field name="experiance" />
+	                    </group>     
+	                </page>
+	            </notebook>
+	        </form>
+	    </field>
+	</record>
+
+
+		<!-- Kanban View -->
+	<record id="employee_kanban" model="ir.ui.view">
+        <field name="name">employee.kanban.view</field>
+        <field name="model">employee</field> 
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="first_name"/>
+                <field name="middle_name"/>
+                <field name="last_name"/>
+                <!-- <field name="image" widget="image"/> -->
+                <field name="empcode"/>
+                   <templates>  
+                       <t t-name="kanban-box">
+                            <div class="container">
+                             <div class="row">
+                               <div class="col-6">
+                                    <div class="oe_kanban_details">
+                                       <strong class="o_kanban_record_title"> 
+                                       <field name="first_name"/>
+                                       <field name="middle_name"/>
+                					   <field name="last_name"/>
+                                       </strong>
+                                   </div>
+                                   <div class="oe_kanban_details">
+                                       <strong   class="o_kanban_record_title">Contact No.: </strong>
+                                       <field name="contact"/>
+                                   </div>
+                                    <div class="oe_kanban_details">
+                                       <strong  class="o_kanban_record_title">Salary: </strong>
+                                       <field name="Salary"/>
+                                   </div>
+                               </div>
+                             </div>
+                           </div>
+                       </t>          
+                   </templates>       
+            </kanban>   
+        </field>
+    </record>
+
+	<!-- Pivot View -->
+	<record id="employee_pivot_view" model = "ir.ui.view">
+		<field name="name">employee.pivot</field>
+	    <field name="model">employee</field>
+	    <field name="arch" type="xml">
+	    	<pivot string="Timesheet">
+			    <field name="empcode" type="row"/>
+			    <field name="current_date" interval="month" type="col"/>
+			    <field name="Salary" type="measure" widget="float_time"/>
+			</pivot>
+	    </field>
+	</record>
 	  <!-- Action for Employee -->
     <record id="employee_action" model="ir.actions.act_window">
         <field name="name">Employees</field>
         <field name="res_model">employee</field>
-        <field name="view_mode">tree,calendar,gantt,graph</field>
+        <field name="view_mode">tree,kanban,calendar,gantt,graph,form,pivot</field>
     </record>
 
      <!-- <menuitem id="employee_menu" name="Employees Information" />  -->
