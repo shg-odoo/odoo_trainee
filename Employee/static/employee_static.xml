@@ -7,7 +7,10 @@
         <field name="last_name">Jolhe</field>
         <field name = "Gender">male</field>
         <field name = "dob">1997-04-03</field>
+        <field name ="contact">8888896471</field>
+        <field name="indian">true</field>
         <field name = "Salary">17662.76</field>
+        <field name = "experiance">3.7</field> 
     </record>
     <record id="employee_data2" model="employee">
         <field name = "empcode">102</field>
@@ -16,6 +19,9 @@
         <field name="last_name">Jolhe</field>
         <field name = "Gender">male</field>
         <field name = "dob">1997-04-03</field>
+        <field name = "contact">7020499280</field>
+        <field name="indian">false</field>
         <field name = "Salary">21339.9</field>
+        <field name = "experiance">0.1</field>
     </record>
 </odoo>

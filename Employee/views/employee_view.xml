@@ -12,20 +12,67 @@
 				<field name = "last_name"/>
 				<field name = "Gender"/>
 				<field name = "dob"/>
+				<field name = "current_date"/>
+				<field name = "contact"/>
+				<field name="indian"/>
 				<field name = "Salary"/>
+				<field name = "experiance"/>
 			</tree>
 		</field>
 	</record>
-	  <!-- Action for Employee -->
 
-    <record id="employee_action" model="ir.actions.act_window">
-        <field name="name">Employee</field>
-        <field name="res_model">employee</field>
-        <field name="view_mode">tree</field>
+
+	<!-- Calender View for Employees -->
+	<record model="ir.ui.view" id="employee_calendar_view">
+	    <field name="name">employee</field>
+	    <field name="model">employee</field>
+	    <field name="arch" type="xml">
+		    <calendar color = "first_name" date_start="dob" string="Employee Calendar" mode="month">
+			    <field name="first_name"/>
+			    <field name="contact"/>
+		    </calendar>
+	    </field>
     </record>
-    <!-- Menu for student -->
-    <menuitem id="employee_menu" name="Employee Information" />  <!-- This name is shown as application name-->
+	
+
+    <!-- gantt View -->
+	<record model="ir.ui.view" id="student_gantt_view">
+		<field name="name">employee.gantt</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<gantt date_stop="current_date" date_start="dob" string="Session Gantt" default_group_by="Gender">
+			</gantt>
+		</field>
+	</record>
+
+	<!-- Student Graph view based on salary and Experiance -->
+	<record model="ir.ui.view" id="student_session_graph_view">
+		<field name="name">employee.search</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<graph string="Student by percentage">
+				<field name="first_name"/>
+				<field name="Salary" type="measure"/>
+				<field name = "experiance" type = "measure"/>
+			</graph>
+		</field>
+	</record>
+
+
+	  <!-- Action for Employee -->
+    <record id="employee_action" model="ir.actions.act_window">
+        <field name="name">Employees</field>
+        <field name="res_model">employee</field>
+        <field name="view_mode">tree,calendar,gantt,graph</field>
+    </record>
+
+     <!-- <menuitem id="employee_menu" name="Employees Information" />  -->
  
-    <menuitem id="menu_employee_child" name="Directory" action="employee_action" parent="employee_menu"/>
-    
+	<!-- <menuitem id="menu_employee_child" name="Directory" action="employee_action" parent="employee_menu"/> -->
+	
+	<menuitem id="employee_menu_root" name="Employees Information">
+	    <menuitem id="employee_first_level_menu" name="Directory">
+	        <menuitem id="employee_model_menu_action" name = "Show Employees" action="employee_action"/>
+	    </menuitem>
+	</menuitem>    
 </odoo>

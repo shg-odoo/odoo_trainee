@@ -1,5 +1,5 @@
 from odoo import models,fields
-
+from datetime import datetime,date
 class Employee(models.Model):
 	_name = "employee"
 	_description = "employee details"
@@ -12,4 +12,8 @@ class Employee(models.Model):
                                ('female', 'Female'),
                                ('other', 'Other')])
 	dob = fields.Date('Date of Birth')
+	current_date = fields.Date(string="Current Date",default=lambda s: fields.Date.context_today(s))
+	indian = fields.Boolean('Indian', readonly=True)
+	contact = fields.Char("Contact Number")
 	Salary = fields.Float("Salary")
+	experiance = fields.Float("Experiance")
