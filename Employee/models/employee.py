@@ -17,8 +17,10 @@ class Employee(models.Model):
 	age = fields.Integer("Age",compute="_get_age",store=True)	
 	indian = fields.Boolean('Indian')
 	contact = fields.Char("Contact Number")
+	skills_id = fields.Many2many("employee.skills", string="Employee Skills")
 	hire_date = fields.Date("Date of Joining")
-	branch = fields.Char("Department")
+	department_id = fields.Many2one("employee.department", string="Department")
+	# branch = fields.Char("Department")
 	Salary = fields.Float("Salary")
 	experiance = fields.Float("Experiance")
 	
@@ -34,3 +36,16 @@ class Employee(models.Model):
 	def _get_experiance(self):
 		for i in self:
 			i.experiance = relativedelta(i.current_date,i.hire_date).years
+
+class Department(models.Model):
+	_name = "employee.department"
+	_rec_name = "department_name" 
+
+	department_name = fields.Char(string="Department Name")
+	id1 = fields.One2many("employee", "department_id", string="Employee Id")
+
+class Skills(models.Model):
+    _name = "employee.skills"
+    _rec_name = "skills"
+
+    skills = fields.Char(string="Skills")
