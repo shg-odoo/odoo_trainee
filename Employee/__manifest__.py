@@ -8,7 +8,8 @@
     'depends': ['base'],
     'data': [
         'views/employee_view.xml',
-        'static/employee_static.xml'   
+        'static/employee_static.xml',
+        'wizard/employee_wizard.xml'
     ],
     'application' : True,
 }

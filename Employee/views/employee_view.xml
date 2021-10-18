@@ -79,7 +79,7 @@
                 <group string="Group By">
                      <filter string="Gender" name="Gender" context="{'group_by':'Gender'}" />
                      <filter string="Department" name = "department_id" context="{'group_by':'department_id'}"/>
-                     <filter string = 'Skills' name ='skills_id' context="{'group_by':'skills_id'}"/>
+                     <!-- <filter string = 'Skills' name ='skills_id' context="{'group_by':'skills_id'}"/> -->
                 </group>
             </search>
         </field>
@@ -111,7 +111,7 @@
 	                       	<field name='skills_id'/>
 	                        <field name="department_id"/>
 	                        <field name="Salary"/>
-	                        <field name="experiance" />
+	                        <field name="experiance" readonly='True' />
 	                    </group>     
 	                </page>
 	            </notebook>
@@ -179,11 +179,16 @@
         <field name="view_mode">tree,kanban,calendar,gantt,graph,form,pivot</field>
     </record>
 
+    <record id="skills_action" model="ir.actions.act_window">
+    	<field name="name">Skills</field>
+    	<field name="res_model">employee.skills</field>
+    	<field name="view_mode">tree,form,search</field>
+    </record>
 
     <record id="dept_action" model="ir.actions.act_window" >
 	    <field name="name">Department Name</field>
 	    <field name="res_model">employee.department</field>
-	    <field name = "res_model">employee</field>
+	    <!-- <field name = "res_model">employee</field> -->
 	    <field name="view_mode">tree,form,search</field>
     </record>
 
@@ -196,6 +201,7 @@
 	        <menuitem id="employee_model_menu_action" name = "Show Employees" action="employee_action"/>
 	    </menuitem>
 	    <menuitem id="department_id" name="Department Data" sequence="2" action="dept_action"/>
+	    <menuitem id="skills_id" name="Skills" sequence="3" action="skills_action"/>
 	</menuitem>  
 
 </odoo>
