@@ -15,9 +15,10 @@
 				<field name = "hire_date"/>
 				<field name = "age"/>
 				<field name = "contact"/>
-				<field name="indian"/>
+				<field name ="indian"/>
 				<field name = "department_id"/>
-				<field name= 'skills_id'/>
+				<field name = "UAN"/>
+				<field name = 'skills_id' widget="many2many_tags"/>
 				<field name = "Salary"/>
 				<field name = "experiance"/>
 			</tree>
@@ -72,6 +73,7 @@
                 <field name="middle_name"/>
                 <field name="last_name"/>
                 <field name = 'skills_id'/>
+                <!-- <field name = "UAN"/> -->
                 <!-- <field name = "branch"/> -->
                 <filter string="Male" name="male" domain="[('Gender','=','male')]" />
                 <separator/>
@@ -108,6 +110,7 @@
 	                <page string="Skills And Experiance">
 	                    <group>
 	                        <field name="empcode"/>
+	                        <!-- <field name = "UAN" readonly = "True"/> -->
 	                       	<field name='skills_id'/>
 	                        <field name="department_id"/>
 	                        <field name="Salary"/>

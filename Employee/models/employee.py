@@ -58,3 +58,8 @@ class Skills(models.Model):
 
     skills = fields.Char(string="Skills")
     emp_id = fields.Many2many("employee", string="Employee" )
+
+class ProvidentFund(models.Model):
+	_inherit = "employee"
+
+	UAN = fields.Integer("UAN Number")

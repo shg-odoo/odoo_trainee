@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="tree_view_person">
+		<field name = "name">Person</field>
+		<field name = "model">person</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name = "empcode"/>
+				<field name = "first_name"/>
+				<field name = "middle_name"/>
+				<field name = "last_name"/>
+				<field name = "Gender"/>
+				<field name = "dob"/>
+				<field name = "age"/>
+				<field name = "contact"/>
+				<field name ="indian"/>
+				<field name = "address"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!-- Form View -->
+    <record id="person_view_form" model="ir.ui.view" >
+	    <field name="name">person.form</field>
+	    <field name="model">person</field>
+	    <field name="arch" type="xml">
+	        <form>
+	            <notebook>
+	                <page string="Person Details">
+	                    <group>
+	                        <field name="empcode"/>
+	                        <field name="first_name"/>
+	                        <field name="middle_name"/>
+	                        <field name="last_name"/>
+	                        <field name="contact"/>
+	                        <field name="dob"/>
+	                        <field name="Gender" widget="radio" options="{'vertical':true}"/>
+	                        <field name = "indian"/>
+	                        <field name = "address"/>
+	                    </group>     
+	                </page>
+	            </notebook>
+	        </form>
+	    </field>
+	</record>
+
+
+    <record id="person_action" model="ir.actions.act_window">
+        <field name="name">Person</field>
+        <field name="res_model">person</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<menuitem id="person_menu_root" name="Person_Information">
+	    <menuitem id="person_first_level_menu" sequence="1" name="Directory">
+	        <menuitem id="person_model_menu_action" name = "Show Person" action="person_action"/>
+	    </menuitem>
+	</menuitem>  
+
+</odoo>

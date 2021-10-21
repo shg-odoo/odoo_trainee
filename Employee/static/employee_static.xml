@@ -11,6 +11,7 @@
         <field name="indian">true</field>
         <!-- <field name = "department_id">IT</field> -->
         <field name = "Salary">17662.76</field>
+        <field name = "UAN" > 12345678</field>
         <!-- <field name = "experiance">3.7</field>  -->
     </record>
     <record id="employee_data2" model="employee">
@@ -24,6 +25,7 @@
         <field name="indian">false</field>
         <!-- <field name = "department_id">IT</field> -->
         <field name = "Salary">21339.9</field>
+        <field name = "UAN" > 12345672</field>
         <!-- <field name = "experiance">0.1</field> -->
     </record>
 </odoo>
