@@ -17,7 +17,6 @@
 				<field name = "contact"/>
 				<field name ="indian"/>
 				<field name = "department_id"/>
-				<field name = "UAN"/>
 				<field name = 'skills_id' widget="many2many_tags"/>
 				<field name = "Salary"/>
 				<field name = "experiance"/>
@@ -122,6 +121,32 @@
 	    </field>
 	</record>
 
+
+	<record id="employee_view_form2" model="ir.ui.view">
+	    <field name="name">employee2</field>
+	    <field name="model">employee</field>
+	    <field name="inherit_id" ref="employee_view_form"/>
+	    <field name="arch" type="xml">
+	        <!-- find field description and add the field
+	             idea_ids after it -->
+	        <xpath expr="//field[@name='empcode']" position="after">
+	          <field name="UAN" string="PF UAN"/>
+	        </xpath>
+	    </field>
+	</record>
+<!-- Employee View Ihneritance -->
+	<record id="tree_view_employee2" model="ir.ui.view">
+	    <field name="name">employee</field>
+	    <field name="model">employee</field>
+	    <field name="inherit_id" ref="tree_view_employee"/>
+	    <field name="arch" type="xml">
+	        <!-- find field description and add the field
+	             idea_ids after it -->
+	        <xpath expr="//field[@name='department_id']" position="after">
+	          <field name="UAN" string="PF UAN"/>
+	        </xpath>
+	    </field>
+	</record>
 
 		<!-- Kanban View -->
 	<record id="employee_kanban" model="ir.ui.view">
