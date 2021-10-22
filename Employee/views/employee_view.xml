@@ -200,6 +200,109 @@
 			</pivot>
 	    </field>
 	</record>
+
+
+
+	<record id="employee_report" model="ir.actions.report">
+	    <field name="name">Get Report</field>
+	    <field name="model">employee</field>
+	    <field name="report_type">qweb-pdf</field>
+	    <field name="report_name">Employee.report_employee_view</field>
+	    <field name="report_file">employee.report_employee</field>
+	    <field name="attachment_use" eval="False"/>
+	    <field name="binding_model_id" ref="model_employee"/>
+	    <field name="binding_type">report</field>
+	</record>
+
+<!-- Report View -->
+<!--     <report
+        id="report_employee"
+        model="employee"
+        string ="Employee Report"
+        name = "Employee.report_employee_view"
+        file = "employee.report_employee"
+        report_type = "qweb-pdf"
+        attachment_use ="True" />
+    <report
+        id="report_student_primary"
+        model="employee"
+        string="Employee Report Primary"
+        name="Employee.inherit_report_employee_view_primary"
+        file="employee.report_employee"
+        report_type="qweb-pdf" 
+        attachment_use="True"/>
+ -->
+    <template id="report_employee_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center><h1><b>Employee Details </b></h1></center>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Middle Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Birthdate</th>
+                                <th scope="col">Contact</th>
+                            </tr>
+                        </thead>    
+                        <tbody>
+                        <t t-foreach="docs" t-as="doc">
+                        <tr>
+                            <td><span t-field="doc.first_name"/></td>
+                            <td><span t-field="doc.middle_name"/></td>
+                            <td><span t-field="doc.last_name"/></td>
+                            <td><span t-field="doc.Gender"/></td>
+                            <td><span t-field="doc.dob"/></td>
+                            <td><span t-field="doc.contact"/></td>
+                        </tr>
+                        </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="inherit_report_employee_view" inherit_id="report_employee_view">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <h2>Inside</h2>
+        </xpath>
+        <xpath expr="(//th)[5]" position="after">
+            <th scope="col">Age</th>
+        </xpath>
+        <xpath expr="(//td)[5]" position="after">
+            <td><span t-field="doc.age"/></td>
+        </xpath>
+    </template>
+
+	<record id="full_employee_report" model="ir.actions.report">
+	    <field name="name">Get Full Report</field>
+	    <field name="model">employee</field>
+	    <field name="report_type">qweb-pdf</field>
+	    <field name="report_name">Employee.full_report_employee_view</field>
+	    <field name="report_file">employee.report_employee</field>
+	    <field name="attachment_use" eval="False"/>
+	    <field name="binding_model_id" ref="model_employee"/>
+	    <field name="binding_type">report</field>
+	</record>
+
+    <template id="full_report_employee_view" inherit_id="report_employee_view" primary="True">
+        <xpath expr="(//th)[7]" position="after">
+            <th scope="col">Salary</th>
+        </xpath>
+        <xpath expr="(//td)[7]" position="after">
+            <td><span t-field="doc.Salary"/></td>
+        </xpath>
+        <xpath expr="(//th)[8]" position="after">
+            <th scope="col">Skills</th>
+        </xpath>
+        <xpath expr="(//td)[8]" position="after">
+            <td><span t-field="doc.skills_id"/></td>
+        </xpath>
+    </template>
 	  <!-- Action for Employee -->
     <record id="employee_action" model="ir.actions.act_window">
         <field name="name">Employees</field>

@@ -5,7 +5,7 @@
     'author': 'Aman Jolhe',
     'sequence' : 5,
     'category': 'Tool',
-    'depends': ['base'],
+    'depends': ['base','web'],
     'data': [
         'views/employee_view.xml',
         'static/employee_static.xml',
