@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="index" name="Students">
+        <t t-call="website.layout">
+            <center>
+            <br/>
+                <strong><h1 style="font-family:Fantasy;">Employees Data</h1></strong>
+                <a type="button" name="create_employee" class="btn btn-primary" t-attf-href="/create_employee">Create</a>
+            </center><br/>
+            
+            <div class="container">
+                <table style="width:100%;border: 2px solid #ddd;padding: 8px; ">
+                       <thread>
+                       <tr>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">First Name</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Middle Name</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Last Name</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Contact</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Gender</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Date of Birth</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Salary</th>
+                       <th style="border: 2px solid #ddd;padding: 8px;color:white;background-color: #282F33;font-family:monospace;font-size:15px;">Action</th>
+                       </tr>
+                       <t t-foreach="employees" t-as="emp">
+                       <tr  style="border: 2px solid #ddd;padding: 8px;">
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;">
+                       <span t-field="emp.first_name"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
+                       <span t-field="emp.middle_name"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
+                       <span t-field="emp.last_name"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
+                       <span t-field="emp.contact"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
+                       <span t-field="emp.Gender"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
+                       <span t-field="emp.dob"/>
+                       </td>
+                       <td style="border: 2px solid #ddd;padding: 8px;font-family:monospace;font-size:15px;"> 
+                       <span t-field="emp.Salary"/>
+                       </td>
+                       <td style="border:none">
+                            <a type="button" class="btn btn-danger" t-attf-href='/delete/#{emp.id}' >Delete</a>
+                        </td>
+                       </tr>
+                       </t>
+                       </thread>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="create_employee" name="Employee">
+        <t t-call="website.layout">
+        <br/><br/>
+            <center>
+            <div class="col">
+            <form action="/add_employee">
+
+                    <br/><strong>Employee Code</strong><br/><input type="number" t-att-value="empcode" name="empcode"></input>
+                    <br/><strong>First Name </strong><br/> <input type="text" t-att-value="first_name" name="first_name"></input>
+                    <br/><strong>Middle Name </strong><br/> <input type="text" t-att-value="middle_name" name="middle_name"></input>
+                    <br/><strong>Last Name </strong><br/> <input type="text" t-att-value="last_name" name="last_name"></input>
+                    <br/><strong>Gender </strong><br/>
+                    <input type="radio" id="male" name="Gender" value="male"/>
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="Gender" value="female"/>
+                    <label for="female">Female</label>
+                    <input type="radio" id="other" name="Gender" value="other"/>
+                    <label for="other">Other</label>
+                    <br/><strong>Date of Birth </strong><br/> <input type="datetime-local" t-att-value="dob" name="dob"></input>
+                    <br/><strong>Contact Number  </strong><br/> <input type="text" t-att-value="contact" name="contact"></input>
+                    <br/><strong>Indian </strong><br/> <input type="checkbox" t-att-value="indian" name="indian"></input>
+                    <br/><strong>Salary </strong><br/> <input type="number" t-att-value="Salary" name="Salary"></input>
+                   <br/> <br/><button type="submit" value="submit">Submit</button>
+            </form>
+            </div>
+            </center>
+        </t>
+    </template>
+
+
+</odoo>

@@ -1,27 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<!-- Tree view student -->
+	<!-- Tree view employee -->
 	<record model="ir.ui.view" id="tree_view_employee">
 		<field name = "name">Employee</field>
 		<field name = "model">employee</field>
 		<field name="arch" type="xml">
 			<tree>
+				<field name = "empcode"/>
 				<field name = "first_name"/>
 				<field name = "middle_name"/>
 				<field name = "last_name"/>
+				<field name = "Gender"/>
+				<field name = "dob"/>
+				<field name = "hire_date"/>
+				<field name = "age"/>
+				<field name = "contact"/>
+				<field name ="indian"/>
+				<field name = "department_id"/>
+				<field name = 'skills_id' widget="many2many_tags"/>
+				<field name = "Salary"/>
+				<field name = "experiance"/>
 			</tree>
 		</field>
 	</record>
-	  <!-- Action for Employee -->
 
+
+	<!-- Calender View for Employees -->
+	<record model="ir.ui.view" id="employee_calendar_view">
+	    <field name="name">employee</field>
+	    <field name="model">employee</field>
+	    <field name="arch" type="xml">
+		    <calendar color = "first_name" date_start="dob" string="Employee Calendar" mode="month">
+			    <field name="first_name"/>
+			    <field name="contact"/>
+		    </calendar>
+	    </field>
+    </record>
+	
+
+    <!-- gantt View -->
+	<record model="ir.ui.view" id="employee_gantt_view">
+		<field name="name">employee.gantt</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<gantt date_stop="current_date" date_start="dob" string="Session Gantt" default_group_by="experiance">
+			</gantt>
+		</field>
+	</record>
+
+	<!-- Graph View -->
+	<record model="ir.ui.view" id="employee_session_graph_view">
+		<field name="name">employee.graph</field>
+		<field name="model">employee</field>
+		<field name="arch" type="xml">
+			<graph string="Employee by percentage">
+				<field name="first_name"/>
+				<field name="Salary" type="measure"/>
+				<field name = "experiance" type = "measure"/>
+				<field name = "department_id" type = "measure"/>
+			</graph>
+		</field>
+	</record>
+
+	<!-- Employee Serach View -->
+    <record model="ir.ui.view" id="employee_search_view">
+        <field name="name">employee</field>
+        <field name="model">employee</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="first_name"/>
+                <field name="middle_name"/>
+                <field name="last_name"/>
+                <field name = 'skills_id'/>
+                <!-- <field name = "UAN"/> -->
+                <!-- <field name = "branch"/> -->
+                <filter string="Male" name="male" domain="[('Gender','=','male')]" />
+                <separator/>
+                <filter string="Female" name="female" domain="[('Gender','=','female')]" />
+                <group string="Group By">
+                     <filter string="Gender" name="Gender" context="{'group_by':'Gender'}" />
+                     <filter string="Department" name = "department_id" context="{'group_by':'department_id'}"/>
+                     <!-- <filter string = 'Skills' name ='skills_id' context="{'group_by':'skills_id'}"/> -->
+                </group>
+            </search>
+        </field>
+    </record> 
+
+	<!-- Form View -->
+    <record id="employee_view_form" model="ir.ui.view" >
+	    <field name="name">employee.form</field>
+	    <field name="model">employee</field>
+	    <field name="arch" type="xml">
+	        <form>
+	            <notebook>
+	                <page string="Personal Details">
+	                    <group>
+	                        <field name="empcode"/>
+	                        <field name="first_name"/>
+	                        <field name="middle_name"/>
+	                        <field name="last_name"/>
+	                        <field name="contact"/>
+	                        <field name="dob"/>
+	                        <field name="Gender" widget="radio" options="{'vertical':true}"/>
+	                        <field name = "indian"/>
+	                        <field name="hire_date"/>
+	                    </group>     
+	                </page>
+	                <page string="Skills And Experiance">
+	                    <group>
+	                        <field name="empcode"/>
+	                        <!-- <field name = "UAN" readonly = "True"/> -->
+	                       	<field name='skills_id'/>
+	                        <field name="department_id"/>
+	                        <field name="Salary"/>
+	                        <field name="experiance" readonly='True' />
+	                    </group>     
+	                </page>
+	            </notebook>
+	        </form>
+	    </field>
+	</record>
+
+
+	<record id="employee_view_form2" model="ir.ui.view">
+	    <field name="name">employee2</field>
+	    <field name="model">employee</field>
+	    <field name="inherit_id" ref="employee_view_form"/>
+	    <field name="arch" type="xml">
+	        <!-- find field description and add the field
+	             idea_ids after it -->
+	        <xpath expr="//field[@name='empcode']" position="after">
+	          <field name="UAN" string="PF UAN"/>
+	        </xpath>
+	    </field>
+	</record>
+<!-- Employee View Ihneritance -->
+	<record id="tree_view_employee2" model="ir.ui.view">
+	    <field name="name">employee</field>
+	    <field name="model">employee</field>
+	    <field name="inherit_id" ref="tree_view_employee"/>
+	    <field name="arch" type="xml">
+	        <!-- find field description and add the field
+	             idea_ids after it -->
+	        <xpath expr="//field[@name='department_id']" position="after">
+	          <field name="UAN" string="PF UAN"/>
+	        </xpath>
+	    </field>
+	</record>
+
+		<!-- Kanban View -->
+	<record id="employee_kanban" model="ir.ui.view">
+        <field name="name">employee.kanban.view</field>
+        <field name="model">employee</field> 
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="first_name"/>
+                <field name="middle_name"/>
+                <field name="last_name"/>
+                <!-- <field name="image" widget="image"/> -->
+                <field name="empcode"/>
+                   <templates>  
+                       <t t-name="kanban-box">
+                            <div class="container">
+                             <div class="row">
+                               <div class="col-6">
+                                    <div class="oe_kanban_details">
+                                       <strong class="o_kanban_record_title"> 
+                                       <field name="first_name"/>
+                                       <field name="middle_name"/>
+                					   <field name="last_name"/>
+                                       </strong>
+                                   </div>
+                                   <div class="oe_kanban_details">
+                                       <strong   class="o_kanban_record_title">Contact No.: </strong>
+                                       <field name="contact"/>
+                                   </div>
+                                    <div class="oe_kanban_details">
+                                       <strong  class="o_kanban_record_title">Salary: </strong>
+                                       <field name="Salary"/>
+                                   </div>
+                               </div>
+                             </div>
+                           </div>
+                       </t>          
+                   </templates>       
+            </kanban>   
+        </field>
+    </record>
+
+	<!-- Pivot View -->
+	<record id="employee_pivot_view" model = "ir.ui.view">
+		<field name="name">employee.pivot</field>
+	    <field name="model">employee</field>
+	    <field name="arch" type="xml">
+	    	<pivot string="Timesheet">
+			    <field name="empcode" type="row"/>
+			    <field name="current_date" interval="month" type="col"/>
+			    <field name="Salary" type="measure" widget="float_time"/>
+			</pivot>
+	    </field>
+	</record>
+
+
+
+	<record id="employee_report" model="ir.actions.report">
+	    <field name="name">Get Report</field>
+	    <field name="model">employee</field>
+	    <field name="report_type">qweb-pdf</field>
+	    <field name="report_name">Employee.report_employee_view</field>
+	    <field name="report_file">employee.report_employee</field>
+	    <field name="attachment_use" eval="False"/>
+	    <field name="binding_model_id" ref="model_employee"/>
+	    <field name="binding_type">report</field>
+	</record>
+
+<!-- Report View -->
+<!--     <report
+        id="report_employee"
+        model="employee"
+        string ="Employee Report"
+        name = "Employee.report_employee_view"
+        file = "employee.report_employee"
+        report_type = "qweb-pdf"
+        attachment_use ="True" />
+    <report
+        id="report_student_primary"
+        model="employee"
+        string="Employee Report Primary"
+        name="Employee.inherit_report_employee_view_primary"
+        file="employee.report_employee"
+        report_type="qweb-pdf" 
+        attachment_use="True"/>
+ -->
+    <template id="report_employee_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center><h1><b>Employee Details </b></h1></center>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Middle Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Birthdate</th>
+                                <th scope="col">Contact</th>
+                            </tr>
+                        </thead>    
+                        <tbody>
+                        <t t-foreach="docs" t-as="doc">
+                        <tr>
+                            <td><span t-field="doc.first_name"/></td>
+                            <td><span t-field="doc.middle_name"/></td>
+                            <td><span t-field="doc.last_name"/></td>
+                            <td><span t-field="doc.Gender"/></td>
+                            <td><span t-field="doc.dob"/></td>
+                            <td><span t-field="doc.contact"/></td>
+                        </tr>
+                        </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="inherit_report_employee_view" inherit_id="report_employee_view">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <h2>Inside</h2>
+        </xpath>
+        <xpath expr="(//th)[5]" position="after">
+            <th scope="col">Age</th>
+        </xpath>
+        <xpath expr="(//td)[5]" position="after">
+            <td><span t-field="doc.age"/></td>
+        </xpath>
+    </template>
+
+	<record id="full_employee_report" model="ir.actions.report">
+	    <field name="name">Get Full Report</field>
+	    <field name="model">employee</field>
+	    <field name="report_type">qweb-pdf</field>
+	    <field name="report_name">Employee.full_report_employee_view</field>
+	    <field name="report_file">employee.report_employee</field>
+	    <field name="attachment_use" eval="False"/>
+	    <field name="binding_model_id" ref="model_employee"/>
+	    <field name="binding_type">report</field>
+	</record>
+
+    <template id="full_report_employee_view" inherit_id="report_employee_view" primary="True">
+        <xpath expr="(//th)[7]" position="after">
+            <th scope="col">Salary</th>
+        </xpath>
+        <xpath expr="(//td)[7]" position="after">
+            <td><span t-field="doc.Salary"/></td>
+        </xpath>
+        <xpath expr="(//th)[8]" position="after">
+            <th scope="col">Skills</th>
+        </xpath>
+        <xpath expr="(//td)[8]" position="after">
+            <td><span t-field="doc.skills_id"/></td>
+        </xpath>
+    </template>
+	  <!-- Action for Employee -->
     <record id="employee_action" model="ir.actions.act_window">
         <field name="name">Employees</field>
         <field name="res_model">employee</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,kanban,calendar,gantt,graph,form,pivot</field>
     </record>
-    <!-- Menu for student -->
-    <menuitem id="employee_menu" name="Employee Data"/>  <!-- This name is shown as application name-->
+
+    <record id="skills_action" model="ir.actions.act_window">
+    	<field name="name">Skills</field>
+    	<field name="res_model">employee.skills</field>
+    	<field name="view_mode">tree,form,search</field>
+    </record>
+
+    <record id="dept_action" model="ir.actions.act_window" >
+	    <field name="name">Department Name</field>
+	    <field name="res_model">employee.department</field>
+	    <!-- <field name = "res_model">employee</field> -->
+	    <field name="view_mode">tree,form,search</field>
+    </record>
+
+     <!-- <menuitem id="employee_menu" name="Employees Information" />  -->
  
-    <menuitem id="menu_employee_child1" name="Attendance" action="employee_action" parent="employee_menu"/>
-    <menuitem id="menu_employee_child2" name="Time Off" action="employee_action" parent="employee_menu"/>
+	<!-- <menuitem id="menu_employee_child" name="Directory" action="employee_action" parent="employee_menu"/> -->
+
+	<menuitem id="employee_menu_root" name="Employees Information">
+	    <menuitem id="employee_first_level_menu" sequence="1" name="Directory">
+	        <menuitem id="employee_model_menu_action" name = "Show Employees" action="employee_action"/>
+	    </menuitem>
+	    <menuitem id="department_id" name="Department Data" sequence="2" action="dept_action"/>
+	    <menuitem id="skills_id" name="Skills" sequence="3" action="skills_action"/>
+	</menuitem>  
+
 </odoo>

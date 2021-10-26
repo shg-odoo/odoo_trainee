@@ -5,10 +5,14 @@
     'author': 'Aman Jolhe',
     'sequence' : 5,
     'category': 'Tool',
-    'depends': ['base'],
+    'depends': ['base','website'],
     'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
         'views/employee_view.xml',
-        'static/employee_static.xml'   
+        'views/template.xml',
+        'static/employee_static.xml',
+        'wizard/employee_wizard.xml'
     ],
     'application' : True,
 }
