@@ -1,282 +1,181 @@
 <!DOCTYPE html>
-<html lang="en" >
-   <head>
-      <meta charset="UTF-8">
-      <title>shopping cart</title>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-      <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Shoping cart</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    
 
-      <!-- <link rel="stylesheet" href="./style.css"> -->
-      <style type="text/css">
-                     
-            body{
-                font-family: 'Roboto', sans-serif;
-            }
-            * {
-                margin: 0;
-                padding: 0;
-            }
-            i {
-                margin-right: 10px;
-            }
+</head>
+<body>
+	<div>
+		<h1 ><p style="text-align:center;">Shoping-Shop</p> </h1>
+	
+	<ul>
+	<div id="myData"></div>
+</ul>
+<h3><p style="text-align:center;">Welcome To My Cart <i class="fa fa-shopping-cart" style="font-size:50px"></i></p></h3>
+
+    <ul>
+        <div id="cart">
+        </div>
+    </ul>
+	</div>
+
+<script>
+            function createProduct(data) {
+
+                let product = document.createElement('h4');
+                product.className = "cards";
+                product.style = "float: left; width: 1000px";
+                product.style.color = "tan";
+
+                let index = document.createElement('div');
+                index.style = "text-align: center; "
+                index.innerText = data.id;
+                index.style.color= "black";
+
+                let quan = document.createElement('div');
+                quan.style = "text-align:center"
+                quan.innerText = "qnt:" + data.quantity;
+                quan.style.color = "green";
 
 
-            input:focus,
-            button:focus,
-            .form-control:focus{
-                outline: none;
-                box-shadow: none;
-            }
-            .form-control:disabled, .form-control[readonly]{
-                background-color: #fff;
-            }
-            .table tr,
-            .table tr td{
-                vertical-align: middle;
-            }
-            .button-container{
-                display: flex;
-                align-items: center;
-            }
-            .button-container .form-control{
-                max-width: 80px;
-                text-align: center;
-                display: inline-block;
-                margin: 0px 5px;
-            }
-            #myTable .form-control{
-                width: auto;
-                display: inline-block;
-            }
-            .cart-qty-plus,
-            .cart-qty-minus{
-                width: 38px;
-                height: 38px;
-                background-color: #fff;
-                border: 1px solid #ced4da;
-                border-radius: .25rem;
-            }
-            .cart-qty-plus:hover,
-            .cart-qty-minus:hover{
-                background-color: #5161ce;
-                color: #fff;
-            }
-            .img-prdct{
-                width: 50px;
-                height: 50px;
-                background-color: #5161ce;
-                border-radius: 4px;
-            }
-            .img-prdct img{
-                width: 100%;
+                let title = document.createElement('div');
+                title.innerText = data.name;
+                title.style.color = "red";
+
+                let price = document.createElement('div');
+                price.innerText = "Price: " + data.price;
+
+                let a = document.createElement('a');
+                a.href = "/add/" + data.id;
+                a.innerText = "Add to Cart";
+
+                product.appendChild(index);
+                product.appendChild(title);
+                product.appendChild(price);
+                product.appendChild(a);
+                product.appendChild(quan);
+
+                // console.log("total product card:" + product)
+
+                return product
             }
 
-            thead tr{
-                background-color: #343A40;
-                color: white;
-            }
-            .img-prdct{
-                width:100px !important;
-                height:100px !important;
-            }
-            .cart-qty-plus{
-                background-color:#00a5e8;
-                color:white;
-                font-weight: 600;
-            }
-            .cart-qty-minus{
-                background-color:#00a5e8;
-                color:white;
-                font-weight: 600;
-            }
-      </style>
-   </head>
-   <body>
-      
-<div class="container-fluid mt-5">
-   <h2 class="mb-5 text-center">Shopping Cart</h2>
-   <div class="row justify-content-center">
-      <div class="col-md-8">
-         <div class="table-responsive">
-            <table id="myTable" class="table">
-               <thead>
-                  <tr>
-                     <th>Product</th>
-                     <th>Name</th>
-                     <th>Qty</th>
-                     <th>Price</th>
-                     <th class="text-right">
-                        <span id="amount" class="amount">Amount</span>
-                     </th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <div class="product-img">
-                           <div class="img-prdct">
-                              <img src="static/img/1.png" >
-                           </div>
-                        </div>
-                     </td>
-                     <td>
-                        <p>T-Shirt</p>
-                     </td>
-                     <td>
-                        <div class="button-container">
-                           <button class="cart-qty-plus" type="button" value="+">+</button>
-                           <input type="text" name="qty" min="0" class="qty form-control" value="0"/>
-                           <button class="cart-qty-minus" type="button" value="-">-</button>
-                        </div>
-                     </td>
-                     <td>
-                        <input type="text" value="72" class="price form-control" disabled>
-                     </td>
-                     <td align="right">$ <span id="amount" class="amount">0</span>
-                     </td>
-                  </tr>
-                  
+            data = %(data)s
+            cartData = %(cartData)s
 
-<tr>
-      <td>
-         <div class="product-img">
-            <div class="img-prdct">
-               <img src="static/img/2.jpg">
-            </div>
-         </div>
-      </td>
-      <td>
-         <p>Apple</p>
-      </td>
-      <td>
-         <div class="button-container">
-            <button class="cart-qty-plus" type="button" value="+">+</button>
-            <input type="text" name="qty" min="0" class="qty form-control" value="0"/>
-            <button class="cart-qty-minus" type="button" value="-">-</button>
-         </div>
-      </td>
-      <td>
-         <input type="text" value="125" class="price form-control" disabled>
-      </td>
-      <td align="right">$ <span id="amount" class="amount">0</span>
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <div class="product-img">
-            <div class="img-prdct">
-               <img src="static/img/3.jpg">
-            </div>
-         </div>
-      </td>
-      <td>
-         <p>Grapes</p>
-      </td>
-      <td>
-         <div class="button-container">
-            <button class="cart-qty-plus" type="button" value="+">+</button>
-            <input type="text" name="qty" min="0" class="qty form-control" value="0"/>
-            <button class="cart-qty-minus" type="button" value="-">-</button>
-         </div>
-      </td>
-      <td>
-         <input type="text" value="250" class="price form-control" disabled>
-      </td>
-      <td align="right">$ <span id="amount" class="amount">0</span>
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <div class="product-img">
-            <div class="img-prdct">
-               <img src="static/img/4.jpg">
-            </div>
-         </div>
-      </td>
-      <td>
-         <p>Laptop</p>
-      </td>
-      <td>
-         <div class="button-container">
-            <button class="cart-qty-plus" type="button" value="+">+</button>
-            <input type="text" name="qty" min="0" class="qty form-control" value="0"/>
-            <button class="cart-qty-minus" type="button" value="-">-</button>
-         </div>
-      </td>
-      <td>
-         <input type="text" value="300" class="price form-control" disabled>
-      </td>
-      <td align="right">$ <span id="amount" class="amount">0</span>
-      </td>
-</tr>
+            var dataContainer = document.getElementById("myData");
+            var myCartContainer = document.getElementById("cart");
+            console.log("cartData:", cartData);
+
+            for (var i=0; i<data.length; i++) {
+                let product = createProduct(data[i])
+                dataContainer.appendChild(product)
+
+                if (data[i].id in cartData) {
+                    let div = document.createElement('div');
+                    var fruits = [];
+                    // fruits.push(data[i].price);
+                    Array.prototype.insert = function ( index, item ) {
+                        this.splice( index, 0, item );
+                        };
+                    fruits.insert(0, data[i].price)
+                    for(let j = 0; j < fruits.length; j++){
+                        console.log(fruits.length)
+                        console.log(fruits,"123443482938298");
+                        }
+
+                    console.log(fruits,"snajsnajsnajsn")
+                    // let sum = 0;
+                    // for (let i = 0; i < fruits.length; i++) {
+                    //     sum += fruits[i].price;
+
+                    
+
+
+
+                    //     }
+                    // console.log(sum);
+
+
+                    div.innerText = data[i].name + "\n Price:" + data[i].price + "\n Quantity:" + data[i].quantity +
+                    "\n Total Price:=" + (data[i].price * data[i].quantity) + "\n"
+                    // console.log(fruits,"---------------------------------------")
+
+
+
+                    let a = document.createElement('a');
+                    a.href = "/remove/" + data[i].id
+                    a.innerHTML = "<button>Remove item from Cart</button><br><br>"
+
+                    let b = document.createElement('a');
+                    b.href = "/addin/" + data[i].id
+                    // console.log("_______________________");
+                    b.innerHTML = "<button> +</button><br>"
+
+
+                    let c = document.createElement('a');
+                    c.href = "/removein/" + data[i].id
+                    console.log("_______________________");
+                    c.innerHTML = "<button> - </button><br>"
+
+                // if (data[i].price in cartData) {
+                //     let d = document.createElement('div');
+                //     let abcd = 0;
+                //     abcd += data[i].price;
+                //     d.innerText = data[i].name + "\n total total" + abcd
+                    
+
+                    myCartContainer.appendChild(div);
+                    myCartContainer.appendChild(b);
+                    myCartContainer.appendChild(c);
+                    myCartContainer.appendChild(a);
+                    // myCartContainer.appendChild(d);
+                    
+
+                }
+            }
+
+            // cartData !== undefined
+
+            if (Object.keys(cartData).length === 0) {
+                console.log("nothng is here!")
+                console.log("some data",Object.keys(cartData))
+
+                let div = document.createElement('div');
+                div.innerText = "Your cart is Empty!"
+
+                myCartContainer.appendChild(div);
+            }
+            else {
+                let abcd = document.createElement('div')
+                abcd.innerText = (cartData) + "\n" + "\n"
+
+
+                let div = document.createElement('div');
+                div.innerText = "Product added "
+
+                myCartContainer.appendChild(div);
+                myCartContainer.appendChild(abcd);
+                }
+
+            
 
 
 
 
-               </tbody>
-               <tfoot>
-                  <tr>
-                     <td colspan="4"></td>
-                     <td align="right">
-                        <strong>TOTAL PRODUCT = $  <span id="total" class="total">0</span>
-                        </strong>
 
-                     </td>
-                  </tr>
-               </tfoot>
-            </table>
-         </div>
-      </div>
-   </div>
-</div>
 
-   <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
-   <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
-   <script>
-      $(document).ready(function(){
-    update_amounts();
-    $('.qty, .price').on('keyup keypress blur change', function(e) {
-        update_amounts();
-    });
-});
+                
 
-function update_amounts(){
-    var sum = 0.0;
-    $('#myTable > tbody  > tr').each(function() {
-        var qty = $(this).find('.qty').val();
-        var price = $(this).find('.price').val();
-        var amount = (qty*price)
-        sum+=amount;
-        $(this).find('.amount').text(''+amount);
-    });
-    $('.total').text(sum);
-}
 
-//----------------for quantity-increment-or-decrement-------
-var incrementQty;
-var decrementQty;
-var plusBtn  = $(".cart-qty-plus");
-var minusBtn = $(".cart-qty-minus");
-var incrementQty = plusBtn.click(function() {
-    var $n = $(this)
-    .parent(".button-container")
-    .find(".qty");
-    $n.val(Number($n.val())+1 );
-    update_amounts();
-});
+                
+             
 
-var decrementQty = minusBtn.click(function() {
-    var $n = $(this)
-    .parent(".button-container")
-    .find(".qty");
-    var QtyVal = Number($n.val());
-    if (QtyVal > 0) {
-        $n.val(QtyVal-1);
-    }
-    update_amounts();
-});
-   </script>
+</script>
 
-   </body>
+</body>
 </html>

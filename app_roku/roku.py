@@ -61,7 +61,7 @@ def remove_in_cart(request,product_id=None):
         dataTemp=json.loads(temp)
         # product_id['quantity'] += 1
         for i in dataTemp:
-            print(i,"-------------------------------2")
+            # print(i,"-------------------------------2")
             if i['id']==product_id:
                 i['quantity']-= 1
                 jsonFile = open("items.json", "w")
@@ -111,6 +111,7 @@ def application(request):
     response = views[endpoint](request, **values)
     session_store.save(request.session)
     response.set_cookie("session_id", request.session.sid)
+    
     return response
 
 
@@ -128,6 +129,7 @@ if __name__ == "__main__":
     run_simple('localhost', 5000, application,  # start a WSGI application
                use_reloader=True,
                use_debugger=True)
+
 
 
 
