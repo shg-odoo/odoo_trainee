@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Events Demo</title>
+</head>
+<body>
+	<div class="container">
+		<!-- <h1>Hello let's paly</h1>
+		<p id="para">
+			fef fwe f fgef wef wf wfw bwr gwtg wg weg wfgw efg gw g gwe gwe gwe  fbsdfs fdfgdf sdfb sdgb dbs dfvsd f fg fg daf vsdfv sdfv sfv sdf dfsdfv sdfvs v sdf b db db b b gb gbs fbg brgbsfsdf vdfbbgb badfb fgbefgaegfqefg fbfvdfbwh whgw thwtgwt gwt gg  bhghug gugu ugugf fqwef rfhrgf fehrfghf rfirhg  ergfher ferf rferfhgfadafgfgadf  dfdgfkadgf gaycrfbdb afhgakdfkf fkfdf fgfaf 
+		</p> -->
+		<!-- <button id="btn" onclick="toggleHide()">Show/Hide</button> -->
+		<!-- <button id="btn">Show/Hide</button> -->
+
+		<button id="btn"> Start/Stop</button>
+
+		<script>
+			// let btn=document.getElementById("btn");
+			// let para=document.getElementById("para");
+
+			// function toggleHide(){
+			// 	if(para.style.display != "none") {
+			// 		para.style.display="none";
+			// 	}
+			// 	else{
+			// 		para.style.display="block";
+			// 	}
+			// }
+
+			// btn.addEventListener("click", function run(){
+			// 	if(para.style.display != "none") {
+			// 		para.style.display="none";
+			// 	}
+			// 	else {
+			// 		para.style.display="block";
+			// 	}
+			// }) ;
+
+			// btn.addEventListener('click',toggleHide);
+			// para.addEventListener("mouseover", function run(){
+			// 	console.log("mouseovet");
+			// 	para.style.color="red";
+			// });
+
+			// para.addEventListener("mouseout",function run() {
+			// 	console.log("mouseout");
+			// 	para.style.color=`black`;
+			// });
+
+			let btn=document.getElementById("btn");
+			let temp=1;
+			let id;
+
+			function print(){
+				console.log("hello world");
+			}
+
+			btn.addEventListener("click", () => {
+				if(temp==1){
+					id=setInterval(print,1000);
+					temp=0;
+				}
+				else{
+					clearInterval(id);
+					temp=1;
+				}
+			});
+
+
+		</script>
+	</div>
+
+
+</body>
+</html>
