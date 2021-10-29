@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sdata" model="student" >
+        <field name="name">rohit</field>
+        <field name="city">pune</field>
+        <field name="education">MCA</field>
+        <field name="age">24</field>
+        <field name="salary">24.5</field>
+        <field name="job">odoo</field>
+        <field name="sdate">1996-07-15</field>
+    </record>
+
+    <record id="sdata2" model="student" >
+        <field name="name">sweta ma'am</field>
+        <field name="city">Ahmedabad</field>
+        <field name="education">MCA</field>
+        <field name="age">24</field>
+        <field name="salary">24.55</field>
+        <field name="job">odoo</field>
+        <field name="sdate">1995-07-15</field>
+    </record>
+
+
+</odoo>

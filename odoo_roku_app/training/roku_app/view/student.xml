@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record model="ir.ui.view" id="student_id">
+            <field name="name">student</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/> <!-- name= "variable of model" -->
+                    <field name="city"/>
+                    <field name="education"/>
+                    <field name="age"/>
+                    <field name="salary"/>
+                    <field name="job"/>
+                    <field name="sdate"/>
+                </tree>
+            </field>
+    </record>
+	<record id="student_menu" model="ir.actions.act_window" >
+        <field name="name">student</field>  
+        <field name="res_model">student</field>
+        <field name="view_mode">tree</field>
+    </record>
+	<menuitem id="student_menu_root" name="Student Data">
+		<menuitem id="student_first_leve_menu" sequence="1" name="students" action="student_menu"/>
+	</menuitem>
+</odoo>
+
+
