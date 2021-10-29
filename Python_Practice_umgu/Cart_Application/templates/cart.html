@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Cart</title>
+
+	<style>
+		#title{
+			margin: 10px 40%;
+			font-size: 50px;
+			font-weight: bold;
+		}
+		.product{
+			overflow: auto;
+			border: 0.5px solid grey;
+			margin: 25px;
+		}
+
+		.itemBox{
+			border: 0.5px solid black;
+			width: 300px;
+			height: 300px;
+			margin: 5px 100px;
+			float: left;
+			border-radius: 4px;
+		}
+		.itemBox img{
+			margin: 5px 50px;
+			width: 200px;
+			height: 200px;
+		}
+
+		p{
+			font-size: 24px;
+			margin: 5px 50px;
+		}
+		h1{
+			padding: 30px;
+		}
+		input{
+			font-size: 24px;
+			width: 100px;
+		}
+		button{
+			font-size: 24px;
+			padding: 10px;
+			background-color: green;
+			border-radius: 20px;
+			margin: 20px;
+			width: 200px;
+		}
+		a{
+			font-size: 24px;
+			padding: 10px;
+			border-radius: 20px;
+			margin: 20px;
+			width: 200px;
+		}
+		label{
+			font-size: 30px;
+			margin: 10px 40%;
+
+		}
+		label strong{
+			font-weight: bold;
+			color: orange;
+		}
+
+
+	</style>
+</head>
+<body>
+	<p id="title">Your Cart</p>
+	<div>
+		<div class="product">
+			<div class="itemBox">
+				<img src="http://localhost:5000/static/img/ss.png" alt="Image not found">
+				<p><strong>Name : </strong><span  name="itemName">Men's Tshirt</span></p>
+				<p><strong>Price : </strong><span  name="Price">499 Rs.</span></p>
+			</div>
+			<div class="itembox">
+				<h1>Quantity : <input type="number" name="quantityItem1" placeholder="1"></h1>
+			    <h1>Cost : <strong name="price">500 Rs</strong></h1>
+			</div>
+
+		</div>
+		<div class="product">
+			<div class="itemBox">
+				<img src="http://localhost:5000/static/img/ss.png" alt="Image not found">
+				<p><strong>Name : </strong><span  name="itemName">Men's Tshirt</span></p>
+				<p><strong>Price : </strong><span  name="Price">499 Rs.</span></p>
+			</div>
+			<div class="itembox">
+				<h1>Quantity : <input type="number" name="quantity" placeholder="1"></h1>
+			    <h1>Cost : <strong name="price">500 Rs</strong></h1>
+			</div>
+
+		</div>
+
+
+	</div>
+	<label>Total Cost: <strong>1000</strong> Rs.</label><br>
+	<button type="submit">Save</button>
+	<button type="text">Order</button>
+	<a href='/'>Back</a>
+
+</body>
+</html>
