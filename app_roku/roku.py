@@ -1,136 +1,46 @@
-import  os
-import json  
 from werkzeug.wrappers import Request, Response
-from werkzeug.middleware.shared_data import SharedDataMiddleware  
-from tempfile import gettempdir
-from werkzeug.contrib.sessions import FilesystemSessionStore
-from werkzeug.routing import Map, Rule
-
-def home_page(request):
-    html = open("index.html",'r').read()
-    data = open("items.json",'r').read()
-
-    cartData='false'
-    if bool(int(request.session.__len__())):
-        cartData = request.session['product_ids']
-
-    response = Response(html % {'data':str(json.loads(data)),'cartData':cartData})
-    response.status = '200 ok'
-    response.headers['content-type'] = 'text/html'
-    return response
-
-def my_cart(request,product_id=None):
-
-    if product_id and not bool(int(request.session.__len__())):
-        request.session['product_ids'] = {product_id: product_id}
-    else:
-        request.session['product_ids'].update({product_id: product_id})
-    return home_page(request)
-
-def remove_from_cart(request,product_id=None):
-    print("dsdsk")
-    if product_id and bool(int(request.session.__len__())):
-        request.session['product_ids'].pop(product_id)
-    return home_page(request)
-    
-
-def add_in_cart(request,product_id=None):
-    if product_id and not bool(int(request.session.__len__())):
-        request.session['product_ids'] = {product_id: product_id}
-    else:
-        temp=open('items.json','r+').read()
-        print(temp,"--------------------------------1")
-        dataTemp=json.loads(temp)
-        # product_id['quantity'] += 1
-        for i in dataTemp:
-            print(i,"-------------------------------2")
-            if i['id']==product_id:
-                i['quantity']+= 1
-                jsonFile = open("items.json", "w")
-                json.dump(dataTemp, jsonFile)
-                jsonFile.close()
-        request.session['product_ids'].update({product_id: product_id})
-    return home_page(request)
-
-def remove_in_cart(request,product_id=None):
-    if product_id and not bool(int(request.session.__len__())):
-        request.session['product_ids'] = {product_id: product_id}
-    else:
-        temp=open('items.json','r+').read()
-        print(temp,"--------------------------------1")
-        dataTemp=json.loads(temp)
-        # product_id['quantity'] += 1
-        for i in dataTemp:
-            # print(i,"-------------------------------2")
-            if i['id']==product_id:
-                i['quantity']-= 1
-                jsonFile = open("items.json", "w")
-                json.dump(dataTemp, jsonFile)
-                jsonFile.close()
-        request.session['product_ids'].update({product_id: product_id})
-    return home_page(request)
+from jinja2 import Environment, FileSystemLoader
+import os
+from werkzeug.middleware.shared_data import SharedDataMiddleware
 
 
-url_map = Map([
-    Rule("/", endpoint="home_page"),
-    Rule("/add/<int:product_id>", endpoint="my_cart"),
-    Rule("/remove/<int:product_id>", endpoint="remove_from_cart"),
-    Rule("/addin/<int:product_id>", endpoint="add_in_cart"),
-    Rule("/removein/<int:product_id>", endpoint="remove_in_cart"),
-])
+class MovieApp(object):
+    """Implements a WSGI application for managing your favorite movies."""
+    def __init__(self):
+        """Initializes the Jinja templating engine to render from the 'templates' folder."""
+        template_path = os.path.join(os.path.dirname(__file__), 'templates')
+        self.jinja_env = Environment(loader=FileSystemLoader(template_path),autoescape=True)
 
-views = {
-    "home_page": home_page,
-    "my_cart": my_cart,
-    "remove_from_cart": remove_from_cart,
-    "add_in_cart": add_in_cart,
-    "remove_in_cart":remove_in_cart
-}
+    def render_template(self, template_name, **context):
+        """Renders the specified template file using the Jinja templating engine."""
+        template = self.jinja_env.get_template(template_name)
+        return Response(template.render(context), mimetype='text/html')
 
-session_store = FilesystemSessionStore(path=gettempdir())
+    def dispatch_request(self, request):
+        """Dispatches the request."""
+        return self.render_template('index.html')
 
+    def wsgi_app(self, environ, start_response):
+        """WSGI application that processes requests and returns responses."""
+        request = Request(environ)
+        response = self.dispatch_request(request)
+        return response(environ, start_response)
 
-@Request.application
-def application(request):
-    """
-    WSGI application
-    """
-    ses_id = request.cookies.get("session_id")
-    if ses_id is None:
-        request.session = session_store.new()
-    else:
-        request.session = session_store.get(ses_id)
-
-    url_adapter = url_map.bind_to_environ(request.environ)  # bind the url_map to the current request(request.environ)
-    # which will return a new MapAdapter, This url_map adapter can then be used to match or build domains for
-    # the current request.
-
-    endpoint, values = url_adapter.match()  # match() method can then either return a tuple in the form (endpoint, args)
-    # or raise one of the three exceptions NotFound, MethodNotAllowed, or RequestRedirect
-
-    response = views[endpoint](request, **values)
-    session_store.save(request.session)
-    response.set_cookie("session_id", request.session.sid)
-    
-    return response
+    def __call__(self, environ, start_response):
+        """The WSGI server calls this method as the WSGI application."""
+        return self.wsgi_app(environ, start_response)
 
 
 def create_app():
-    my_app = SharedDataMiddleware(application, {
+    """Application factory function that returns an instance of MovieApp."""
+    app = MovieApp()
+    app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
         '/static': os.path.join(os.path.dirname(__file__), 'static')
     })
-    return my_app
+    return app
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
+    # Run the Werkzeug development server to serve the WSGI application (MovieApp)
     from werkzeug.serving import run_simple
-
     app = create_app()
-    run_simple('localhost', 5000, application,  # start a WSGI application
-               use_reloader=True,
-               use_debugger=True)
-
-
-
-
-    
+    run_simple('127.0.0.1', 5000, app, use_debugger=True, use_reloader=True)
