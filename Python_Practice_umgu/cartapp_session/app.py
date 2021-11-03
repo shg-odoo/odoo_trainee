@@ -4,7 +4,10 @@ from werkzeug.middleware.shared_data import SharedDataMiddleware
 from jinja2 import Environment, FileSystemLoader
 from werkzeug.routing import Map, Rule
 from werkzeug.exceptions import HTTPException
+from tempfile import gettempdir
 
+# pip3 install werkzeug==0.16.0
+from werkzeug.contrib.sessions import FilesystemSessionStore
 
 # Reference  :: https://github.com/shg-odoo/odoo_trainee/blob/jido_python_practice/python_prac/application/app.py
 
@@ -19,6 +22,7 @@ class CartApp(object):
             Rule('/', endpoint='index'),
             Rule('/cart.html',endpoint='cart'),
         ])
+        self.session_store = FilesystemSessionStore(path=gettempdir());
 
     def index(self,request):
         return self.render_template('shopping.html')
@@ -33,12 +37,26 @@ class CartApp(object):
 
     def dispatch_request(self, request):
         """Dispatches the request."""
+        ses_id = request.cookies.get("items")
+        print(ses_id)
+        if ses_id is None:
+            request.session = self.session_store.new()
+            # print(request.session.sid)
+        else:
+            request.session = self.session_store.get(ses_id)
+        # request.session['product_ids'] = {"name":"umesh"}
+        # print(request.session)
+
         adapter = self.url_map.bind_to_environ(request.environ)
         try:
             endpoint, values = adapter.match()
-            return getattr(self, endpoint)(request, **values)
+            response=getattr(self, endpoint)(request, **values)
+            if request.session.should_save:
+                self.session_store.save(request.session)
+                response.set_cookie("items", request.session.sid)
+            return response
         except HTTPException as e:
-            return e
+                return e
 
     def wsgi_app(self, environ, start_response):
         """WSGI application that processes requests and returns responses."""
@@ -61,4 +79,4 @@ if __name__ == '__main__':
     # Run the Werkzeug development server to serve the WSGI application ()
     from werkzeug.serving import run_simple
     app = create_app()
-    run_simple('127.0.0.1', 5000, app, use_debugger=True, use_reloader=True)
+    run_simple('127.0.0.1', 5555, app, use_debugger=True, use_reloader=True)

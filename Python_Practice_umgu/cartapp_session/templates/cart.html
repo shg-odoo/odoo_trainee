@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Cart</title>
+	<script src="http://localhost:5555/static/js/cart.js"></script>
+
+	<style>
+		#title{
+			margin: 10px 40%;
+			font-size: 50px;
+			font-weight: bold;
+		}
+		.product{
+			overflow: auto;
+			border: 0.5px solid grey;
+			margin: 25px;
+		}
+
+		.itemBox{
+			border: 0.5px solid black;
+			width: 300px;
+			height: 300px;
+			margin: 5px 100px;
+			float: left;
+			border-radius: 4px;
+		}
+		.itemBox img{
+			margin: 5px 50px;
+			width: 200px;
+			height: 200px;
+		}
+
+		p{
+			font-size: 24px;
+			margin: 5px 50px;
+		}
+		h1{
+			padding: 30px;
+		}
+		input{
+			font-size: 24px;
+			width: 100px;
+		}
+		button{
+			font-size: 24px;
+			padding: 10px;
+			background-color: green;
+			border-radius: 20px;
+			margin: 20px;
+			width: 200px;
+			cursor: pointer;
+		}
+		a{
+			font-size: 20px;
+			padding: 15px 70px;
+			border-radius: 20px;
+			margin: 20px;
+			width: 200px;
+			cursor: pointer;
+			background-color: green;
+			text-decoration: none;
+			color: black;
+			font-weight: bold;
+		}
+		label{
+			font-size: 30px;
+			margin: 10px 40%;
+			color: red;
+
+		}
+		label strong{
+			font-weight: bold;
+			color: black;
+		}
+		#btn-del{
+			font-size: 24px;
+			padding: 10px;
+			background-color: red;
+			border-radius: 20px;
+			margin: 20px;
+			width: 200px;
+		}
+
+
+	</style>
+</head>
+<body onload="load()">
+	<p id="title">Your Cart</p>
+	<div id="container">
+
+		<!-- <div class="product">
+			<div class="itemBox">
+				<img src="http://localhost:5555/static/img/ss.png" alt="Image not found">
+				<p><strong>Name : </strong><span  name="itemName">Men's Tshirt</span></p>
+				<p><strong>Price : </strong><span  name="Price">499 Rs.</span></p>
+			</div>
+			<div class="itembox">
+				<h1>Quantity : <input type="number" name="quantity" min="0" oninput="changeCost(this)"></h1>
+			    <h1>Cost : <strong name="price">500 Rs</strong></h1>
+			</div>
+
+		</div> -->
+
+		<!-- <div class="product">
+			<div class="itemBox">
+				<img src="http://localhost:5555/static/img/ss.png" alt="Image not found">
+				<p><strong>Name : </strong><span  name="itemName">Men's Tshirt</span></p>
+				<p><strong>Price : </strong><span  name="Price">499 Rs.</span></p>
+			</div>
+			<div class="itembox">
+				<h1>Quantity : <input type="number" name="quantity" placeholder="1"></h1>
+			    <h1>Cost : <strong name="price">500 Rs</strong></h1>
+			</div>
+
+		</div> -->
+
+
+	</div>
+	<label>Total Cost: <strong id="totalCost">1000</strong> Rs.</label><br>
+	<label>No Item ! !</label>
+	<!-- <button type="submit" onclick="save()">Save</button> -->
+	<a href='/'>Back</a>
+	<button type="text">Order</button>
+
+	<!-- <script>
+		function load() {
+			let tag = document.getElementById('container')
+      		itemsArrayStr = localStorage.getItem('cart');
+      		itemsArray = JSON.parse(itemsArrayStr);
+
+      		let labels=document.querySelectorAll("label");
+      		if(itemsArray==null || itemsArray.length==0) {
+      			// let labels=document.querySelectorAll("label");
+      			labels[0].style.display="none";
+      			labels[1].style.display="block";
+      		}
+      		else {
+      			labels[0].style.display="block";
+      			labels[1].style.display="none";
+      		}
+
+      		let str="";
+      		if(itemsArray!=null) {
+      			itemsArray.forEach((element) => {
+       
+      	 		str += `<div class="product" id="${element[0]}">
+							<div class="itemBox">
+								<img src=${element[1]} alt="Image not found">
+								<p><strong>Name : </strong><span  name="itemName">${element[2]}</span></p>
+								<p><strong>Price : </strong><span  name="price" value="${element[3]}">499 Rs.</span></p>
+							</div>
+							<div class="itembox">
+								<h1>Quantity : <input type="number" name="quantity" min="0" placeholder="${element[4]}" oninput="changeCost(this)"></h1>
+			    				<h1>Cost : <strong name="totalprice">${element[3] * element[4]}</strong></h1>
+			    				<button onclick="del(this)" id="btn-del">Remove</button>
+							</div>
+						</div>`
+      			});
+      		}
+
+     		tag.innerHTML=str;
+     		totalCost();
+
+		}
+
+		function totalCost() {
+			let totalPrices=document.querySelectorAll(`strong[name="totalprice"]`);
+			// console.log(totalPrices);
+			let sum=0;
+			totalPrices.forEach(element => {
+				sum=sum+Number(element.textContent);
+			})
+			let labelTag=document.getElementById("totalCost");
+			labelTag.textContent=sum;
+
+		}
+
+
+
+		function changeCost(inpt) {
+			let productId=inpt.parentNode.parentNode.parentNode.id;
+
+			itemsArrayStr = localStorage.getItem('cart');
+      		itemsArray = JSON.parse(itemsArrayStr);
+
+      		let index=-1;
+      		for(let i=0;i<itemsArray.length;i++) {
+      			if(itemsArray[i][0] == productId) {
+      				index=i;
+      				break;
+      			}
+      		}
+
+      		itemsArray[index][4] =Number(inpt.value);
+  			// console.log(itemsArray[index][4]);
+
+      		let totalPriceTag=inpt.parentNode.parentNode.childNodes[3].childNodes[1];
+			totalPriceTag.textContent=itemsArray[index][3]*itemsArray[index][4];
+
+			localStorage.setItem('cart', JSON.stringify(itemsArray));
+
+
+			// let quantity=Number(inpt.value);
+			// // console.log(quantity);
+
+			// let price=Number(inpt.parentNode.parentNode.parentNode.childNodes[1].childNodes[5].childNodes[1].getAttribute("value"));
+			// // console.log(price);
+
+			// let totalPriceTag=inpt.parentNode.parentNode.childNodes[3].childNodes[1];
+			// totalPriceTag.textContent=quantity*price;
+
+			totalCost();
+
+		}
+
+		function del(btn) {
+			let productId=btn.parentNode.parentNode.id;
+			// console.log(productId);
+			itemsArrayStr = localStorage.getItem('cart');
+      		itemsArray = JSON.parse(itemsArrayStr);
+      		for(let i=0;i<itemsArray.length;i++) {
+      			if(itemsArray[i][0] == productId) {
+      				itemsArray.splice(i,1);
+      				break;
+      			}
+      		}
+      		// itemsArray.forEach((element,index) => {
+      		// 	if(btn.parentNode.parentNode.id == element[0]) {
+      		// 		itemsArray.splice(index,1);
+      		// 		break;
+      		// 	}
+      		// })
+      		localStorage.setItem('cart', JSON.stringify(itemsArray))
+      		load();
+		}
+
+
+		// function save() {
+		// 	let productsId=document.querySelectorAll(`div[class="product"]`);
+		// 	let productsImg=document.querySelectorAll(`img`);
+		// 	let productsName=document.querySelectorAll(`span[name="itemName"]`);
+		// 	let productsPrice=document.querySelectorAll(`span[name="price"]`);
+		// 	let productsQuantity=document.querySelectorAll(`input[name="quantity"]`);
+
+		// 	itemsArrayStr = localStorage.getItem('cart');
+  //     		itemsArray = JSON.parse(itemsArrayStr);
+
+  //     		itemsArray=[];
+
+		// 	for(let i=0;i<productsId.length;i++) {
+		// 		itemsArray.push([productsId[i].id,productsImg[i].src,productsName[i].textContent,Number(productsPrice[i].getAttribute("value")),Number(productsQuantity[i].value)]);
+		// 		console.log(productsId[i].id,productsImg[i].src,productsName[i].textContent,Number(productsPrice[i].getAttribute("value")),Number(productsQuantity[i].value));
+		// 	}
+
+		// 	localStorage.setItem('cart', JSON.stringify(itemsArray));
+
+		// 	load();
+		// }
+
+
+
+
+	</script> -->
+
+</body>
+</html>

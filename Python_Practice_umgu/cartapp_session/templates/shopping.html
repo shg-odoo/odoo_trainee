@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Online Shopping</title>
+	<script src="http://localhost:5555/static/js/home.js"></script>
+
+	<style>
+	    *{
+	    	box-sizing: border-box;
+	    }
+		.navbar{
+			background-color: black;
+			border-radius: 30px;
+		}
+
+		.navbar ul{
+			overflow: auto;
+		}
+
+		.navbar li{
+			list-style: none;
+			float: left;
+			margin: 10px 20px;
+		}
+
+		.navbar li :hover {
+			background: white;
+			color: black;
+			border-radius: 10px;
+		}
+
+		.navbar li a{
+			padding: 3px;
+			color: white;
+			text-decoration: none;
+			font-size: 24px;
+		}
+
+		.search{
+			float: right;
+			margin: 10px 15px;
+		}
+		.search a{
+			text-decoration: none;
+			font-size: 24px;
+			color: white;
+			margin: 10px 20px;
+			padding: 5px;
+		}
+		.search a:hover{
+			background: white;
+			color: black;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+		.search input{
+			font-size: 20px;
+		}
+
+		.container{
+			overflow: auto;
+		}
+
+		.itemBox{
+			border: 0.5px solid black;
+			width: 300px;
+			height: 350px;
+			margin: 5px 15px;
+			float: left;
+			border-radius: 4px;
+		}
+
+		.itemBox img{
+			margin: 5px 50px;
+			width: 200px;
+			height: 200px;
+		}
+		h1{
+			font-weight: bold;
+			text-decoration: underline;
+		}
+
+		p{
+			font-size: 24px;
+			margin: 5px;
+		}
+		button{
+			padding: 5px;
+			margin: 5px;
+			font-size: 22px;
+			background-color: seagreen;
+			border: 2px solid black;
+			cursor: pointer;
+		}
+
+	</style>
+</head>
+<body bgcolor=#e1e6e2 onload="check()">
+	<header>
+		<nav class="navbar">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Services</a></li>
+				<li><a href="#">Contact Us</a></li>
+				<div class="search"> 
+					<a href="http://localhost:5555/cart.html"> Cart </a>
+					<input type="text" name="search" placeholder="search item">
+				</div>
+			</ul>
+		</nav>
+	</header>
+
+	<div class="container">
+			<h1>Clothes</h1>
+		<div>
+			<div class="itemBox" id="1">
+				<img src="http://localhost:5555/static/img/tshirt.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Tshirt">Tshirt</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="399">399 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+			<div class="itemBox" id="2">
+				<img src="http://localhost:5555/static/img/shirt.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Shirt">Shirt</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="799">799 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+			<div class="itemBox" id="3">
+				<img src="http://localhost:5555/static/img/men'spent.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Men's pent">Men's pent</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="1299">1299 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="container">
+			<h1>Furnitures</h1>
+		<div>
+			<div class="itemBox" id="4">
+				<img src="http://localhost:5555/static/img/cupboard.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Cupboard">Cupboard</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="2499">2499 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+			<div class="itemBox" id="5">
+				<img src="http://localhost:5555/static/img/table-chair.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Table and Chair">Table and Chair</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="1999">1999 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+			<h1>Bags</h1>
+		<div>
+			<div class="itemBox" id="6">
+				<img src="http://localhost:5555/static/img/backpack.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="BackPack">BackPack</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="299">299 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="container">
+			<h1>Groceries</h1>
+		<div>
+			<div class="itemBox" id="7">
+				<img src="http://localhost:5555/static/img/fruits.png" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Fruits">Fruits</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="99">99 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+			<div class="itemBox" id="8">
+				<img src="http://localhost:5555/static/img/snacks.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Snacks">Snacks</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="149">149 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+			<div class="itemBox" id="9">
+				<img src="http://localhost:5555/static/img/veges.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Vegetables">Vegetables</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="129">129 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+			<div class="itemBox" id="10">
+				<img src="http://localhost:5555/static/img/baby-item.jpeg" alt="Image not found">
+				<p><strong>Name : </strong><span  name="Baby items">Baby items</span></p>
+				<p><strong>Price : </strong><span  name="Price" value="599">599 Rs.</span></p>
+				<button onclick="addToCart(this)">Add To Cart</button>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- <script>
+		function addToCart(btn) {
+			let productId=btn.parentNode.id;
+			// console.log(productId);
+
+			let list=btn.parentNode.childNodes;
+
+			let productImg=list[1].src;
+			// console.log(productImg);
+
+			let productName=list[3].childNodes[1].getAttribute('name');
+			// console.log(productName);
+
+			let productPrice=Number(list[5].childNodes[1].getAttribute('value'));
+			// console.log(productPrice);
+
+			let quantity=1;
+			// console.log(quantity);
+
+			if (localStorage.getItem('cart') == null) {
+        		itemsArray = [];
+        		itemsArray.push([productId,productImg,productName,productPrice,quantity]);
+        		localStorage.setItem('cart', JSON.stringify(itemsArray))
+
+      		}
+      		else {
+        		itemsArrayStr = localStorage.getItem('cart');
+        		itemsArray = JSON.parse(itemsArrayStr);
+
+        		let isPresent=false;
+        		for(let i=0;i<itemsArray.length;i++) {
+        			if(itemsArray[i][0] == productId) {
+        				isPresent=true;
+        			}
+        		}
+        		if(!isPresent) {
+        			itemsArray.push([productId,productImg,productName,productPrice,quantity]);
+        			localStorage.setItem('cart', JSON.stringify(itemsArray))
+        		}
+
+      		}
+
+		} 
+
+
+	</script> -->
+
+</body>
+</html>

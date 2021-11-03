@@ -1,3 +1,4 @@
+console.log(document.cookie);
 function addToCart(btn) {
 			let productId=btn.parentNode.id;
 			// console.log(productId);

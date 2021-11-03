@@ -1,8 +1,31 @@
-console.log(document.cookie);
+function setCookie(cname,cvalue,exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires=" + d.toGMTString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+
 function load() {
 			let tag = document.getElementById('container')
       		itemsArrayStr = localStorage.getItem('cart');
-      		itemsArray = JSON.parse(itemsArrayStr);
+      		itemsArray=JSON.parse(getCookie("items"));
 
       		let labels=document.querySelectorAll("label");
       		if(itemsArray==null || itemsArray.length==0) {
@@ -57,7 +80,7 @@ function load() {
 			let productId=inpt.parentNode.parentNode.parentNode.id;
 
 			itemsArrayStr = localStorage.getItem('cart');
-      		itemsArray = JSON.parse(itemsArrayStr);
+      		itemsArray=JSON.parse(getCookie("items"));
 
       		let index=-1;
       		for(let i=0;i<itemsArray.length;i++) {
@@ -73,7 +96,8 @@ function load() {
       		let totalPriceTag=inpt.parentNode.parentNode.childNodes[3].childNodes[1];
 			totalPriceTag.textContent=itemsArray[index][3]*itemsArray[index][4];
 
-			localStorage.setItem('cart', JSON.stringify(itemsArray));
+			// localStorage.setItem('cart', JSON.stringify(itemsArray));
+			setCookie("items",JSON.stringify(itemsArray), 30);
 
 
 			// let quantity=Number(inpt.value);
@@ -93,7 +117,8 @@ function load() {
 			let productId=btn.parentNode.parentNode.id;
 			// console.log(productId);
 			itemsArrayStr = localStorage.getItem('cart');
-      		itemsArray = JSON.parse(itemsArrayStr);
+      		// itemsArray = JSON.parse(itemsArrayStr);
+      		itemsArray=JSON.parse(getCookie("items"));
       		for(let i=0;i<itemsArray.length;i++) {
       			if(itemsArray[i][0] == productId) {
       				itemsArray.splice(i,1);
@@ -106,6 +131,7 @@ function load() {
       		// 		break;
       		// 	}
       		// })
-      		localStorage.setItem('cart', JSON.stringify(itemsArray))
+      		// localStorage.setItem('cart', JSON.stringify(itemsArray))
+      		setCookie("items",JSON.stringify(itemsArray), 30);
       		load();
 		}
