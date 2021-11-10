@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!-- <record id="student1" model="student.details">
+		<field name="first_name">Umesh</field>
+		<field name="last_name">Gupta</field>
+	</record>
+
+	<record id="student2" model="student.details">
+		<field name="first_name">Rohit</field>
+		<field name="last_name">Kumar</field>
+	</record>
+
+	<record id="student3" model="student.details">
+		<field name="first_name">Abhishek</field>
+		<field name="last_name">Gupta</field>
+	</record>
+ -->
+		
+	<record id="student1" model="student.details">
+		<field name="name">Umesh Gupta</field>
+		<field name="enrollment_no">8036</field>
+		<field name="contact_no">8487976546</field>
+		<field name="email">umesh97g@gmail.com</field>
+		<field name="branch">IT</field>
+		<field name="dob">1997-11-24</field>
+		<field name="gender">male</field>
+		<field name="percentage">79.54</field>
+	</record>
+
+	<record id="student2" model="student.details">
+		<field name="name">Meet Gami</field>
+		<field name="enrollment_no">8030</field>
+		<field name="contact_no">9974001444</field>
+		<field name="email">meet97g@gmail.com</field>
+		<field name="branch">IT</field>
+		<field name="dob">1997-02-01</field>
+		<field name="gender">male</field>
+		<field name="percentage">82.67</field>
+	</record>	
+
+</odoo>

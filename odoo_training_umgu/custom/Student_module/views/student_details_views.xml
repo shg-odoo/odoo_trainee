@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="student_details_view_tree" model="ir.ui.view">
+		<field name="name">Details</field>
+		<field name="model">student.details</field>
+		<field name="arch" type="xml">
+			<tree string="Details">
+    			<!-- <field name="first_name"/>
+    			<field name="last_name"/>
+ -->			
+ 				<field name="name"/>
+ 				<field name="enrollment_no"/>
+ 				<field name="contact_no"/>
+ 				<field name="email"/>
+ 				<field name="branch"/>
+ 				<field name="dob"/>
+ 				<field name="gender"/>
+ 				<field name="percentage"/>
+ 				
+			</tree>
+		</field>
+	</record>
+
+
+	<record id="action_student_details" model="ir.actions.act_window">
+    	<field name="name">Details</field>
+   		<field name="res_model">student.details</field>
+    	<field name="view_mode">tree</field>
+    	<field name="view_id" ref="student_details_view_tree"/>
+	</record>
+
+	<menuitem id="student_root" name="Student" sequence="0"/>
+	<menuitem id="student_details" name="Details" parent="student_root" action="action_student_details"/>
+
+
+
+
+</odoo>
