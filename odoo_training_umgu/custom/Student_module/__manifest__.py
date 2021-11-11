@@ -13,12 +13,6 @@
     'data' : ['views/student_details_views.xml',
               'data/student_details_data.xml'
     ],
-    # 'data': [
-    #     'security/ir.model.access.csv',
-    #     'views/board_views.xml',
-    #     'views/board_templates.xml',
-    # ],
-    # 'qweb': ['static/src/xml/board.xml'],
     'application': True,
     
 }

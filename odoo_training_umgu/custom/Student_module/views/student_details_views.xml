@@ -5,9 +5,7 @@
 		<field name="model">student.details</field>
 		<field name="arch" type="xml">
 			<tree string="Details">
-    			<!-- <field name="first_name"/>
-    			<field name="last_name"/>
- -->			
+			
  				<field name="name"/>
  				<field name="enrollment_no"/>
  				<field name="contact_no"/>
@@ -21,18 +19,68 @@
 		</field>
 	</record>
 
+	<record id="student_details_view_form" model="ir.ui.view">
+		<field name="name">Details</field>
+		<field name="model">student.details</field>
+		<field name="arch" type="xml">
+			<form string="Details">
+				<sheet>
+					<group>
+						<group>			
+ 							<field name="name"/>
+ 							<field name="dob"/>
+ 							<field name="gender"/>
+ 							<field name="contact_no"/>
+ 							<field name="email"/>
+ 						</group>
+ 						<group>
+ 							<field name="branch"/>
+	 						<field name="enrollment_no"/>
+ 							<field name="percentage"/>
+ 						</group>
+ 					</group>
+ 				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="student_details_view_search" model="ir.ui.view">
+		<field name="name">Details</field>
+		<field name="model">student.details</field>
+		<field name="arch" type="xml">
+			<search string="search details">
+				<field name="name"/>
+				<field name="dob"/>
+				<field name="gender"/>
+				<field name="contact_no"/>
+				<field name="email"/>
+				<field name="branch"/>
+				<field name="enrollment_no"/>
+				<field name="percentage"/>
+				<field name="name" filter_domain="['|', ('name', 'ilike', self),('dob','ilike',self),('gender','ilike','self'),('contact_no','ilike','self'),('email','ilike',self),('branch','ilike',self),('enrollment_no','ilike',self),('percentage','ilike',self)]"/>
+
+				<filter string="Male" name="male" domain="[('gender','=','male')]" />
+				<separator/>
+				<filter string="Female" name="female" domain="[('gender','=','female')]"/>
+				<separator/>
+				<filter string="IT" name="branch" domain="[('branch','=','IT')]"/>
+
+				<group string="Group_By">
+					<filter string="Gender" name="gender" context="{'group_by':'gender'}"/>
+					<filter string="Branch" name="branch" context="{'group_by':'branch'}"/> 
+				</group>
+			</search>
+		</field>
+	</record>
+
 
 	<record id="action_student_details" model="ir.actions.act_window">
     	<field name="name">Details</field>
    		<field name="res_model">student.details</field>
-    	<field name="view_mode">tree</field>
-    	<field name="view_id" ref="student_details_view_tree"/>
+    	<field name="view_mode">tree,form</field>
 	</record>
 
 	<menuitem id="student_root" name="Student" sequence="0"/>
 	<menuitem id="student_details" name="Details" parent="student_root" action="action_student_details"/>
-
-
-
 
 </odoo>
