@@ -21,5 +21,34 @@
         <field name="sdate">1995-07-15</field>
     </record>
 
+    <record id="sdata3" model="student" >
+        <field name="name">vishva</field>
+        <field name="city">Ahmedabad</field>
+        <field name="education">btech</field>
+        <field name="age">21</field>
+        <field name="salary">25.55</field>
+        <field name="job">odoo</field>
+        <field name="sdate">1994-11-24</field>
+    </record>
+
+    <record id="sdata4" model="student" >
+        <field name="name">jinal</field>
+        <field name="city">gandhinagar</field>
+        <field name="education">bca</field>
+        <field name="age">23</field>
+        <field name="salary">26.55</field>
+        <field name="job">odoo</field>
+        <field name="sdate">1993-12-19</field>
+    </record>
+
+    <record id="sdata5" model="student" >
+        <field name="name">adesh</field>
+        <field name="city">nagpur</field>
+        <field name="education">Mca</field>
+        <field name="age">25</field>
+        <field name="salary">22.55</field>
+        <field name="job">Erp pvt ltd </field>
+        <field name="sdate">1995-09-23</field>
+    </record>
 
 </odoo>

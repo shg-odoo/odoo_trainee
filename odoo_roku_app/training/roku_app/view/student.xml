@@ -2,27 +2,248 @@
 <odoo>
 	<record model="ir.ui.view" id="student_id">
             <field name="name">student</field>
-            <field name="model">student</field>
+            <field name="model">student</field>  
             <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/> <!-- name= "variable of model" -->
+                <tree>  
+                    <field name="name" /> <!-- name= "variable of model" -->
                     <field name="city"/>
                     <field name="education"/>
                     <field name="age"/>
                     <field name="salary"/>
                     <field name="job"/>
                     <field name="sdate"/>
+                    <field name="gender" widget="radio" options="{'vertical':true}"/>
+                    <field name="current_date"/>
+                    <field name="image" widget="image" class="oe_avatar" width="50" height="60" />
+                    <field name="college_id"/>
+                    <field name="hobbies_id"/>
+                    <field name="physic"/>
+                    <field name="math"/>
+                    <field name="chemistry"/>
+                    <field name="total"/>
+                    <field name="avg"/>
+                    <field name="add"/>
+                    <field name="review"/>
                 </tree>
             </field>
     </record>
-	<record id="student_menu" model="ir.actions.act_window" >
+
+
+
+    <record model="ir.ui.view" id="college_tree_view">
+            <field name="name">college.tree</field>
+            <field name="model">student.college</field>
+            <field name="arch" type="xml">
+                <tree string="College Data">
+                    <field name="name"/>
+                    <field name="city"/>
+                    <field name="c_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+    
+
+
+
+
+
+    <record model="ir.ui.view" id="student_form">
+            <field name="name">student.form</field>
+            <field name="model">student</field>  
+            <field name="arch" type="xml">
+            <form>
+                <!-- <header>
+                    <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight" />
+                    <button name="action_done" type="object" states="confirm" string="Done" class="oe_highlight" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                </header> -->
+                <notebook>
+                    <page string="Personal Details">
+                        <group>
+                            <field name="name"/>
+                            <field name="sdate"/>
+                            <field name="city"/>
+                            <field name="salary"/>
+                            <field name="job"/>
+                            <field name="gender" widget="radio" options="{'vertical':true}"/>
+                            <field name="image" widget="image" class="oe_avatar"/>
+                            <field name="current_date"/>
+                            <field name="age"/>
+                        </group>     
+                    </page>
+                    <page string="College Details">
+                        <group>
+                            
+                            <field name="college_id" />
+                            <field name="education"/>
+
+                            <field name="hobbies_id" widget="many2many_tags"/>
+                        </group>     
+                    </page>
+                    <page string="Acadmic Details">
+                        <group>
+                            <field name="math"/>
+                            <field name="physic"/>
+                            <field name="chemistry"/>
+                            <field name="total"/>
+                            <field name="avg"/>
+                            <field name="add" readonly="1" />
+                        </group>     
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+
+
+
+
+
+    <record model="ir.ui.view" id="student_search_">
+            <field name="name">student.search</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="education"/>
+                    <field name="city"/>
+                    <filter string="Male" name="male" domain="[('gender','=','male')]" />
+                    <separator/>
+                    <filter string="Female" name="female" domain="[('gender','=','female')]" />
+                    <group string="Group By">
+                         <filter string="Education" name="education" context="{'group_by':'education'}" />
+                         <filter string="Gender" name="gender" context="{'group_by':'gender'}" />
+                         <filter string="City" name="city" context="{'group_by':'city'}" />
+                    </group>
+                </search>
+            </field>
+        </record> 
+
+    <record model="ir.ui.view" id="student_calendar">
+            <field name="name">student.calendar</field>
+            <field name="model">student</field>  
+            <field name="arch" type="xml">
+                <calendar color="name" date_start="sdate" string="Student Calendar" mode="month">
+                    <field name="name"/>
+                    <field name="city"/>
+                </calendar>
+            </field>
+    </record>
+
+    <record model="ir.ui.view" id="student_graph">
+            <field name="name">student.graph</field>
+            <field name="model">student</field>  
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="age" group="True"/>  
+                </graph>
+            </field>
+    </record>
+    
+
+    <record id="student_kanban" model="ir.ui.view">
+            <field name="name">student.kanban</field>
+            <field name="model">student</field> 
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="image" widget="image"/>
+                    <field name="id"/>
+                       <templates>  
+                           <t t-name="kanban-box">
+                                <div class="container">
+                                    <div class="o_kanban_image"> 
+                                       <img t-att-src="kanban_image('student', 'image', record.id.raw_value)"  alt="Avatar"/>
+                                    </div>
+                                 <div class="row">
+                                   <div class="col-6">
+                                        <div class="oe_kanban_details">
+                                           <strong class="o_kanban_record_title"> 
+                                           <field name="name"/>
+                                           </strong>
+                                       </div>
+                                       <div class="oe_kanban_details">
+                                           <strong   class="o_kanban_record_title">City: </strong>
+                                           <field name="city"/>
+                                       </div>
+                                        <div class="oe_kanban_details">
+                                           <strong  class="o_kanban_record_title">Age: </strong>
+                                           <field name="age"/>
+                                       </div>
+                                       <div class="oe_kanban_details">
+                                           <strong  class="o_kanban_record_title">Job: </strong>
+                                           <field name="job"/>
+                                       </div>
+                                       <div class="oe_kanban_details">
+                                           <strong  class="o_kanban_record_title">Salary: </strong>
+                                           <field name="salary"/>
+                                       </div>
+                                       <div class="oe_kanban_details">
+                                           <strong  class="o_kanban_record_title">Hobbies: </strong>
+                                           <field name="hobbies_id"/>
+                                       </div>
+                                   </div>
+
+                                   <div class="col-2">
+                                         <a type="button" class="col-sm-12 bg-light text-right">
+                                             <h3><button name="button_name" type="button_type" class="badge badge-pill badge-success">
+                                                 <span><field name="education" /></span>
+                                             </button></h3>
+                                         </a>
+                                   </div>
+                                 </div>
+                               </div>
+                           </t>          
+                       </templates>       
+                </kanban>   
+            </field>
+    </record>   
+                         
+
+
+
+    <record model="ir.ui.view" id="student_gantt">
+            <field name="name">student.gantt</field>
+            <field name="model">student</field>  
+            <field name="arch" type="xml">
+                <gantt date_stop="current_date" date_start="sdate"  default_group_by="education">
+                </gantt>
+            </field>
+    </record>
+    
+    
+	<record id="student_action" model="ir.actions.act_window" >
         <field name="name">student</field>  
         <field name="res_model">student</field>
+        <field name="view_mode">tree,form,search,calendar,graph,kanban,gantt</field>
+    </record>
+
+
+
+    <record id="college_action" model="ir.actions.act_window" >
+        <field name="name">College</field>  
+        <field name="res_model">student.college</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="hobbies_action" model="ir.actions.act_window" >
+        <field name="name">hobbies</field>  
+        <field name="res_model">student.hobbies</field>
         <field name="view_mode">tree</field>
     </record>
-	<menuitem id="student_menu_root" name="Student Data">
-		<menuitem id="student_first_leve_menu" sequence="1" name="students" action="student_menu"/>
-	</menuitem>
+
+
+
+	<menuitem id="student_menu_root" name="Student Data"/>
+		<menuitem id="student__menu_1" parent="student_menu_root" sequence="1" name="students" action="student_action"/>
+        <menuitem id="college_menu_1" parent="student_menu_root" sequence="2" name="college" action="college_action"/>
+        <menuitem id="hobbies_menu" parent="student_menu_root" sequence="3" name="hobbies" action="hobbies_action"/>
+        
 </odoo>
 
 
