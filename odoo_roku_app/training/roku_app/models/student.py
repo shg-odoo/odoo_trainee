@@ -24,7 +24,7 @@ class student(models.Model):
 	physic = fields.Integer(string="Physic")
 	total = fields.Integer(string="Total",compute="_get_total", store= True)
 	avg = fields.Integer(string="AVG", compute="_s_avrage")
-	add = fields.Integer(string="ADD")
+	add = fields.Integer(string="ADD", store=True)
 
 
 
@@ -39,7 +39,7 @@ class student(models.Model):
 		for i in self:
 			i.avg = (i.math + i.chemistry +i.physic)/3
 
-	@api.onchange
+	@api.onchange('math','physic','chemistry')
 	def _a_add(self):
 		for i in self:
 			i.add = i.math+i.chemistry+i.physic

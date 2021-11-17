@@ -10,7 +10,8 @@
 
     		'data/s_data.xml',
     		'view/student.xml',
-            'wizard/s_wizard.xml'
+            'wizard/s_wizard.xml',
+            'report/repo_student.xml'
 
 
     		],
