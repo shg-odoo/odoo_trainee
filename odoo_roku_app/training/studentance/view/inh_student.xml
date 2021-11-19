@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<record model="ir.ui.view" id="student_id11">
-            <field name="name">student.inherit.tree..view</field>
+            <field name="name">student.inherit.tree.view</field>
             <field name="model">student.inherit</field>
             <field name="inherit_id" ref="roku_app.student_id"/>
             <field name="arch" type="xml">

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="template">
+        <t t-call="website.layout">
+            <center>
+                <h1>My Page</h1>
+            </center><br/>
+            
+            <t t-call="roku_app.student_table"/>
+        </t>
+    </template>
+
+    <template id="student_table">
+        <center>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>City</th>
+                    <th>Maths</th>
+                    <th>total</th>
+                </tr>
+                <a href="/create_student" class="btn btn-primary btn-lg">Create</a>
+                <tr t-foreach="students" t-as="i">
+                    <td><t t-esc="i.name"/></td>
+                    <td><t t-esc="i.age"/></td>
+                    <td><t t-esc="i.city"/></td>
+                    
+                    <td><t t-esc="i.math"/></td>
+                    <td><t t-esc="i.total"/></td>
+                    <td><a class="btn btn-primary" t-att-href="'/delete/%s' % i.id">Delete</a></td>
+                </tr>
+            </table>
+        </center><br/>
+    </template>
+
+    <template id="create_student">
+        <t t-call="website.layout">
+            <form action="/submit_form">
+                <div>
+                    <div>Name: <input type="text" name="name"/></div><br/>
+                    <div>Age: <input type="text" name="age"/></div><br/>
+                    <div>City: <input type="text" name="city"/></div><br/>
+                    <div>Maths: <input type="text" name="math"/></div><br/>
+                    
+                    <div><button type="submit">submit</button></div>
+                </div>
+            </form>
+        </t>
+    </template>
+
+
+</odoo>

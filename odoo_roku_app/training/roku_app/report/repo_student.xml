@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
+
     <report
         id="student_report_card"
         model="student"
@@ -10,158 +10,181 @@
         file="roku_app.student_report"
         report_type="qweb-pdf"
         attachment_use="True"
-    />
+        />
 
 
-    <template id="student_report">
-        <t t-call="web.html_container">
-        <t t-call="web.external_layout">
-          <center>
-                <h1>Student Data</h1>
-            </center><br/>
-                    <table style="width:100%;border: 2px solid #ddd;padding: 8px;">
-                       <thread>
-                       <tr>
-                           <th>Name</th>
-                           <th>City</th>
-                           <th>Age</th>
-                           <th>Salary</th>
-                           <th>Gender</th>
-                       </tr>
-                       <t t-foreach="docs" t-as="o">
-                       <tr>
-                           <td>
-                           <span t-field="o.name"/>
-                           </td>
-                           <td> 
-                           <span t-field="o.city"/>
-                           </td>
-                           <td> 
-                           <span t-field="o.age"/>
-                           </td>
-                           <td>
-                           <span t-field="o.salary"/>
-                           </td>
-                           <td>
-                           <span t-field="o.gender"/>
-                           </td>
-                    
-                           
-                       </tr>
-                       </t>
-                       </thread>
-                    </table>
-        </t>
-        </t>
-    </template>
+        <template id="student_report">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                <div class="page">
+                  <center>
+                    <h1>Student Data</h1>
+                </center>
+            </div><br/>
+                <table style="width:100%;border: 2px solid #ddd;padding: 8px;">
+                 <thread>
+                     <tr>
+                         <th>Name</th>
+                         <th>City</th>
+                         <th>Age</th>
+                         <th>Salary</th>
+                         
+                     </tr>
+                     <t t-foreach="docs" t-as="o">
+                         <tr>
+                             <td>
+                                 <span t-field="o.name"/>
+                             </td>
+                             <td> 
+                                 <span t-field="o.city"/>
+                             </td>
+                             <td> 
+                                 <span t-field="o.age"/>
+                             </td>
+                             <td>
+                                 <span t-field="o.salary"/>
+                             </td>
+                             
+
+                         </tr>
+                     </t>
+                 </thread>
+             </table>
+         </t>
+     </t>
+ </template>
+
+
+ <template id="inherit_report_student_view" inherit_id="student_report">
+    <xpath expr="//div[hasclass('page')]" position="inside">
+        <h2>Inside</h2>
+    </xpath>
+    <xpath expr="(//th)[1]" position="after">
+        <th scope="col">Gender</th>
+    </xpath>
+    <xpath expr="(//td)[1]" position="after">
+        <td align="center">
+            <span t-field="o.gender"/>
+        </td>
+    </xpath>
+</template>
+<template id="inherit_report_student_view_primary" inherit_id="student_report" primary="True">
+    <xpath expr="(//th)[1]" position="after">
+        <th scope="col">city</th>
+    </xpath>
+    <xpath expr="(//td)[1]" position="after">
+        <td align="center">
+            <span t-field="o.city"/>
+        </td>
+    </xpath>
+</template>
 
 
 
 
 
-    <report
-        id="student_report_second"
-        model="student"
-        string="Acadmic Details"
+ <report
+    id="student_report_second"
+    model="student"
+    string="Acadmic Details"
 
-        name="roku_app.student_report_c"
-        file="roku_app.student_report_c"
-        report_type="qweb-pdf"
-        attachment_use="True"
+    name="roku_app.student_report_c"
+    file="roku_app.student_report_c"
+    report_type="qweb-pdf"
+    attachment_use="True"
     />
 
 
     <template id="student_report_c">
         <t t-call="web.html_container">
-        <t t-call="web.external_layout">
-          <center>
+            <t t-call="web.external_layout">
+              <center>
                 <h1>Student Data</h1>
             </center><br/>
-                    <table style="width:100%;border: 2px solid #ddd;padding: 8px;">
-                       <thread>
-                           <tr>
-                               <th>Math</th>
-                               <th>Physic</th>
-                               <th>Chemistry</th>
-                               <th>Total</th>
-                               <th>AVG</th>
-                            </tr>
-                            <t t-foreach="docs" t-as="rohit">
-                            <tr>
-                                <td>
-                               <span t-field="rohit.math"/>
-                               </td>
-                               <td> 
-                               <span t-field="rohit.physic"/>
-                               </td>
-                               <td> 
-                               <span t-field="rohit.chemistry"/>
-                               </td>
-                               <td>
-                               <span t-field="rohit.total"/>
-                               </td>
-                               <td>
-                               <span t-field="rohit.avg"/>
-                               </td> 
-                           </tr>
-                           </t>
-                        </thread>
-                    </table>
-        </t>
-        </t>
-    </template>
+            <table style="width:100%;border: 2px solid #ddd;padding: 8px;">
+             <thread>
+                 <tr>
+                     <th>Math</th>
+                     <th>Physic</th>
+                     <th>Chemistry</th>
+                     <th>Total</th>
+                     <th>AVG</th>
+                 </tr>
+                 <t t-foreach="docs" t-as="rohit">
+                    <tr>
+                        <td>
+                         <span t-field="rohit.math"/>
+                     </td>
+                     <td> 
+                         <span t-field="rohit.physic"/>
+                     </td>
+                     <td> 
+                         <span t-field="rohit.chemistry"/>
+                     </td>
+                     <td>
+                         <span t-field="rohit.total"/>
+                     </td>
+                     <td>
+                         <span t-field="rohit.avg"/>
+                     </td> 
+                 </tr>
+             </t>
+         </thread>
+     </table>
+ </t>
+</t>
+</template>
 
 
 
 
-    <report
-        id="student_report_college"
-        model="student"
-        string="College Details"
+<report
+    id="student_report_college"
+    model="student"
+    string="College Details"
 
-        name="roku_app.student_report_ci"
-        file="roku_app.student_report_ci"
-        report_type="qweb-pdf"
-        attachment_use="True"
+    name="roku_app.student_report_ci"
+    file="roku_app.student_report_ci"
+    report_type="qweb-pdf"
+    attachment_use="True"
     />
 
 
     <template id="student_report_ci">
         <t t-call="web.html_container">
-        <t t-call="web.external_layout">
-          <center>
+            <t t-call="web.external_layout">
+              <center>
                 <h1>Student Data</h1>
             </center><br/>
-                    <table style="width:100%;border: 2px solid #ddd;padding: 8px;">
-                       <thread>
-                           <tr>
-                               <th>Education</th>
-                               <th>College</th>
-                               
-                            </tr>
-                            <t t-foreach="docs" t-as="rohit">
-                            <tr>
-                                <td>
-                               <span t-field="rohit.education"/>
-                               </td>
-                               <td> 
-                               <span t-field="rohit.college_id"/>
-                               </td>
-                               
-                           </tr>
-                           </t>
-                        </thread>
-                    </table>
-        </t>
-        </t>
-    </template>
+            <table style="width:100%;border: 2px solid #ddd;padding: 8px;">
+             <thread>
+                 <tr>
+                     <th>Education</th>
+                     <th>College</th>
+
+                 </tr>
+                 <t t-foreach="docs" t-as="rohit">
+                    <tr>
+                        <td>
+                         <span t-field="rohit.education"/>
+                     </td>
+                     <td> 
+                         <span t-field="rohit.college_id"/>
+                     </td>
+
+                 </tr>
+             </t>
+         </thread>
+     </table>
+ </t>
+</t>
+</template>
 
 
-    <!-- <template id="inherit_seo" inherit_id="student_report_card">
-        <xpath expr="//field[@name='name']" position="after">
-          <field name="education" string="Education"/>
-        </xpath>
-    </template> -->
+
+
+
+
 
 
 
