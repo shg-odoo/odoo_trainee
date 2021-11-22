@@ -27,9 +27,6 @@
                 </tree>
             </field>
     </record>
-
-
-
     <record model="ir.ui.view" id="college_tree_view">
             <field name="name">college.tree</field>
             <field name="model">student.college</field>
@@ -41,25 +38,11 @@
                 </tree>
             </field>
         </record>
-
-
-
-    
-
-
-
-
-
     <record model="ir.ui.view" id="student_form">
             <field name="name">student.form</field>
             <field name="model">student</field>  
             <field name="arch" type="xml">
             <form>
-                <!-- <header>
-                    <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight" />
-                    <button name="action_done" type="object" states="confirm" string="Done" class="oe_highlight" />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
-                </header> -->
                 <notebook>
                     <page string="Personal Details">
                         <group>
@@ -97,12 +80,6 @@
             </form>
         </field>
     </record>
-
-
-
-
-
-
     <record model="ir.ui.view" id="student_search_">
             <field name="name">student.search</field>
             <field name="model">student</field>
@@ -122,7 +99,6 @@
                 </search>
             </field>
         </record> 
-
     <record model="ir.ui.view" id="student_calendar">
             <field name="name">student.calendar</field>
             <field name="model">student</field>  
@@ -133,7 +109,6 @@
                 </calendar>
             </field>
     </record>
-
     <record model="ir.ui.view" id="student_graph">
             <field name="name">student.graph</field>
             <field name="model">student</field>  
@@ -143,8 +118,6 @@
                 </graph>
             </field>
     </record>
-    
-
     <record id="student_kanban" model="ir.ui.view">
             <field name="name">student.kanban</field>
             <field name="model">student</field> 
@@ -202,10 +175,6 @@
                 </kanban>   
             </field>
     </record>   
-                         
-
-
-
     <record model="ir.ui.view" id="student_gantt">
             <field name="name">student.gantt</field>
             <field name="model">student</field>  
@@ -214,31 +183,21 @@
                 </gantt>
             </field>
     </record>
-    
-    
 	<record id="student_action" model="ir.actions.act_window" >
         <field name="name">student</field>  
         <field name="res_model">student</field>
         <field name="view_mode">tree,form,search,calendar,graph,kanban,gantt</field>
     </record>
-
-
-
     <record id="college_action" model="ir.actions.act_window" >
         <field name="name">College</field>  
         <field name="res_model">student.college</field>
         <field name="view_mode">tree,form</field>
     </record>
-
-
     <record id="hobbies_action" model="ir.actions.act_window" >
         <field name="name">hobbies</field>  
         <field name="res_model">student.hobbies</field>
         <field name="view_mode">tree</field>
     </record>
-
-
-
 	<menuitem id="student_menu_root" name="Student Data"/>
 		<menuitem id="student__menu_1" parent="student_menu_root" sequence="1" name="students" action="student_action"/>
         <menuitem id="college_menu_1" parent="student_menu_root" sequence="2" name="college" action="college_action"/>

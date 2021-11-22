@@ -6,15 +6,9 @@
     'category': 'Management',
     'depends': ['roku_app'],
 
-    'data': [
-
-    		
+    'data': [		
     		'view/inh_student.xml'
-            
-
     		],
             
     'application' : True,
-
-
 }

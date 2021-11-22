@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <report
         id="student_report_card"
         model="student"
         string="Personal Details"
-
         name="roku_app.student_report"
         file="roku_app.student_report"
         report_type="qweb-pdf"
         attachment_use="True"
         />
-
-
         <template id="student_report">
             <t t-call="web.html_container">
                 <t t-call="web.external_layout">
@@ -28,7 +24,6 @@
                          <th>City</th>
                          <th>Age</th>
                          <th>Salary</th>
-                         
                      </tr>
                      <t t-foreach="docs" t-as="o">
                          <tr>
@@ -44,8 +39,6 @@
                              <td>
                                  <span t-field="o.salary"/>
                              </td>
-                             
-
                          </tr>
                      </t>
                  </thread>
@@ -53,8 +46,6 @@
          </t>
      </t>
  </template>
-
-
  <template id="inherit_report_student_view" inherit_id="student_report">
     <xpath expr="//div[hasclass('page')]" position="inside">
         <h2>Inside</h2>
@@ -78,11 +69,6 @@
         </td>
     </xpath>
 </template>
-
-
-
-
-
  <report
     id="student_report_second"
     model="student"
@@ -93,8 +79,6 @@
     report_type="qweb-pdf"
     attachment_use="True"
     />
-
-
     <template id="student_report_c">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
@@ -134,10 +118,6 @@
  </t>
 </t>
 </template>
-
-
-
-
 <report
     id="student_report_college"
     model="student"
@@ -148,8 +128,6 @@
     report_type="qweb-pdf"
     attachment_use="True"
     />
-
-
     <template id="student_report_ci">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
@@ -161,7 +139,6 @@
                  <tr>
                      <th>Education</th>
                      <th>College</th>
-
                  </tr>
                  <t t-foreach="docs" t-as="rohit">
                     <tr>
@@ -171,7 +148,6 @@
                      <td> 
                          <span t-field="rohit.college_id"/>
                      </td>
-
                  </tr>
              </t>
          </thread>
@@ -179,15 +155,4 @@
  </t>
 </t>
 </template>
-
-
-
-
-
-
-
-
-
-
-
 </odoo>

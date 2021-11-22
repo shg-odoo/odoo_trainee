@@ -15,9 +15,6 @@
             'view/wstudent.xml',
             'wizard/s_wizard.xml',
             'report/repo_student.xml'
-
-
-
     		],
             
     'application' : True,

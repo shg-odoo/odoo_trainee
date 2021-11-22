@@ -10,13 +10,10 @@
                 </xpath>
             </field>
         </record>
-
-
         <record model="ir.ui.view" id="student_form_inhrit">
             <field name="name">student.inherit.form.view</field>
             <field name="model">student.inherit</field>
             <field name="arch" type="xml">
-
                 <form>
                     <notebook>
                         <page>
@@ -30,14 +27,11 @@
                 </form>
             </field>
         </record>
-
-
  	<record id="student_inherit_action" model="ir.actions.act_window">
         <field name="name">student Inherit</field>
         <field name="res_model">student.inherit</field>
         <field name="view_mode">tree,form</field>
     </record>
-
     <menuitem id="student_inherit_menu_root" name="Student inherit"/>
 		<menuitem id="student_inherit_menu_1" parent="student_inherit_menu_root" sequence="1" name="student INH" action="student_inherit_action"/>
 </odoo>

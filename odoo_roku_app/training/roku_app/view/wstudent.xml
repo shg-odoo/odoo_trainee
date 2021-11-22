@@ -9,7 +9,6 @@
             <t t-call="roku_app.student_table"/>
         </t>
     </template>
-
     <template id="student_table">
         <center>
             <table>
@@ -33,7 +32,6 @@
             </table>
         </center><br/>
     </template>
-
     <template id="create_student">
         <t t-call="website.layout">
             <form action="/submit_form">
@@ -48,6 +46,4 @@
             </form>
         </t>
     </template>
-
-
 </odoo>
