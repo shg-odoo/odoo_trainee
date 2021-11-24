@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+	<report id="report_student_result_report" 
+			model="student.details"
+			string="Student Result"
+			report_type="qweb-pdf"
+			name="Student_module.student_result_template"
+			file="Student_module.report_student_result_report"
+			attachment_use="True" />
+
+	<report id="report_student_details_report"
+			model="student.details"
+			string="Student Details"
+			report_type="qweb-pdf"
+			name="Student_module.student_details_template"
+			file="Student_module.report_student_details_report"
+			attachment_use="True" />
+
+	<template id="student_result_template">
+		<t t-call="web.html_container">
+			<t t-call="web.external_layout">
+				<center>
+					<h2>Student Details</h2>
+					<table style="width:500px;border: 1px solid black">
+						<caption>Student Details</caption>
+						<tr>
+							<th>Name</th>
+							<th>College</th>
+							<th>DOB</th>
+							<th>Percentage</th>
+						</tr>
+						<t t-foreach="docs" t-as="doc">
+						<tr>
+							<td align="center"><span t-field="doc.name"/></td>
+							<td align="center"><span t-field="doc.college"/></td>
+							<td align="center"><span t-field="doc.dob"/></td>
+							<td align="center"><span t-field="doc.percentage"/></td>
+						</tr>
+					</t>
+				</table>
+				</center>
+			</t>
+		</t>
+	</template>
+
+	<template id="student_details_template" inherit_id="student_result_template" primary="True"> 
+		<xpath expr="(//th)[4]" position="replace">
+		</xpath>
+
+		<xpath expr="(//td)[4]" position="replace">
+		</xpath>
+	</template>
+</odoo>

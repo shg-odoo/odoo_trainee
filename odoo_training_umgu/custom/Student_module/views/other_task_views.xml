@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+	<data>
+		<record id="view_other_task_tree" model="ir.ui.view">
+			<field name="name">other_task_tree</field>
+			<field name="model">other.task</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="user_id"/>
+					<field name="task"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_other_task" model="ir.actions.act_window">
+			<field name="name">other.task.action</field>
+			<field name="res_model">other.task</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="other_task" name="Other" parent="student_root" action="action_other_task"/>
+	</data>
+</odoo>

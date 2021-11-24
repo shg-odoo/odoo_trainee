@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		<record id="view_teacher_salary_update_form" model="ir.ui.view">
+			<field name="name">teacher.salary.update.form</field>
+			<field name="model">teacher.salary.update</field>
+			<field name="arch" type="xml">
+				<form> 
+					<h3>Teacher salary update form</h3>
+					<group>
+						<field name="updated_salary"/>
+					</group>
+					<footer>
+						<button name="update_teacher_salary" string="Update" type="object"/>
+						<button special="cancel" string="Cancel" class="btn btn-secondary"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_teacher_salary_update" model="ir.actions.act_window">
+			<field name="name">teacher.salary.update.action</field>
+			<field name="res_model">teacher.salary.update</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		
+		<record id="window_action_teacher_salary_update" model="ir.actions.act_window">
+			<field name="name">Update salary</field>
+			<field name="res_model">teacher.salary.update</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<!-- ref="module_{teacher_(not .)details" -->
+			<field name="binding_model_id" ref="model_teacher_details"/>
+			<field name="binding_view_types">list,form</field>
+		</record>
+	</data>
+</odoo>

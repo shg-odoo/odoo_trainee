@@ -1,59 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-		
-	<record id="student1" model="student.details">
-		<field name="name">Umesh Gupta</field>
-		<field name="enrollment_no">8036</field>
-		<field name="contact_no">8294620374</field>
-		<field name="email">umesh97g@gmail.com</field>
-		<field name="branch">IT</field>
-		<field name="dob">1997-11-24</field>
-		<field name="gender">male</field>
-		<field name="percentage">79.54</field>
-	</record>
+	<data>
+		<!-- Records for college details -->
+		<record id="college1" model="student.college">
+			<field name="college_name">Parul University</field>
+			<field name="city">Vadodara</field>
+		</record>
 
-	<record id="student2" model="student.details">
-		<field name="name">Meet Gami</field>
-		<field name="enrollment_no">8030</field>
-		<field name="contact_no">9894001234</field>
-		<field name="email">meet97g@gmail.com</field>
-		<field name="branch">IT</field>
-		<field name="dob">1997-02-01</field>
-		<field name="gender">male</field>
-		<field name="percentage">82.67</field>
-	</record>	
+		<record id="college2" model="student.college">
+			<field name="college_name">Nirma University</field>
+			<field name="city">Ahmedabad</field>
+		</record>
 
-	<record id="student3" model="student.details">
-		<field name="name">Manali Saraf</field>
-		<field name="enrollment_no">8031</field>
-		<field name="contact_no">1234567890</field>
-		<field name="email">manali97g@gmail.com</field>
-		<field name="branch">CSE</field>
-		<field name="dob">1998-03-20</field>
-		<field name="gender">female</field>
-		<field name="percentage">80.00</field>
-	</record>
+		<record id="college3" model="student.college">
+			<field name="college_name">Marwadi University</field>
+			<field name="city">Rajkot</field>
+		</record>
 
-	<record id="student4" model="student.details">
-		<field name="name">Abhishek Gupta</field>
-		<field name="enrollment_no">8040</field>
-		<field name="contact_no">8100103559</field>
-		<field name="email">abhishek97g@gmail.com</field>
-		<field name="branch">CSE</field>
-		<field name="dob">1997-11-24</field>
-		<field name="gender">male</field>
-		<field name="percentage">72</field>
-	</record>
+		<record id="college4" model="student.college">
+			<field name="college_name">Bits Education</field>
+			<field name="city">Vadodara</field>
+		</record>
 
-	<record id="student5" model="student.details">
-		<field name="name">Nisha Tandel</field>
-		<field name="enrollment_no">8024</field>
-		<field name="contact_no">4646477589</field>
-		<field name="email">nisha97g@gmail.com</field>
-		<field name="branch">Pharma</field>
-		<field name="dob">2000-09-21</field>
-		<field name="gender">female</field>
-		<field name="percentage">81.34</field>
-	</record>
+		<record id="college5" model="student.college">
+			<field name="college_name">P. p. savani University</field>
+			<field name="city">Surat</field>
+		</record>
 
+		<!-- Records of subjects -->
+		<record id="subject1" model="student.subject">
+			<field name="subject_name">History</field>
+			<field name="level">hard</field>
+		</record>
+
+		<record id="subject2" model="student.subject">
+			<field name="subject_name">Geography</field>
+			<field name="level">easy</field>
+		</record>
+
+		<record id="subject3" model="student.subject">
+			<field name="subject_name">Polity</field>
+			<field name="level">hard</field>
+		</record>
+
+		<record id="subject4" model="student.subject">
+			<field name="subject_name">Ecomony</field>
+			<field name="level">medium</field>
+		</record>
+
+		<record id="subject5" model="student.subject">
+			<field name="subject_name">Current Affairs</field>
+			<field name="level">hard</field>
+		</record>
+	</data>
 </odoo>

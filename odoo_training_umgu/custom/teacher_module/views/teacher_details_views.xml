@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<record id="view_teacher_details_tree" model="ir.ui.view">
+		<field name="name">teacher_details_tree</field>
+		<field name="model">teacher.details</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" string="Teacher Name"/>
+				<field name="college"/>
+				<field name="enrollment_no" string="ID"/>
+				<field name="contact_no"/>
+				<field name="email"/>
+				<field name="branch"/>
+				<field name="subject"/>
+				<field name="dob"/>
+				<field name="age"/>
+				<field name="gender"/>
+				<field name="salary"/>
+				<field name="brief_intro"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="inherited_student_college" model="ir.ui.view">
+   		<field name="name">inherited.student.college</field>
+    	<field name="model">student.college</field>
+    	<field name="inherit_id" ref="Student_module.view_student_college_tree"/>
+    	<field name="arch" type="xml">
+        	<xpath expr="//field[@name='college_name']" position="after">
+          	       <field name="principal"/>
+        	</xpath>
+    	</field>
+	</record>
+
+
+	<record id="view_teacher_details_form" model="ir.ui.view">
+		<field name="name">student.details.form</field>
+		<field name="model">teacher.details</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<h1>Teacher Deatils</h1>
+					<!-- object will call the function. function name should be same as {name} given in field, and define function in corresponding model-->
+					<button name="update_teacher_salary" string="Update salary" type="object"/>
+					<notebook>
+						<page string="Personal Info">
+							<group>
+								<field name="name"/>
+								<field name="college"/>
+								<field name="salary"/>
+								<field name="dob"/>
+								<field name="gender"/>
+								<field name="contact_no"/>
+								<field name="email"/>
+								<field name="address"/>
+								<field name="age"/>  
+							</group>
+						</page>
+						<page string="Introduction">
+							<field name="brief_intro"/>
+						</page>
+						<page string="Result">
+							<group>
+								<field name="branch"/>
+								<field name="subject"/>
+								<field name="percentage"/>
+							</group>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_teacher_college_tree" model="ir.ui.view">
+		<field name="name">teacher_college_tree</field>
+		<field name="model">student.college</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="college_name"/>
+				<field name="city"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_teacher_subject_tree" model="ir.ui.view">
+		<field name="name">teacher_subject_tree</field>
+		<field name="model">student.subject</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="subject_name"/>
+				<field name="level"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="action_teacher_details" model="ir.actions.act_window">
+		<field name="name">teacher_details</field>
+		<field name="res_model">teacher.details</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="action_teacher_college" model="ir.actions.act_window">
+		<field name="name">teacher_college</field>
+		<field name="res_model">student.college</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="action_teacher_subject" model="ir.actions.act_window">
+		<field name="name">teacher_subject</field>
+		<field name="res_model">student.subject</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<menuitem id="teacher_root" name="Teacher" sequence="1"/>
+	<menuitem id="teacher_details" name="Details" parent="teacher_root" action="action_teacher_details"/>
+	<menuitem id="teacher_college" name="Colleges" parent="teacher_root" action="action_teacher_college"/>
+	<menuitem id="teacher_subject" name="Subjects" parent="teacher_root" action="action_teacher_subject"/>
+
+</odoo>

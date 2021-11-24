@@ -1,0 +1,54 @@
+<odoo>
+
+    <template id="home_page">
+        <t t-call="website.layout">
+            <h1>Student Details</h1>
+            <t t-call="Student_module.student_list"/>
+        </t>
+    </template>
+
+    <template id="student_list">
+        <center>
+            <a href="/create_student" class="btn btn-primary">Add new student</a>
+            <table style="width:50%;">
+                <caption>Student Details List</caption>
+                <tr>
+                    <th>Name</th>
+                   <th>Enrollment No.</th>
+                    <th>Cotact</th>
+                    <th>Email</th>
+                    <th>Branch</th>
+                    <!-- <th>College</th> -->
+                    <th>Percentage</th>
+                </tr>
+                <tr t-foreach="students" t-as="student">
+                    <td><t t-esc="student.name"/></td>
+                    <td><t t-esc="student.enrollment_no"/></td>
+                    <td><t t-esc="student.contact_no"/></td>
+                    <td><t t-esc="student.email"/></td>
+                    <td><t t-esc="student.branch"/></td>
+                    <!-- <td><t t-esc="student.college"/></td> -->
+                    <td><t t-esc="student.percentage"/></td>
+                    <td><a class="btn" t-att-href="'/delete/%s' % student.id" style="color:red;">Delete</a></td>
+                </tr>
+            </table>
+        </center>
+    </template>
+
+    <template id="create_student">
+        <t t-call="website.layout">
+            <form action="/submit_form">
+                <div class="container">
+                    <div>Name: <input type="text" name="name"/></div><br/>
+                    <div>Enrollment No: <input type="text" name="enrollment_no"/></div><br/>
+                    <div>Contact: <input type="text" name="contact_no"/></div><br/>
+                    <div>Email: <input type="text" name="email"/></div><br/>
+                    <div>Branch: <input type="text" name="branch"/></div><br/>
+                    <div>Percentage: <input type="text" name="percentage"/></div><br/>
+                    <div><button type="submit">submit</button></div>
+                </div>
+            </form>
+        </t>
+    </template>
+
+</odoo>

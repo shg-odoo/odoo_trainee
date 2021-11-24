@@ -6,13 +6,19 @@
     'version': '1.0',
     'category': 'Management',
     'sequence': 1,
-    'summary': 'Student Management software',
-    'description': """This app manages the students detal
+    'summary': 'Student details management module',
+    'description': """This app manages the students detalails
     """,
-    'depends': ['base'],
+    'depends': ['website'],
     'data' : ['views/student_details_views.xml',
-              'data/student_details_data.xml'
+              'views/other_task_views.xml',
+              'data/student_details_data.xml',
+              'reports/report.xml',
+              'security/security.xml',
+              'views/templates.xml',
+              'security/ir.model.access.csv',
+              
     ],
+
     'application': True,
-    
 }

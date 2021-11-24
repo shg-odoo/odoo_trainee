@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access.rights.student.details,access_student.details,Student_module.model_student_details,,1,1,1,1
+access.rights.student.college,access_student.college,Student_module.model_student_college,,1,1,1,1
+access.rights.student.subject,access_student.subject,Student_module.model_student_subject,,1,1,1,1
+access.rights.other.task,access_other.task,Student_module.model_other_task,Student_module.group_users,1,1,1,1
