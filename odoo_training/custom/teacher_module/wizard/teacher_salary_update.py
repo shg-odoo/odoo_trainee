@@ -3,7 +3,7 @@ from odoo import fields,models,api
 class TeacherSalaryUpdate(models.TransientModel):
 	_name="teacher.salary.update"
 
-	updated_salary=fields.Float(String="Enter fees :")
+	updated_salary=fields.Float(String="Enter salary :")
 
 
 	def update_teacher_salary(self):
