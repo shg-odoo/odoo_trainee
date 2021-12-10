@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+	<t t-name="Header">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="#">About</a>
+						</li>
+					    <li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="#">Services</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="#">Contact Us</a>
+						</li>
+					</ul>
+					<div style="overflow:auto;width:360px">
+						<input id="input-text" class="form-control me-2" style="float:left;width:275px" type="search" placeholder="Search" aria-label="Search" />
+						<button id="search-btn" class="btn btn-outline-success" style="float:left">Search</button>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</t>
+
+	<t t-name="Footer">
+		<div class="footer-copyright text-center py-3">© 2021 Copyright:
+    		<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+  		</div>
+	</t>
+
+	<t t-name="ProductItem">
+		<img t-att-src="product['img']" alt="Image not found" />
+    	<p>
+    		<strong>Name : </strong>
+    		<span  t-att-name="product['name']">
+    			<t t-esc="product['name']"/>
+    		</span>
+   		</p>
+    	<p>
+    		<strong>Price :</strong>
+    		<span  name="Price" t-att-value="product['price']">
+    			<t t-out="product['price'] Rs." />
+    		</span>
+    	</p>
+		<button class="addToCart" t-att-dataproductid="product['productId']">Add To Cart</button>
+	</t>
+
+	<t t-name="CartProductItem" t-extend="ProductItem">
+		<t t-jquery=".addToCart" t-operation="replace">
+			<button class="removeFromCart" t-att-dataproductid="product['productId']">Remove</button>
+		</t>
+	</t>
+</templates>

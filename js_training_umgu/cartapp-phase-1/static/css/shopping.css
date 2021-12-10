@@ -1,0 +1,119 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #e1e6e2;
+}
+
+.navbar {
+	background-color: black;
+	border-radius: 30px;
+}
+
+.navbar ul {
+	overflow: auto;
+}
+
+.navbar li {
+	list-style: none;
+	float: left;
+	margin: 10px 20px;
+}
+
+.navbar li :hover {
+	background: white;
+	color: black;
+	border-radius: 10px;
+}
+
+.navbar li a {
+	padding: 3px;
+	color: white;
+	text-decoration: none;
+	font-size: 24px;
+}
+
+.search {
+	float: right;
+	margin: 10px 15px;
+}
+
+.search a {
+	text-decoration: none;
+	font-size: 24px;
+	color: white;
+	margin: 10px 20px;
+	padding: 5px;
+}
+
+.search a:hover{ 
+	background: white;
+	color: black;	
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.search input {
+	sfont-size: 20px;
+}
+
+.container {
+	overflow: auto;
+}
+
+.itemBox {
+	border: 0.5px solid black;
+	width: 300px;
+	height: 350px;
+	margin: 5px 15px;
+	/*margin: 0 auto;*/
+	float: left;
+	border-radius: 4px;
+}
+
+.itemBox img {
+	margin: 5px 50px;
+	width: 200px;
+	height: 200px;
+}
+
+h1 {
+	font-weight: bold;
+	text-decoration: underline;
+	text-align: center;
+}
+
+p {
+	font-size: 24px;
+	margin: 5px;
+}
+
+button { 
+	padding: 5px;
+	margin: 5px;
+	font-size: 22px;
+	background-color: seagreen;
+	border: 2px solid black;
+	cursor: pointer;
+}
+
+#main-container {
+	overflow: auto;
+}
+
+#products {
+	float: left;
+	margin: 10px;
+	width:75%;
+	border:2px solid black;
+	border-radius: 10px;
+}
+
+#cart {
+	float: left;
+	margin-top: 10px;
+	width:23%;
+	border:2px solid black;
+	border-radius: 10px;
+}

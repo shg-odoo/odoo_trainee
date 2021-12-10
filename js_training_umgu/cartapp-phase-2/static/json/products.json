@@ -1,0 +1,20 @@
+{"clothes" : [ {"productId" : 1, "img" : "http://localhost:8001/static/img/tshirt.jpeg", "name":"Tshirt", "price":399},
+			   {"productId" : 2, "img" : "http://localhost:8001/static/img/shirt.jpeg","name":"Shirt","price":799},
+			   {"productId" : 3, "img" : "http://localhost:8001/static/img/men'spent.jpeg","name":"Men's pent","price":1299}
+			 ],
+ "furnitures" : [ {"productId" : 4, "img" : "http://localhost:8001/static/img/table-chair.jpeg","name":"Table and chair","price":1999},
+			      {"productId" : 5, "img" : "http://localhost:8001/static/img/cupboard.jpeg","name":"Cupboard","price": 2499}
+ 				],
+
+ "bags" : [ {"productId" : 6, "img" : "http://localhost:8001/static/img/backpack.jpeg","name":"Backpack","price":299},
+ 			{"productId" : 7, "img" : "http://localhost:8001/static/img/school_bag.jpeg","name":"School Bag","price":749}
+ 	
+ 		  ],
+
+ "groceries" : [  {"productId" : 8, "img" : "http://localhost:8001/static/img/fruits.png","name":"Fruits","price":99},
+			      {"productId" : 9, "img" : "http://localhost:8001/static/img/snacks.jpeg","name":"Snacks","price": 149},
+			      {"productId" : 10, "img" : "http://localhost:8001/static/img/veges.jpeg","name":"Vegetables","price":129},
+			      {"productId" : 11, "img" : "http://localhost:8001/static/img/baby-item.jpeg","name":"Baby items","price": 599}
+			   ],
+ "electronics" : [{"productId" : 12, "img" : "http://localhost:8001/static/img/fruits.png","name":"Eclectronic","price":14999}]
+}
