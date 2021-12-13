@@ -1,0 +1,30 @@
+[
+	{"id": 1,
+	 "name": "Apple",
+	 "price": 550,
+	 "image":"../static/images/1.jpeg"},
+
+	{"id": 2,
+	 "name": "Orange", 
+	 "price": 400,
+	 "image":"../static/images/2.png"},
+
+	{"id": 3, 
+	 "name": "Kiwi",
+	 "price": 2500,
+	 "image":"../static/images/3.jpg"},
+
+	{"id": 4,
+	 "name": "Banana",
+	 "price": 150,
+	 "image":"../static/images/4.jpg"},
+
+	 {"id": 5,
+	 "name": "Grapes",
+	 "price": 150,
+	 "image":"../static/images/5.jpeg"},
+
+	{"id": 6,
+	 "name": "Lemon",
+	 "price": 150,
+	 "image":"../static/images/6.jpg"}]
