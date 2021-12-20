@@ -3,19 +3,19 @@ from datetime import date
 from odoo.exceptions import ValidationError
 
 class Student(models.Model):
-	_name="student.details"
-	_description="Student details"
+	_name = "student.details"
+	_description = "Student details"
 	# _rec_name="{we choose field as a rec name}"
 
-	name=fields.Char(string="Student Name")
-	college=fields.Many2one("student.college", string="College")
+	name = fields.Char(string="Student Name")
+	college = fields.Many2one("student.college", string="College")
 	enrollment_no=fields.Integer(string="Enrollment No")
 	contact_no=fields.Char(string="Contact No")
 	email=fields.Char(string="Email id")
 	branch=fields.Char(string="Branch")
 	subject=fields.Many2many("student.subject", string="Subject")
 	dob=fields.Date(string="DOB")
-	age=fields.Integer(String="Age",compute="compute_age",inverse="inverse_age")	
+	age=fields.Integer(String="Age", compute="compute_age", inverse="inverse_age")	
 	gender=fields.Selection([('male','Male'),('female','Female')],string='Gender',default='male')
 	percentage=fields.Float(string="Percentage",required=True)
 	image=fields.Image(string="Photo")

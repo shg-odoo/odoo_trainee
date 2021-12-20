@@ -79,7 +79,7 @@ export class ProductList {
 			this.displayProducts();	
 		}
 		else {
-			this.target.innerHTML =`<center style="margin:30%">
+			this.target.innerHTML =`<center>
 										<h1>No items found!!!!!!!</h1>
 									</center>`;
 		}

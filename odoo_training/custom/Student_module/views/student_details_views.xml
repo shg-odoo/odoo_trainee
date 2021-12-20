@@ -110,7 +110,7 @@
 			<form>
 				<sheet>
 					<h1>Student Deatils</h1>
-						<notebook>
+					<notebook>
 						<page string="Personal Info">
 							<group>
 								<field name="image" widget="image" class="oe_avatar" height="150" width="150"/>

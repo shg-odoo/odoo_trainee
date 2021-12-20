@@ -1,0 +1,40 @@
+.todo-app {
+  width:  500px;
+  margin: 50px auto;
+  background: aliceblue;
+  padding: 10px;
+}
+
+.todo-app input{
+  display: block;
+  margin: auto;
+}
+
+.task-list {
+  margin-top: 8px;
+}
+
+.task {
+  font-size: 18px;
+  color: #111111;
+}
+
+.task > input {
+  display: inline;
+  margin: 10PX;
+}
+
+.done {
+  opacity: 0.5;
+}
+
+.delete {
+  opacity:  0;
+  cursor:  pointer;
+  text-align: center;
+  margin-left: 200px;
+}
+
+.task:hover .delete{
+  opacity:  1;
+}

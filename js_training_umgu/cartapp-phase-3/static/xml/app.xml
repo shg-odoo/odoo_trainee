@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+	<t t-name="App">
+		<div>
+			<Header/>
+			<Content/>
+			<Footer/>
+		</div>
+	</t>
+	
+	<t t-name="Header">
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container-fluid">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="#">About</a>
+							</li>
+					    	<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="#">Services</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="#">Contact Us</a>
+							</li>
+						</ul>
+						<div style="overflow:auto;width:360px">
+							<input id="input-text" class="form-control me-2" style="float:left;width:275px" type="search" placeholder="Search" aria-label="Search" t-ref="search-text" t-on-keyup="search"/>
+							<button id="search-btn" class="btn btn-outline-success" style="float:left" t-on-click="searchProducts">Search</button>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</header>
+	</t>
+
+	<t t-name="Content">
+		<div id="content">
+			<ProductList/>
+			<Cart/>
+		</div>
+	</t>	
+
+	<t t-name="ProductList">
+		<div id="products">
+			<t t-foreach="state.items" t-as="category" t-key="category">
+				<div class="container">
+					<h1><t t-esc="category"/></h1>
+					<div>
+						<t t-foreach="state.items[category]" t-as="product" t-key="product.productId">
+							<ProductItem product="product"/>
+						</t>
+					</div>
+				</div>
+			</t>
+		</div>
+	</t>
+
+	<t t-name="CommonItemView">
+		<div class="itemBox" t-att-id="props.product.productId">
+			<img t-att-src="props.product.img" alt="Image not found" />
+    		<p>
+    			<strong>Name : </strong>
+    			<span  t-att-name="props.product.name">
+    				<t t-esc="props.product.name"/>
+    			</span>
+   			</p>
+    		<p>
+    			<strong>Price :</strong>
+    			<span  name="Price" t-att-value="props.product.price">
+    				<t t-esc="props.product.price" /> Rs.
+    			</span>
+    		</p>
+    		<t t-slot="buttons"/>
+		</div>
+	</t>
+
+	<t t-name="ProductItem">
+		<CommonItemView product="props.product">
+			<t t-set-slot="buttons">
+				<button class="addToCart" t-att-dataproductid="props.product.productId" t-on-click="addToCart">Add To Cart</button>
+	    	</t>
+		</CommonItemView>
+	</t>
+
+	<t t-name="Cart">
+		<div id="cart">
+			<h1>Cart</h1>
+			<div t-on-remove-from-cart="removeFromCart">
+				<t t-foreach="items" t-as="item">
+					<CartProductItem product="item"/>
+				</t>
+			</div>
+		</div>
+	</t>
+
+	<t t-name="Footer">
+		<div class="footer-copyright text-center py-3">© 2021 Copyright:
+    		<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+  		</div>
+	</t>
+
+	<t t-name="CartProductItem">
+		<CommonItemView product="props.product">
+			<t t-set-slot="buttons">
+				<button class="addToCart" t-att-dataproductid="props.product.productId" t-on-click="removeFromCart">Remove</button>
+	    	</t>
+	    </CommonItemView>
+	</t>
+	
+</templates>
