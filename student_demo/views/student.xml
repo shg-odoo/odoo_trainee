@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="student_tree_view">
+        <field name="name">Student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <tree string= "Sessoin tree">
+            
+           	   <field name="name"/>
+               <field name="gender"/>
+           	   <field name="enrollmentNo"/>
+           	   <field name="contactNo"/>
+           	   <field name="age"/>
+           	   <field name="branch"/>	
+               <field name="fees"/>
+               <field name="date"/>
+               <field name="bdate"/>
+               <field name="college_id"/>
+               <field name="maths"/>
+               <field name="physics"/>
+               <field name="chemistry"/>
+               <field name="total"/>     
+               <field name="hobbies_id" widget="many2many_tags"/>         
+            </tree>
+        </field>
+  </record>
+
+
+  <record model="ir.ui.view" id="student_form_view">
+      <field name="name">Student</field>
+      <field name="model">student</field>
+      <field name="arch" type="xml">
+       <form>
+         <sheet>
+           <notebook>
+            <page string="Student_details">
+              <field name="image" widget="image" class="oe_avatar"/>
+               <div class="oe_title">
+                 <h1>
+                   <field name="name"/>
+                 </h1>
+               </div>
+
+               <group>
+                 <field name="gender"/>
+               </group>
+               <group>
+                 <field name="date"/>
+               </group>
+               <group>
+                <field name="enrollmentNo"/>
+                <field name="contactNo"/>
+                <field name="age"/>
+                <field name="college_id"/>
+                <field name="fees"/>
+               </group>
+            </page>
+            <page string="College_details">
+              <group>
+                <field name="clg_name"/>
+                <field name="clg_phno"/>
+                <field name="clg_branch"/>
+                <field name="clg_id"/>
+                <field name="hobbies_id" widget="many2many_tags"/>
+              </group>
+             </page> 
+            <page string="Marks">
+              <group>
+               <field name="maths"/>
+               <field name="chemistry"/>
+               <field name="physics"/>
+               <field name="total"/>
+               <field name="percentage"/>          
+              </group>
+            </page> 
+           </notebook>     
+         </sheet>
+       </form>      
+      </field>
+  </record>
+
+  <record model="ir.ui.view" id="student_calendar_view">
+     <field name="name">Student</field>
+     <field name="model">student</field>
+     <field name="arch" type="xml">
+      <calendar color="name" date_start="date">
+        <field name="name"/>
+      </calendar>
+     </field>
+  </record>
+
+  <record model="ir.ui.view" id="student_graph_view">
+    <field name="name">Student</field>
+     <field name="model">student</field>
+     <field name="arch" type="xml">
+       <graph>
+         <field name="age" />
+         <!-- <field name="fees" type="mesaure"/> -->
+       </graph>
+
+     </field>
+  </record>
+
+  <record model="ir.ui.view" id="student_kanban_view">
+    <field name="name">Student</field>
+    <field name="model">student</field>
+    <field name="arch" type="xml">
+      <kanban>
+        <field name="id"/>
+        <field name="image"/>
+        <field name="name"/>
+        <field name="gender"/>
+        <field name="branch"/>
+        <templates>
+          <t t-name="kanban-box">   
+            <div t-attf-class="oe_kanban_global_click">
+              <div class="row">
+               <div class="o_kanban_image">
+                    <img alt="Avatar" t-att-src="kanban_image('student', 'image',record.id.raw_value)"/>
+                </div>
+              
+                <div class="col-6">
+                 <div class="oe_kanban_details">
+                   <strong class="o_kanban_record_title">
+                     <field name="name"/>
+                   </strong>
+                  </div>
+                 <div class="oe_kanban_details">
+                   <strong class="o_kanban_record_title">
+                     <field name="gender"/>
+                   </strong>
+                 </div>
+                 <div class="oe_kanban_details">
+                   <strong class="o_kanban_record_title">
+                       <field name="branch"/>
+                   </strong>
+                 </div> 
+                </div>
+               </div>
+            </div>
+          </t>   
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="student_gantt_view">
+    <field name="name">Student</field>
+    <field name="model">student</field>
+    <field name="arch" type="xml">
+        <gantt string="Join_date" date_start="date" date_stop="bdate" default_group_by="gender">
+              <field name="name"/>
+              <field name="enrollmentNo"/>
+        </gantt>
+    </field>
+  
+  </record>
+
+  <record id="student_pivot_view" model="ir.ui.view">
+        <field name="name">Student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <pivot string="students">
+                <field name="name" type="row"/>
+                <field name="enrollmentNo" type="measure"/>
+            </pivot>
+        </field>
+  </record>
+
+  <record model="ir.ui.view" id="student_search_view">
+     <field name="name">Student</field>
+     <field name="model">student</field>
+     <field name="arch" type="xml">
+      <search>
+        <field name="branch"/>
+        <field name="college_id"/>
+        <field name="hobbies_id"/>
+        <filter string="Male" name="male" domain="[('gender','=','male')]" />
+        <separator/>
+        <filter string="Female" name="female" domain="[('gender','=','female')]" />
+        <group>
+          <filter string="branch" name="branch" context="{'group_by':'branch'}"/>
+        </group>
+      </search>
+     </field>
+  </record>
+
+  <record model="ir.ui.view" id="college_tree_view">
+    <field name="name">College</field>
+    <field name="model">student.college</field>
+    <field name="arch" type="xml">
+       <tree >
+        <field name="college_name"/>
+        <field name="college_city"/>
+        <field name="id1"/>
+       </tree>
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="college_form_view">
+    <field name="name">College</field>
+    <field name="model">student.college</field>
+    <field name="arch" type="xml">
+       <form>
+        <field name="college_name"/>
+        <field name="college_city"/>
+        <field name="id1"/>
+       </form>
+    </field>
+  </record>   
+
+  <record model="ir.ui.view" id="hobbies_tree_view">
+            <field name="name">college.tree</field>
+            <field name="model">student.hobby</field>
+            <field name="arch" type="xml">
+                <tree string="Hobbies">
+                    <field name="hobbies"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hobbies_form_view">
+            <field name="name">College.form</field>
+            <field name="model">student.hobby</field>
+            <field name="arch" type="xml">
+                <form string="Hobbies Form">
+                    <sheet>
+                        <group>
+                                <field name="hobbies"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                       <field name="message_follower_ids" widget="mail_followers"/>
+                       <field name="activity_ids" widget="mail_activity"/>
+                       <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}" />
+                    </div>
+                </form>
+            </field>
+        </record>
+    
+
+  <record id="student_action" model="ir.actions.act_window" >
+      <field name="name">student</field>
+      <field name="res_model">student</field>
+      <field name="view_mode">tree,form,search,calendar,graph,kanban,gantt,pivot</field>
+  </record>
+
+  <record model="ir.actions.act_window" id="college_action">
+    <field name="name">College</field>
+    <field name="res_model">student.college</field>
+    <field name="view_mode">tree,form</field>
+  </record>    
+
+  <record  model="ir.actions.act_window" id="hobbies_action">
+        <field name="name">student</field>
+        <field name="res_model">student.hobby</field>
+        <field name="view_mode">tree,form</field>
+  </record>
+
+    
+    <menuitem id="student_menu" name="Student Data" web_icon="student_demo,static/description/icon.png"/>
+
+    <menuitem id="student" name="Details" sequence="1" action="student_action" parent="student_menu"/>
+
+    <menuitem id="college" name="College_data" sequence="2" action="college_action" parent="student_menu"/>
+
+    <menuitem id="hobbies_id" name="Hobbies" sequence="3" action="hobbies_action"  parent="student_menu"/>
+
+  
+    
+</odoo>

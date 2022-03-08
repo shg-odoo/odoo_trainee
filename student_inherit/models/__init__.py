@@ -1,1 +1,1 @@
-from . import inheritStudent
+from . import student_inherit

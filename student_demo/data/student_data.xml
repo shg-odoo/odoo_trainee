@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="s1" model="student">
+		<field name="name">Nishit</field>
+		<field name="enrollmentNo">1</field>
+		<field name="contactNo">1029393</field>
+		<field name="age">21</field>
+		<field name="branch">ICT</field>
+		<field name="fees">1234343</field>	
+    </record>
+
+    <record id="s2" model="student">
+    	<field name="name">Ramesh</field>
+		<field name="enrollmentNo">2</field>
+		<field name="contactNo">1024693</field>
+		<field name="age">20</field>
+		<field name="branch">IT</field>	
+		<field name="fees">493000</field>
+    </record>
+</odoo>

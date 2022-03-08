@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  
+    
+	<record id="sales_tree_view" model="ir.ui.view">
+		<field name="name">Sales</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+        	<tree>
+                <field name="number"/>
+                <field name="order_date"/>
+                <field name="partnet_id"/>
+               	<field name="sales_person"/>
+            	<field name="next_act"/>
+                <field name="total"/>
+                <field name="status"/>
+        	</tree>
+        </field>
+    </record>
+    
+    <record id="sales_form_view" model="ir.ui.view">
+    	<field name="name">Sales</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+        	<form>
+        		<header>
+        			<button name="invoice" string="CREATE INVOICE" />
+        			<button name="email" string="SEND BY MAIL" />
+        			<button name="cancel" string="CANCEL"  />
+        		</header>
+        		<sheet>
+
+        			<div class="oe_title">
+	                 <h1>
+	                   <field name="number"/>
+	                 </h1>
+                    </div>
+
+                    <group>
+                      <field name="partnet_id"/>
+                    </group>                    
+
+                    <group>
+                   	 <field name="sales_person"/>                     
+        		 	 <field name="next_act"/>
+                     <field name="status"/> 
+                	 <field name="total"/> 
+                    </group>
+                    
+                    <group>
+                    	<field name="order_date"/>
+                    </group>
+
+        			<notebook>
+        				<page string="Ordder_Lines">
+                           <!--  <field name="Product"/>
+                            <field name="des"/> -->      					
+        				</page>
+        				<page string="Other info">
+        				  	
+        				</page>
+        				<page string="Customer Signature">
+        					
+        				</page>
+        			</notebook>
+        		</sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <!-- <field name="message_ids" widget="mail_thread"/ > -->
+                </div>
+        	</form>
+        </field>
+    </record>
+
+    <record id="partner_tree_view" model="ir.ui.view">
+        <field name="name">Partner</field>
+        <field name="model">sales.partner</field>
+        <field name="arch" type="xml">
+           <tree>
+              <!-- <field name="sales_id"> -->
+              <field name="company_add"/>
+              <field name="phone"/>
+              <field name="email"/>
+           </tree>
+        </field>
+        
+    </record>
+
+    <record id="partner_form_view" model="ir.ui.view">
+        <field name="name">Partner</field>
+        <field name="model">sales.partner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                 
+                 <group>
+                  <field name="company_add"/>
+                 </group>
+                 
+                 <group>
+                  <field name="phone"/>
+                 </group>
+                 
+                 <group>
+                  <field name="email"/>
+                 </group>
+                 <notebook>
+                     <page string="Conacts Address">
+                     </page>
+                     <page string="sales  purchase">
+                     </page>
+                     <page string="invoice">                        
+                     </page>
+                     <page string="internal notes">
+                     </page>
+                 </notebook>
+                
+                </sheet>
+            </form>
+        </field>
+        
+    </record>
+
+
+
+
+    <record model="ir.ui.view" id="sales_search_view">
+     <field name="name">Sales</field>
+     <field name="model">sales</field>
+     <field name="arch" type="xml">
+      <search>
+        <field name="sales_person"/>
+      </search>
+     </field>
+  </record>
+
+    <record id="sales_kanban_view" model="ir.ui.view">
+    	<field name="name">Sales</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+        	<kanban>
+        		<field name="number"/>
+        		<field name="order_date"/>
+                <templates>
+                	<t t-name="kanban-box">
+                		<div t-attf-class="oe_kanban_global_click">
+            			 <div class="row">
+            			    <div class="col-6">
+            			    	<div class="oe_kanban_details">
+				                   <strong class="o_kanban_record_title">
+				                     <field name="number"/>
+				                   </strong>
+					            </div>
+					            
+					            <div class="oe_kanban_details">
+				                   <strong class="o_kanban_record_title">
+				                     <field name="order_date"/>
+				                   </strong>
+					            </div>					            
+                                
+                                <div class="oe_kanban_details">
+				                   <strong class="o_kanban_record_title">
+				                   
+				                   </strong>
+					            </div>
+                                
+            			    </div>	
+            			 </div>
+            			
+                		</div>
+                	</t>
+                	
+                </templates>
+        	</kanban>
+        </field>
+    </record>
+
+    <record id="sales_caledar_view" model="ir.ui.view">
+    	<field name="name">Sales</field>
+    	<field name="model">sales</field>
+    	<field name="arch" type ="xml">
+    		<calendar color="sales_person" date_start="order_date">
+                <field name="sales_person"/>
+    		</calendar>
+    	</field>
+    </record>
+
+    <record id="sales_graph_view" model="ir.ui.view">
+    	<field name="name">Sales</field>
+    	<field name="model">sales</field>
+    	<field name="arch" type ="xml">
+    		<graph>
+                <field name="total"/>
+    		</graph>
+    	</field>
+    </record>
+
+    <record id="sales_pivot_view" model="ir.ui.view">
+        <field name="name">Sales</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+            <pivot string="Sales">
+                <field name="number" type="row"/>
+            </pivot>
+        </field>
+  </record>
+
+
+
+    <record id="sales_partner_action" model="ir.actions.act_window">
+      <field name="name">Sales.Partner</field>
+      <field name="res_model">sales.partner</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    
+    
+    <record id="sales_action" model="ir.actions.act_window" >
+      <field name="name">Sales</field>
+      <field name="res_model">sales</field>
+      <field name="view_mode">tree,form,search,kanban,calendar,graph,pivot</field>
+    </record>
+
+    <menuitem id="sales_menu" name="Sales" />
+
+    <menuitem id="Sales_order" name="Order" sequence="1" action="sales_action" parent="sales_menu"/>
+
+    <menuitem id="Sales_invoice" name="To invoice" sequence="2" action="sales_action" parent="sales_menu"/>
+
+    <menuitem id="Sales_product" name="Products" sequence="3" action="sales_action" parent="sales_menu"/>
+    
+    <menuitem id="Sales_report" name="Reporting" sequence="4" action="sales_action" parent="sales_menu"/>
+
+    <menuitem id="Sales_config" name="Configuration" sequence="5" action="sales_action" parent="sales_menu"/>
+    
+    <menuitem id="partner" name="Partner" sequence="6" action="sales_partner_action" parent="sales_menu"/>
+
+    
+
+    <!-- <menuitem id="Sales_partner" name="Sales partner" sequence="1" action="sales_partner_action" parent="Sales_order"/>
+ -->
+
+
+</odoo>

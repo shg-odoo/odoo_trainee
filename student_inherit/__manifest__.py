@@ -1,12 +1,14 @@
 {
-    'name': 'student inheritance',
+    'name': 'student inherit',
     'version': '1.0',
-    'summary': 'practice odoo',
+    'summary': 'Student Inherit',
     'sequence' : 5,
     'category': 'Management',
-    'depends': ['base', 'odoo_trainee'],
+    'depends' : ['student_demo'],
     'data': [
-        'views/inherit_student.xml',
+        
+        'views/student_inherit.xml',
+        
     ],
     'application' : True,
 }
